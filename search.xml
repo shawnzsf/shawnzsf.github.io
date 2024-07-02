@@ -449,4 +449,52 @@ Parameter estimates:
         <tag>Course Notes</tag>
       </tags>
   </entry>
+  <entry>
+    <title>CMU 15122：Deliberate Programming</title>
+    <url>/posts/cmu15122note2.html</url>
+    <content><![CDATA[<p>本篇总结CMU 15122第一单元Deliberate Programming的全部内容（除了Contracts部分）。这门课的整体脉络还是较为清晰的，虽然大部分东西并不陌生，但从safety和correctness的角度重新审视一遍也是不错的。</p>
+<h1 id="Integers"><a href="#Integers" class="headerlink" title="Integers"></a>Integers</h1><p>涉及进制转换的内容略过不提。</p>
+<h2 id="Two’s-Complement"><a href="#Two’s-Complement" class="headerlink" title="Two’s Complement"></a>Two’s Complement</h2><p>Two’s Complement是C0中表示数字的一种方法。C0中的整数一共占据32个比特位，其中最高的比特位是该比特位代表的负的2的31次方，也就是说，C0中的最大正整数可以用0x7FFFFFFF表示，正数的范围是0x00000000-0x7FFFFFFF。当最大正整数int_max()再继续做加法的时候整数就会溢出到负数的范围内，也就是0x80000000-0xFFFFFFFF。其中0x80000000是int_min()，其顺序与正数表示相反。</p>
+<h2 id="Bit-Pattern"><a href="#Bit-Pattern" class="headerlink" title="Bit Pattern"></a>Bit Pattern</h2><p>另外一部分是掩码以及各种比特位操作。&amp; 0xFF000000 可以将另外一个32位数的后24位全部置为零，这就是为什么其被称作mask（掩码）。另外我们可以通过| 0xFF000000 将32位数的前8位全部置为1。左移&lt;&lt;就是将比特数左移多少位，右边补零。右移&gt;&gt;会根据最高位进行补齐。</p>
+<h1 id="Arrays"><a href="#Arrays" class="headerlink" title="Arrays"></a>Arrays</h1><p>数组是相同类型数据的集合，例如 int[] 表示整型数组。数组可以包含任何类型的元素，包括其他数组。</p>
+<p>局部变量存储在局部内存中，函数的变量在各自的帧（frame）中。函数调用时，每个被调用的函数都有自己的帧，且只能操作自己帧中的变量。函数返回后，其帧被撤销。</p>
+<p>使用 alloc_array(type, n) 创建数组，返回一个类型为 type[] 的数组，包含 n 个元素。数组的元素存储在分配的内存中，而数组变量本身存储在局部内存中，包含指向分配内存的地址。通过 A[i] 访问数组 A 的第 i 个元素，索引从0开始。分配的内存使用默认值初始化，对于整型数组，默认值为0。越界访问（out-of-bound access）是不允许的，有效索引是0到数组长度减一。数组操作需要满足前提条件（preconditions），例如 alloc_array(type, n) 需要 n ≥ 0。</p>
+<p>C0中Aarray变量名存储的是数列的地址，因此，假如int[] B &#x3D; A，A是某个已经存在的数列，B只会复制A的地址。后续对B的操作也实际上是对于A的操作。一旦某个数列没有指针指向它，C0的Garbage Collector就会消除掉该数列。整数与整数之间不涉及到地址的问题。</p>
+<h1 id="Linear-Search"><a href="#Linear-Search" class="headerlink" title="Linear Search"></a>Linear Search</h1><p>Linear Search本身没什么可以探讨的，主要是关于contracts方面的问题。</p>
+<h2 id="Safety-and-Correctness"><a href="#Safety-and-Correctness" class="headerlink" title="Safety and Correctness"></a>Safety and Correctness</h2><p>确保搜索过程中数组索引 i 在有效范围内，即 0 &lt;&#x3D; i &lt; n，其中 n 是数组 A 的长度。使用contract来定义函数的前提条件（@requires）和后置条件（@ensures）。前提条件：确保传入的数组长度 n 与数组 A 的实际长度相匹配。后置条件：如果找到元素 x，则返回其索引；否则返回 -1。</p>
+<ul>
+<li>数组段表示数组中的一部分，用 A[lo, hi) 表示，包含从索引 lo（包含）到索引 hi（不包含）的元素。</li>
+<li>定义 is_in(x, A, lo, hi) 函数，用于检查元素 x 是否在数组段 A[lo, hi) 中。</li>
+</ul>
+<h2 id="Contract-Exploits"><a href="#Contract-Exploits" class="headerlink" title="Contract Exploits"></a>Contract Exploits</h2><p>即使函数满足Contract，也可能不满足预期的行为。例如，一个函数可以满足Contract但在逻辑上是错误的。</p>
+<h1 id="Complexity"><a href="#Complexity" class="headerlink" title="Complexity"></a>Complexity</h1><p>O(g(n))是一组函数，其中f(n)∈O(g(n))。当且仅当：</p>
+<ul>
+<li>有c∈R+</li>
+<li>有n0∈N<br>使对于所有n≥n0，f(n)≤cg(n)。</li>
+</ul>
+<p>O(1) ⊂ O(log n) ⊂ O(n) ⊂ O(n log n) ⊂ O(n2) ⊂ O(2n) ⊂ O(n!)</p>
+<p>做复杂度分析是可以直接抛掉常数，取变量最坏的情况。保留不同变量间的运算。log的底因为可以通过换底公式换成常数乘以以某数为底因此不重要。</p>
+<h1 id="Binary-Search"><a href="#Binary-Search" class="headerlink" title="Binary Search"></a>Binary Search</h1><h2 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h2><p>使用while循环，维护两个指针lo（low）和hi（high），分别代表搜索区间的下限和上限。<br>计算中间索引mid，并与目标值x进行比较。</p>
+<ul>
+<li>如果A[mid]等于x，则返回mid。</li>
+<li>如果x小于A[mid]，则更新hi为mid。</li>
+<li>如果x大于A[mid]，则更新lo为mid + 1。</li>
+</ul>
+<p>当lo和hi相遇时，搜索结束，返回-1表示未找到。</p>
+<h2 id="Loop-Invariant"><a href="#Loop-Invariant" class="headerlink" title="Loop Invariant"></a>Loop Invariant</h2><ul>
+<li>0 ≤ lo</li>
+<li>lo ≤ hi</li>
+<li>hi ≤ n</li>
+<li>A[0, lo) &lt; x</li>
+<li>x &lt; A[hi, n)</li>
+</ul>
+<p>应确保mid的计算不会超出整数范围，避免溢出错误。循环不变式在算法的初始化（INIT）、保持（PRES）和终止（TERMINATE）阶段都是可以被证明有效的。</p>
+]]></content>
+      <categories>
+        <category>Computer Science</category>
+      </categories>
+      <tags>
+        <tag>Course Notes</tag>
+      </tags>
+  </entry>
 </search>
