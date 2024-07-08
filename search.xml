@@ -1,49 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CMU 15122: Contracts</title>
-    <url>/posts/cmu15122note1.html</url>
-    <content><![CDATA[<p>CMU15122开头部分讲的内容都是关于如何编写Contracts来保证程序的正确性和安全性，以及利用Contract对程序进行验证。本文简单梳理其中引出的概念。</p>
-<h2 id="Contract"><a href="#Contract" class="headerlink" title="Contract"></a>Contract</h2><p>c0中有四种Contract：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- //@requires exp; checked before function execution</span><br><span class="line">- //@ensures exp; checked function returns</span><br><span class="line">- //@assert exp; checked wherever it is</span><br><span class="line">- //@loop_invariant exp; checked before the loop guard</span><br></pre></td></tr></table></figure>
-
-<p>其中@requires旨在检查函数的precondition是否满足，@ensures旨在检查postcondition是否满足。其中@ensures中可以使用\result来表示函数返回值。@loop_invariant通常检查的是循环中几个变量构成的常量表达式，其在每轮iteration检查循环条件是否满足时被检查，并且只能在循环开头写。@assert即在程序任意位置检查附上表达式的真假。</p>
-<h2 id="Proving-Function-Correctness"><a href="#Proving-Function-Correctness" class="headerlink" title="Proving Function Correctness"></a>Proving Function Correctness</h2><ul>
-<li><p>INITialization：证明loop invariant在进入循环之前满足条件。允许使用循环前的代码以及preconditions进行证明。</p>
-</li>
-<li><p>PREServation：证明任意循环后loop invariant的表达式都为真。可以使用循环内部代码，loop invariant(因为INIT已经验证了进入循环时表达式为真，因此可以假设循环开始时为真)，以及loop guard。</p>
-</li>
-<li><p>EXIT：证明经过循环postcondition为真。可以使用loop guard，loop invariant以及循环之后的代码进行证明。需要注意的是虽然可使用loop guard以及loop invariant，但无法使用循环内部代码。</p>
-</li>
-<li><p>TERMination：证明循环可终止。Operational reasoning(Expression strictly decreases at each iteration of the loop and can never become smaller than the constant)。</p>
-</li>
-</ul>
-<h3 id="Template"><a href="#Template" class="headerlink" title="Template"></a>Template</h3><p>Loop invariant&#x2F;… on line x (…):<br>    Assume:<br>    To show:<br>    A.       by<br>    B.       by<br>    C.       by<br>    D.       by</p>
-<h2 id="Point-to-Reasoning"><a href="#Point-to-Reasoning" class="headerlink" title="Point-to Reasoning"></a>Point-to Reasoning</h2><p>Point-to Reasoning is drawing conclusions about what we know to be true by pointing to specific lines of code that justify them. </p>
-<p>Examples: </p>
+    <title>CMU 15122：Deliberate Programming</title>
+    <url>/posts/cmu15122note2.html</url>
+    <content><![CDATA[<p>本篇总结CMU 15122第一单元Deliberate Programming的全部内容（除了Contracts部分）。这门课的整体脉络还是较为清晰的，虽然大部分东西并不陌生，但从safety和correctness的角度重新审视一遍也是不错的。</p>
+<h1 id="integers">Integers</h1>
+<p>涉及进制转换的内容略过不提。</p>
+<h2 id="two-s-complement">Two’s Complement</h2>
+<p>Two’s Complement是C0中表示数字的一种方法。C0中的整数一共占据32个比特位，其中最高的比特位是该比特位代表的负的2的31次方，也就是说，C0中的最大正整数可以用0x7FFFFFFF表示，正数的范围是0x00000000-0x7FFFFFFF(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mtext> </mtext><msup><mn>2</mn><mn>31</mn></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0~2^{31}-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord">0</span><span class="mspace nobreak"> </span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>)。当最大正整数int_max()再继续做加法的时候整数就会溢出到负数的范围内，也就是0x80000000-0xFFFFFFFF。其中0x80000000是int_min()，其顺序与正数表示相反。由此，c0能够表示的整个整数范围是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mo>−</mo><msup><mn>2</mn><mn>31</mn></msup><mo separator="true">,</mo><msup><mn>2</mn><mn>31</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">[-2^{31}, 2^{31})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">−</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>。</p>
+<p>对于int的操作类型有：Addition, multiplication, division, subtraction, comparisons, mod;</p>
+<p>对于Tow’s complement表示方法来说，有以下成立：</p>
 <ul>
-<li>Boolean conditions<ul>
-<li>condition of an if statement in the “then” branch</li>
-<li>negation of the condition of an if statement in the “else” branch</li>
-<li>loop guard inside the body of a loop</li>
-<li>negation of the loop guard after the loop</li>
+<li>-x = ~x + 1</li>
+<li>int_min() = -int_min()</li>
+</ul>
+<p>对于以下操作会产生runtime error：</p>
+<ul>
+<li>int_min() (/ or %) - 1</li>
+<li>x / 0</li>
+</ul>
+<h2 id="bit-pattern">Bit Pattern</h2>
+<p>Int不是数字，是0和1组成的字符串。因此，bitwise operation可以通过对每一比特位进行操作来改变数字大小。其中包括是掩码以及各种比特位操作。&amp; 0xFF000000 可以将另外一个32位数的后24位全部置为零，这就是为什么其被称作mask（掩码）。另外我们可以通过| 0xFF000000 将32位数的前8位全部置为1。左移&lt;&lt;就是将比特数左移多少位，右边补零。右移&gt;&gt;会根据最高位进行补齐。</p>
+<h1 id="arrays">Arrays</h1>
+<p>数组是相同类型数据的集合，例如 int[] 表示整型数组。数组可以包含任何类型的元素，包括其他数组。</p>
+<p>局部变量存储在局部内存中，函数的变量在各自的帧（frame）中。函数调用时，每个被调用的函数都有自己的帧，且只能操作自己帧中的变量。函数返回后，其帧被撤销。</p>
+<p>使用 alloc_array(type, n) 创建数组，返回一个类型为 type[] 的数组，包含 n 个元素。数组的元素存储在分配的内存中，而数组变量本身存储在局部内存中，包含指向分配内存的地址。通过 A[i] 访问数组 A 的第 i 个元素，索引从0开始。分配的内存使用默认值初始化，对于整型数组，默认值为0。越界访问（out-of-bound access）是不允许的，有效索引是0到数组长度减一。数组操作需要满足前提条件（preconditions），例如 alloc_array(type, n) 需要 n ≥ 0。</p>
+<p>C0中Aarray变量名存储的是数列的地址，因此，假如int[] B = A，A是某个已经存在的数列，B只会复制A的地址。后续对B的操作也实际上是对于A的操作。一旦某个数列没有指针指向它，C0的Garbage Collector就会消除掉该数列。整数与整数之间不涉及到地址的问题。C0无法返回某个数组的长度，但是用Contract中的\length()可以。</p>
+<h1 id="searching-and-sorting">Searching and Sorting</h1>
+<p>In-place: allocates constant amount of memory.<br>
+Stable: relative position of duplicates is preserved.</p>
+<h2 id="linear-search">Linear Search</h2>
+<p>Linear Search本身没什么可以探讨的，主要是关于contracts方面的问题。</p>
+<h3 id="implementation">Implementation</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bool is_in(int x, int[] A, int lo, int hi)</span><br><span class="line">//@requires 0 &lt;= lo &amp;&amp; lo &lt;= hi &amp;&amp; hi &lt;= \length(A);</span><br><span class="line">//Check whether x is in array segment A, [lo, hi)</span><br><span class="line"></span><br><span class="line">int linearSearch(int x, int[] A, int n)</span><br><span class="line">//@requires n == \length(A);</span><br><span class="line">/*@ensures (-1 == \result &amp;&amp; !is_in(x, A, 0, n)) ||</span><br><span class="line">           ((0 &lt;= \result &amp;&amp; \result &lt; n) &amp;&amp; A[\result] == x);</span><br><span class="line">&#123;</span><br><span class="line">  for (int i = 0; i &lt; n; i++)</span><br><span class="line">  //@loop_invariant 0 &lt;= i &amp;&amp; i &lt;= n;</span><br><span class="line">  //@loop_invariant !is_in(x, A, 0, n);</span><br><span class="line">  &#123;</span><br><span class="line">    if (A[i] == x) return i;</span><br><span class="line">  &#125;</span><br><span class="line">  //@assert !is_in(x, A, 0, n);</span><br><span class="line">  return -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="safety-and-correctness">Safety and Correctness</h3>
+<p>确保搜索过程中数组索引 i 在有效范围内，即 0 &lt;= i &lt; n，其中 n 是数组 A 的长度。使用contract来定义函数的前提条件（@requires）和后置条件（@ensures）。前提条件：确保传入的数组长度 n 与数组 A 的实际长度相匹配。后置条件：如果找到元素 x，则返回其索引；否则返回 -1。</p>
+<ul>
+<li>数组段表示数组中的一部分，用 A[lo, hi) 表示，包含从索引 lo（包含）到索引 hi（不包含）的元素。</li>
+<li>定义 is_in(x, A, lo, hi) 函数，用于检查元素 x 是否在数组段 A[lo, hi) 中。</li>
+</ul>
+<h3 id="contract-exploits">Contract Exploits</h3>
+<p>即使函数满足Contract，也可能不满足预期的行为。例如，一个函数可以满足Contract但在逻辑上是错误的。</p>
+<h2 id="binary-search">Binary Search</h2>
+<h3 id="implementation">Implementation</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int binarySearch(int x, int[] A, int n)</span><br><span class="line">//@requires n == \length(A);</span><br><span class="line">//@requires is_sorted(A,0,n);</span><br><span class="line">/*@ensures (-1 == \result &amp;&amp; !is_in(x, A,0,n))</span><br><span class="line">        || ((0 &lt;= \result &amp;&amp; \result &lt; n) &amp;&amp; A[\result] == x);</span><br><span class="line">  @*/</span><br><span class="line">&#123;</span><br><span class="line">  for (int i = 0; i &lt; n; i++)</span><br><span class="line">  //@loop_invariant 0 &lt;= i &amp;&amp; i &lt;= n;</span><br><span class="line">  //@loop_invariant gt_seg(x, A,0,i);       // implies !is_in(x, A,0,i)</span><br><span class="line">  //@loop_invariant !is_in(x, A,0,i);</span><br><span class="line">  //@loop_invariant le_segs(A,0,i, A,i,n);  // because is_sorted(A,0,n)</span><br><span class="line">  &#123;</span><br><span class="line">    if (A[i] == x) return i;</span><br><span class="line">    if (A[i] &gt; x) &#123;</span><br><span class="line">      //@assert lt_seg(x, A,i,n);           // implies !is_in(x, A,i,n)</span><br><span class="line">      //@assert !is_in(x, A,i,n);</span><br><span class="line">      return -1;</span><br><span class="line">    &#125;</span><br><span class="line">    //@assert A[i] &lt; x;                     // implies gt_seg(x, A,0,i+1);</span><br><span class="line">    //@assert gt_seg(x, A,0,i+1);</span><br><span class="line">  &#125;</span><br><span class="line">  //@assert !is_in(x, A,0,n);</span><br><span class="line">  return -1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>使用循环，维护两个指针lo（low）和hi（high），分别代表搜索区间的下限和上限。<br>
+计算中间索引mid，并与目标值x进行比较。</p>
+<ul>
+<li>如果A[mid]等于x，则返回mid。</li>
+<li>如果x小于A[mid]，则更新hi为mid。</li>
+<li>如果x大于A[mid]，则更新lo为mid + 1。</li>
+</ul>
+<p>当lo和hi相遇时，搜索结束，返回-1表示未找到。</p>
+<h3 id="loop-invariant">Loop Invariant</h3>
+<ul>
+<li>0 ≤ lo</li>
+<li>lo ≤ hi</li>
+<li>hi ≤ n</li>
+<li>A[0, lo) &lt; x</li>
+<li>x &lt; A[hi, n)</li>
+</ul>
+<p>应确保mid的计算不会超出整数范围，避免溢出错误。循环不变式在算法的初始化（INIT）、保持（PRES）和终止（TERMINATE）阶段都是可以被证明有效的。</p>
+<h2 id="mergesort">Mergesort</h2>
+<h3 id="implementation">Implementation</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">void merge(int[] A, int lo, int mid, int hi)</span><br><span class="line">//@requires 0 &lt;= lo &amp;&amp; lo &lt;= mid &amp;&amp; mid &lt;= hi &amp;&amp; hi &lt;= \length(A);</span><br><span class="line">//@requires is_sorted(A, lo, mid) &amp;&amp; is_sorted(A, mid, hi);</span><br><span class="line">//@ensures is_sorted(A, lo, hi);</span><br><span class="line">&#123;</span><br><span class="line">  int[] B = alloc_array(int, hi-lo);</span><br><span class="line">  int i = lo;</span><br><span class="line">  int j = mid;</span><br><span class="line">  int k = 0;</span><br><span class="line"></span><br><span class="line">  while (i &lt; mid &amp;&amp; j &lt; hi)</span><br><span class="line">  //@loop_invariant lo &lt;= i &amp;&amp; i &lt;= mid;</span><br><span class="line">  //@loop_invariant mid &lt;= j &amp;&amp; j &lt;= hi;</span><br><span class="line">  //@loop_invariant k == (i - lo) + (j - mid);</span><br><span class="line">  &#123;</span><br><span class="line">    if (A[i] &lt;= A[j]) &#123;</span><br><span class="line">      B[k] = A[i];</span><br><span class="line">      i++;</span><br><span class="line">    &#125; else &#123; //@assert A[i] &gt; A[j];</span><br><span class="line">      B[k] = A[j];</span><br><span class="line">      j++;</span><br><span class="line">    &#125;</span><br><span class="line">    k++;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //@assert i == mid || j == hi;</span><br><span class="line">  // Exercise: write the omitted invariants for these loops</span><br><span class="line">  while (i &lt; mid) &#123; B[k] = A[i]; i++; k++; &#125;</span><br><span class="line">  while (j &lt; hi)  &#123; B[k] = A[j]; j++; k++; &#125;</span><br><span class="line"></span><br><span class="line">  // Copy sorted array back into A</span><br><span class="line">  for (k = 0; k &lt; hi-lo; k++)</span><br><span class="line">    A[lo+k] = B[k];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// mergesort</span><br><span class="line">void sort(int[] A, int lo, int hi)</span><br><span class="line">//@requires 0 &lt;= lo &amp;&amp; lo &lt;= hi &amp;&amp; hi &lt;= \length(A);</span><br><span class="line">//@ensures is_sorted(A, lo, hi);</span><br><span class="line">&#123;</span><br><span class="line">  if (hi - lo &lt;= 1)            //@assert is_sorted(A, lo, hi);</span><br><span class="line">    return;</span><br><span class="line"></span><br><span class="line">  int mid = lo + (hi - lo)/2;  //@assert lo &lt; mid &amp;&amp; mid &lt; hi;</span><br><span class="line">  sort(A, lo, mid);            //@assert is_sorted(A, lo, mid);</span><br><span class="line">  sort(A, mid, hi);            //@assert is_sorted(A, mid, hi);</span><br><span class="line">  merge(A, lo, mid, hi);       //@assert is_sorted(A, lo, hi);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="explanation">Explanation</h3>
+<ol>
+<li>递归地将数组分成两半，直到分出的数组长度为1或者为0;</li>
+<li>递归地将数组两两合并，合并的时候做具体的比较运算使得合并出来的数组都是有序的;</li>
+<li>Merge Halves -&gt; O(n) cost.</li>
+<li>Levels of Merging -&gt; O(logn) cost.</li>
+<li>O(nlogn) cost.</li>
+</ol>
+<h2 id="quicksort">Quicksort</h2>
+<h3 id="implementation">Implementation</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int partition(int[] A, int lo, int hi)</span><br><span class="line">//@requires 0 &lt;= lo &amp;&amp; lo &lt; hi &amp;&amp; hi &lt;= \length(A);</span><br><span class="line">//@ensures lo &lt;= \result &amp;&amp; \result &lt; hi;</span><br><span class="line">//@ensures ge_seg(A[\result], A, lo, \result);</span><br><span class="line">//@ensures le_seg(A[\result], A, \result+1, hi);</span><br><span class="line">&#123;</span><br><span class="line">  int pi = lo + (hi - lo)/2;</span><br><span class="line">  int pivot = A[pi];</span><br><span class="line">  swap(A, pi, lo);</span><br><span class="line">  int left = lo + 1;</span><br><span class="line">  int right = hi;</span><br><span class="line"></span><br><span class="line">  while (left &lt; right)</span><br><span class="line">  //@loop_invariant lo+1 &lt;= left &amp;&amp; left &lt;= right &amp;&amp; right &lt;= hi;</span><br><span class="line">  //@loop_invariant ge_seg(pivot, A, lo, left);</span><br><span class="line">  //@loop_invariant le_seg(pivot, A, right, hi);</span><br><span class="line">  //@loop_invariant pivot == A[lo];</span><br><span class="line">  &#123;</span><br><span class="line">    if (A[left] &lt;= pivot) &#123;</span><br><span class="line">      left++;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      //@assert A[left] &gt; pivot;</span><br><span class="line">      swap(A, left, right-1);</span><br><span class="line">      right--;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //@assert left == right;</span><br><span class="line">  swap(A, lo, left-1);</span><br><span class="line">  return left-1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// quicksort</span><br><span class="line">void sort(int[] A, int lo, int hi)</span><br><span class="line">//@requires 0 &lt;= lo &amp;&amp; lo &lt;= hi &amp;&amp; hi &lt;= \length(A);</span><br><span class="line">//@ensures is_sorted(A, lo, hi);</span><br><span class="line">&#123;</span><br><span class="line">  if (hi - lo &lt;= 1)               //@assert is_sorted(A, lo, hi);</span><br><span class="line">    return;</span><br><span class="line"></span><br><span class="line">  int p = partition(A, lo, hi);   //@assert lo &lt;= p &amp;&amp; p &lt; hi;</span><br><span class="line">  //@assert ge_seg(A[p], A,lo,p) &amp;&amp; le_seg(A[p], A,p+1,hi);</span><br><span class="line">  sort(A, lo, p);                 //@assert is_sorted(A, lo, p);</span><br><span class="line">  sort(A, p+1, hi);               //@assert is_sorted(A, p+1, hi);</span><br><span class="line">  //@assert is_sorted(A, lo, hi);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="explanation">Explanation</h3>
+<ol>
+<li>随机挑一个轴;</li>
+<li>遍历整个数组，把每个数和轴比较，然后放到轴的左右边;</li>
+<li>递归地向下分，分到长度为1或者0时表示整个数组排序完毕;</li>
+<li>Quicksort 和 Mergesort本质上很像，只不过一个在分的过程中做比较运算，一个是分完之后在合并的过程中做比较运算。</li>
+<li>Unlucky: Pick smallest element as pivot O(n^2), just selection sort;</li>
+<li>Average: Pick middle element -&gt; O(nlogn);</li>
+</ol>
+<h1 id="complexity">Complexity</h1>
+<p>O(g(n))是一组函数，其中f(n)∈O(g(n))。当且仅当：</p>
+<ul>
+<li>有c∈R+</li>
+<li>有n0∈N<br>
+使对于所有n≥n0，f(n)≤cg(n)。</li>
+</ul>
+<p>O(1) ⊂ O(log n) ⊂ O(n) ⊂ O(n log n) ⊂ O(n2) ⊂ O(2n) ⊂ O(n!)</p>
+<p>做复杂度分析是可以直接抛掉常数，取变量最坏的情况。保留不同变量间的运算。log的底因为可以通过换底公式换成常数乘以以某数为底因此不重要。</p>
+<p>Linear search: O(1) best case, O(n) worst case.<br>
+Binary search: O(1) best case, O(logn) worst case.<br>
+Selection sort: O(n^2)<br>
+Merge sort: O(nlogn)<br>
+Quick sort: O(nlogn) best case, O(nlogn) avg case, O(n^2) worst case.</p>
+<h1 id="structs-and-pointers">Structs and pointers</h1>
+<h2 id="local-memory-and-allocated-memory">Local Memory and Allocated Memory</h2>
+<ul>
+<li>Local memory: Literals (int, bool, string, any direct value);
+<ul>
+<li>Born when: declared in its scope</li>
+<li>Vanishes when: exit its scope</li>
 </ul>
 </li>
-<li>Contract annotations<ul>
-<li>preconditions of the current function</li>
-<li>postconditions of a function just called</li>
-<li>loop invariant inside the loop body</li>
-<li>loop invariant after the loop</li>
-<li>earlier fully justified assertions</li>
+<li>Allocated memory: (contents of) pointers, arrays, tructs;
+<ul>
+<li>Born when: we allocate them;</li>
+<li>Vanishes when: we can no longer access them -&gt; garbage collector;</li>
 </ul>
 </li>
-<li>Math<ul>
-<li>laws of logic</li>
-<li>some laws of arithmetic</li>
 </ul>
-</li>
-<li>Value of variables right after an assignment</li>
+<h2 id="pointers">Pointers</h2>
+<p>多重指针，指针修改，内存图绘制，不做赘述</p>
+<p>Default values:</p>
+<ul>
+<li>int: 0</li>
+<li>char: ‘\0’</li>
+<li>string: “”</li>
+<li>bool: false</li>
+<li>pointer: NULL</li>
+<li>array: empty array</li>
 </ul>
+<h2 id="structs">Structs</h2>
+<p>统一管理多种类数据的方便手段。内存图绘制同样不做赘述。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct goose_header&#123;</span><br><span class="line">  string name;</span><br><span class="line">  string bowtie_color;</span><br><span class="line">  image* img;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct goose_header* silly = alloc(struct goose_header); //Using pointer to access struct fields</span><br><span class="line">typedef struct goose_header goose;</span><br><span class="line">goose* silly = alloc(goose);</span><br><span class="line"></span><br><span class="line">(*silly).bowtie_color = &quot;pink&quot;;</span><br><span class="line">//Otherwise, also recommended</span><br><span class="line">silly-&gt;bowtie_color = &quot;pink&quot;;</span><br><span class="line"></span><br><span class="line">//valid data structure</span><br><span class="line"></span><br><span class="line">bool is_goose(goose* g)&#123;</span><br><span class="line">  return g != NULL &amp;&amp; g-&gt;img != NULL;</span><br><span class="line">&#125;</span><br><span class="line">//specification function used to check if goose valid</span><br><span class="line"></span><br><span class="line">//safe pointer accesses:</span><br><span class="line">//requires g != NULL</span><br><span class="line">//requires is_goose(g), valid goose input</span><br><span class="line">//ensures is_goose(g), our function doesn&#x27;t make the goose invalid</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="interfaces-vs-implementation">Interfaces vs. Implementation</h1>
+<p>我们可以通过typedef给数据起别名，这样可以增加程序的抽象程度，方便调用。调用interface进行开发的方面也不需要深入程序细节，使用提供的函数接口和数据别名就可以完成开发。因此通常情况下client使用的只是interface提供的指针，不对具体数据进行操作。specification function属于implementation contracts部分，确保程序正确性，因此client不会调用它们。因为client知道他们调用的是指针，因此为了防止指针被设置成NULL，interface中都会有NULL check，作为另一种监督程序正确性的手段。</p>
 ]]></content>
       <categories>
         <category>Computer Science</category>
@@ -53,67 +139,78 @@
       </tags>
   </entry>
   <entry>
-    <title>6月20日飞行时产生的若干次空想</title>
-    <url>/posts/daydreaming1.html</url>
-    <content><![CDATA[<h2 id="0"><a href="#0" class="headerlink" title="0"></a>0</h2><p>“告白的本质就是不可能告白。如果作为创作者的‘我’在作品中出现，那么就会有一个写‘作者’的‘作者’，就不能保证表现的纯粹性，从而导致告白的形式崩塌，对‘我’来说，假面是带着皮肉的表面，带着这样皮肉的假面所作的告白，不可能是真诚的告白。人终究是无法作出真正的告白的。但是极少数的情况下，只有深深嵌入了肉体之中的假面才能做到这一点。”<br>————三岛由纪夫</p>
-<h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><p>“深怕自己本非美玉，故而不敢加以刻苦琢磨，却又半信自己是块美玉，故又不肯庸庸碌碌，与瓦砾为伍。于是我渐渐地脱离凡尘，疏远世人，结果便是一任愤懑与羞恨日益助长内心那怯弱的自尊心。” </p>
-<p>我是极厌恶自己的，并且平等地厌恶精神与肉体。不断站在本体的对立面，带着嘲弄地进行自我否定。是将灵魂分割成两半，一半留在躯体内敏感地捕捉着毛细血管的舒张所产生的微妙情绪，另一半却站在精神的彼岸冷眼相待，分析并时刻警惕着自己体内的那一半灵魂因天性的敏感而极易产生的得胜感。认定着这种肉体所产生的灵魂即是自身的首要敌人，且其间具有不可调和的矛盾。一者穷其一生追求纯粹的、甚至不可能的美与崇高，一者则用异常理性的眼光洞察自身，一针见血地否定前者的美。肉体所诞生的灵魂无理追求无法拥有的美与崇高，而精神由理性所建构，超然在肉体之上，抵抗这种无边际的追求。因而自负与自卑同时存在于一副躯壳之内。自卑是厌恶被感性所掌控，而能够隐藏在幕后掌控这种掌控的确幸，拥有不被人理解的理性已经成为骄傲。</p>
-<p>“孤寂的天赋，或者天赋的孤寂，身处其中而以孤寂自恃，这是自身消除孤寂的唯一办法。”</p>
-<p>我无时不想消除本体的矛盾，想剖开在汩汩弹跳的表皮组织，挑开血管指出肌肉纤维的纹理，让小刀以冷静的姿态埋在起伏颤动的肌肉里，享受扎伤的腹部肌肉的痉挛。我的整个青春时期，都躺在同一个分明色调里，披着压抑的外壳，内里却满溢繁杂活泛的色彩。理智上认为是丑恶的，感情上却简直会当作是美。我多少知道这种年月最不匮乏的就是虚弱的、简直要反噬自身的幻想，多少也能在回忆中看见，被我自身扭曲放大的部分几乎掩过了所有真实的光芒。对那些无处释放、互相中和、乃至灿烂地消亡了的曾有的生命力，由于它太无益，太大量，以致回过头来看，只得张大了嘴一起欣赏这种奇异的美。在这一点上，生命这东西颇似疾病。我也总怀疑青春或许是一种耗损性的疾病，在爆发之后迅速地衰竭，如果不得治愈，是跨不进人间界的。而在长大成为人之前，享用青春的，是一团怎样混乱而自成一体的生物，装满了无妄的灾厄和危险的气血？</p>
-<p>“我觉得命运不赋予我任何能醒人耳目的东西。孤独愈发膨胀。简直就像一头猪。”</p>
-<p>我听到人们刺耳的喧闹，带着无法形容的嘈杂，脖子卖力前抻，将五官挤在一起形成一种似笑非哭的模样。他们的眼帘里映现出来的是什么东西呢？这个谜深深扰乱着我的心。能如此不加思考地宣泄自己感受，以这样高昂音调向世界倾倒造作心情的人通常没有经历过强烈的苦难，抑或是经历了而放弃加以思考。它使我主观感觉到这种行为是一种厚颜无耻的举动，就好像把精神的阴部暴露出来。像这样的自我陶醉，是我惟一无法宽容的自我陶醉。我无法想象这样的人眼中所看到的陶醉的幻影，究竟是什么样的东西，也没有欲望去探求，能解决这种不满的只有放荡的孤独。一如某时某地歇斯底里的张狂，带有纵情和不计后果的气味。孤独是人生命中的一种恒定状态，它一直存在，只是时间越久远，越无法被揭露罢了。我曾以为它会腐蚀一切，包括创造出悲剧的英雄，它从不害怕伤害无辜，因为根本没有无辜之人，它无往而不胜。它只是藏匿于人世一切表象的欢愉中安静潜伏，很少有东西能揭露。所有的孤独来自于虚空，所有的虚空来自于矛盾，所有的矛盾来自于“生”的欲望，抑或是人本身。这是个可怕的流转，是义务。可是谁能说明本质问题？或者说什么才是本质问题呢？可依靠的东西越来越稀薄，仿佛随时可能被抽离的空气。这种等待带有某种宿命的味道，仿佛我可预感到的拥抱与死亡，充满了这放荡的孤独。灵魂有如废弃的老宅，唯有精致的沉默，凌驾于一切之上。</p>
-<h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><p>“这样一种优雅的逃脱，犹如把脱下的华丽的丝绸衣裳乱扔在桌上，不觉间滑落在黑暗的地板上一样。”</p>
-<p>窗外深蓝的水平线连接天空的地方，低浮着一堆堆积云，看样子纹丝不动，实际上像松散的花瓣，精致地绽开来，一点点变幻着形状，上面是稍稍褪色的星空。而在更远离水平线的高空，横向拖曳着广阔纤薄的云彩，平铺着柔和而纤巧的云斑。世界张开了在过去难以想象的巨大怀抱，从彼方逼近。这未知世界的形象如远雷一般，从天际轰鸣而来，又消逝而去。我忽然难过得几乎窒息，墨色的海潮后浪卷着前浪，时间以不能停息的方式向后流失，结局将会到来。或许我从未渴望过得到老年的智慧，总是想着如何才能在年轻时代就能够落幕而不至于痛苦。</p>
-<h2 id="3"><a href="#3" class="headerlink" title="3"></a>3</h2><p>“充满了声音和狂热，里面空无一物”</p>
-<p>独处是人生中最为美妙的时刻，是思想生长的必要空间。即便有些无法避免的寂寞，也是充实的。能够将灵魂从交错的时空中抽出，无论是朋友还是敌人都一并抹去，面对仅剩的自我。这样的感受是独特且无法替代的，没有爱、恨、贪、烦恼、怨恨和愤怒，能感受到的只有自己的存在。当心灵因充分休息而饱满，又因就不活动而饥渴时，就能敏锐地体会到新的印象。这个拥塞的世界中很难寻觅出一处独处的位置吗？在海边，有人弄潮戏水、高谈阔论，但这并不妨碍找到这样一个角落，安静地端详这份海洋。任何外部的喧嚣如果没有一种精神追求为其动力，没有一种精神价值为其目标。不管表面上如何饱满，其本质必定是贫乏且空虚的。我平等的怀疑一切喧嚣的事业和张扬的感情。</p>
-<p>解除孤独毕竟只能靠灵魂相契合的同类，其余的人扰乱了孤独，反而更添一抹暗色，因为受到刺激而更加意识到本体的存在。一颗灵魂发现、欣赏、享受深渊中埋藏的财富便是孤独的快乐。如果这财富也被另一颗灵魂发现了，便有了沟通的快乐。所以，前提是灵魂的富有。对于灵魂空虚之辈，不足以言这两种快乐。心灵的孤独与性格的孤僻有本质的分别。孤僻属于弱者，孤独属于强者。前者恐惧未知的迫害，后者则卓绝于精神，高悬在云层之上。孤独是因为思想独特而不能交流，孤僻却并无独特的内容，只是因为性格的疾病而使交流发生障碍。牛羊不会独行，猛兽如何成群？然而，尽管注定孤独，仍然会感觉到孤独的可怕和难以忍受。这样不同的灵魂却又被赋予了对于人间温暖的需要，这正是悲剧性之所在。越是丰盈的灵魂，往往越能敏锐地意识到残缺，有越强烈的孤独感。在内在丰盈的衬照下，方见出人生的缺憾。反之，不谙孤独也许正意味着内在的贫乏。</p>
-<p>丰盈的心灵中最真实最切己的感悟是无法从言语形容的，只能默然面对人生。我们可以平凡地提起爱情、孤独、幸福、苦难、死亡等等，但真正的意义始终跳脱在话语之外。他人无从得知我的孤独有多绝望，我的幸福有多美丽，我的苦难有多沉重，我的死亡有多荒谬。即便说出也会无可避免地被自己与世界间的隔膜扭曲，只能把这一切藏在心中。我所说所写的文字只是思考的产物，而一切思考在某种意义上都是一种逃避，从最个别的逃向最一般的，从命运逃向生活，从沉默的深渊逃向语言的岸。如果说它们尚未沦为纯粹的空洞观念，那也只是因为它们是从沉默中挣扎出来的，身上还散发着深渊里不可名状的事物的气息。沉默比话语更接近本质，是一种美。种种热闹一时的吹嘘和喝彩，终是虚声浮名。在万象喧嚣的背后，在一切语言消失之处，隐藏着世界的秘密。世界无边无际，有声的世界只是其中很小一部分。只听见语言不会倾听沉默的人是被声音堵住了耳朵的聋子。懂得沉默的价值的人却有一双善于倾听沉默的耳朵。</p>
-<h2 id="4"><a href="#4" class="headerlink" title="4"></a>4</h2><p>“南泉和尚因东西堂争猫儿，泉乃提起云：‘大众道得即救，道不得即斩却也！’众无对，泉遂斩之。晚，赵州外归，泉举似州，州乃脱履安头上而出。泉云：‘子若在，即救得猫儿。’”</p>
-<p>美是固有的，对立、纷争、矛盾、我执、他执同样时时存在，无休无止。南泉以蛮力斩断这些虚妄，却忽略了人本性的弱点；赵州头顶草鞋，是指烦恼如芥子，生生不息，不如宽容纳之，需知世间事本就变化多端，美会变丑，爱会变恨，对会变错，真会变假，何苦如此执着呢？</p>
+    <title>CMU 21127：Summary Sheet 1</title>
+    <url>/posts/cmu21127note1.html</url>
+    <content><![CDATA[<h1 id="propositional-logic">Propositional Logic</h1>
+<ul>
+<li>Definition 0.1: Proposition is a statement to which it is possible to assign a truth value.</li>
+<li>A <strong>proposition</strong> is an umbrella term which can be used for any result.</li>
+<li>A <strong>theorem</strong> is a key result which is particularly important.</li>
+<li>A <strong>lemma</strong> is a result which is proved for the purpose of being used in the proof of a theorem.</li>
+<li>A <strong>corollary</strong> is a result which follows from a theorem without much additional effort.</li>
+</ul>
+<h1 id="sets-and-numbers">Sets and Numbers</h1>
+<ul>
+<li>Definition 0.3: A <strong>set</strong> is a collection of objects. The objects in the set are called <strong>elements</strong> of the set.</li>
+<li>Definition 0.5: The <strong>natural numbers</strong> are represented by the points on the number line which can be obtained by starting at 0 and moving right by the unit length any number of times.</li>
+</ul>
+<h2 id="basis-for-natural-numbers">Basis for natural numbers</h2>
+<ul>
+<li>Definition 0.6: Let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">b \gt 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.73354em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>. The <strong>base-b expansion</strong> of a natural number n is the string <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>r</mi></msub><msub><mi>d</mi><mrow><mi>r</mi><mo>−</mo><mn>1</mn></mrow></msub><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><msub><mi>d</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">d_rd_{r-1}...d_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.902771em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><msub><mi>d</mi><mi>r</mi></msub><mo>×</mo><msup><mi>b</mi><mi>r</mi></msup><mo>+</mo><msub><mi>d</mi><mrow><mi>r</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>×</mo><msup><mi>b</mi><mrow><mi>r</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>+</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo>+</mo><msub><mi>d</mi><mn>0</mn></msub><mo>×</mo><msup><mi>b</mi><mn>0</mn></msup></mrow><annotation encoding="application/x-tex">n = d_r \times b^r + d_{r-1} \times b^{r-1} + ... + d_0 \times b^0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.902771em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span></span></span></span></span></span></span></span> ;</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><msub><mi>d</mi><mi>i</mi></msub><mo>&lt;</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">0 \le d_i \lt b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span></span></span></span> for each i; and</li>
+<li>if <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">n &gt; 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>, then <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>r</mi></msub><mo mathvariant="normal">≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">d_r \ne 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel"><span class="mrel"><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="rlap"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="inner"><span class="mrel"></span></span><span class="fix"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>, the base-b expansion of zero is 0 in all cases b;</li>
+</ul>
+</li>
+<li>Definition 0.11: The <strong>integers</strong> are represented by the points on the number line which can be obtained by starting at 0 and movnig in either direction by the unit length any number of times.</li>
+<li>Definition 0.12: Let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo separator="true">,</mo><mi>b</mi><mo>∈</mo><mi>Z</mi></mrow><annotation encoding="application/x-tex">a, b \in Z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span></span></span></span>. We say b <strong>divides</strong> a if <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mi>q</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">a=qb</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mord mathdefault">b</span></span></span></span> for some integer q.</li>
+<li>Proposition 0.15: Let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo separator="true">,</mo><mi>b</mi><mo separator="true">,</mo><mi>c</mi><mo>∈</mo><mi>Z</mi></mrow><annotation encoding="application/x-tex">a,b,c \in Z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">c</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span></span></span></span>. If c divides b and b divides a, then c divides a.</li>
+<li>Definition 0.17: An integer n is even if it is divisible by 2; otherwise, n is odd.</li>
+<li>Theorem 0.18: Let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo separator="true">,</mo><mi>b</mi><mo>∈</mo><mi>Z</mi></mrow><annotation encoding="application/x-tex">a,b \in Z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span></span></span></span> with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo mathvariant="normal">≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">b \ne 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel"><span class="mrel"><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="rlap"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="inner"><span class="mrel"></span></span><span class="fix"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>. There is exactly one way to write<br>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mi>q</mi><mi>b</mi><mo>+</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">a = qb + r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span></span></span></span><br>
+such that q and r are integers, and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>r</mi><mo>&lt;</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">0 \le r \lt b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span></span></span></span>(if <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">b \gt 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.73354em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>), or <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>r</mi><mo>&lt;</mo><mo>−</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">0 \le r \lt -b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord">−</span><span class="mord mathdefault">b</span></span></span></span>(if <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>&lt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">b \lt 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.73354em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>).</li>
+</ul>
+<h2 id="algorithm-to-find-basis">Algorithm to find basis</h2>
+<p>Given <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">n \in N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span>:</p>
+<ul>
+<li>Step 1: Let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">d_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> be the remainder when n is divided by b, and let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mn>0</mn></msub><mo>=</mo><mfrac><mrow><mi>n</mi><mo>−</mo><msub><mi>d</mi><mn>0</mn></msub></mrow><mi>b</mi></mfrac></mrow><annotation encoding="application/x-tex">n_0=\frac{n-d_0}{b}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.2412079999999999em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8962079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">b</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4101em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight"><span class="mord mathdefault mtight">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> be the quotient. Fix i = 0.</li>
+<li>Step 2: Suppose <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">n_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">d_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> have been defined. If <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mi>i</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">n_i = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>, then proceed to Step 3. Otherwise, define <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">d_{i+1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.902771em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span> to be the remainder when <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">n_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> is divided by b, and define <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mfrac><mrow><msub><mi>n</mi><mi>i</mi></msub><mo>−</mo><msub><mi>d</mi><mi>i</mi></msub><mo>+</mo><mn>1</mn></mrow><mi>b</mi></mfrac></mrow><annotation encoding="application/x-tex">n_{i+1} = \frac{n_i-d_i+1}{b}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.638891em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.2412079999999999em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8962079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">b</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4101em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mbin mtight">−</span><span class="mord mtight"><span class="mord mathdefault mtight">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>. Increment i, and repeat Step 2.</li>
+<li>Step 3: The base-b expansion of n, is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>i</mi></msub><msub><mi>d</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow></msub><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><msub><mi>d</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">d_id_{i-1}...d_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.902771em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>.</li>
+</ul>
+<h2 id="rationals">Rationals</h2>
+<ul>
+<li>Definition 0.24: The <strong>rational numbers</strong> are represented by the points at the number line which can be obtained by dividing any of the unit line segments between integers into an equal number of parts.</li>
+</ul>
+<h2 id="real-numbers">Real numbers</h2>
+<ul>
+<li>Definition 0.25: The <strong>real numebrs</strong> are the points on the number line. We write R for the set of all real numbers.</li>
+</ul>
+<h2 id="irrational-numbers">Irrational numbers</h2>
+<ul>
+<li>Definition 0.27: An <strong>irrational number</strong> is a real number that is not rational.</li>
+</ul>
+<h2 id="complex-numbers">Complex numbers</h2>
+<ul>
+<li>Definition 0.31: The <strong>complex numbers</strong> are those obtained by the non-negative real numbers upon rotation by any angle about the point 0. We write C for the set of all complex numbers.</li>
+</ul>
+<p><img src="/posts/cmu21127note1.htm/cmu21127note1/Screenshot%202024-07-03%20195150.png" alt="Complex number"></p>
+<ul>
+<li>Addition corresponds to translation.</li>
+<li>Multiplication correspond to rotation.</li>
+</ul>
+<p><strong>Omit complex conjugate here.</strong></p>
+<h1 id="polynomials">Polynomials</h1>
+<ul>
+<li>Definition 0.32: Let S=N,Z,Q,R or C. A <strong>(univariate) polynomial over</strong> S in the <strong>indeterminate</strong> x is an expression of the form<br>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>0</mn></msub><mo>+</mo><msub><mi>a</mi><mn>1</mn></msub><mi>x</mi><mo>+</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo>+</mo><msub><mi>a</mi><mi>n</mi></msub><msup><mi>x</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">a_0+a_1x+...+a_nx^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.814392em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span></span></span></span><br>
+Where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>∈</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">n \in N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span> and each <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>k</mi></msub><mo>∈</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">a_k \in S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6891em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>. The numbers <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">a_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> are called the <strong>coefficients</strong> of the polynomial. If not all coefficients are zero, the largest value of k for which <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>k</mi></msub><mo mathvariant="normal">≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a_k \ne 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel"><span class="mrel"><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="rlap"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="inner"><span class="mrel"></span></span><span class="fix"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span> is called the <strong>degree</strong> of the polynomial. By convention, the degree of the polynomial 0 is <span class="katex-error" title="ParseError: KaTeX parse error: Undefined control sequence: \infinity at position 2: -\̲i̲n̲f̲i̲n̲i̲t̲y̲">-\infinity</span></li>
+<li>Definition 0.37: Let p(x) be a polynomial. A <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>o</mi><mi>o</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">root</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">t</span></span></span></span> of p(x) is a complex number <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.0037em;">α</span></span></span></span> such that <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo stretchy="false">(</mo><mi>α</mi><mo stretchy="false">)</mo><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">p(\alpha)=0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">p</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>.</li>
+<li>Omit the theorem of complex conjugate root.</li>
+</ul>
 ]]></content>
       <categories>
-        <category>Miscellaneous</category>
-      </categories>
-      <tags>
-        <tag>Daydream</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NJU ICS：PA(Programming Assignment) 1 思路总结</title>
-    <url>/posts/2e23f8c2.html</url>
-    <content><![CDATA[<p>在此对PA1实验中的任务进行思路上的总结。</p>
-<h1 id="框架代码理解"><a href="#框架代码理解" class="headerlink" title="框架代码理解"></a>框架代码理解</h1><pre><code>nemu
-</code></pre>
-<p>├── configs                    # 预先提供的一些配置文件<br>├── include                    # 存放全局使用的头文件<br>│   ├── common.h               # 公用的头文件<br>│   ├── config                 # 配置系统生成的头文件, 用于维护配置选项更新的时间戳<br>│   ├── cpu<br>│   │   ├── cpu.h<br>│   │   ├── decode.h           # 译码相关<br>│   │   ├── difftest.h<br>│   │   └── ifetch.h           # 取指相关<br>│   ├── debug.h                # 一些方便调试用的宏<br>│   ├── device                 # 设备相关<br>│   ├── difftest-def.h<br>│   ├── generated<br>│   │   └── autoconf.h         # 配置系统生成的头文件, 用于根据配置信息定义相关的宏<br>│   ├── isa.h                  # ISA相关<br>│   ├── macro.h                # 一些方便的宏定义<br>│   ├── memory                 # 访问内存相关<br>│   └── utils.h<br>├── Kconfig                    # 配置信息管理的规则<br>├── Makefile                   # Makefile构建脚本<br>├── README.md<br>├── resource                   # 一些辅助资源<br>├── scripts                    # Makefile构建脚本<br>│   ├── build.mk<br>│   ├── config.mk<br>│   ├── git.mk                 # git版本控制相关<br>│   └── native.mk<br>├── src                        # 源文件<br>│   ├── cpu<br>│   │   └── cpu-exec.c         # 指令执行的主循环<br>│   ├── device                 # 设备相关<br>│   ├── engine<br>│   │   └── interpreter        # 解释器的实现<br>│   ├── filelist.mk<br>│   ├── isa                    # ISA相关的实现<br>│   │   ├── mips32<br>│   │   ├── riscv32<br>│   │   ├── riscv64<br>│   │   └── x86<br>│   ├── memory                 # 内存访问的实现<br>│   ├── monitor<br>│   │   ├── monitor.c<br>│   │   └── sdb                # 简易调试器<br>│   │       ├── expr.c         # 表达式求值的实现<br>│   │       ├── sdb.c          # 简易调试器的命令处理<br>│   │       └── watchpoint.c   # 监视点的实现<br>│   ├── nemu-main.c            # 你知道的…<br>│   └── utils                  # 一些公共的功能<br>│       ├── log.c              # 日志文件相关<br>│       ├── rand.c<br>│       ├── state.c<br>│       └── timer.c<br>└── tools                      # 一些工具<br>    ├── fixdep                 # 依赖修复, 配合配置系统进行使用<br>    ├── gen-expr<br>    ├── kconfig                # 配置系统<br>    ├── kvm-diff<br>    ├── qemu-diff<br>    └── spike-diff</p>
-<h1 id="顺利的运行"><a href="#顺利的运行" class="headerlink" title="顺利的运行"></a>顺利的运行</h1><ol>
-<li>Remove Assert(0)：<br> 根据报错信息将monitor.c中对应的assert语句移除即可。</li>
-<li>优美的退出：<br> 因为是退出NEMU时报错，所以首先在NEMU的main.c中找报错原因，发现最后返回了is_exit_status_bad()这一函数。转到定义后发现默认返回值是1，根据函数的具体内容对sdb.c中的cmd_q函数进行调整后问题顺利解决。</li>
-</ol>
-<h1 id="PA1-1-基础设施"><a href="#PA1-1-基础设施" class="headerlink" title="PA1.1 基础设施"></a>PA1.1 基础设施</h1><h2 id="PA1-1-1-单步执行"><a href="#PA1-1-1-单步执行" class="headerlink" title="PA1.1.1 单步执行"></a>PA1.1.1 单步执行</h2><p>根据讲义中的提示，单步执行要求我们实现si命令，并且根据si命令后面的argument执行具体步数。讲义在RTFSC中提到cpu-exec.c模拟了CPU运行，转到其中能够轻易发现相关函数，只需要传入对应参数就可以实现要求的功能。于是在sdb.c中实现了相应的cmd_si函数，值得一提的是用sscanf将指针args转化为了可以使用的变量。</p>
-<h2 id="PA1-1-2-打印寄存器"><a href="#PA1-1-2-打印寄存器" class="headerlink" title="PA1.1.2 打印寄存器"></a>PA1.1.2 打印寄存器</h2><p>要求我们实现info r打印32个寄存器的值。根据提供的API文档可以发现有关寄存器的定义在isa-reg.h中，RTFSC后发现寄存器的值是gpr表示，于是在reg.c中实现了对应的API，即isa_reg_display()。然后在sdb.c中实现对应的命令。值得一提的是cmd_info在后续实现监视点的时候还会用到。</p>
-<h2 id="PA1-1-3-扫描内存"><a href="#PA1-1-3-扫描内存" class="headerlink" title="PA1.1.3 扫描内存"></a>PA1.1.3 扫描内存</h2><p>要求我们实现info x，给定指定的其实内存和要打印的内存个数，输出内存数据。根据RTFSC中的提示在vaddr.c中找到了相应读取内存的函数vaddr_read()，然后在sdb.c中通过循环实现具体指令，并且设定打印内存长度为4。</p>
-<h1 id="PA1-2-表达式求值"><a href="#PA1-2-表达式求值" class="headerlink" title="PA1.2 表达式求值"></a>PA1.2 表达式求值</h1><h2 id="PA1-2-1-词法分析"><a href="#PA1-2-1-词法分析" class="headerlink" title="PA1.2.1 词法分析"></a>PA1.2.1 词法分析</h2><p>在表达式求值中只允许出现的token类型有十进制整数，加减乘除，括号和空格串。expr.c中的enum编写了用于识别这些token的类型，具体识别规则见“正则表达式速览”。同一文件中的init_regex()函数会将这些规则编译成被库函数使用的pattern匹配信息，如果正则表达式语法有问题会触发assertion fail。<br>make_token()函数用于识别表达式中的token，用position来表示当前处理的位置，按照顺序用不同的规则匹配当前位置的字符串，如果匹配成功log()则会输出识别成功的token类型，后面通过nr_token指示已经被识别出的token数目为当前正在处理到的token赋值，其中加减乘除此类只需要记录token类型，而数字则还需要记录token的具体内容，这个用substr_start和substr_len进行具体内容的赋值。</p>
-<h2 id="PA1-2-2-递归求值"><a href="#PA1-2-2-递归求值" class="headerlink" title="PA1.2.2 递归求值"></a>PA1.2.2 递归求值</h2><p>首先在sdb.c中实现cmd_p的指令，跳转到expr.c中的expr函数，再对expr函数进行具体编写，为了方便我重新写了一个新函数并在expr()中调用。新求值函数eval首先判断token的首位，eval的递归采用两个位置变量p和q来表示正在处理的token位置。如果末位token的位置p小于首位token的位置q则判断表达式不合法；如果p等于q则说明递归到了某一个具体的数字，这个时候要对该单一token进行类型判断，如果不是数字类型则输出报错信息，反之直接返回数字的值。值得注意的是此处不能直接返回tokens结构体中的str部分，应使用strtol将token的具体内容转换成十进制整数后再返回。</p>
-<p>如果p &lt; q则先进行括号判断，此处我又调用了自己写的check_parentheses()函数。函数结构非常简单，如果此时的位置变量p和q代表的首位token和末位token分别是正括号和反括号，则开始正式判断。使用一个计数变量cnt来表示当前括号的个数，如果是正括号则加一，反括号则减一。当cnt为零时判断当前处理的token是否是末尾token，以此确定首位token和末尾token的正反括号是成对的。因为首位是正括号且末位是反括号的情况有两种：(…+…)+(…+…)和(…+(…+…))，前者实际上并不需要check_parentheses，因为主运算符仍然在括号外面。因此如果首位和末位括号成对则返回true。最后如果cnt不为零的话返回false。在eval()中如果check_parentheses()返回值为真，那么将p设为p+1，q设为q-1进行下一层的递归。</p>
-<p>如果上面三个条件都没有满足则进行主运算符的判断，在此又要调用自己写的find_major()函数。讲义中提到了主运算符的几个特点：主运算符一定是运算符(某种意义上来说是句废话)、出现在一对括号中的token不是主运算符、主运算符的优先级在表达式中是最低的、当有多个运算符的优先级都是最低时最后被结合的运算符才是主运算符。根据这几条规则我们就可以进行具体函数的编写，首先是定义计数变量cnt、用于指示当前运算符优先级的op_type和主运算符的位置变量position，我们用for循环进行p和q之间主运算符的判断。如果判断过程中遇到数字类型的token则直接跳过(根据第一条规则)，遇到正反括号则仿照check_parentheses中的思路利用cnt进行判断。如果是正括号则cnt++。是反括号则cnt–，并且判断cnt是否为零，如果是零的话find_major()直接返回-1，因为表达式不合法。在反括号的情况下判断是因为此情况下cnt为零只有两种情况：缺少了一个正括号或者多了一个反括号。比在正括号的情况下判断更加方便。如果cnt&gt;0则continue。然后进行运算符的判断，这里新建一个比较变量tmp_type，初始值为零，根据运算符类型赋值，加减赋2，乘除为1(因为在表达式中运算符的优先级越低越可能成为主运算符，所以在这里优先级更高的被赋的值反而更低)。最后进行op_type和tmp_type的判断，如果tmp_type大于op_type则将其赋值给op_type，并且记录此时的位置。如果tmp_type等于op_type同样将其赋值给op_type(根据第四条规则)。循环结束后先进行cnt的判断，然后返回position变量。</p>
-<p>找完主运算符后就可以进行具体值的计算，设主运算符左边的变量为val1，右边为val2，继续递归，直到递归到 <expr> (+-*&#x2F;) <expr>，这是val1和val2递归的结果是其本身。用switch case进行运算符类型的判断，然后返回运算结果，这里除法要特殊注意val2不能为零。</expr></expr></p>
-<p>等到eval()函数计算完表达式的值后expr()函数就会接收到其返回的值，expr()函数会直接将收到的值返回到sdb.c中的cmd_p()，然后输出到屏幕上。</p>
-<h1 id="PA1-3-监视点"><a href="#PA1-3-监视点" class="headerlink" title="PA1.3 监视点"></a>PA1.3 监视点</h1><h2 id="PA-1-3-1-拓展表达式求值"><a href="#PA-1-3-1-拓展表达式求值" class="headerlink" title="PA 1.3.1 拓展表达式求值"></a>PA 1.3.1 拓展表达式求值</h2><p>拓展表达式求值新增了十六进制数、负数、打印寄存器、指针解引用和与或非、等于、不等于、大于、小于、大于等于、小于等于运算。与运算、或运算、等于、不等于、大于、小于、大于等于、小于等于的实现逻辑很简单。先编写匹配规则和make_token()，然后在find_major()中增加计算优先级，这些运算的优先级都是最低的，所以在find_major()中的匹配优先度度最高。最后在eval()函数中增加case计算即可。</p>
-<p>真正麻烦的是十六进制数，打印寄存器，指针解引用，负数和非运算。其中负数和指针解引用还要更加麻烦，所以先阐释其他运算的实现。在这里我识别十六进制数的思路是匹配0x，并且在TK_NUM的匹配规则中加A-F，如此就可以将0x是为一个一元运算符进行处理，这里要注意0x的匹配规则要高于TK_NUM的匹配规则，否则就会出现只能匹配到0而不能匹配到x的问题。识别完成后正常编写make_token()。然后在find_major()中编写优先级，一元运算符的计算优先级都是最高的，所以在find_major()中赋最低的值。最后在eval()中返回十进制的值，这里我调用了自己写的一个进制转换函数。主要思路就是按位取余，然后乘以该位的位权，累加到Dec变量中，也就是最后的十进制结果。至此十六进制数的实现已经完成。</p>
-<p>然后是打印寄存器，仿照十六进制数的思路进行处理，一直到eval()函数部分，这里要返回的值就是cpu.gpr[i]。非运算同理，eval()函数部分返回的值是!val2。</p>
-<p>负数和指针解引用实际上使用的符号都是” - “或” * “，所以在make_token()阶段并不能将其和减法和乘法区分开来。所以我们编写特殊的check_unary()函数来检验。check_unary()函数应该放在expr()函数的make_token()后面。其主要思路就是判定当前处理的token类型是不是” * “或” - “，如果是的话进行进一步判断，如果token编号是0则证明该运算符是表达式的第一个，直接将其token类型修改为负数或者指针解引用(注意这里必须要这么判断，如果全部使用后面那条规则判断的话会产生结构体访问越界)，如果token编号不为零的话就判断前一个token的类型是不是数字或者反括号，如果不是的话证明运算符是一元运算符，则将token类型修改为负数或者指针解引用。然后仿照之前对一元运算符的处理即可，eval()函数中负数类型直接返回-value，指针解引用类型则仿照PA 1.1.3进行处理即可。</p>
-<h2 id="PA-1-3-2-监视点的管理"><a href="#PA-1-3-2-监视点的管理" class="headerlink" title="PA 1.3.2 监视点的管理"></a>PA 1.3.2 监视点的管理</h2><p>开始之前要为监视点结构体新增两个变量，一个是char *类型的expr和int类型的value。</p>
-<p>监视点的管理包括新建监视点new_wp()和删除监视点free_wp()。在new_wp()中首先要判断监视点池是否为空，然后建立一个新的监视点结构体，将空闲监视点赋值给新建立的结构体，然后将空闲监视点向后移动一位，将head(正在处理的监视点)设定为新建立的监视点。</p>
-<p>在free_wp()中首先判断要删除的监视点是不是head，如果是的话就直接将head设为NULL。新建一个监视点结构体flag，将其设为监视点池的第一个监视点，也就是监视点0，一个一个往后推，直到推到要删除的监视点的前一个监视点，将flag的下一个设为要删除的监视点的下一个，也就是暂时将要删除的监视点抽出监视点池。</p>
-<h2 id="PA-1-3-3-监视点功能的实现"><a href="#PA-1-3-3-监视点功能的实现" class="headerlink" title="PA 1.3.3 监视点功能的实现"></a>PA 1.3.3 监视点功能的实现</h2><p>首先还是在sdb.c中编写相关的指令(info w、cmd_w、cmd_d)。info w的实现很简单，就是新增一个条件判断，如果输入为w的话调用display_wp()函数(具体函数一会在watchpoint.c中实现)。</p>
-<p>然后编写cmd_w指令，相关细节仿照PA1，将要计算的表达式读入并调用expr()计算，将计算结果赋值给result变量，再将表达式和result传给set_wp()函数(同样一会在watchpoint.c中实现)。</p>
-<p>cmd_d指令也仿照PA1进行编写，将要删除的监视点编号传入delete_wp()函数即可。</p>
-<p>然后是watchpoint.c中监视点功能的具体实现，包括set_wp()、delete_wp()、display_wp()和check_wp()。set_wp()的实现很简单，先建立一个新的监视点结构体，将接收到的表达式用strndup函数复制到新监视点的expr部分，将result赋值给新监视点的value部分，最后输出监视点信息。delete_wp()首先判断输入编号是否小于NR_WP，这里我用assert实现。然后建立三个监视点结构体，分别是要删除的监视点，要删除的监视点的前一个监视点和要删除的监视点的后一个监视点。建立完后先输出要删除监视点的具体信息，然后将要删除的监视点传入free_wp()，因为在free_wp()函数中将要删除的监视点抽出了监视点链表，所以调用完函数后要将要删除的监视点的expr部分设为NULL，将要删除的监视点的前一个监视点只想删除的监视点，删除的监视点指向删除的监视点的后一个监视点，到这里删除监视点的操作就正式完成了。</p>
-<p>下一个是display_wp()函数的编写，首先新建一个监视点结构体，将其设置为监视点池中的第一个监视点，然后用while循环(循环条件设置为新建立的监视点是否成立)打印监视点信息，在循环的最后将监视点设置为下一个监视点即可。</p>
-<p>最后是check_wp()的编写，首先还是新建一个监视点结构体，将其设置为监视点池中的第一个监视点，然后用while循环处理(循环条件设置为新建的监视点不为head的下一个监视点)，在循环中调用expr()函数计算表达式的值，如果表达式的值发生变化则输出相关信息，在循环的最后将监视点设置为下一个监视点。最后将check_wp()放进cpu-exec.c的execute()中，每执行一条指令就检查一次。</p>
-<h1 id="至此PA1彻底结束！"><a href="#至此PA1彻底结束！" class="headerlink" title="至此PA1彻底结束！"></a>至此PA1彻底结束！</h1>]]></content>
-      <categories>
-        <category>Computer Science</category>
+        <category>Math</category>
       </categories>
       <tags>
         <tag>Course Notes</tag>
@@ -122,7 +219,8 @@
   <entry>
     <title>Get deeper in SRAM</title>
     <url>/posts/5a6cf88d.html</url>
-    <content><![CDATA[<h2 id="Theory"><a href="#Theory" class="headerlink" title="Theory"></a>Theory</h2><p>RAM(Random Access Memory)具有如下两个特点：</p>
+    <content><![CDATA[<h2 id="theory">Theory</h2>
+<p>RAM(Random Access Memory)具有如下两个特点：</p>
 <ul>
 <li>易变，断电时易失数据。</li>
 <li>读写行为快，速度与数据存储位置无关。</li>
@@ -143,12 +241,14 @@
 <li>密度更低，平方面积存储能力更差，因为一个单元上的电路更多</li>
 </ul>
 <p>文章主要讨论异步(asynchronous) SRAM。</p>
-<h2 id="Hands-On"><a href="#Hands-On" class="headerlink" title="Hands On"></a>Hands On</h2><p>Cmod A7 开发板集成了SRAM，其特点如下：</p>
+<h2 id="hands-on">Hands On</h2>
+<p>Cmod A7 开发板集成了SRAM，其特点如下：</p>
 <ul>
 <li>512KB</li>
 <li>19个地址信号</li>
 <li>8个双向数据信号</li>
-<li>3个控制信号<ul>
+<li>3个控制信号
+<ul>
 <li>三个控制信号分别是CE，OE和WE，活跃度都很低</li>
 <li>ce_n (chip enable)：控制芯片是否被启用</li>
 <li>we_n (write enable): 控制写入操作</li>
@@ -176,8 +276,10 @@
 <li>tso：数据建立时间(data setup time)，在锁存沿(we_n从0移动到1的上升沿)之前，数据必须保持稳定的最短时间。</li>
 <li>tHD：数据保持时间，数据在锁存沿后必须保持稳定的最短时间。</li>
 </ul>
-<h2 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h2><p>为了成功执行一个读或写操作，断言地址、数据和控制信号的顺序是很重要的，并且需要确定他们保持一段时间的稳定。为了实现这些并且接入SRAM，我们用一个存储控制器(Memory Controller)。</p>
-<h3 id="Controller-using-Verilog"><a href="#Controller-using-Verilog" class="headerlink" title="Controller using Verilog"></a>Controller using Verilog</h3><p>一个非常简单和基本的SRAM控制器的代码如下:</p>
+<h2 id="controller">Controller</h2>
+<p>为了成功执行一个读或写操作，断言地址、数据和控制信号的顺序是很重要的，并且需要确定他们保持一段时间的稳定。为了实现这些并且接入SRAM，我们用一个存储控制器(Memory Controller)。</p>
+<h3 id="controller-using-verilog">Controller using Verilog</h3>
+<p>一个非常简单和基本的SRAM控制器的代码如下:</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">module basic_sram_controller(</span><br><span class="line"></span><br><span class="line">  input wire clk,                        //  Clock signal</span><br><span class="line"></span><br><span class="line">  input wire rw,                         //  With this signal, we select reading or writing operation</span><br><span class="line">  input wire [18:0] addr,                //  Address bus</span><br><span class="line">  input wire [7:0] data_f2s,             //  Data to be writteb in the SRAM</span><br><span class="line">  </span><br><span class="line">  output reg [7:0] data_s2f_r,           //  It is the 8-bit registered data retrieved from the SRAM (the -s2f suffix stands for SRAM to FPGA)</span><br><span class="line">  output wire [18:0] ad,                 //  Address bus</span><br><span class="line">  output wire we_n,                      //  Write enable (active-low)</span><br><span class="line">  output wire oe_n,                      //  Output enable (active-low)</span><br><span class="line"></span><br><span class="line">  inout wire [7:0] dio_a,                //  Data bus</span><br><span class="line">  output wire ce_a_n                     //  Chip enable (active-low). Disables or enables the chip.</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  assign ce_a_n = 1&#x27;b0;</span><br><span class="line">  assign oe_n = 1&#x27;b0;</span><br><span class="line">  assign we_n = rw;</span><br><span class="line">  assign ad = addr;</span><br><span class="line">  </span><br><span class="line">  assign dio_a = (rw == 1&#x27;b1)? 8&#x27;hZZ : data_f2s;</span><br><span class="line">  </span><br><span class="line">  always @(posedge clk) begin</span><br><span class="line">    if (rw == 1&#x27;b1)</span><br><span class="line">      data_s2f_r &lt;= dio_a;</span><br><span class="line">  end</span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
 <p>这种设计提供了较大的时间裕度，并且不施加任何严格的时间限制。它已在Cmod A7 FPGA板上进行了测试，该板具有12 MHz时钟输入，即周期为83.333纳秒。</p>
 <p>ce_n(芯片使能信号)和oe_n(输出使能信号)一直处于激活状态。</p>
@@ -186,7 +288,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">specify					</span><br><span class="line">    specparam </span><br><span class="line">    Twp = 8,	</span><br><span class="line">    Tdw = 6,				</span><br><span class="line">    Tdh = 0;				</span><br><span class="line">    $width (negedge we_n, Twp);			</span><br><span class="line">    $setup (data, posedge we_n, Tdw);	</span><br><span class="line">    $hold (posedge we_n, data, Tdh);	</span><br><span class="line">endspecify</span><br><span class="line">reg [7:0] sram [0:1024];</span><br><span class="line">always@(posedge we_n)</span><br><span class="line">    if (ce_n == 1&#x27;b0)  </span><br><span class="line">    sram[addr] &lt;= data;</span><br><span class="line">assign #10 data = (~ce_n &amp; ~oe_n) ? sram[addr] :  8&#x27;bz; </span><br></pre></td></tr></table></figure>
 <p>接下来要构建一个可综合的设计来测试SRAM。对于测试SRAM的HDL设计，我们必须能够在任何特定地址中写入和读取任何数据。因此，重要的是要有一个终端来选择我们想要进行的操作，并输入任何所需的数据。要做到这一点，设计将需要以下模块:</p>
 <ul>
-<li>UART：向FPGA&#x2F;PC发送或接受数据。</li>
+<li>UART：向FPGA/PC发送或接受数据。</li>
 <li>Debouncer：debounce reset button。</li>
 <li>FSM: 控制设计中所有的信号和状态。</li>
 <li>SRAM控制器</li>
@@ -201,13 +303,297 @@
       </tags>
   </entry>
   <entry>
+    <title>IB Computer Science： 伪代码、流程图和简单算法小记</title>
+    <url>/posts/68e9188a.html</url>
+    <content><![CDATA[<!-- 事先声明，我并不认同IB的垃圾计算机教学大纲和它规定的垃圾标准，将下列内容整理在博客中只是为了苟住校内成绩做出的无奈妥协。 -->
+<p>伪代码编写练习可以使用网站：<a href="http://ibcomp.fis.edu/pseudocode/pcode.html">http://ibcomp.fis.edu/pseudocode/pcode.html</a></p>
+<h2 id="伪代码语法">伪代码语法</h2>
+<h3 id="循环逻辑：">循环逻辑：</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">loop i from ... to ...</span><br><span class="line">    TODO()</span><br><span class="line">end loop</span><br><span class="line"></span><br><span class="line">loop while (condition?)</span><br><span class="line">    TODO()</span><br><span class="line">end loop</span><br></pre></td></tr></table></figure>
+<h3 id="分支逻辑：">分支逻辑：</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if (condition?) then</span><br><span class="line">    TODO()</span><br><span class="line">else if (condition?) then</span><br><span class="line">    TODO()</span><br><span class="line">else</span><br><span class="line">    TODO()</span><br><span class="line">end if</span><br></pre></td></tr></table></figure>
+<h3 id="数组管理：">数组管理：</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">arr = new array()                     // set a new array</span><br><span class="line">arr = [..., ..., ...]                 //set values for the array</span><br><span class="line">arr[...]                              //returns the value of a certain index</span><br><span class="line">arr.Length()                          //returns the length of an array(for some reason this could not run on the above website)</span><br></pre></td></tr></table></figure>
+<h3 id="集合管理：">集合管理：</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">coll = new collection()               //set a new collection</span><br><span class="line">coll.addItem(certain things)          //add something to the collection</span><br><span class="line">coll.getNext()                        //return the next value</span><br><span class="line">coll.resetNext()                      //go back to the start of the collection</span><br><span class="line">coll.hasNext()                        //returns a boolean value that indicates whether it has next item or not</span><br><span class="line">coll.isEmpty()                        //returns a boolean value that indicates whether the collection is empty or not</span><br></pre></td></tr></table></figure>
+<h3 id="栈管理：">栈管理：</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// One thing to be remember, first in last out</span><br><span class="line">stack = new stack()                   //set a new stack</span><br><span class="line">stack.push(certain things)            //push an item into the stack</span><br><span class="line">stack.pop()                           //returns the last item of the stack</span><br><span class="line">stack.isEmpty()                       //returns a boolean value that indicates whether the stack is empty or not</span><br></pre></td></tr></table></figure>
+<h3 id="队列管理：">队列管理：</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// Another thing to remember, first in first out</span><br><span class="line">queue = new queue()                   //set a new queue</span><br><span class="line">queue.enqueue(certain things)         //put an item to the end of the queue</span><br><span class="line">queue.dequeue()                       //delete and return the front item of the queue</span><br><span class="line">queue.isEmpty()                       //returns a boolean value that indicates whether the queue is empty or not</span><br></pre></td></tr></table></figure>
+<h2 id="流程图画法">流程图画法</h2>
+<p><img src="/posts/68e9188a.htm/Screenshot%202023-09-20%20182101.png" alt></p>
+<p>Then use arrows to link the blocks.</p>
+<h2 id="简单代码的伪代码实现">简单代码的伪代码实现</h2>
+<p>The following codes are all based on arrays. Searching/Sorting other form of data set need to do simple modifications to the code.</p>
+<h3 id="sequential-search">Sequential Search</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">arr = [5, 6, 3, 4, 2, 7, 8, 1]</span><br><span class="line"></span><br><span class="line">loop i from 0 to 7</span><br><span class="line">   if (arr[i] == 2) then</span><br><span class="line">      index = i</span><br><span class="line">   end if</span><br><span class="line">end loop</span><br><span class="line"></span><br><span class="line">output &quot;The index of number 2 is: &quot;, index</span><br></pre></td></tr></table></figure>
+<h3 id="binary-search">Binary Search</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">arr = [5, 6, 3, 4, 2, 7, 8, 1]</span><br><span class="line"></span><br><span class="line">loop i from 0 to 6</span><br><span class="line">   min_idx = i</span><br><span class="line">   loop j from i+1 to 7</span><br><span class="line">      if arr[j] &lt; arr[min_idx] then</span><br><span class="line">         min_idx = j</span><br><span class="line">      end if</span><br><span class="line">   end loop</span><br><span class="line">   if NOT(min_idx == i) then</span><br><span class="line">      TEMP = arr[min_idx]</span><br><span class="line">      arr[min_idx] = arr[i]</span><br><span class="line">      arr[i] = TEMP</span><br><span class="line">   end if</span><br><span class="line">end loop</span><br><span class="line">//Sort the array first since binary search is only applicable in ordered series</span><br><span class="line"></span><br><span class="line">low = 0</span><br><span class="line">high = 7</span><br><span class="line">found = -1</span><br><span class="line">loop while found = -1 AND low &lt;= high</span><br><span class="line">   mid = div(low + high, 2)</span><br><span class="line">   if (arr[mid] = 8) then</span><br><span class="line">      found = mid</span><br><span class="line">   else if (arr[mid] &lt; 8) then</span><br><span class="line">      low = mid + 1</span><br><span class="line">   else</span><br><span class="line">      high = mid - 1 </span><br><span class="line">   end if</span><br><span class="line">end loop</span><br><span class="line"></span><br><span class="line">if found &gt;= 0 then</span><br><span class="line">   output &quot;The index of number 8 is: &quot;, found</span><br><span class="line">else</span><br><span class="line">   output &quot;Number was not found&quot;</span><br><span class="line">end if</span><br></pre></td></tr></table></figure>
+<h3 id="bubble-sort">Bubble Sort</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">arr = [5, 6, 3, 4, 2, 7, 8, 1]</span><br><span class="line"></span><br><span class="line">loop i from 0 to 6</span><br><span class="line">   loop j from 0 to 6-i</span><br><span class="line">      if arr[j] &gt; arr[j+1] then</span><br><span class="line">         TEMP = arr[j+1]</span><br><span class="line">         arr[j+1] = arr[j]</span><br><span class="line">         arr[j] = TEMP</span><br><span class="line">      end if</span><br><span class="line">   end loop </span><br><span class="line">end loop</span><br><span class="line"> </span><br><span class="line">loop i from 0 to 7</span><br><span class="line">   output arr[i]</span><br><span class="line">end loop</span><br></pre></td></tr></table></figure>
+<h3 id="selection-sort">Selection Sort</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">arr = [5, 6, 3, 4, 2, 7, 8, 1]</span><br><span class="line">loop i from 0 to 6</span><br><span class="line">   min_idx = i</span><br><span class="line">   loop j from i+1 to 7</span><br><span class="line">      if arr[j] &lt; arr[min_idx] then</span><br><span class="line">         min_idx = j</span><br><span class="line">      end if</span><br><span class="line">   end loop</span><br><span class="line">   if NOT(min_idx == i) then</span><br><span class="line">      TEMP = arr[min_idx]</span><br><span class="line">      arr[min_idx] = arr[i]</span><br><span class="line">      arr[i] = TEMP</span><br><span class="line">   end if</span><br><span class="line">end loop</span><br><span class="line"></span><br><span class="line">loop i from 0 to 7</span><br><span class="line">   output arr[i]</span><br><span class="line">end loop</span><br></pre></td></tr></table></figure>
+<h2 id="简单算法的流程图实现">简单算法的流程图实现</h2>
+<h3 id="sequential-search">Sequential Search</h3>
+<p><img src="/posts/68e9188a.htm/SS.jpg" alt></p>
+<h3 id="binary-search">Binary Search</h3>
+<p><img src="/posts/68e9188a.htm/BS.jpg" alt></p>
+<h3 id="bubble-sort">Bubble Sort</h3>
+<p><img src="/posts/68e9188a.htm/BubS.jpg" alt></p>
+<h3 id="selection-sort">Selection Sort</h3>
+<p><img src="/posts/68e9188a.htm/SelS.jpg" alt></p>
+]]></content>
+      <categories>
+        <category>Computer Science</category>
+      </categories>
+      <tags>
+        <tag>Course Notes</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>6月20日飞行时产生的若干次空想</title>
+    <url>/posts/daydreaming1.html</url>
+    <content><![CDATA[<h2 id="0">0</h2>
+<p>“告白的本质就是不可能告白。如果作为创作者的‘我’在作品中出现，那么就会有一个写‘作者’的‘作者’，就不能保证表现的纯粹性，从而导致告白的形式崩塌，对‘我’来说，假面是带着皮肉的表面，带着这样皮肉的假面所作的告白，不可能是真诚的告白。人终究是无法作出真正的告白的。但是极少数的情况下，只有深深嵌入了肉体之中的假面才能做到这一点。”<br>
+————三岛由纪夫</p>
+<h2 id="1">1</h2>
+<p>“深怕自己本非美玉，故而不敢加以刻苦琢磨，却又半信自己是块美玉，故又不肯庸庸碌碌，与瓦砾为伍。于是我渐渐地脱离凡尘，疏远世人，结果便是一任愤懑与羞恨日益助长内心那怯弱的自尊心。”</p>
+<p>我是极厌恶自己的，并且平等地厌恶精神与肉体。不断站在本体的对立面，带着嘲弄地进行自我否定。是将灵魂分割成两半，一半留在躯体内敏感地捕捉着毛细血管的舒张所产生的微妙情绪，另一半却站在精神的彼岸冷眼相待，分析并时刻警惕着自己体内的那一半灵魂因天性的敏感而极易产生的得胜感。认定着这种肉体所产生的灵魂即是自身的首要敌人，且其间具有不可调和的矛盾。一者穷其一生追求纯粹的、甚至不可能的美与崇高，一者则用异常理性的眼光洞察自身，一针见血地否定前者的美。肉体所诞生的灵魂无理追求无法拥有的美与崇高，而精神由理性所建构，超然在肉体之上，抵抗这种无边际的追求。因而自负与自卑同时存在于一副躯壳之内。自卑是厌恶被感性所掌控，而能够隐藏在幕后掌控这种掌控的确幸，拥有不被人理解的理性已经成为骄傲。</p>
+<p>“孤寂的天赋，或者天赋的孤寂，身处其中而以孤寂自恃，这是自身消除孤寂的唯一办法。”</p>
+<p>我无时不想消除本体的矛盾，想剖开在汩汩弹跳的表皮组织，挑开血管指出肌肉纤维的纹理，让小刀以冷静的姿态埋在起伏颤动的肌肉里，享受扎伤的腹部肌肉的痉挛。我的整个青春时期，都躺在同一个分明色调里，披着压抑的外壳，内里却满溢繁杂活泛的色彩。理智上认为是丑恶的，感情上却简直会当作是美。我多少知道这种年月最不匮乏的就是虚弱的、简直要反噬自身的幻想，多少也能在回忆中看见，被我自身扭曲放大的部分几乎掩过了所有真实的光芒。对那些无处释放、互相中和、乃至灿烂地消亡了的曾有的生命力，由于它太无益，太大量，以致回过头来看，只得张大了嘴一起欣赏这种奇异的美。在这一点上，生命这东西颇似疾病。我也总怀疑青春或许是一种耗损性的疾病，在爆发之后迅速地衰竭，如果不得治愈，是跨不进人间界的。而在长大成为人之前，享用青春的，是一团怎样混乱而自成一体的生物，装满了无妄的灾厄和危险的气血？</p>
+<p>“我觉得命运不赋予我任何能醒人耳目的东西。孤独愈发膨胀。简直就像一头猪。”</p>
+<p>我听到人们刺耳的喧闹，带着无法形容的嘈杂，脖子卖力前抻，将五官挤在一起形成一种似笑非哭的模样。他们的眼帘里映现出来的是什么东西呢？这个谜深深扰乱着我的心。能如此不加思考地宣泄自己感受，以这样高昂音调向世界倾倒造作心情的人通常没有经历过强烈的苦难，抑或是经历了而放弃加以思考。它使我主观感觉到这种行为是一种厚颜无耻的举动，就好像把精神的阴部暴露出来。像这样的自我陶醉，是我惟一无法宽容的自我陶醉。我无法想象这样的人眼中所看到的陶醉的幻影，究竟是什么样的东西，也没有欲望去探求，能解决这种不满的只有放荡的孤独。一如某时某地歇斯底里的张狂，带有纵情和不计后果的气味。孤独是人生命中的一种恒定状态，它一直存在，只是时间越久远，越无法被揭露罢了。我曾以为它会腐蚀一切，包括创造出悲剧的英雄，它从不害怕伤害无辜，因为根本没有无辜之人，它无往而不胜。它只是藏匿于人世一切表象的欢愉中安静潜伏，很少有东西能揭露。所有的孤独来自于虚空，所有的虚空来自于矛盾，所有的矛盾来自于“生”的欲望，抑或是人本身。这是个可怕的流转，是义务。可是谁能说明本质问题？或者说什么才是本质问题呢？可依靠的东西越来越稀薄，仿佛随时可能被抽离的空气。这种等待带有某种宿命的味道，仿佛我可预感到的拥抱与死亡，充满了这放荡的孤独。灵魂有如废弃的老宅，唯有精致的沉默，凌驾于一切之上。</p>
+<h2 id="2">2</h2>
+<p>“这样一种优雅的逃脱，犹如把脱下的华丽的丝绸衣裳乱扔在桌上，不觉间滑落在黑暗的地板上一样。”</p>
+<p>窗外深蓝的水平线连接天空的地方，低浮着一堆堆积云，看样子纹丝不动，实际上像松散的花瓣，精致地绽开来，一点点变幻着形状，上面是稍稍褪色的星空。而在更远离水平线的高空，横向拖曳着广阔纤薄的云彩，平铺着柔和而纤巧的云斑。世界张开了在过去难以想象的巨大怀抱，从彼方逼近。这未知世界的形象如远雷一般，从天际轰鸣而来，又消逝而去。我忽然难过得几乎窒息，墨色的海潮后浪卷着前浪，时间以不能停息的方式向后流失，结局将会到来。或许我从未渴望过得到老年的智慧，总是想着如何才能在年轻时代就能够落幕而不至于痛苦。</p>
+<h2 id="3">3</h2>
+<p>“充满了声音和狂热，里面空无一物”</p>
+<p>独处是人生中最为美妙的时刻，是思想生长的必要空间。即便有些无法避免的寂寞，也是充实的。能够将灵魂从交错的时空中抽出，无论是朋友还是敌人都一并抹去，面对仅剩的自我。这样的感受是独特且无法替代的，没有爱、恨、贪、烦恼、怨恨和愤怒，能感受到的只有自己的存在。当心灵因充分休息而饱满，又因就不活动而饥渴时，就能敏锐地体会到新的印象。这个拥塞的世界中很难寻觅出一处独处的位置吗？在海边，有人弄潮戏水、高谈阔论，但这并不妨碍找到这样一个角落，安静地端详这份海洋。任何外部的喧嚣如果没有一种精神追求为其动力，没有一种精神价值为其目标。不管表面上如何饱满，其本质必定是贫乏且空虚的。我平等的怀疑一切喧嚣的事业和张扬的感情。</p>
+<p>解除孤独毕竟只能靠灵魂相契合的同类，其余的人扰乱了孤独，反而更添一抹暗色，因为受到刺激而更加意识到本体的存在。一颗灵魂发现、欣赏、享受深渊中埋藏的财富便是孤独的快乐。如果这财富也被另一颗灵魂发现了，便有了沟通的快乐。所以，前提是灵魂的富有。对于灵魂空虚之辈，不足以言这两种快乐。心灵的孤独与性格的孤僻有本质的分别。孤僻属于弱者，孤独属于强者。前者恐惧未知的迫害，后者则卓绝于精神，高悬在云层之上。孤独是因为思想独特而不能交流，孤僻却并无独特的内容，只是因为性格的疾病而使交流发生障碍。牛羊不会独行，猛兽如何成群？然而，尽管注定孤独，仍然会感觉到孤独的可怕和难以忍受。这样不同的灵魂却又被赋予了对于人间温暖的需要，这正是悲剧性之所在。越是丰盈的灵魂，往往越能敏锐地意识到残缺，有越强烈的孤独感。在内在丰盈的衬照下，方见出人生的缺憾。反之，不谙孤独也许正意味着内在的贫乏。</p>
+<p>丰盈的心灵中最真实最切己的感悟是无法从言语形容的，只能默然面对人生。我们可以平凡地提起爱情、孤独、幸福、苦难、死亡等等，但真正的意义始终跳脱在话语之外。他人无从得知我的孤独有多绝望，我的幸福有多美丽，我的苦难有多沉重，我的死亡有多荒谬。即便说出也会无可避免地被自己与世界间的隔膜扭曲，只能把这一切藏在心中。我所说所写的文字只是思考的产物，而一切思考在某种意义上都是一种逃避，从最个别的逃向最一般的，从命运逃向生活，从沉默的深渊逃向语言的岸。如果说它们尚未沦为纯粹的空洞观念，那也只是因为它们是从沉默中挣扎出来的，身上还散发着深渊里不可名状的事物的气息。沉默比话语更接近本质，是一种美。种种热闹一时的吹嘘和喝彩，终是虚声浮名。在万象喧嚣的背后，在一切语言消失之处，隐藏着世界的秘密。世界无边无际，有声的世界只是其中很小一部分。只听见语言不会倾听沉默的人是被声音堵住了耳朵的聋子。懂得沉默的价值的人却有一双善于倾听沉默的耳朵。</p>
+<h2 id="4">4</h2>
+<p>“南泉和尚因东西堂争猫儿，泉乃提起云：‘大众道得即救，道不得即斩却也！’众无对，泉遂斩之。晚，赵州外归，泉举似州，州乃脱履安头上而出。泉云：‘子若在，即救得猫儿。’”</p>
+<p>美是固有的，对立、纷争、矛盾、我执、他执同样时时存在，无休无止。南泉以蛮力斩断这些虚妄，却忽略了人本性的弱点；赵州头顶草鞋，是指烦恼如芥子，生生不息，不如宽容纳之，需知世间事本就变化多端，美会变丑，爱会变恨，对会变错，真会变假，何苦如此执着呢？</p>
+]]></content>
+      <categories>
+        <category>Miscellaneous</category>
+      </categories>
+      <tags>
+        <tag>Daydream</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CMU 15122: Contracts</title>
+    <url>/posts/cmu15122note1.html</url>
+    <content><![CDATA[<p>CMU15122开头部分讲的内容都是关于如何编写Contracts来保证程序的正确性和安全性，以及利用Contract对程序进行验证。本文简单梳理其中引出的概念。</p>
+<h2 id="contract">Contract</h2>
+<p>c0中有四种Contract：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- //@requires exp; checked before function execution</span><br><span class="line">- //@ensures exp; checked function returns</span><br><span class="line">- //@assert exp; checked wherever it is</span><br><span class="line">- //@loop_invariant exp; checked before the loop guard</span><br></pre></td></tr></table></figure>
+<p>其中@requires旨在检查函数的precondition是否满足，@ensures旨在检查postcondition是否满足。其中@ensures中可以使用\result来表示函数返回值。@loop_invariant通常检查的是循环中几个变量构成的常量表达式，其在每轮iteration检查循环条件是否满足时被检查，并且只能在循环开头写。@assert即在程序任意位置检查附上表达式的真假。</p>
+<h2 id="proving-function-correctness">Proving Function Correctness</h2>
+<ul>
+<li>
+<p>INITialization：证明loop invariant在进入循环之前满足条件。允许使用循环前的代码以及preconditions进行证明。</p>
+</li>
+<li>
+<p>PREServation：证明任意循环后loop invariant的表达式都为真。可以使用循环内部代码，loop invariant(因为INIT已经验证了进入循环时表达式为真，因此可以假设循环开始时为真)，以及loop guard。</p>
+</li>
+<li>
+<p>EXIT：证明经过循环postcondition为真。可以使用loop guard，loop invariant以及循环之后的代码进行证明。需要注意的是虽然可使用loop guard以及loop invariant，但无法使用循环内部代码。</p>
+</li>
+<li>
+<p>TERMination：证明循环可终止。Operational reasoning(Expression strictly decreases at each iteration of the loop and can never become smaller than the constant)。</p>
+</li>
+</ul>
+<h3 id="template">Template</h3>
+<p>Loop invariant/… on line x (…):<br>
+Assume:<br>
+To show:<br>
+A.       by<br>
+B.       by<br>
+C.       by<br>
+D.       by</p>
+<h2 id="point-to-reasoning">Point-to Reasoning</h2>
+<p>Point-to Reasoning is drawing conclusions about what we know to be true by pointing to specific lines of code that justify them.</p>
+<p>Examples:</p>
+<ul>
+<li>Boolean conditions
+<ul>
+<li>condition of an if statement in the “then” branch</li>
+<li>negation of the condition of an if statement in the “else” branch</li>
+<li>loop guard inside the body of a loop</li>
+<li>negation of the loop guard after the loop</li>
+</ul>
+</li>
+<li>Contract annotations
+<ul>
+<li>preconditions of the current function</li>
+<li>postconditions of a function just called</li>
+<li>loop invariant inside the loop body</li>
+<li>loop invariant after the loop</li>
+<li>earlier fully justified assertions</li>
+</ul>
+</li>
+<li>Math
+<ul>
+<li>laws of logic</li>
+<li>some laws of arithmetic</li>
+</ul>
+</li>
+<li>Value of variables right after an assignment</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Computer Science</category>
+      </categories>
+      <tags>
+        <tag>Course Notes</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NJU ICS：PA(Programming Assignment) 1 思路总结</title>
+    <url>/posts/2e23f8c2.html</url>
+    <content><![CDATA[<p>在此对PA1实验中的任务进行思路上的总结。</p>
+<h1 id="框架代码理解">框架代码理解</h1>
+<pre><code>nemu
+</code></pre>
+<p>├── configs                    # 预先提供的一些配置文件<br>
+├── include                    # 存放全局使用的头文件<br>
+│   ├── common.h               # 公用的头文件<br>
+│   ├── config                 # 配置系统生成的头文件, 用于维护配置选项更新的时间戳<br>
+│   ├── cpu<br>
+│   │   ├── cpu.h<br>
+│   │   ├── decode.h           # 译码相关<br>
+│   │   ├── difftest.h<br>
+│   │   └── ifetch.h           # 取指相关<br>
+│   ├── debug.h                # 一些方便调试用的宏<br>
+│   ├── device                 # 设备相关<br>
+│   ├── difftest-def.h<br>
+│   ├── generated<br>
+│   │   └── autoconf.h         # 配置系统生成的头文件, 用于根据配置信息定义相关的宏<br>
+│   ├── isa.h                  # ISA相关<br>
+│   ├── macro.h                # 一些方便的宏定义<br>
+│   ├── memory                 # 访问内存相关<br>
+│   └── utils.h<br>
+├── Kconfig                    # 配置信息管理的规则<br>
+├── Makefile                   # Makefile构建脚本<br>
+├── <a href="http://README.md">README.md</a><br>
+├── resource                   # 一些辅助资源<br>
+├── scripts                    # Makefile构建脚本<br>
+│   ├── <a href="http://build.mk">build.mk</a><br>
+│   ├── <a href="http://config.mk">config.mk</a><br>
+│   ├── <a href="http://git.mk">git.mk</a>                 # git版本控制相关<br>
+│   └── <a href="http://native.mk">native.mk</a><br>
+├── src                        # 源文件<br>
+│   ├── cpu<br>
+│   │   └── cpu-exec.c         # 指令执行的主循环<br>
+│   ├── device                 # 设备相关<br>
+│   ├── engine<br>
+│   │   └── interpreter        # 解释器的实现<br>
+│   ├── <a href="http://filelist.mk">filelist.mk</a><br>
+│   ├── isa                    # ISA相关的实现<br>
+│   │   ├── mips32<br>
+│   │   ├── riscv32<br>
+│   │   ├── riscv64<br>
+│   │   └── x86<br>
+│   ├── memory                 # 内存访问的实现<br>
+│   ├── monitor<br>
+│   │   ├── monitor.c<br>
+│   │   └── sdb                # 简易调试器<br>
+│   │       ├── expr.c         # 表达式求值的实现<br>
+│   │       ├── sdb.c          # 简易调试器的命令处理<br>
+│   │       └── watchpoint.c   # 监视点的实现<br>
+│   ├── nemu-main.c            # 你知道的…<br>
+│   └── utils                  # 一些公共的功能<br>
+│       ├── log.c              # 日志文件相关<br>
+│       ├── rand.c<br>
+│       ├── state.c<br>
+│       └── timer.c<br>
+└── tools                      # 一些工具<br>
+├── fixdep                 # 依赖修复, 配合配置系统进行使用<br>
+├── gen-expr<br>
+├── kconfig                # 配置系统<br>
+├── kvm-diff<br>
+├── qemu-diff<br>
+└── spike-diff</p>
+<h1 id="顺利的运行">顺利的运行</h1>
+<ol>
+<li>Remove Assert(0)：<br>
+根据报错信息将monitor.c中对应的assert语句移除即可。</li>
+<li>优美的退出：<br>
+因为是退出NEMU时报错，所以首先在NEMU的main.c中找报错原因，发现最后返回了is_exit_status_bad()这一函数。转到定义后发现默认返回值是1，根据函数的具体内容对sdb.c中的cmd_q函数进行调整后问题顺利解决。</li>
+</ol>
+<h1 id="pa1-1-基础设施">PA1.1 基础设施</h1>
+<h2 id="pa1-1-1-单步执行">PA1.1.1 单步执行</h2>
+<p>根据讲义中的提示，单步执行要求我们实现si命令，并且根据si命令后面的argument执行具体步数。讲义在RTFSC中提到cpu-exec.c模拟了CPU运行，转到其中能够轻易发现相关函数，只需要传入对应参数就可以实现要求的功能。于是在sdb.c中实现了相应的cmd_si函数，值得一提的是用sscanf将指针args转化为了可以使用的变量。</p>
+<h2 id="pa1-1-2-打印寄存器">PA1.1.2 打印寄存器</h2>
+<p>要求我们实现info r打印32个寄存器的值。根据提供的API文档可以发现有关寄存器的定义在isa-reg.h中，RTFSC后发现寄存器的值是gpr表示，于是在reg.c中实现了对应的API，即isa_reg_display()。然后在sdb.c中实现对应的命令。值得一提的是cmd_info在后续实现监视点的时候还会用到。</p>
+<h2 id="pa1-1-3-扫描内存">PA1.1.3 扫描内存</h2>
+<p>要求我们实现info x，给定指定的其实内存和要打印的内存个数，输出内存数据。根据RTFSC中的提示在vaddr.c中找到了相应读取内存的函数vaddr_read()，然后在sdb.c中通过循环实现具体指令，并且设定打印内存长度为4。</p>
+<h1 id="pa1-2-表达式求值">PA1.2 表达式求值</h1>
+<h2 id="pa1-2-1-词法分析">PA1.2.1 词法分析</h2>
+<p>在表达式求值中只允许出现的token类型有十进制整数，加减乘除，括号和空格串。expr.c中的enum编写了用于识别这些token的类型，具体识别规则见“正则表达式速览”。同一文件中的init_regex()函数会将这些规则编译成被库函数使用的pattern匹配信息，如果正则表达式语法有问题会触发assertion fail。<br>
+make_token()函数用于识别表达式中的token，用position来表示当前处理的位置，按照顺序用不同的规则匹配当前位置的字符串，如果匹配成功log()则会输出识别成功的token类型，后面通过nr_token指示已经被识别出的token数目为当前正在处理到的token赋值，其中加减乘除此类只需要记录token类型，而数字则还需要记录token的具体内容，这个用substr_start和substr_len进行具体内容的赋值。</p>
+<h2 id="pa1-2-2-递归求值">PA1.2.2 递归求值</h2>
+<p>首先在sdb.c中实现cmd_p的指令，跳转到expr.c中的expr函数，再对expr函数进行具体编写，为了方便我重新写了一个新函数并在expr()中调用。新求值函数eval首先判断token的首位，eval的递归采用两个位置变量p和q来表示正在处理的token位置。如果末位token的位置p小于首位token的位置q则判断表达式不合法；如果p等于q则说明递归到了某一个具体的数字，这个时候要对该单一token进行类型判断，如果不是数字类型则输出报错信息，反之直接返回数字的值。值得注意的是此处不能直接返回tokens结构体中的str部分，应使用strtol将token的具体内容转换成十进制整数后再返回。</p>
+<p>如果p &lt; q则先进行括号判断，此处我又调用了自己写的check_parentheses()函数。函数结构非常简单，如果此时的位置变量p和q代表的首位token和末位token分别是正括号和反括号，则开始正式判断。使用一个计数变量cnt来表示当前括号的个数，如果是正括号则加一，反括号则减一。当cnt为零时判断当前处理的token是否是末尾token，以此确定首位token和末尾token的正反括号是成对的。因为首位是正括号且末位是反括号的情况有两种：(…+…)+(…+…)和(…+(…+…))，前者实际上并不需要check_parentheses，因为主运算符仍然在括号外面。因此如果首位和末位括号成对则返回true。最后如果cnt不为零的话返回false。在eval()中如果check_parentheses()返回值为真，那么将p设为p+1，q设为q-1进行下一层的递归。</p>
+<p>如果上面三个条件都没有满足则进行主运算符的判断，在此又要调用自己写的find_major()函数。讲义中提到了主运算符的几个特点：主运算符一定是运算符(某种意义上来说是句废话)、出现在一对括号中的token不是主运算符、主运算符的优先级在表达式中是最低的、当有多个运算符的优先级都是最低时最后被结合的运算符才是主运算符。根据这几条规则我们就可以进行具体函数的编写，首先是定义计数变量cnt、用于指示当前运算符优先级的op_type和主运算符的位置变量position，我们用for循环进行p和q之间主运算符的判断。如果判断过程中遇到数字类型的token则直接跳过(根据第一条规则)，遇到正反括号则仿照check_parentheses中的思路利用cnt进行判断。如果是正括号则cnt++。是反括号则cnt–，并且判断cnt是否为零，如果是零的话find_major()直接返回-1，因为表达式不合法。在反括号的情况下判断是因为此情况下cnt为零只有两种情况：缺少了一个正括号或者多了一个反括号。比在正括号的情况下判断更加方便。如果cnt&gt;0则continue。然后进行运算符的判断，这里新建一个比较变量tmp_type，初始值为零，根据运算符类型赋值，加减赋2，乘除为1(因为在表达式中运算符的优先级越低越可能成为主运算符，所以在这里优先级更高的被赋的值反而更低)。最后进行op_type和tmp_type的判断，如果tmp_type大于op_type则将其赋值给op_type，并且记录此时的位置。如果tmp_type等于op_type同样将其赋值给op_type(根据第四条规则)。循环结束后先进行cnt的判断，然后返回position变量。</p>
+<p>找完主运算符后就可以进行具体值的计算，设主运算符左边的变量为val1，右边为val2，继续递归，直到递归到 <expr> (±*/) <expr>，这是val1和val2递归的结果是其本身。用switch case进行运算符类型的判断，然后返回运算结果，这里除法要特殊注意val2不能为零。</expr></expr></p>
+<p>等到eval()函数计算完表达式的值后expr()函数就会接收到其返回的值，expr()函数会直接将收到的值返回到sdb.c中的cmd_p()，然后输出到屏幕上。</p>
+<h1 id="pa1-3-监视点">PA1.3 监视点</h1>
+<h2 id="pa-1-3-1-拓展表达式求值">PA 1.3.1 拓展表达式求值</h2>
+<p>拓展表达式求值新增了十六进制数、负数、打印寄存器、指针解引用和与或非、等于、不等于、大于、小于、大于等于、小于等于运算。与运算、或运算、等于、不等于、大于、小于、大于等于、小于等于的实现逻辑很简单。先编写匹配规则和make_token()，然后在find_major()中增加计算优先级，这些运算的优先级都是最低的，所以在find_major()中的匹配优先度度最高。最后在eval()函数中增加case计算即可。</p>
+<p>真正麻烦的是十六进制数，打印寄存器，指针解引用，负数和非运算。其中负数和指针解引用还要更加麻烦，所以先阐释其他运算的实现。在这里我识别十六进制数的思路是匹配0x，并且在TK_NUM的匹配规则中加A-F，如此就可以将0x是为一个一元运算符进行处理，这里要注意0x的匹配规则要高于TK_NUM的匹配规则，否则就会出现只能匹配到0而不能匹配到x的问题。识别完成后正常编写make_token()。然后在find_major()中编写优先级，一元运算符的计算优先级都是最高的，所以在find_major()中赋最低的值。最后在eval()中返回十进制的值，这里我调用了自己写的一个进制转换函数。主要思路就是按位取余，然后乘以该位的位权，累加到Dec变量中，也就是最后的十进制结果。至此十六进制数的实现已经完成。</p>
+<p>然后是打印寄存器，仿照十六进制数的思路进行处理，一直到eval()函数部分，这里要返回的值就是cpu.gpr[i]。非运算同理，eval()函数部分返回的值是!val2。</p>
+<p>负数和指针解引用实际上使用的符号都是&quot; - “或” * “，所以在make_token()阶段并不能将其和减法和乘法区分开来。所以我们编写特殊的check_unary()函数来检验。check_unary()函数应该放在expr()函数的make_token()后面。其主要思路就是判定当前处理的token类型是不是” * “或” - &quot;，如果是的话进行进一步判断，如果token编号是0则证明该运算符是表达式的第一个，直接将其token类型修改为负数或者指针解引用(注意这里必须要这么判断，如果全部使用后面那条规则判断的话会产生结构体访问越界)，如果token编号不为零的话就判断前一个token的类型是不是数字或者反括号，如果不是的话证明运算符是一元运算符，则将token类型修改为负数或者指针解引用。然后仿照之前对一元运算符的处理即可，eval()函数中负数类型直接返回-value，指针解引用类型则仿照PA 1.1.3进行处理即可。</p>
+<h2 id="pa-1-3-2-监视点的管理">PA 1.3.2 监视点的管理</h2>
+<p>开始之前要为监视点结构体新增两个变量，一个是char *类型的expr和int类型的value。</p>
+<p>监视点的管理包括新建监视点new_wp()和删除监视点free_wp()。在new_wp()中首先要判断监视点池是否为空，然后建立一个新的监视点结构体，将空闲监视点赋值给新建立的结构体，然后将空闲监视点向后移动一位，将head(正在处理的监视点)设定为新建立的监视点。</p>
+<p>在free_wp()中首先判断要删除的监视点是不是head，如果是的话就直接将head设为NULL。新建一个监视点结构体flag，将其设为监视点池的第一个监视点，也就是监视点0，一个一个往后推，直到推到要删除的监视点的前一个监视点，将flag的下一个设为要删除的监视点的下一个，也就是暂时将要删除的监视点抽出监视点池。</p>
+<h2 id="pa-1-3-3-监视点功能的实现">PA 1.3.3 监视点功能的实现</h2>
+<p>首先还是在sdb.c中编写相关的指令(info w、cmd_w、cmd_d)。info w的实现很简单，就是新增一个条件判断，如果输入为w的话调用display_wp()函数(具体函数一会在watchpoint.c中实现)。</p>
+<p>然后编写cmd_w指令，相关细节仿照PA1，将要计算的表达式读入并调用expr()计算，将计算结果赋值给result变量，再将表达式和result传给set_wp()函数(同样一会在watchpoint.c中实现)。</p>
+<p>cmd_d指令也仿照PA1进行编写，将要删除的监视点编号传入delete_wp()函数即可。</p>
+<p>然后是watchpoint.c中监视点功能的具体实现，包括set_wp()、delete_wp()、display_wp()和check_wp()。set_wp()的实现很简单，先建立一个新的监视点结构体，将接收到的表达式用strndup函数复制到新监视点的expr部分，将result赋值给新监视点的value部分，最后输出监视点信息。delete_wp()首先判断输入编号是否小于NR_WP，这里我用assert实现。然后建立三个监视点结构体，分别是要删除的监视点，要删除的监视点的前一个监视点和要删除的监视点的后一个监视点。建立完后先输出要删除监视点的具体信息，然后将要删除的监视点传入free_wp()，因为在free_wp()函数中将要删除的监视点抽出了监视点链表，所以调用完函数后要将要删除的监视点的expr部分设为NULL，将要删除的监视点的前一个监视点只想删除的监视点，删除的监视点指向删除的监视点的后一个监视点，到这里删除监视点的操作就正式完成了。</p>
+<p>下一个是display_wp()函数的编写，首先新建一个监视点结构体，将其设置为监视点池中的第一个监视点，然后用while循环(循环条件设置为新建立的监视点是否成立)打印监视点信息，在循环的最后将监视点设置为下一个监视点即可。</p>
+<p>最后是check_wp()的编写，首先还是新建一个监视点结构体，将其设置为监视点池中的第一个监视点，然后用while循环处理(循环条件设置为新建的监视点不为head的下一个监视点)，在循环中调用expr()函数计算表达式的值，如果表达式的值发生变化则输出相关信息，在循环的最后将监视点设置为下一个监视点。最后将check_wp()放进cpu-exec.c的execute()中，每执行一条指令就检查一次。</p>
+<h1 id="至此pa1彻底结束">至此PA1彻底结束！</h1>
+]]></content>
+      <categories>
+        <category>Computer Science</category>
+      </categories>
+      <tags>
+        <tag>Course Notes</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>节点搭建指南</title>
     <url>/posts/cb82d49a.html</url>
-    <content><![CDATA[<h2 id="网络通信的基本过程"><a href="#网络通信的基本过程" class="headerlink" title="网络通信的基本过程"></a>网络通信的基本过程</h2><p>五层基本模型：应用层、传输层、网络层、数据链路层、物理层。<br>数据包格式：| 源MAC | 目标MAC | 源IP | 目标IP | 源端口 | 目标端口 | 数据 |<br>访问网址时首先在本地缓存检查是否存有域名绑定的IP地址，没有的话继续检查本地host文件，然后访问电脑中配置的DNS服务器（应用层协议，发送请求）。<br>请求传到传输层，将应用层的数据封装，源端口为404，DNS默认目标端口是53（封装端口）。继续将封装好的数据包向下传，在网络层在数据包中添加源IP和目标IP（目标IP是DNS服务器的IP）。<br>如果电脑发现目标IP不在网段范围内，则请求网关（家庭中通常是路由器），传到数据链路层。在数据链路层继续将本机MAC地址和网关MAC地址封装到数据包中（同一局域网内的通信用MAC地址），同时在数据包后面插入一些数据做校验。<br>这样数据包就能顺着物理层来到网卡接口，通过网线发到交换器。交换器只能解析两层的数据，通过解析数据链路层封装的MAC地址，交换器可以将数据包发送给路由器，而路由器可以解析三层数据，然后将MAC的数据头删掉。<br>路由器之后会将数据包转发给公网上的其他路由器（因为路由器没有跟DNS服务器直接连接）。因为数据包中记录的IP地址是内网通信的，所以路由器要将内网IP和源端口放到NAT映射表中，然后将映射成公网IP和端口。更改后再传回数据链路层，再将MAC地址添加到数据包中，最后放到物理层中传给其他路由器。<br>经过一系列传递后找到DNS服务器，源MAC地址和目标MAC地址在传递过程中会发生改变。因为DNS是应用层协议，可以解析到应用层。最后经过DNS服务器的自下而上层层解析得到希望的IP地址。之后DNS服务器会仿照上面的传输方式重新将目标IP地址重新封装成数据包，再通过物理网口传回原来的路由器。路由器再自下而上解析，自上而下封装传给交换机。交换器直接传给本地，本地再自下而上层层解析，这样电脑就可以得到目标IP地址。<br>电脑得到目标网站的IP地址之后就可以将实际的请求重新进行打包发给目标服务器。数据封装、传输、解析、返回的流程和上面请求DNS服务器一样。值得注意的是这里的目标IP地址就变成了网站域名绑定的IP地址。<br>Recap：IP的作用、端口的作用、MAC地址的作用、交换机的作用、路由器的作用、域名的作用、DNS的作用、NAT的作用。</p>
-<h2 id="GFW拦截的原理与绕过"><a href="#GFW拦截的原理与绕过" class="headerlink" title="GFW拦截的原理与绕过"></a>GFW拦截的原理与绕过</h2><p>上面大概介绍了访问正常网站的通信流程，本节介绍被墙的网站如何实行拦截。</p>
+    <content><![CDATA[<h2 id="网络通信的基本过程">网络通信的基本过程</h2>
+<p>五层基本模型：应用层、传输层、网络层、数据链路层、物理层。<br>
+数据包格式：| 源MAC | 目标MAC | 源IP | 目标IP | 源端口 | 目标端口 | 数据 |<br>
+访问网址时首先在本地缓存检查是否存有域名绑定的IP地址，没有的话继续检查本地host文件，然后访问电脑中配置的DNS服务器（应用层协议，发送请求）。<br>
+请求传到传输层，将应用层的数据封装，源端口为404，DNS默认目标端口是53（封装端口）。继续将封装好的数据包向下传，在网络层在数据包中添加源IP和目标IP（目标IP是DNS服务器的IP）。<br>
+如果电脑发现目标IP不在网段范围内，则请求网关（家庭中通常是路由器），传到数据链路层。在数据链路层继续将本机MAC地址和网关MAC地址封装到数据包中（同一局域网内的通信用MAC地址），同时在数据包后面插入一些数据做校验。<br>
+这样数据包就能顺着物理层来到网卡接口，通过网线发到交换器。交换器只能解析两层的数据，通过解析数据链路层封装的MAC地址，交换器可以将数据包发送给路由器，而路由器可以解析三层数据，然后将MAC的数据头删掉。<br>
+路由器之后会将数据包转发给公网上的其他路由器（因为路由器没有跟DNS服务器直接连接）。因为数据包中记录的IP地址是内网通信的，所以路由器要将内网IP和源端口放到NAT映射表中，然后将映射成公网IP和端口。更改后再传回数据链路层，再将MAC地址添加到数据包中，最后放到物理层中传给其他路由器。<br>
+经过一系列传递后找到DNS服务器，源MAC地址和目标MAC地址在传递过程中会发生改变。因为DNS是应用层协议，可以解析到应用层。最后经过DNS服务器的自下而上层层解析得到希望的IP地址。之后DNS服务器会仿照上面的传输方式重新将目标IP地址重新封装成数据包，再通过物理网口传回原来的路由器。路由器再自下而上解析，自上而下封装传给交换机。交换器直接传给本地，本地再自下而上层层解析，这样电脑就可以得到目标IP地址。<br>
+电脑得到目标网站的IP地址之后就可以将实际的请求重新进行打包发给目标服务器。数据封装、传输、解析、返回的流程和上面请求DNS服务器一样。值得注意的是这里的目标IP地址就变成了网站域名绑定的IP地址。<br>
+Recap：IP的作用、端口的作用、MAC地址的作用、交换机的作用、路由器的作用、域名的作用、DNS的作用、NAT的作用。</p>
+<h2 id="gfw拦截的原理与绕过">GFW拦截的原理与绕过</h2>
+<p>上面大概介绍了访问正常网站的通信流程，本节介绍被墙的网站如何实行拦截。</p>
 <p><img src="/posts/cb82d49a.htm/Screenshot%202023-10-16%20202320.png" alt="Alt text"></p>
-<p>在本地进行数据封装的流程与上面相同，在后续路由器端口的跳转中会经过GFW防火墙（长城防火墙）。防火墙会检查整个五层数据包。事实上在DNS解析过程中防火墙并不会在数据包跳转出去的过程做手脚，你的请求其实可以达到国外的服务器，并且国外的服务器会返回相应的目标IP地址。但在数据包返回的过程中也会经过GFW防火墙，防火墙在访问应用层的时候能够发现你实际上是对某个黑名单上的域名进行了DNS解析，于是它就会篡改数据中返回的目标IP地址，于是等到数据包再传回本地时里面的IP地址已经是不可用了。这个过程被称为DNS污染。<br>那么是不是不发送DNS解析请求就不会被防火墙gank了呢？还记得上节提到本地在解析域名是会首先检查缓存，其次检查host文件有没有相应的映射关系，这就是我们可以做文章的地方。我们手动在host中添加正确映射关系就可以直接获得目标IP地址，这样就可以避免发送DNS解析请求而被墙。<br>但是，因为我们在应用层使用HTTP协议，而HTTP协议基于传输层的TCP协议，这就意味着我们想要访问某个网站还需要与它建立链接，我们还是需要发送数据包与它进行通信。但是这个数据包在经过防火墙时就会出事了。因为防火墙可以检查四层数据包（TCP协议基于传输层），它可以清楚地知道你想要对某个IP地址进行链接，如果这个地址恰巧在防火墙的黑名单上，你的数据包就没了。它甚至可以伪装成你想要访问网站的服务器给你瞎回一个数据包，这样你的访问就又寄了。这个过程被称为TCP重置攻击。<br>那么如果我们知道想要访问的服务器的另外一个不在黑名单的地址可不可以把数据包传出去呢（也就是使用HTTP或者socks5代理）？答案是可以的，防火墙在途中并不会检测到风险，因为目标IP地址和数据内容都不在黑名单上，这样我们就可以与正确的服务器建立连接。<br>然而，建立连接后我们就需要想某个网站请求数据，在这个过程中又涉及到数据包的通信。如果请求数据中包含有黑名单上的内容，那么这个数据包就被干掉了。如此，虽然我们已经与正确的服务器建立了链接，我们依然不可以访问想要访问的网站。<br>回顾上面被拦截的经历，归根结底是因为GFW防火墙可以窥探我们的请求数据，这样也就知道了我们的访问意图。VPN（Virtual Private Network，虚拟私人网络）可以为我们的数据进行加密。但是，一些传统的加密方法会有明显的特征，可以让防火墙知道你在进行VPN链接。虽然在这种情况下防火墙不会直接把你毙掉（因为一些公司合并也会用到VPN），但是他会把你的目标IP地址记录到监控名单中，如果在后续过程中发现了你长时间、大流量的链接，那么防火墙就会将你的连接阻断。<br>所以，主角shadowsocks协议登场。这种协议即完成了加密，又不会有明显的特征。我们可以在shadowsocks的客户端中设置一个监听端口，从这个端口发出的数据都会被加密，然后打包传给我们的VPS（Virtual Private Server，虚拟专用服务器），这样在传输过程中IP地址和数据内容都不会被防火墙发现有问题。数据成功到达VPS后会进行解密，然后进行我们要进行的操作，之后将数据再加密打包返回，返回的过程中同样不会被防火墙发现IP地址和数据内容有问题。我们在本地进行解密后就可以得到想要的结果。<br>但是，这个过程并不是天衣无缝的，GFW防火墙不只是被动探测，他也会主动向你的VPS发送数据进行检测，如果你使用的shadowsocks协议有漏洞，那么恭喜你，你又寄b了。<br>Recap：DNS污染、SNI阻断、TCP重置、传统VPN的问题、shadowsocks</p>
-<h2 id="创建VPS与SS节点搭建"><a href="#创建VPS与SS节点搭建" class="headerlink" title="创建VPS与SS节点搭建"></a>创建VPS与SS节点搭建</h2><p>自建节点的具体过程请自行上网查找，在这里我使用vultr购买了VPS，通过shadowsocks建立代理，之后使用了BBR和Kcptun进行加速。</p>
+<p>在本地进行数据封装的流程与上面相同，在后续路由器端口的跳转中会经过GFW防火墙（长城防火墙）。防火墙会检查整个五层数据包。事实上在DNS解析过程中防火墙并不会在数据包跳转出去的过程做手脚，你的请求其实可以达到国外的服务器，并且国外的服务器会返回相应的目标IP地址。但在数据包返回的过程中也会经过GFW防火墙，防火墙在访问应用层的时候能够发现你实际上是对某个黑名单上的域名进行了DNS解析，于是它就会篡改数据中返回的目标IP地址，于是等到数据包再传回本地时里面的IP地址已经是不可用了。这个过程被称为DNS污染。<br>
+那么是不是不发送DNS解析请求就不会被防火墙gank了呢？还记得上节提到本地在解析域名是会首先检查缓存，其次检查host文件有没有相应的映射关系，这就是我们可以做文章的地方。我们手动在host中添加正确映射关系就可以直接获得目标IP地址，这样就可以避免发送DNS解析请求而被墙。<br>
+但是，因为我们在应用层使用HTTP协议，而HTTP协议基于传输层的TCP协议，这就意味着我们想要访问某个网站还需要与它建立链接，我们还是需要发送数据包与它进行通信。但是这个数据包在经过防火墙时就会出事了。因为防火墙可以检查四层数据包（TCP协议基于传输层），它可以清楚地知道你想要对某个IP地址进行链接，如果这个地址恰巧在防火墙的黑名单上，你的数据包就没了。它甚至可以伪装成你想要访问网站的服务器给你瞎回一个数据包，这样你的访问就又寄了。这个过程被称为TCP重置攻击。<br>
+那么如果我们知道想要访问的服务器的另外一个不在黑名单的地址可不可以把数据包传出去呢（也就是使用HTTP或者socks5代理）？答案是可以的，防火墙在途中并不会检测到风险，因为目标IP地址和数据内容都不在黑名单上，这样我们就可以与正确的服务器建立连接。<br>
+然而，建立连接后我们就需要想某个网站请求数据，在这个过程中又涉及到数据包的通信。如果请求数据中包含有黑名单上的内容，那么这个数据包就被干掉了。如此，虽然我们已经与正确的服务器建立了链接，我们依然不可以访问想要访问的网站。<br>
+回顾上面被拦截的经历，归根结底是因为GFW防火墙可以窥探我们的请求数据，这样也就知道了我们的访问意图。VPN（Virtual Private Network，虚拟私人网络）可以为我们的数据进行加密。但是，一些传统的加密方法会有明显的特征，可以让防火墙知道你在进行VPN链接。虽然在这种情况下防火墙不会直接把你毙掉（因为一些公司合并也会用到VPN），但是他会把你的目标IP地址记录到监控名单中，如果在后续过程中发现了你长时间、大流量的链接，那么防火墙就会将你的连接阻断。<br>
+所以，主角shadowsocks协议登场。这种协议即完成了加密，又不会有明显的特征。我们可以在shadowsocks的客户端中设置一个监听端口，从这个端口发出的数据都会被加密，然后打包传给我们的VPS（Virtual Private Server，虚拟专用服务器），这样在传输过程中IP地址和数据内容都不会被防火墙发现有问题。数据成功到达VPS后会进行解密，然后进行我们要进行的操作，之后将数据再加密打包返回，返回的过程中同样不会被防火墙发现IP地址和数据内容有问题。我们在本地进行解密后就可以得到想要的结果。<br>
+但是，这个过程并不是天衣无缝的，GFW防火墙不只是被动探测，他也会主动向你的VPS发送数据进行检测，如果你使用的shadowsocks协议有漏洞，那么恭喜你，你又寄b了。<br>
+Recap：DNS污染、SNI阻断、TCP重置、传统VPN的问题、shadowsocks</p>
+<h2 id="创建vps与ss节点搭建">创建VPS与SS节点搭建</h2>
+<p>自建节点的具体过程请自行上网查找，在这里我使用vultr购买了VPS，通过shadowsocks建立代理，之后使用了BBR和Kcptun进行加速。</p>
 ]]></content>
       <categories>
         <category>Computer Science</category>
@@ -220,24 +606,42 @@
     <title>线性回归1：最小二乘法</title>
     <url>/posts/c7765b88.html</url>
     <content><![CDATA[<p>本篇文章做一个简单的机器学习引入，并且介绍机器学习中最简单的方法——线性回归。</p>
-<h2 id="什么是机器学习"><a href="#什么是机器学习" class="headerlink" title="什么是机器学习?"></a>什么是机器学习?</h2><p>机器学习从数据开始：</p>
+<h2 id="什么是机器学习">什么是机器学习?</h2>
+<p>机器学习从数据开始：</p>
 <ul>
 <li>数据可以是对于人的观察(偏好、健康…)</li>
 <li>数据也可以是对于世界的观察(图像、声音…)</li>
 </ul>
 <p>通过机器学习，我们可以找到相似的对象、为对象做预测、从对象身上总结知识、为对象分组…</p>
-<h2 id="算法！算法！"><a href="#算法！算法！" class="headerlink" title="算法！算法！"></a>算法！算法！</h2><p>机器学习可以被认为是一个拥有不断增长的数据集的算法。<br>但是算法很难被应用到实际，并且在应用过程中可能会进行调整，所以理解他们是必要的。</p>
+<h2 id="算法-算法">算法！算法！</h2>
+<p>机器学习可以被认为是一个拥有不断增长的数据集的算法。<br>
+但是算法很难被应用到实际，并且在应用过程中可能会进行调整，所以理解他们是必要的。</p>
 <p>AI -&gt; Neural Networks -&gt; Modelling biological neurons &amp; Predicting stuff from data</p>
-<p>机器学习的实例可以是谷歌、微软或亚马逊等商业公司的推荐机制…<br>也可以是通过学习人类基因片段来诊断病症…<br>可以是信息检索：新闻检索、语言模型预测、图像和视频检索…<br>或者是人机交互：语音识别、姿势识别…<br>可以与生物信息相关：预测生物与基因反应、预测基因和蛋白质网络结构、通过序列预测蛋白质功能…</p>
-<h2 id="监督学习-Supervised-Learning"><a href="#监督学习-Supervised-Learning" class="headerlink" title="监督学习(Supervised Learning)"></a>监督学习(Supervised Learning)</h2><p>机器学习分为三大板块：监督学习、无监督学习和强化学习，本文暂时只讨论前两种。</p>
+<p>机器学习的实例可以是谷歌、微软或亚马逊等商业公司的推荐机制…<br>
+也可以是通过学习人类基因片段来诊断病症…<br>
+可以是信息检索：新闻检索、语言模型预测、图像和视频检索…<br>
+或者是人机交互：语音识别、姿势识别…<br>
+可以与生物信息相关：预测生物与基因反应、预测基因和蛋白质网络结构、通过序列预测蛋白质功能…</p>
+<h2 id="监督学习-supervised-learning">监督学习(Supervised Learning)</h2>
+<p>机器学习分为三大板块：监督学习、无监督学习和强化学习，本文暂时只讨论前两种。</p>
 <p>监督学习，顾名思义，即是基于已经标识好的数据集进行训练(训练过程像是做一本有答案的练习册)。</p>
-<h3 id="回归-Regression"><a href="#回归-Regression" class="headerlink" title="回归(Regression)"></a>回归(Regression)</h3><p>回归是监督学习的一种，即从数据集中总结出一种连续的函数。<br>例子：预测股票价格(参数可以是时间或者跟利息相关的其他变量)。</p>
-<h3 id="分类-Classification"><a href="#分类-Classification" class="headerlink" title="分类(Classification)"></a>分类(Classification)</h3><p>学习一种可以将不同对象区分开的规则。<br>例子：疾病诊断，垃圾邮件检测。</p>
-<h2 id="无监督学习-Unsupervised-Learning"><a href="#无监督学习-Unsupervised-Learning" class="headerlink" title="无监督学习(Unsupervised Learning)"></a>无监督学习(Unsupervised Learning)</h2><p>继续上面练习册的例子，无监督学习即是做一本没有答案的练习册，自己总结规律。</p>
-<h3 id="聚类-Clustering"><a href="#聚类-Clustering" class="headerlink" title="聚类(Clustering)"></a>聚类(Clustering)</h3><p>为相似的对象划分组别。<br>例子：具有相同偏好的人，具有相似功能的基因。</p>
-<h3 id="投影-Projection"><a href="#投影-Projection" class="headerlink" title="投影(Projection)"></a>投影(Projection)</h3><p>减少参数数量。<br>例子：将复杂的数据可视化。</p>
+<h3 id="回归-regression">回归(Regression)</h3>
+<p>回归是监督学习的一种，即从数据集中总结出一种连续的函数。<br>
+例子：预测股票价格(参数可以是时间或者跟利息相关的其他变量)。</p>
+<h3 id="分类-classification">分类(Classification)</h3>
+<p>学习一种可以将不同对象区分开的规则。<br>
+例子：疾病诊断，垃圾邮件检测。</p>
+<h2 id="无监督学习-unsupervised-learning">无监督学习(Unsupervised Learning)</h2>
+<p>继续上面练习册的例子，无监督学习即是做一本没有答案的练习册，自己总结规律。</p>
+<h3 id="聚类-clustering">聚类(Clustering)</h3>
+<p>为相似的对象划分组别。<br>
+例子：具有相同偏好的人，具有相似功能的基因。</p>
+<h3 id="投影-projection">投影(Projection)</h3>
+<p>减少参数数量。<br>
+例子：将复杂的数据可视化。</p>
 <p>当然上述算法的介绍是十分泛泛的，以后应该会补全的…吧？ —2023.08.14</p>
-<h2 id="回归的伊始：线性回归"><a href="#回归的伊始：线性回归" class="headerlink" title="回归的伊始：线性回归"></a>回归的伊始：线性回归</h2><p>我们使用1896-2000年间奥林匹克运动会一百米赛的金牌数据进行训练，随后对2004、2008、2012以及2016年的金牌时间进行预测。(具体数据可以到<a href="http://www.statisca.com进行查找/">www.statisca.com进行查找</a>)</p>
+<h2 id="回归的伊始：线性回归">回归的伊始：线性回归</h2>
+<p>我们使用1896-2000年间奥林匹克运动会一百米赛的金牌数据进行训练，随后对2004、2008、2012以及2016年的金牌时间进行预测。(具体数据可以到www.statisca.com进行查找)</p>
 <p>为了使用线性回归做的一些假设(错误的)：</p>
 <ul>
 <li>奥林匹克举办年份与获奖时间之间存在关系。(实则不然，年份只是训练方法、医疗条件等等进步的一个外显)</li>
@@ -245,24 +649,51 @@
 <li>会一直保持线性关系。(那将来的某一天获奖时间会变成负的喽？)</li>
 </ul>
 <p>综上，线性回归作为新手入门手段，仍然存在许多局限性，在此先忽略这些错误。</p>
-<p>属性(Attributes)和目标(Targets)：<br>属性是影响预测结果的因变量，在这里即是年份。目标是要进行预测的对象，在这里即是获奖时间。</p>
-<p>数学意义上，我们可以用变量x和变量t来表示这两个参数。<br>如此我们便得到了预测模型，t &#x3D; f(x)。<br>我们有若干个带答案数据集(attribute-response pairs)。<br>将上面的模型展开，我们可以得到t &#x3D; f(x) &#x3D; w0 + w1*x<br>w0和w1是线性模型的两个参数。<br>如此我们便得到了数据和要进行调整的参数。</p>
+<p>属性(Attributes)和目标(Targets)：<br>
+属性是影响预测结果的因变量，在这里即是年份。目标是要进行预测的对象，在这里即是获奖时间。</p>
+<p>数学意义上，我们可以用变量x和变量t来表示这两个参数。<br>
+如此我们便得到了预测模型，t = f(x)。<br>
+我们有若干个带答案数据集(attribute-response pairs)。<br>
+将上面的模型展开，我们可以得到t = f(x) = w0 + w1*x<br>
+w0和w1是线性模型的两个参数。<br>
+如此我们便得到了数据和要进行调整的参数。</p>
 <p>那么我们如何评判模型的优劣呢？下面介绍一种简单的损失函数，平方损失。</p>
-<p>Lossn &#x3D; (tn - f(xn; w0; w1))^2</p>
+<p>Lossn = (tn - f(xn; w0; w1))^2</p>
 <p>平均损失即是：</p>
-<p>Lossn &#x3D; 1&#x2F;N Σ1-&gt;n (tn - f(xn; w0; w1))^2</p>
+<p>Lossn = 1/N Σ1-&gt;n (tn - f(xn; w0; w1))^2</p>
 <p>Lower is better.</p>
-<p>因此我们要对上述损失函数进行求导，如此便可以找到损失最小的参数。<br>问题来了，当参数多于两个时该怎么导损失函数呢？偏微分。<br>中间冗长的(或许也不，只是这里不好写公式)推算先略去不表，我们最终得出了当损失最小时参数w1和参数w0的公式：</p>
-<p>w1 &#x3D; (xt_bar - x_bar<em>t_bar)&#x2F;(x_square_bar - x_bar</em>x_bar)<br>w0 &#x3D; t_bar - w1*x_bar</p>
-<p>如此我们便得到了质量最高的线性回归模型。<br>以下为c++的代码实现(太简单了所以没放github)：</p>
+<p>因此我们要对上述损失函数进行求导，如此便可以找到损失最小的参数。<br>
+问题来了，当参数多于两个时该怎么导损失函数呢？偏微分。<br>
+中间冗长的(或许也不，只是这里不好写公式)推算先略去不表，我们最终得出了当损失最小时参数w1和参数w0的公式：</p>
+<p>w1 = (xt_bar - x_bar<em>t_bar)/(x_square_bar - x_bar</em>x_bar)<br>
+w0 = t_bar - w1*x_bar</p>
+<p>如此我们便得到了质量最高的线性回归模型。<br>
+以下为c++的代码实现(太简单了所以没放github)：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;cmath&gt;</span><br><span class="line">#include &lt;cstring&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    float w1, w0, x_bar, t_bar, xt_bar, x_square_bar, pre_2004, pre_2008, pre_2012, pre_2016;</span><br><span class="line">    </span><br><span class="line">    t_bar = (131 + 121.2 + 116 + 112.8 + 111.9 + 113.4 + 112.4 + 111.8 </span><br><span class="line">    + 109.8 + 112.9 + 109.2 + 109.2 + 107.7 + 106.3 + 105.1 + 104.3 </span><br><span class="line">    + 105.86 + 103.5 + 105.4 + 103 + 103.55 + 103.66 + 102.58 + 105.08)/24;</span><br><span class="line"></span><br><span class="line">    x_bar = (1896 + 1900 + 1904 + 1908 + 1912 + 1920 + 1924 </span><br><span class="line">    + 1928 + 1932 + 1936 + 1948 + 1952 + 1956 + 1960 + 1964 + 1968</span><br><span class="line">    + 1972 + 1976 + 1980 + 1984 + 1988 + 1992 + 1996 + 2000)/24;</span><br><span class="line">    </span><br><span class="line">    xt_bar = (131*1896 + 121.2*1900 + 116*1904 + 112.8*1908 + 111.9*1912 </span><br><span class="line">    + 113.4*1920 + 112.4*1924 + 111.8*1928 + 109.8*1932 + 112.9*1936 + 109.2*1948</span><br><span class="line">    + 109.2*1952 + 107.7*1956 + 106.3*1960 + 105.1*1964 + 104.3*1968 + 105.86*1972</span><br><span class="line">    + 103.5*1976 + 105.4*1980 + 103*1984 + 103.55*1988 + 103.66*1992 + 102.58*1996</span><br><span class="line">    + 105.08*2000)/24;</span><br><span class="line">    </span><br><span class="line">    x_square_bar = (1896*1896 + 1900*1900 + 1904*1904 + 1908*1908 + 1912*1912 + 1920*1920 + 1924*1924 </span><br><span class="line">    + 1928*1928 + 1932*1932 + 1936*1936 + 1948*1948 + 1952*1952 + 1956*1956 + 1960*1960 + 1964*1964 + 1968*1968</span><br><span class="line">    + 1972*1972 + 1976*1976 + 1980*1980 + 1984*1984 + 1988*1988 + 1992*1992 + 1996*1996 + 2000*2000)/24;</span><br><span class="line">    </span><br><span class="line">    w1 = (xt_bar-x_bar*t_bar)/(x_square_bar-x_bar*x_bar);</span><br><span class="line">    w0 = t_bar - w1*x_bar;</span><br><span class="line"></span><br><span class="line">    pre_2004 = w0 + w1*2004;</span><br><span class="line">    pre_2008 = w0 + w1*2008;</span><br><span class="line">    pre_2012 = w0 + w1*2012;</span><br><span class="line">    pre_2016 = w0 + w1*2016;</span><br><span class="line"></span><br><span class="line">    printf(&quot;x_bar = %.2f\n&quot;, x_bar);</span><br><span class="line">    printf(&quot;t_bar = %.2f\n&quot;, t_bar);</span><br><span class="line">    printf(&quot;xt_bar = %.2f\n&quot;, xt_bar);</span><br><span class="line">    printf(&quot;x_square_bar = %.2f\n&quot;, x_square_bar);</span><br><span class="line">    printf(&quot;The two parameters are: w0 = %.2f, w1 = %.2f\n&quot;, w0, w1);</span><br><span class="line">    printf(&quot;The equation is t = f(x) = %.2f + %.2fx\n&quot;, w0, w1);</span><br><span class="line">    printf(&quot;The predicted time of gold medal in 800m race in 2004 is %.2f seconds\n&quot;, pre_2004);</span><br><span class="line">    printf(&quot;The real time of gold medal in 800m race in 2004 is 104.45 seconds. \n&quot;);</span><br><span class="line">    printf(&quot;The predicted time of gold medal in 800m race in 2008 is %.2f seconds\n&quot;, pre_2008);</span><br><span class="line">    printf(&quot;The real time of gold medal in 800m race in 2008 is 104.65 seconds. \n&quot;);</span><br><span class="line">    printf(&quot;The predicted time of gold medal in 800m race in 2012 is %.2f seconds\n&quot;, pre_2012);</span><br><span class="line">    printf(&quot;The real time of gold medal in 800m race in 2012 is 100.91 seconds. \n&quot;);</span><br><span class="line">    printf(&quot;The predicted time of gold medal in 800m race in 2016 is %.2f seconds\n&quot;, pre_2016);</span><br><span class="line">    printf(&quot;The real time of gold medal in 800m race in 2016 is 102.15 seconds. \n&quot;);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="向量表示方法"><a href="#向量表示方法" class="headerlink" title="向量表示方法"></a>向量表示方法</h2><p>到这里一个简单的线性回归程序已经编写好了，但是我们还需要进一步的完善。<br>我们可以发现在上面定义的模型实际上只是一条直线，为了提高模型能力，我们可以增加参数的次数。<br>增加函数的次数可以让函数的拟合能力变强，因为整个函数会变得十分灵活，模型越复杂(次数越高)则模型的Loss越低。但是这里要注意一点，损失的减少并不意味着模型泛化(generalization, predictive ability)能力一定提高，要找到合适的模型复杂度，一味提高次数会导致过拟合(over-fitting, decreasing the loss)。</p>
-<p>因为参数增加了，在使用上面最高二次的表示方法未免会显得很蠢，所以我们在这里引用向量表示方法。<br>我们令<strong>w</strong>表示一个2 * 1的向量，包含w0和w1，令<strong>x</strong>同样表示为一个2 * 1的向量，包括x0和x1。如此我们便可以将上面的模型：<br>    t &#x3D; w0 + w1*x &#x3D; Σ0-&gt;k wk * xk<br>简化为：<br>    t &#x3D; <strong>w</strong> ^ T * <strong>x</strong><br>损失为：<br>    Ln &#x3D; (tn - <strong>w</strong> ^ T * <strong>x</strong>n)^2<br>平均损失为：<br>    L &#x3D; 1&#x2F;N Σ1-&gt;N (tn - <strong>w</strong> ^ T * <strong>x</strong>n)^2</p>
-<p>优雅的表示方法！<br>但这样就足够了吗？</p>
-<p>我们令qn &#x3D; (tn - <strong>w</strong> ^ T * <strong>x</strong>n)，也就是一个N * 1的向量<br>如此我们又可以对损失公式进行简化：<br>    L &#x3D; 1&#x2F;N <strong>q</strong> ^ T * <strong>q</strong></p>
-<p>我们接着设<strong>X</strong>为N * 1的矩阵，包括x1到xn。(矩阵是粗体大写字母，向量是粗体小写字母)<br>于是我们可以得到<strong>q</strong> &#x3D; <strong>t</strong> - <strong>X</strong> * <strong>w</strong><br>而平均损失函数也可以更新为：<br>    L &#x3D; 1&#x2F;N (<strong>t</strong> - <strong>X</strong> * <strong>w</strong>) ^ T * (<strong>t</strong> - <strong>X</strong> * <strong>w</strong>)</p>
-<p>对于损失函数的偏微分计算同样略去不表，这里给出最后参数的公式：<br>    <strong>w</strong> &#x3D; (<strong>X</strong> ^ T * <strong>X</strong>)^-1 * <strong>X</strong> ^ T * <strong>t</strong></p>
+<h2 id="向量表示方法">向量表示方法</h2>
+<p>到这里一个简单的线性回归程序已经编写好了，但是我们还需要进一步的完善。<br>
+我们可以发现在上面定义的模型实际上只是一条直线，为了提高模型能力，我们可以增加参数的次数。<br>
+增加函数的次数可以让函数的拟合能力变强，因为整个函数会变得十分灵活，模型越复杂(次数越高)则模型的Loss越低。但是这里要注意一点，损失的减少并不意味着模型泛化(generalization, predictive ability)能力一定提高，要找到合适的模型复杂度，一味提高次数会导致过拟合(over-fitting, decreasing the loss)。</p>
+<p>因为参数增加了，在使用上面最高二次的表示方法未免会显得很蠢，所以我们在这里引用向量表示方法。<br>
+我们令<strong>w</strong>表示一个2 * 1的向量，包含w0和w1，令<strong>x</strong>同样表示为一个2 * 1的向量，包括x0和x1。如此我们便可以将上面的模型：<br>
+t = w0 + w1*x = Σ0-&gt;k wk * xk<br>
+简化为：<br>
+t = <strong>w</strong> ^ T * <strong>x</strong><br>
+损失为：<br>
+Ln = (tn - <strong>w</strong> ^ T * <strong>x</strong>n)^2<br>
+平均损失为：<br>
+L = 1/N Σ1-&gt;N (tn - <strong>w</strong> ^ T * <strong>x</strong>n)^2</p>
+<p>优雅的表示方法！<br>
+但这样就足够了吗？</p>
+<p>我们令qn = (tn - <strong>w</strong> ^ T * <strong>x</strong>n)，也就是一个N * 1的向量<br>
+如此我们又可以对损失公式进行简化：<br>
+L = 1/N <strong>q</strong> ^ T * <strong>q</strong></p>
+<p>我们接着设<strong>X</strong>为N * 1的矩阵，包括x1到xn。(矩阵是粗体大写字母，向量是粗体小写字母)<br>
+于是我们可以得到<strong>q</strong> = <strong>t</strong> - <strong>X</strong> * <strong>w</strong><br>
+而平均损失函数也可以更新为：<br>
+L = 1/N (<strong>t</strong> - <strong>X</strong> * <strong>w</strong>) ^ T * (<strong>t</strong> - <strong>X</strong> * <strong>w</strong>)</p>
+<p>对于损失函数的偏微分计算同样略去不表，这里给出最后参数的公式：<br>
+<strong>w</strong> = (<strong>X</strong> ^ T * <strong>X</strong>)^-1 * <strong>X</strong> ^ T * <strong>t</strong></p>
 <p>本篇文章到此结束。</p>
 ]]></content>
       <categories>
@@ -273,49 +704,10 @@
       </tags>
   </entry>
   <entry>
-    <title>IB Computer Science： 伪代码、流程图和简单算法小记</title>
-    <url>/posts/68e9188a.html</url>
-    <content><![CDATA[<!-- 事先声明，我并不认同IB的垃圾计算机教学大纲和它规定的垃圾标准，将下列内容整理在博客中只是为了苟住校内成绩做出的无奈妥协。 -->
-<p>伪代码编写练习可以使用网站：<a href="http://ibcomp.fis.edu/pseudocode/pcode.html">http://ibcomp.fis.edu/pseudocode/pcode.html</a></p>
-<h2 id="伪代码语法"><a href="#伪代码语法" class="headerlink" title="伪代码语法"></a>伪代码语法</h2><h3 id="循环逻辑："><a href="#循环逻辑：" class="headerlink" title="循环逻辑："></a>循环逻辑：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">loop i from ... to ...</span><br><span class="line">    TODO()</span><br><span class="line">end loop</span><br><span class="line"></span><br><span class="line">loop while (condition?)</span><br><span class="line">    TODO()</span><br><span class="line">end loop</span><br></pre></td></tr></table></figure>
-
-<h3 id="分支逻辑："><a href="#分支逻辑：" class="headerlink" title="分支逻辑："></a>分支逻辑：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if (condition?) then</span><br><span class="line">    TODO()</span><br><span class="line">else if (condition?) then</span><br><span class="line">    TODO()</span><br><span class="line">else</span><br><span class="line">    TODO()</span><br><span class="line">end if</span><br></pre></td></tr></table></figure>
-
-<h3 id="数组管理："><a href="#数组管理：" class="headerlink" title="数组管理："></a>数组管理：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">arr = new array()                     // set a new array</span><br><span class="line">arr = [..., ..., ...]                 //set values for the array</span><br><span class="line">arr[...]                              //returns the value of a certain index</span><br><span class="line">arr.Length()                          //returns the length of an array(for some reason this could not run on the above website)</span><br></pre></td></tr></table></figure>
-
-<h3 id="集合管理："><a href="#集合管理：" class="headerlink" title="集合管理："></a>集合管理：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">coll = new collection()               //set a new collection</span><br><span class="line">coll.addItem(certain things)          //add something to the collection</span><br><span class="line">coll.getNext()                        //return the next value</span><br><span class="line">coll.resetNext()                      //go back to the start of the collection</span><br><span class="line">coll.hasNext()                        //returns a boolean value that indicates whether it has next item or not</span><br><span class="line">coll.isEmpty()                        //returns a boolean value that indicates whether the collection is empty or not</span><br></pre></td></tr></table></figure>
-
-<h3 id="栈管理："><a href="#栈管理：" class="headerlink" title="栈管理："></a>栈管理：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// One thing to be remember, first in last out</span><br><span class="line">stack = new stack()                   //set a new stack</span><br><span class="line">stack.push(certain things)            //push an item into the stack</span><br><span class="line">stack.pop()                           //returns the last item of the stack</span><br><span class="line">stack.isEmpty()                       //returns a boolean value that indicates whether the stack is empty or not</span><br></pre></td></tr></table></figure>
-
-<h3 id="队列管理："><a href="#队列管理：" class="headerlink" title="队列管理："></a>队列管理：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// Another thing to remember, first in first out</span><br><span class="line">queue = new queue()                   //set a new queue</span><br><span class="line">queue.enqueue(certain things)         //put an item to the end of the queue</span><br><span class="line">queue.dequeue()                       //delete and return the front item of the queue</span><br><span class="line">queue.isEmpty()                       //returns a boolean value that indicates whether the queue is empty or not</span><br></pre></td></tr></table></figure>
-
-<h2 id="流程图画法"><a href="#流程图画法" class="headerlink" title="流程图画法"></a>流程图画法</h2><p><img src="/posts/68e9188a.htm/Screenshot%202023-09-20%20182101.png"></p>
-<p>Then use arrows to link the blocks.</p>
-<h2 id="简单代码的伪代码实现"><a href="#简单代码的伪代码实现" class="headerlink" title="简单代码的伪代码实现"></a>简单代码的伪代码实现</h2><p>The following codes are all based on arrays. Searching&#x2F;Sorting other form of data set need to do simple modifications to the code. </p>
-<h3 id="Sequential-Search"><a href="#Sequential-Search" class="headerlink" title="Sequential Search"></a>Sequential Search</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">arr = [5, 6, 3, 4, 2, 7, 8, 1]</span><br><span class="line"></span><br><span class="line">loop i from 0 to 7</span><br><span class="line">   if (arr[i] == 2) then</span><br><span class="line">      index = i</span><br><span class="line">   end if</span><br><span class="line">end loop</span><br><span class="line"></span><br><span class="line">output &quot;The index of number 2 is: &quot;, index</span><br></pre></td></tr></table></figure>
-
-<h3 id="Binary-Search"><a href="#Binary-Search" class="headerlink" title="Binary Search"></a>Binary Search</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">arr = [5, 6, 3, 4, 2, 7, 8, 1]</span><br><span class="line"></span><br><span class="line">loop i from 0 to 6</span><br><span class="line">   min_idx = i</span><br><span class="line">   loop j from i+1 to 7</span><br><span class="line">      if arr[j] &lt; arr[min_idx] then</span><br><span class="line">         min_idx = j</span><br><span class="line">      end if</span><br><span class="line">   end loop</span><br><span class="line">   if NOT(min_idx == i) then</span><br><span class="line">      TEMP = arr[min_idx]</span><br><span class="line">      arr[min_idx] = arr[i]</span><br><span class="line">      arr[i] = TEMP</span><br><span class="line">   end if</span><br><span class="line">end loop</span><br><span class="line">//Sort the array first since binary search is only applicable in ordered series</span><br><span class="line"></span><br><span class="line">low = 0</span><br><span class="line">high = 7</span><br><span class="line">found = -1</span><br><span class="line">loop while found = -1 AND low &lt;= high</span><br><span class="line">   mid = div(low + high, 2)</span><br><span class="line">   if (arr[mid] = 8) then</span><br><span class="line">      found = mid</span><br><span class="line">   else if (arr[mid] &lt; 8) then</span><br><span class="line">      low = mid + 1</span><br><span class="line">   else</span><br><span class="line">      high = mid - 1 </span><br><span class="line">   end if</span><br><span class="line">end loop</span><br><span class="line"></span><br><span class="line">if found &gt;= 0 then</span><br><span class="line">   output &quot;The index of number 8 is: &quot;, found</span><br><span class="line">else</span><br><span class="line">   output &quot;Number was not found&quot;</span><br><span class="line">end if</span><br></pre></td></tr></table></figure>
-
-<h3 id="Bubble-Sort"><a href="#Bubble-Sort" class="headerlink" title="Bubble Sort"></a>Bubble Sort</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">arr = [5, 6, 3, 4, 2, 7, 8, 1]</span><br><span class="line"></span><br><span class="line">loop i from 0 to 6</span><br><span class="line">   loop j from 0 to 6-i</span><br><span class="line">      if arr[j] &gt; arr[j+1] then</span><br><span class="line">         TEMP = arr[j+1]</span><br><span class="line">         arr[j+1] = arr[j]</span><br><span class="line">         arr[j] = TEMP</span><br><span class="line">      end if</span><br><span class="line">   end loop </span><br><span class="line">end loop</span><br><span class="line"> </span><br><span class="line">loop i from 0 to 7</span><br><span class="line">   output arr[i]</span><br><span class="line">end loop</span><br></pre></td></tr></table></figure>
-
-<h3 id="Selection-Sort"><a href="#Selection-Sort" class="headerlink" title="Selection Sort"></a>Selection Sort</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">arr = [5, 6, 3, 4, 2, 7, 8, 1]</span><br><span class="line">loop i from 0 to 6</span><br><span class="line">   min_idx = i</span><br><span class="line">   loop j from i+1 to 7</span><br><span class="line">      if arr[j] &lt; arr[min_idx] then</span><br><span class="line">         min_idx = j</span><br><span class="line">      end if</span><br><span class="line">   end loop</span><br><span class="line">   if NOT(min_idx == i) then</span><br><span class="line">      TEMP = arr[min_idx]</span><br><span class="line">      arr[min_idx] = arr[i]</span><br><span class="line">      arr[i] = TEMP</span><br><span class="line">   end if</span><br><span class="line">end loop</span><br><span class="line"></span><br><span class="line">loop i from 0 to 7</span><br><span class="line">   output arr[i]</span><br><span class="line">end loop</span><br></pre></td></tr></table></figure>
-
-<h2 id="简单算法的流程图实现"><a href="#简单算法的流程图实现" class="headerlink" title="简单算法的流程图实现"></a>简单算法的流程图实现</h2><h3 id="Sequential-Search-1"><a href="#Sequential-Search-1" class="headerlink" title="Sequential Search"></a>Sequential Search</h3><p><img src="/posts/68e9188a.htm/SS.jpg"></p>
-<h3 id="Binary-Search-1"><a href="#Binary-Search-1" class="headerlink" title="Binary Search"></a>Binary Search</h3><p><img src="/posts/68e9188a.htm/BS.jpg"></p>
-<h3 id="Bubble-Sort-1"><a href="#Bubble-Sort-1" class="headerlink" title="Bubble Sort"></a>Bubble Sort</h3><p><img src="/posts/68e9188a.htm/BubS.jpg"></p>
-<h3 id="Selection-Sort-1"><a href="#Selection-Sort-1" class="headerlink" title="Selection Sort"></a>Selection Sort</h3><p><img src="/posts/68e9188a.htm/SelS.jpg"></p>
-]]></content>
-      <categories>
-        <category>Computer Science</category>
-      </categories>
-      <tags>
-        <tag>Course Notes</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>正则表达式速览</title>
     <url>/posts/6dc30208.html</url>
-    <content><![CDATA[<h1 id="限定符"><a href="#限定符" class="headerlink" title="限定符"></a>限定符</h1><pre><code>?: 表示某一个词元可以出现零次或一次，例：used?可以匹配use和used。
+    <content><![CDATA[<h1 id="限定符">限定符</h1>
+<pre><code>?: 表示某一个词元可以出现零次或一次，例：used?可以匹配use和used。
 *：表示某一个词元可以出现零次或多次，例：ab*c可以匹配ac, abc, abbc...
 **注：词元在这里是我生造的词汇，表示某一个具体的字母，符号或数字。**
 +：表示某一个词元必须出现一次以上。
@@ -323,12 +715,15 @@
 &#123;...&#125;(字母)：如果想对多个词元进行限定符操作，则用括号将其括起来。如&#123;ab&#125;。
 ^：匹配除了后续括号内以外的字符。
 </code></pre>
-<h1 id="或运算符"><a href="#或运算符" class="headerlink" title="或运算符"></a>或运算符</h1><pre><code>例子：a (cat|dog)
+<h1 id="或运算符">或运算符</h1>
+<pre><code>例子：a (cat|dog)
 匹配结果：a cat, a dog
 </code></pre>
-<h1 id="字符类运算符"><a href="#字符类运算符" class="headerlink" title="字符类运算符"></a>字符类运算符</h1><pre><code>[...]：指定了能匹配的字符范围，如[abc]+表示所有abc，[a-zA-z]+代表所有的英文字符，[0-9]+代表所有的数字。
+<h1 id="字符类运算符">字符类运算符</h1>
+<pre><code>[...]：指定了能匹配的字符范围，如[abc]+表示所有abc，[a-zA-z]+代表所有的英文字符，[0-9]+代表所有的数字。
 </code></pre>
-<h1 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h1><pre><code>元字符是预先定义好的匹配规则。
+<h1 id="元字符">元字符</h1>
+<pre><code>元字符是预先定义好的匹配规则。
 \d+：代表所有数字内容。
 \w+：代表所有英文字符内容。
 \s+：代表空白字符，包括tab和换行符。
@@ -351,51 +746,84 @@ $x：只会匹配行尾的字符。
   <entry>
     <title>线性回归2：极大似然估计</title>
     <url>/posts/5afd1efa.html</url>
-    <content><![CDATA[<h2 id="更复杂的模型"><a href="#更复杂的模型" class="headerlink" title="更复杂的模型"></a>更复杂的模型</h2><p>上篇文章介绍了最基本的线性回归，文末的向量表示方法也允许我们进一步扩充模型的复杂度。<br>我们现在可以使用四次方模型、八次方模型来提高复杂度。<br>为了变得更加牛逼，我们还可以将原来公式：t &#x3D; w0 + w1x + w2 * x^2 + … + wk * w^k<br>中的x替换成函数，h(x)。<br>函数的具体内容就可以发挥你的想象力了，指数、三角…<br>如此原本矩阵<strong>X</strong>的内容就取决于函数h(x)了。</p>
+    <content><![CDATA[<h2 id="更复杂的模型">更复杂的模型</h2>
+<p>上篇文章介绍了最基本的线性回归，文末的向量表示方法也允许我们进一步扩充模型的复杂度。<br>
+我们现在可以使用四次方模型、八次方模型来提高复杂度。<br>
+为了变得更加牛逼，我们还可以将原来公式：t = w0 + w1x + w2 * x^2 + … + wk * w^k<br>
+中的x替换成函数，h(x)。<br>
+函数的具体内容就可以发挥你的想象力了，指数、三角…<br>
+如此原本矩阵<strong>X</strong>的内容就取决于函数h(x)了。</p>
 <p>但正如上篇文章中所说，复杂性的增高并不意味着泛化能力一定提高，而我们应该怎么选取最合适的模型呢？</p>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>为了验证我们模型的性能，我们可以使用N - C个数据(N为数据总个数)去训练多个模型(也就是代入上篇文章中提到的计算<strong>w</strong>公式中)，对于剩余C个数据做出最好预测的模型就是质量最高的模型。我们将这N - C个数据称为训练集，C个数据称为测试集。<br>计算测试损失同样可以使用之前的损失函数：</p>
+<h2 id="测试">测试</h2>
+<p>为了验证我们模型的性能，我们可以使用N - C个数据(N为数据总个数)去训练多个模型(也就是代入上篇文章中提到的计算<strong>w</strong>公式中)，对于剩余C个数据做出最好预测的模型就是质量最高的模型。我们将这N - C个数据称为训练集，C个数据称为测试集。<br>
+计算测试损失同样可以使用之前的损失函数：</p>
 <pre><code>Lv = 1/C Σ1-&gt;c (tc - **w**^T * xc)^2
 </code></pre>
 <p>通过这样的手段我们可以得知质量最好的模型实际上是最开始的线性模型(返璞归真了？)</p>
 <p>但是我们应该怎么进行数据集和训练集的划分呢？</p>
 <p>最通俗的手段就是基于合理性，拿上篇文章的奥林匹克运动会例子，使用最近几次奥运会的数据做测试集是最符合逻辑的。或者我们可以做多次测试，接下来要介绍的就是一种常见的检验手段——交叉验证(Cross-validation)。</p>
-<h2 id="交叉验证与LOOCV"><a href="#交叉验证与LOOCV" class="headerlink" title="交叉验证与LOOCV"></a>交叉验证与LOOCV</h2><p>在交叉验证中，我们将数据集平分成C份，拿出C-1份作为训练集，剩下的一份做测试集。<br>再极端一点呢？<br>我们假设数据集中一共有N份数据，令C &#x3D; N，将数据集细细地划分成一对一对的数据，这样的验证方法称作LOOCV(leave-one-out cross-validation)。<br>通过LOOCV我们可以得知质量最好的模型是三次模型，这与之前的检验结果可不一样。<br>我们使用训练好得到的三次模型生成一些数据，再次进行验证，发现平均损失最小的还是三次模型！<br>我们愉快的知道LOOCV的检验结果要更加可靠，但是其带来的计算开销也是十分明显的(不是谁都有耐心把肉细细地切成臊子)，当模型的次数达到一定程度时，我们还是要令C &lt; N的。</p>
-<h2 id="概率的概率：密度公式"><a href="#概率的概率：密度公式" class="headerlink" title="概率的概率：密度公式"></a>概率的概率：密度公式</h2><p>接下来，我们要将误差(或者说噪音)加入我们的模型当中，因为它们就在那里。但是误差看起来十分难用一个简单的函数进行描述，因为对于不同的数据误差都不同，并且误差可以是正或负，误差与不同数据之间貌似也没有联系。为了解决这些问题，我们可以将其作为一个随机变量(random variable)加入我们的模型当中。</p>
+<h2 id="交叉验证与loocv">交叉验证与LOOCV</h2>
+<p>在交叉验证中，我们将数据集平分成C份，拿出C-1份作为训练集，剩下的一份做测试集。<br>
+再极端一点呢？<br>
+我们假设数据集中一共有N份数据，令C = N，将数据集细细地划分成一对一对的数据，这样的验证方法称作LOOCV(leave-one-out cross-validation)。<br>
+通过LOOCV我们可以得知质量最好的模型是三次模型，这与之前的检验结果可不一样。<br>
+我们使用训练好得到的三次模型生成一些数据，再次进行验证，发现平均损失最小的还是三次模型！<br>
+我们愉快的知道LOOCV的检验结果要更加可靠，但是其带来的计算开销也是十分明显的(不是谁都有耐心把肉细细地切成臊子)，当模型的次数达到一定程度时，我们还是要令C &lt; N的。</p>
+<h2 id="概率的概率：密度公式">概率的概率：密度公式</h2>
+<p>接下来，我们要将误差(或者说噪音)加入我们的模型当中，因为它们就在那里。但是误差看起来十分难用一个简单的函数进行描述，因为对于不同的数据误差都不同，并且误差可以是正或负，误差与不同数据之间貌似也没有联系。为了解决这些问题，我们可以将其作为一个随机变量(random variable)加入我们的模型当中。</p>
 <p>接下来我们用硬币的例子来说明随机变量，我们假使硬币正面朝上的值为1，反面朝上的值为0，如此我们就可以用变量X来代表扔完硬币后的值。我们不知道X的具体值，但是我们知道它可能是哪些值并计算出相应的可能性。我们使用大写字母来代表随机值，用小写字母来代表可能值。</p>
 <p>我们可以计算可能性，仍然使用硬币的例子：</p>
 <pre><code>P(X = 1) = 0.5
 P(X = 0) = 0.5
 </code></pre>
 <p>概率的值是受到限制的，其要在0和1之间，并且不同事件发生的概率(Discrete RVs)的和应是1。</p>
-<p>但是我们不可能直接使用概率，因为我们无法直接计算它们。我们使用密度公式p(x)来取而代之。密度公式并不直接计算出概率。那骰子举个例子，我们假设这个骰子有六个面，分别标号123456，这就是p(x)中的x。骰子最后某一面朝上的概率是1&#x2F;6，而是具体哪个序号的面朝上的概率就是用密度公式p(x)来表示。我们将上面提到的p(x)画在坐标系中，就可以得到一个函数，我们对于这段函数的某一段进行积分，就可以得到这个区间中某个序号朝上的概率之和。这个积分的值同样受到限制，p(x) &gt; 0，并且再正负无限之间积分的结果一定是1。</p>
-<h2 id="联合概率和密度"><a href="#联合概率和密度" class="headerlink" title="联合概率和密度"></a>联合概率和密度</h2><p>我们使用P(X &#x3D; x, Y &#x3D; y)来表示随机变量X是x的概率与随机变量Y是y的概率之和。对于两个连续的随机变量x0和x1来说，p(x0, x1)就是其联合密度。</p>
-<h2 id="条件概率"><a href="#条件概率" class="headerlink" title="条件概率"></a>条件概率</h2><p>独立与依赖的概念十分明晰，两个时间发生的概率只讲相互不影响就是独立事件，反之就存在依赖。对于相互依赖的事件，我们可以使用条件概率。即在给定另一个事件发生的条件下发生一个事件的概率。拿打球和下雨举例子，X代表我是否在打球，Y代表是否在下雨。我在下雨的条件下打球可以表示为以下公式：</p>
+<p>但是我们不可能直接使用概率，因为我们无法直接计算它们。我们使用密度公式p(x)来取而代之。密度公式并不直接计算出概率。那骰子举个例子，我们假设这个骰子有六个面，分别标号123456，这就是p(x)中的x。骰子最后某一面朝上的概率是1/6，而是具体哪个序号的面朝上的概率就是用密度公式p(x)来表示。我们将上面提到的p(x)画在坐标系中，就可以得到一个函数，我们对于这段函数的某一段进行积分，就可以得到这个区间中某个序号朝上的概率之和。这个积分的值同样受到限制，p(x) &gt; 0，并且再正负无限之间积分的结果一定是1。</p>
+<h2 id="联合概率和密度">联合概率和密度</h2>
+<p>我们使用P(X = x, Y = y)来表示随机变量X是x的概率与随机变量Y是y的概率之和。对于两个连续的随机变量x0和x1来说，p(x0, x1)就是其联合密度。</p>
+<h2 id="条件概率">条件概率</h2>
+<p>独立与依赖的概念十分明晰，两个时间发生的概率只讲相互不影响就是独立事件，反之就存在依赖。对于相互依赖的事件，我们可以使用条件概率。即在给定另一个事件发生的条件下发生一个事件的概率。拿打球和下雨举例子，X代表我是否在打球，Y代表是否在下雨。我在下雨的条件下打球可以表示为以下公式：</p>
 <pre><code>P(X = 1|Y = 1)
 P(X = x, Y = y) = P(X = x|Y = y)P(Y = y)
 </code></pre>
-<h2 id="具体的密度公式"><a href="#具体的密度公式" class="headerlink" title="具体的密度公式"></a>具体的密度公式</h2><p>于是乎我们就可以得到我们现在的模型了：<br>    tn &#x3D; <strong>w</strong>^T * <strong>x</strong> + 误差<br>接下来我们就可以为p(x)选取具体的函数了，在这里我们选择正态分布(Gaussian Distribution)。</p>
+<h2 id="具体的密度公式">具体的密度公式</h2>
+<p>于是乎我们就可以得到我们现在的模型了：<br>
+tn = <strong>w</strong>^T * <strong>x</strong> + 误差<br>
+接下来我们就可以为p(x)选取具体的函数了，在这里我们选择正态分布(Gaussian Distribution)。</p>
 <pre><code>p(x|µ, σ^2) = 1/σ√2π exp &#123; −1/2σ^2 (x − µ)^2 &#125;
 </code></pre>
-<p>(很丑，建议自己上网找一下标准公式)<br>我们在这里有两个参数，平均µ和变化率σ^2。<br>平均控制钟峰的中心位置，变化率控制钟的宽度。</p>
-<p>接下来我们就可以用这个函数来生成数据了。<br>我们暂时选取µ&#x3D;0，σ^2&#x3D;0.05。(将µ&#x3D;0是因为为正的误差并不一定比为负的误差多，反之亦然)</p>
-<h2 id="可能性-Likelihood"><a href="#可能性-Likelihood" class="headerlink" title="可能性(Likelihood)"></a>可能性(Likelihood)</h2><p>通过模型所预测出的数据是真实的数据的可能性(Likelihood)，也就是我们评判密度函数好坏的方法。我们让tn作为一个定值，通过调整<strong>w</strong>和σ^2来最大化可能性，就像之前最小化平方损失一样。但是通过可能性判断模型的优劣实际上要比平方损失更加科学，因为其将误差也计算在了模型内，而平方损失直接忽视了误差。</p>
-<h2 id="可能性最优化-Likelihood-optimisation"><a href="#可能性最优化-Likelihood-optimisation" class="headerlink" title="可能性最优化(Likelihood optimisation)"></a>可能性最优化(Likelihood optimisation)</h2><p>模型最好的情况就是很好地拟合了数据并且训练数据为真的可能性很高。<br>上面提到我们可以通过密度函数来计算在某一条件下tn数据为真的可能性。我们同样可以像联合概率一样将可能性联合起来：</p>
+<p>(很丑，建议自己上网找一下标准公式)<br>
+我们在这里有两个参数，平均µ和变化率σ^2。<br>
+平均控制钟峰的中心位置，变化率控制钟的宽度。</p>
+<p>接下来我们就可以用这个函数来生成数据了。<br>
+我们暂时选取µ=0，σ^2=0.05。(将µ=0是因为为正的误差并不一定比为负的误差多，反之亦然)</p>
+<h2 id="可能性-likelihood">可能性(Likelihood)</h2>
+<p>通过模型所预测出的数据是真实的数据的可能性(Likelihood)，也就是我们评判密度函数好坏的方法。我们让tn作为一个定值，通过调整<strong>w</strong>和σ^2来最大化可能性，就像之前最小化平方损失一样。但是通过可能性判断模型的优劣实际上要比平方损失更加科学，因为其将误差也计算在了模型内，而平方损失直接忽视了误差。</p>
+<h2 id="可能性最优化-likelihood-optimisation">可能性最优化(Likelihood optimisation)</h2>
+<p>模型最好的情况就是很好地拟合了数据并且训练数据为真的可能性很高。<br>
+上面提到我们可以通过密度函数来计算在某一条件下tn数据为真的可能性。我们同样可以像联合概率一样将可能性联合起来：</p>
 <pre><code>p(t1, ... , tn|w, σ^2, x1, ... , xn) = product of p(tn|w, xn, σ^2)
 </code></pre>
-<p>我们可以直接将可能性累乘因为tn数据之间是相互独立的。<br>如此可能性的最优化就可以简化为通过调整w和σ^2最大化乘积。<br>在这里我们可以为乘积套上自然对数来减少计算复杂度，因为log的值随着自变量的增加而增加，减少而减少。<br>现在我们可以得到：</p>
+<p>我们可以直接将可能性累乘因为tn数据之间是相互独立的。<br>
+如此可能性的最优化就可以简化为通过调整w和σ^2最大化乘积。<br>
+在这里我们可以为乘积套上自然对数来减少计算复杂度，因为log的值随着自变量的增加而增加，减少而减少。<br>
+现在我们可以得到：</p>
 <pre><code>logL = log (product of p(tn|w, xn, σ^2)) = -Nlog(σ√2π) - 1/σ^2 Σ1-&gt;N (tn - w^T * xn)^2
 </code></pre>
-<p>现在公式就变得熟悉了，后半部分实际上就是平方损失。<br>于是我们现在只需要对两个参数分别进行偏微分就可以得到最优的可能性。<br>但是我们还可以让事情变得更简单，通过对于多元高斯函数的学习，我们可以得出以下的式子：</p>
+<p>现在公式就变得熟悉了，后半部分实际上就是平方损失。<br>
+于是我们现在只需要对两个参数分别进行偏微分就可以得到最优的可能性。<br>
+但是我们还可以让事情变得更简单，通过对于多元高斯函数的学习，我们可以得出以下的式子：</p>
 <pre><code>logL = log (product of p(tn|w, xn, σ^2)) = logN(Xw, σ^2*I) = log p(t|w, X, σ^2)
 </code></pre>
 <p>对w进行偏微分之后，我们就可以得到当可能性最优时参数w的值：</p>
 <pre><code>w = (X^T * X)^-1 * X^T * t
 </code></pre>
-<p>让人震惊的是，这个参数与之前的式子没有任何区别。<br>我们再对σ^2进行偏微分：</p>
+<p>让人震惊的是，这个参数与之前的式子没有任何区别。<br>
+我们再对σ^2进行偏微分：</p>
 <pre><code>σ^2 = 1/N (t - Xw)^T * (t - Xw)
 </code></pre>
 <p>实际上与平均平方损失是相同的。</p>
-<h2 id="期望-Expectations"><a href="#期望-Expectations" class="headerlink" title="期望(Expectations)"></a>期望(Expectations)</h2><p>期望可以对我们参数的不确定性进行量化。我们在密度函数上随机选取S个值，求和并取平均值，这就是期望。一般的我们将其写为：</p>
+<h2 id="期望-expectations">期望(Expectations)</h2>
+<p>期望可以对我们参数的不确定性进行量化。我们在密度函数上随机选取S个值，求和并取平均值，这就是期望。一般的我们将其写为：</p>
 <pre><code>Ep(x) &#123;f(x)&#125; = ∫f(x)p(x)dx
 </code></pre>
 <p>由此我们可以得到：</p>
@@ -420,11 +848,18 @@ Parameter estimates:
 <p>我们的密度模型现在变成了这样：</p>
 <pre><code>p(t|X, w, σ^2) = N(Xw, σ^2I)
 </code></pre>
-<p>现在我们可以利用期望对参数w进行验证，最后发现是其本身，这证明其是真的，在模型正确的前提下。<br>误差(Error) &#x3D; 偏差(Bias) + 方差(Variance)<br>偏差反应的是模型在样本上的输出与真实值之间的误差，方差反映的是模型每一次输出结果与模型输出期望之间的误差。<br>上面期望的验证证明w是没有偏差的，w就是真实的值。<br>那么cov{w}告诉了我们什么呢？<br>是参数在哪个范围内进行调整不会影响输出的准确度。</p>
+<p>现在我们可以利用期望对参数w进行验证，最后发现是其本身，这证明其是真的，在模型正确的前提下。<br>
+误差(Error) = 偏差(Bias) + 方差(Variance)<br>
+偏差反应的是模型在样本上的输出与真实值之间的误差，方差反映的是模型每一次输出结果与模型输出期望之间的误差。<br>
+上面期望的验证证明w是没有偏差的，w就是真实的值。<br>
+那么cov{w}告诉了我们什么呢？<br>
+是参数在哪个范围内进行调整不会影响输出的准确度。</p>
 <pre><code>cov&#123;w&#125; = σ^2 * (X^T * X)^-1
 </code></pre>
-<p>再对σ^2进行期望检验，得出的值是 σ^2(1-D&#x2F;N)<br>一般的，D &lt; N，这也就导致σ^2的值是有偏差的，并且其值会变得越来越低。 </p>
-<p>写到这里先不写了，主要介绍了最小化平方损失和最大化可能性的方法。机器学习与数学的勾连实在太深了，如果要把剩下的东西讲完要求远远高于我现在的数学能力，以后数学变好了再来写完吧……<br>源码地址：csml-cam.github.io&#x2F;resources</p>
+<p>再对σ^2进行期望检验，得出的值是 σ^2(1-D/N)<br>
+一般的，D &lt; N，这也就导致σ^2的值是有偏差的，并且其值会变得越来越低。</p>
+<p>写到这里先不写了，主要介绍了最小化平方损失和最大化可能性的方法。机器学习与数学的勾连实在太深了，如果要把剩下的东西讲完要求远远高于我现在的数学能力，以后数学变好了再来写完吧…<br>
+源码地址：<a href="http://csml-cam.github.io/resources">csml-cam.github.io/resources</a></p>
 ]]></content>
       <categories>
         <category>Machine Learning/Statistics</category>
@@ -436,59 +871,13 @@ Parameter estimates:
   <entry>
     <title>NJU DC：基于NVBoard实现键盘输入</title>
     <url>/posts/432132d9.html</url>
-    <content><![CDATA[<h1 id="接入NVBoard"><a href="#接入NVBoard" class="headerlink" title="接入NVBoard"></a>接入NVBoard</h1><p>仿真第一步先为verilator接入NVBoard。NVBoard是一生一芯往届学生为学习数字电路实验开发的虚拟FPGA板。安装的具体步骤根据README里面的提示运行脚本文件并安装相关的依赖即可。</p>
-<h1 id="键盘输入的具体实现"><a href="#键盘输入的具体实现" class="headerlink" title="键盘输入的具体实现"></a>键盘输入的具体实现</h1><p>在键盘输入中除了基本的clk，resetn，ps2_clk，ps2_data和数码管输出之外，还定义了五个类型的变量。首先建立一个reg类型的十位buffer变量，作为接受ps2_data的地方，再定义一个reg类型的四位count变量，来为ps2_data的bit计数。reg类型的三位ps2_clk_sync是用作记录PS2时钟信号的历史信息并检测时钟的下降沿。cnt是用作记录按键被按下的次数的变量。除此之外还定义了34个状态，一个输入状态和一个输出状态，默认值都是S0。</p>
+    <content><![CDATA[<h1 id="接入nvboard">接入NVBoard</h1>
+<p>仿真第一步先为verilator接入NVBoard。NVBoard是一生一芯往届学生为学习数字电路实验开发的虚拟FPGA板。安装的具体步骤根据README里面的提示运行脚本文件并安装相关的依赖即可。</p>
+<h1 id="键盘输入的具体实现">键盘输入的具体实现</h1>
+<p>在键盘输入中除了基本的clk，resetn，ps2_clk，ps2_data和数码管输出之外，还定义了五个类型的变量。首先建立一个reg类型的十位buffer变量，作为接受ps2_data的地方，再定义一个reg类型的四位count变量，来为ps2_data的bit计数。reg类型的三位ps2_clk_sync是用作记录PS2时钟信号的历史信息并检测时钟的下降沿。cnt是用作记录按键被按下的次数的变量。除此之外还定义了34个状态，一个输入状态和一个输出状态，默认值都是S0。</p>
 <p>在流程一开始先通过一个死循环，将ps2_clk时钟上的采样送到最低为并丢弃最高位，形成一个三位的时间队列。因为最新的采样放入的是最低位0位，所以计算ps2_clk_sync[2] &amp; ~ps2_clk_sync[1]。若为下降沿则sampling为1，上升沿为0。</p>
 <p>接下来通过时序逻辑进行具体接受信号的处理。如果接收到的resetn为0，则将count置为零。如果sampling为真(也就是处于下降沿)，则判断count是否为10，如果是的话就进一步判断首位和末位是否为0和1，并进行奇偶校验(在数据的最后添加一个校验位，使得数据位和校验位中1的个数为奇数或偶数，如果接收方收到的数据位和校验位中1的个数不是奇偶性相同，就说明传输的数据出现了错误)。如果条件都满足就进行数码管的输出。对buffer的高四位和低四位分别用case语句进行判断。然后数码管输出对应的数字(注意这里数码管是低电平有效)。判断完buffer就对cnt进行判断，判断逻辑大致相同。输出玩数码管后将count置为零。如果count不是10就将ps2_data传到buffer对应的位数中，然后count加一。在case判断中除了输出数码管还要将cnt加一，以显示按键次数的增多。同时要将输出状态切到对应的状态，在代码最后将输出状态赋值给输入状态。</p>
 <p>至此键盘输入功能全部实现。</p>
-]]></content>
-      <categories>
-        <category>Computer Science</category>
-      </categories>
-      <tags>
-        <tag>Course Notes</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CMU 15122：Deliberate Programming</title>
-    <url>/posts/cmu15122note2.html</url>
-    <content><![CDATA[<p>本篇总结CMU 15122第一单元Deliberate Programming的全部内容（除了Contracts部分）。这门课的整体脉络还是较为清晰的，虽然大部分东西并不陌生，但从safety和correctness的角度重新审视一遍也是不错的。</p>
-<h1 id="Integers"><a href="#Integers" class="headerlink" title="Integers"></a>Integers</h1><p>涉及进制转换的内容略过不提。</p>
-<h2 id="Two’s-Complement"><a href="#Two’s-Complement" class="headerlink" title="Two’s Complement"></a>Two’s Complement</h2><p>Two’s Complement是C0中表示数字的一种方法。C0中的整数一共占据32个比特位，其中最高的比特位是该比特位代表的负的2的31次方，也就是说，C0中的最大正整数可以用0x7FFFFFFF表示，正数的范围是0x00000000-0x7FFFFFFF。当最大正整数int_max()再继续做加法的时候整数就会溢出到负数的范围内，也就是0x80000000-0xFFFFFFFF。其中0x80000000是int_min()，其顺序与正数表示相反。</p>
-<h2 id="Bit-Pattern"><a href="#Bit-Pattern" class="headerlink" title="Bit Pattern"></a>Bit Pattern</h2><p>另外一部分是掩码以及各种比特位操作。&amp; 0xFF000000 可以将另外一个32位数的后24位全部置为零，这就是为什么其被称作mask（掩码）。另外我们可以通过| 0xFF000000 将32位数的前8位全部置为1。左移&lt;&lt;就是将比特数左移多少位，右边补零。右移&gt;&gt;会根据最高位进行补齐。</p>
-<h1 id="Arrays"><a href="#Arrays" class="headerlink" title="Arrays"></a>Arrays</h1><p>数组是相同类型数据的集合，例如 int[] 表示整型数组。数组可以包含任何类型的元素，包括其他数组。</p>
-<p>局部变量存储在局部内存中，函数的变量在各自的帧（frame）中。函数调用时，每个被调用的函数都有自己的帧，且只能操作自己帧中的变量。函数返回后，其帧被撤销。</p>
-<p>使用 alloc_array(type, n) 创建数组，返回一个类型为 type[] 的数组，包含 n 个元素。数组的元素存储在分配的内存中，而数组变量本身存储在局部内存中，包含指向分配内存的地址。通过 A[i] 访问数组 A 的第 i 个元素，索引从0开始。分配的内存使用默认值初始化，对于整型数组，默认值为0。越界访问（out-of-bound access）是不允许的，有效索引是0到数组长度减一。数组操作需要满足前提条件（preconditions），例如 alloc_array(type, n) 需要 n ≥ 0。</p>
-<p>C0中Aarray变量名存储的是数列的地址，因此，假如int[] B &#x3D; A，A是某个已经存在的数列，B只会复制A的地址。后续对B的操作也实际上是对于A的操作。一旦某个数列没有指针指向它，C0的Garbage Collector就会消除掉该数列。整数与整数之间不涉及到地址的问题。</p>
-<h1 id="Linear-Search"><a href="#Linear-Search" class="headerlink" title="Linear Search"></a>Linear Search</h1><p>Linear Search本身没什么可以探讨的，主要是关于contracts方面的问题。</p>
-<h2 id="Safety-and-Correctness"><a href="#Safety-and-Correctness" class="headerlink" title="Safety and Correctness"></a>Safety and Correctness</h2><p>确保搜索过程中数组索引 i 在有效范围内，即 0 &lt;&#x3D; i &lt; n，其中 n 是数组 A 的长度。使用contract来定义函数的前提条件（@requires）和后置条件（@ensures）。前提条件：确保传入的数组长度 n 与数组 A 的实际长度相匹配。后置条件：如果找到元素 x，则返回其索引；否则返回 -1。</p>
-<ul>
-<li>数组段表示数组中的一部分，用 A[lo, hi) 表示，包含从索引 lo（包含）到索引 hi（不包含）的元素。</li>
-<li>定义 is_in(x, A, lo, hi) 函数，用于检查元素 x 是否在数组段 A[lo, hi) 中。</li>
-</ul>
-<h2 id="Contract-Exploits"><a href="#Contract-Exploits" class="headerlink" title="Contract Exploits"></a>Contract Exploits</h2><p>即使函数满足Contract，也可能不满足预期的行为。例如，一个函数可以满足Contract但在逻辑上是错误的。</p>
-<h1 id="Complexity"><a href="#Complexity" class="headerlink" title="Complexity"></a>Complexity</h1><p>O(g(n))是一组函数，其中f(n)∈O(g(n))。当且仅当：</p>
-<ul>
-<li>有c∈R+</li>
-<li>有n0∈N<br>使对于所有n≥n0，f(n)≤cg(n)。</li>
-</ul>
-<p>O(1) ⊂ O(log n) ⊂ O(n) ⊂ O(n log n) ⊂ O(n2) ⊂ O(2n) ⊂ O(n!)</p>
-<p>做复杂度分析是可以直接抛掉常数，取变量最坏的情况。保留不同变量间的运算。log的底因为可以通过换底公式换成常数乘以以某数为底因此不重要。</p>
-<h1 id="Binary-Search"><a href="#Binary-Search" class="headerlink" title="Binary Search"></a>Binary Search</h1><h2 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h2><p>使用while循环，维护两个指针lo（low）和hi（high），分别代表搜索区间的下限和上限。<br>计算中间索引mid，并与目标值x进行比较。</p>
-<ul>
-<li>如果A[mid]等于x，则返回mid。</li>
-<li>如果x小于A[mid]，则更新hi为mid。</li>
-<li>如果x大于A[mid]，则更新lo为mid + 1。</li>
-</ul>
-<p>当lo和hi相遇时，搜索结束，返回-1表示未找到。</p>
-<h2 id="Loop-Invariant"><a href="#Loop-Invariant" class="headerlink" title="Loop Invariant"></a>Loop Invariant</h2><ul>
-<li>0 ≤ lo</li>
-<li>lo ≤ hi</li>
-<li>hi ≤ n</li>
-<li>A[0, lo) &lt; x</li>
-<li>x &lt; A[hi, n)</li>
-</ul>
-<p>应确保mid的计算不会超出整数范围，避免溢出错误。循环不变式在算法的初始化（INIT）、保持（PRES）和终止（TERMINATE）阶段都是可以被证明有效的。</p>
 ]]></content>
       <categories>
         <category>Computer Science</category>
