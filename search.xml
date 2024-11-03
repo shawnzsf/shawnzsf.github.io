@@ -1739,4 +1739,1377 @@ $x：只会匹配行尾的字符。
         <tag>Course Notes</tag>
       </tags>
   </entry>
+  <entry>
+    <title>IB Computer Science Command Terms</title>
+    <url>/posts/2d59e809.html</url>
+    <content><![CDATA[<!-- 上一篇关于IB CS的文章语言有点偏激了，那只是我的一面之词，听听就好，别当真。
+
+八股文的撰写自然少不了对应题目的解析，掌握Command terms是在IB考试里面得到高分的关键。 -->
+<h1 id="objective-1-数字越大要求的解释就越详细">Objective 1(数字越大要求的解释就越详细)</h1>
+<ul>
+<li>Classify: 简单排列即可</li>
+<li>Define: 给出一个字、词、概念或者物理量的准确定义</li>
+<li>Draw: 画图表示</li>
+<li>Label: 标图</li>
+<li>List: 给出顺序，无需解释</li>
+<li>State: 给出简短解释，名字或者量，无需解释</li>
+</ul>
+<h1 id="objective-2">Objective 2</h1>
+<ul>
+<li>Annotate: 给图像加简短的笔记</li>
+<li>Apply: 讲概念应用到问题中</li>
+<li>Calculate: 计算值，展示过程</li>
+<li>Describe: 细节描述</li>
+<li>Design: 给出计划或者模型</li>
+<li>Distinguish: 给出清晰的不同点</li>
+<li>Estimate: 展示估算值</li>
+<li>Identify: 在一系列可能中给出一个答案</li>
+<li>Outline: 简要总结</li>
+<li>Present: Offer for display, observation, examination or consideration</li>
+<li>Trace: 画trace table，记录算法的行为</li>
+</ul>
+<h1 id="objective-3">Objective 3</h1>
+<ul>
+<li>Analyse: 将大概念拆分成小的本质或者结构</li>
+<li>Comment: 对给出的计算结果做出评价</li>
+<li>Compare: 给出相似点</li>
+<li>Compare and Contrast: 给出相似点和不同点</li>
+<li>Construct: 用图表方式展示信息</li>
+<li>Contrast：给出差异</li>
+<li>Deduce: 通过给定信息得出结论</li>
+<li>Demonstrate: 用例子或者实际应用解释</li>
+<li>Derive: 得出式子或者关系</li>
+<li>Determine: 得出唯一答案</li>
+<li>Discuss: 给出包含一系列因素或者猜想的客观评价，结构要清晰，论据要充足</li>
+<li>Evaluate: 比较优势和劣势来赞美</li>
+<li>Explain: Reasoning or causes</li>
+<li>Formulate: 精确和系统地表达出概念间的关系</li>
+<li>Interpret: 通过知识识别趋势并且通过给定信息得出结论</li>
+<li>Investigate: 观察、研究或进行详细而系统的检查，确定事实并得出新的结论</li>
+<li>Justify: 通过给详实的理由支撑结论</li>
+<li>Predict: 给出预测结果</li>
+<li>Sketch: 用图表或曲线图表示(适当地标明)，草图应该给出所需形状或形状的总体概念关系，并应包括相关的功能</li>
+<li>Suggest: 给出解决方案，假设或者其他有可能的答案</li>
+<li>To what extent: 考虑论点或概念的优点或缺点。意见和结论应清晰地提出，并有适当的证据和合理的论据支持</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>IB Computer Science</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IB Computer Science topic 6: Resource Management</title>
+    <url>/posts/b9f53da1.html</url>
+    <content><![CDATA[<h2 id="6-1-1-critical-sources">6.1.1 Critical Sources</h2>
+<p>System sources include computer harware, software, trained personnel and suppotring infrastructure. And Operating System is usually responsible for the resources management.</p>
+<p>Primary memory</p>
+<ul>
+<li>stores all processed data and instructions and all resulting data.</li>
+<li>It is directly connected to the processor and feed the processor with required data during the Machine Instruction Cycle.</li>
+</ul>
+<p>RAM and Cache memory</p>
+<ul>
+<li>RAM can be overwritten. And there are two types of RAM: static RAM and dynamic RAM. SRAM is a type of semiconductor that holds data while they are powered. Data stores in  DRAM will gradually leaks away, so it needs to be refreshed periodically</li>
+<li>SRAM is more expensive and need more transistors per byte but faster. Both SRAM and DRAM are volatile and used concurrently. DRAM is used in large quantities to store data and SRAM is used in small quantity to enhance performance.</li>
+<li>Level 1 cache is usually built onto the professor while level 2 cache located on a seperated chip placed between the processor and the DRAM</li>
+</ul>
+<p>ROM</p>
+<ul>
+<li>Read Only Memory is non-volatile and slower than RAM. It holds critical instructions or programs like BIOS to make sure the PC and be booted successfully.</li>
+<li>ROM is also built in embedded microprocessors, microcontrollers and control systems.</li>
+</ul>
+<p>Secondary Memory</p>
+<ul>
+<li>Refers to hardware that provide data integrity, low cost, mass storage capacity and permanent storage. Some of them use direct access while the other uses squential access
+<ul>
+<li>Direct access storage techniques
+<ul>
+<li>Retrieve data without having to read through all previous data.</li>
+<li>Examples: Floppy disks, CD-ROMS, Hard disks, DVDs, USB sticks.</li>
+</ul>
+</li>
+<li>Sequential access storage techniques
+<ul>
+<li>Having to read sequentially through all previous data to request data.</li>
+<li>Example: Magnetic tape
+<ul>
+<li>Ideal for backup purposes.</li>
+<li>Built-in data encryption, low cost and less energy consumption.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Processor Speed
+<ul>
+<li>MIPS(Million instructions Per Second) is used to measuer the performance of a processor, but only an approximation of a processor’s performance since it do not consider the situation that some instructions have a higher effectiveness than others.</li>
+<li>Clock rate refers to the frequency at which the processor is running and used to measure the processor’s performance. The unit used is hertz and gigahertz(GHz). But it is also do not accurate because the clock rate of different processor families varies.</li>
+</ul>
+</li>
+</ul>
+<p>BandWidth</p>
+<ul>
+<li>Memory Bandwidth is the rate ar which data can travel from SRAM and DRAM to the processor. Its unit is millions of bits per second or in Mb per second(Mb/s). The peak theoretical bandwidth is not same as the sustained memory bandwidth, which is less and is affected by different designed features.</li>
+</ul>
+<p>Screen resolution</p>
+<ul>
+<li>Digital devices have different maximum number of distinct pixels that can be used to display video. Most devices can support a number of different resolutions.</li>
+</ul>
+<p>Disk storage</p>
+<ul>
+<li>A general category of metal or plastic storage plates. Current common examples are hard disk drive(HDD), solid state drives(SSD) and solid state hybrid drives(SSHD).</li>
+<li>SSD is expensive, fast, durable and consume less evergy.</li>
+<li>HDD is cheap, slower, but can cover all storage requirements and cost effective.</li>
+<li>SSHD share the advantages and disadvantages fo HDD and SSD.</li>
+</ul>
+<p>Sound processor</p>
+<ul>
+<li>Facilitate the input process and output of audio signals. Commonly integrated onto the motherboard, while some advanced models are sold as seperate cards that use expansion slots of the motherboard.</li>
+<li>Sound processors can convert analog sound to digital files, digital files to analog sound and process multiple audio channels.</li>
+</ul>
+<p>Graphics processor</p>
+<ul>
+<li>Massively parallel processors, very efficient at manipulating and processing graphics and images.</li>
+<li>Ideal for running algorithms that require processing of large blocks of graphics data and computer generated imagery.</li>
+<li>Seperated cards that needs expansion or embbeded on the motherboard.</li>
+</ul>
+<p>Network connectivity</p>
+<ul>
+<li>A laptop euipped with both a wired Network Interface Card(NIC) and a wireless NIC will perform better than a device only equipped with wireless NIC.</li>
+<li>Modern tablets have SIM(Subscriber Identification Module) to improve its connectivity.</li>
+</ul>
+<h2 id="6-1-2-availability-of-resources">6.1.2 Availability of resources</h2>
+<p>Resources are available in a variety of computer systems.</p>
+<p>Mainframes</p>
+<ul>
+<li>used to handle large-bandwidth communication, bulk data processing, enterprise resource planning and large-scale transaction processing.</li>
+<li>Are largest computer systems available an are typically housed in isolated, air-conditional rooms</li>
+<li>Equipped with extremely great processing power, vast amounts of RAM, arrays of disks and backup tapes, and serve hundreds of user terminals.</li>
+<li>Are able to handle high volumes of input and output and run a lot of different applications concurrently.</li>
+</ul>
+<p>Supercomputers</p>
+<ul>
+<li>Fast and expensive, and focus on mathematical calculations, modelling, and engineering applications.</li>
+<li>The performance of supercomputers is measured in FLOPS(floating-point operations per second)</li>
+<li>Current supercomputers are considered as massively parallel systems equipped with multiple arrays of computers and processors.</li>
+</ul>
+<p>Servers</p>
+<ul>
+<li>A software, hardware, or both and provides various services to clients.</li>
+<li>Client-server model is fundamental in networking and database management.</li>
+<li>Need multiple network connections, lots of RAM, fault tolerance, ability to fix problems without the need of shut down, advanced backup facilities, superior security characteristics and various automation capabilities.</li>
+</ul>
+<p>PCs</p>
+<ul>
+<li>Personal Computers are devices that are capable of supporting the computational needs of one user at a time.</li>
+<li>Popular Operating System for PCs are Windows, Mac, or Linux.</li>
+</ul>
+<p>Laptops</p>
+<ul>
+<li>An alternative of PCs.</li>
+<li>Have long-lasting batteries that can be used to support hours of computing.</li>
+</ul>
+<p>Tablets</p>
+<ul>
+<li>Mobile computer equipped with a touch-screen display which is used as input and output device.</li>
+<li>Popular Operating Systems are iOS, Android and Windows.</li>
+<li>Hybrid tablets have a detachabel keyboard and closely resemble laptops.</li>
+</ul>
+<p>PDAs</p>
+<ul>
+<li>Personal digital assistants</li>
+<li>Used as electronic agendas, calanders and personal information systems.</li>
+</ul>
+<p>Cell phones</p>
+<ul>
+<li>Cell phones hardware components and software are managed by a moble operating system.</li>
+<li>It combines features of PCs, PDAs, cameras, media players and GPS navigation units.</li>
+<li>Modern smartphones use iOS, Windows and Android OSs. So various developers can develop apps and distribute them online through application stores.</li>
+</ul>
+<p>Digital Cameras</p>
+<ul>
+<li>Encodes images and videos digitally and stores them in the attached memory card.</li>
+<li>Support various image formats.</li>
+<li>WIFI connection or HDMI output.</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Computer Science</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>6月20日飞行时产生的若干次空想</title>
+    <url>/posts/daydreaming1.html</url>
+    <content><![CDATA[<h2 id="0">0</h2>
+<p>“告白的本质就是不可能告白。如果作为创作者的‘我’在作品中出现，那么就会有一个写‘作者’的‘作者’，就不能保证表现的纯粹性，从而导致告白的形式崩塌，对‘我’来说，假面是带着皮肉的表面，带着这样皮肉的假面所作的告白，不可能是真诚的告白。人终究是无法作出真正的告白的。但是极少数的情况下，只有深深嵌入了肉体之中的假面才能做到这一点。”<br>
+————三岛由纪夫</p>
+<h2 id="1">1</h2>
+<p>“深怕自己本非美玉，故而不敢加以刻苦琢磨，却又半信自己是块美玉，故又不肯庸庸碌碌，与瓦砾为伍。于是我渐渐地脱离凡尘，疏远世人，结果便是一任愤懑与羞恨日益助长内心那怯弱的自尊心。”</p>
+<p>我是极厌恶自己的，并且平等地厌恶精神与肉体。不断站在本体的对立面，带着嘲弄地进行自我否定。是将灵魂分割成两半，一半留在躯体内敏感地捕捉着毛细血管的舒张所产生的微妙情绪，另一半却站在精神的彼岸冷眼相待，分析并时刻警惕着自己体内的那一半灵魂因天性的敏感而极易产生的得胜感。认定着这种肉体所产生的灵魂即是自身的首要敌人，且其间具有不可调和的矛盾。一者穷其一生追求纯粹的、甚至不可能的美与崇高，一者则用异常理性的眼光洞察自身，一针见血地否定前者的美。肉体所诞生的灵魂无理追求无法拥有的美与崇高，而精神由理性所建构，超然在肉体之上，抵抗这种无边际的追求。因而自负与自卑同时存在于一副躯壳之内。自卑是厌恶被感性所掌控，而能够隐藏在幕后掌控这种掌控的确幸，拥有不被人理解的理性已经成为骄傲。</p>
+<p>“孤寂的天赋，或者天赋的孤寂，身处其中而以孤寂自恃，这是自身消除孤寂的唯一办法。”</p>
+<p>我无时不想消除本体的矛盾，想剖开在汩汩弹跳的表皮组织，挑开血管指出肌肉纤维的纹理，让小刀以冷静的姿态埋在起伏颤动的肌肉里，享受扎伤的腹部肌肉的痉挛。我的整个青春时期，都躺在同一个分明色调里，披着压抑的外壳，内里却满溢繁杂活泛的色彩。理智上认为是丑恶的，感情上却简直会当作是美。我多少知道这种年月最不匮乏的就是虚弱的、简直要反噬自身的幻想，多少也能在回忆中看见，被我自身扭曲放大的部分几乎掩过了所有真实的光芒。对那些无处释放、互相中和、乃至灿烂地消亡了的曾有的生命力，由于它太无益，太大量，以致回过头来看，只得张大了嘴一起欣赏这种奇异的美。在这一点上，生命这东西颇似疾病。我也总怀疑青春或许是一种耗损性的疾病，在爆发之后迅速地衰竭，如果不得治愈，是跨不进人间界的。而在长大成为人之前，享用青春的，是一团怎样混乱而自成一体的生物，装满了无妄的灾厄和危险的气血？</p>
+<p>“我觉得命运不赋予我任何能醒人耳目的东西。孤独愈发膨胀。简直就像一头猪。”</p>
+<p>我听到人们刺耳的喧闹，带着无法形容的嘈杂，脖子卖力前抻，将五官挤在一起形成一种似笑非哭的模样。他们的眼帘里映现出来的是什么东西呢？这个谜深深扰乱着我的心。能如此不加思考地宣泄自己感受，以这样高昂音调向世界倾倒造作心情的人通常没有经历过强烈的苦难，抑或是经历了而放弃加以思考。它使我主观感觉到这种行为是一种厚颜无耻的举动，就好像把精神的阴部暴露出来。像这样的自我陶醉，是我惟一无法宽容的自我陶醉。我无法想象这样的人眼中所看到的陶醉的幻影，究竟是什么样的东西，也没有欲望去探求，能解决这种不满的只有放荡的孤独。一如某时某地歇斯底里的张狂，带有纵情和不计后果的气味。孤独是人生命中的一种恒定状态，它一直存在，只是时间越久远，越无法被揭露罢了。我曾以为它会腐蚀一切，包括创造出悲剧的英雄，它从不害怕伤害无辜，因为根本没有无辜之人，它无往而不胜。它只是藏匿于人世一切表象的欢愉中安静潜伏，很少有东西能揭露。所有的孤独来自于虚空，所有的虚空来自于矛盾，所有的矛盾来自于“生”的欲望，抑或是人本身。这是个可怕的流转，是义务。可是谁能说明本质问题？或者说什么才是本质问题呢？可依靠的东西越来越稀薄，仿佛随时可能被抽离的空气。这种等待带有某种宿命的味道，仿佛我可预感到的拥抱与死亡，充满了这放荡的孤独。灵魂有如废弃的老宅，唯有精致的沉默，凌驾于一切之上。</p>
+<h2 id="2">2</h2>
+<p>“这样一种优雅的逃脱，犹如把脱下的华丽的丝绸衣裳乱扔在桌上，不觉间滑落在黑暗的地板上一样。”</p>
+<p>窗外深蓝的水平线连接天空的地方，低浮着一堆堆积云，看样子纹丝不动，实际上像松散的花瓣，精致地绽开来，一点点变幻着形状，上面是稍稍褪色的星空。而在更远离水平线的高空，横向拖曳着广阔纤薄的云彩，平铺着柔和而纤巧的云斑。世界张开了在过去难以想象的巨大怀抱，从彼方逼近。这未知世界的形象如远雷一般，从天际轰鸣而来，又消逝而去。我忽然难过得几乎窒息，墨色的海潮后浪卷着前浪，时间以不能停息的方式向后流失，结局将会到来。或许我从未渴望过得到老年的智慧，总是想着如何才能在年轻时代就能够落幕而不至于痛苦。</p>
+<h2 id="3">3</h2>
+<p>“充满了声音和狂热，里面空无一物”</p>
+<p>独处是人生中最为美妙的时刻，是思想生长的必要空间。即便有些无法避免的寂寞，也是充实的。能够将灵魂从交错的时空中抽出，无论是朋友还是敌人都一并抹去，面对仅剩的自我。这样的感受是独特且无法替代的，没有爱、恨、贪、烦恼、怨恨和愤怒，能感受到的只有自己的存在。当心灵因充分休息而饱满，又因就不活动而饥渴时，就能敏锐地体会到新的印象。这个拥塞的世界中很难寻觅出一处独处的位置吗？在海边，有人弄潮戏水、高谈阔论，但这并不妨碍找到这样一个角落，安静地端详这份海洋。任何外部的喧嚣如果没有一种精神追求为其动力，没有一种精神价值为其目标。不管表面上如何饱满，其本质必定是贫乏且空虚的。我平等的怀疑一切喧嚣的事业和张扬的感情。</p>
+<p>解除孤独毕竟只能靠灵魂相契合的同类，其余的人扰乱了孤独，反而更添一抹暗色，因为受到刺激而更加意识到本体的存在。一颗灵魂发现、欣赏、享受深渊中埋藏的财富便是孤独的快乐。如果这财富也被另一颗灵魂发现了，便有了沟通的快乐。所以，前提是灵魂的富有。对于灵魂空虚之辈，不足以言这两种快乐。心灵的孤独与性格的孤僻有本质的分别。孤僻属于弱者，孤独属于强者。前者恐惧未知的迫害，后者则卓绝于精神，高悬在云层之上。孤独是因为思想独特而不能交流，孤僻却并无独特的内容，只是因为性格的疾病而使交流发生障碍。牛羊不会独行，猛兽如何成群？然而，尽管注定孤独，仍然会感觉到孤独的可怕和难以忍受。这样不同的灵魂却又被赋予了对于人间温暖的需要，这正是悲剧性之所在。越是丰盈的灵魂，往往越能敏锐地意识到残缺，有越强烈的孤独感。在内在丰盈的衬照下，方见出人生的缺憾。反之，不谙孤独也许正意味着内在的贫乏。</p>
+<p>丰盈的心灵中最真实最切己的感悟是无法从言语形容的，只能默然面对人生。我们可以平凡地提起爱情、孤独、幸福、苦难、死亡等等，但真正的意义始终跳脱在话语之外。他人无从得知我的孤独有多绝望，我的幸福有多美丽，我的苦难有多沉重，我的死亡有多荒谬。即便说出也会无可避免地被自己与世界间的隔膜扭曲，只能把这一切藏在心中。我所说所写的文字只是思考的产物，而一切思考在某种意义上都是一种逃避，从最个别的逃向最一般的，从命运逃向生活，从沉默的深渊逃向语言的岸。如果说它们尚未沦为纯粹的空洞观念，那也只是因为它们是从沉默中挣扎出来的，身上还散发着深渊里不可名状的事物的气息。沉默比话语更接近本质，是一种美。种种热闹一时的吹嘘和喝彩，终是虚声浮名。在万象喧嚣的背后，在一切语言消失之处，隐藏着世界的秘密。世界无边无际，有声的世界只是其中很小一部分。只听见语言不会倾听沉默的人是被声音堵住了耳朵的聋子。懂得沉默的价值的人却有一双善于倾听沉默的耳朵。</p>
+<h2 id="4">4</h2>
+<p>“南泉和尚因东西堂争猫儿，泉乃提起云：‘大众道得即救，道不得即斩却也！’众无对，泉遂斩之。晚，赵州外归，泉举似州，州乃脱履安头上而出。泉云：‘子若在，即救得猫儿。’”</p>
+<p>美是固有的，对立、纷争、矛盾、我执、他执同样时时存在，无休无止。南泉以蛮力斩断这些虚妄，却忽略了人本性的弱点；赵州头顶草鞋，是指烦恼如芥子，生生不息，不如宽容纳之，需知世间事本就变化多端，美会变丑，爱会变恨，对会变错，真会变假，何苦如此执着呢？</p>
+]]></content>
+      <categories>
+        <category>Miscellaneous</category>
+      </categories>
+      <tags>
+        <tag>Daydream</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Introduction to programming</title>
+    <url>/posts/ebcb2642.html</url>
+    <content><![CDATA[<h1 id="nature-of-programming-languages">Nature of programming languages</h1>
+<h2 id="4-3-1-state-the-fundamental-operations-of-a-computer">4.3.1 State the fundamental operations of a computer</h2>
+<p>计算机的基本操作(包括加，比较，加载和存储)，涉及到了一些指令，但作者没有继续向下讲。</p>
+<h2 id="4-3-2-distingguish-between-fundamental-and-compound-operations-of-a-computer">4.3.2 Distingguish between fundamental and compound operations of a computer</h2>
+<p>写了运用上述操作找最大值的一个算法示例。</p>
+<h2 id="4-3-3-explain-the-essential-features-of-a-computer-language">4.3.3 Explain the essential features of a computer language</h2>
+<p>一门编程语言被描述为它的语义(semantics)的结合，语义指的是语言中可能的每一个结构的含义，而语法则与它的结构有关。语法(grammar)是一种元语言，用于定义语言的语法(syntax)，语句构造的规则称为语法(syntax)。每种高级语言都有独特的语法和特定的关键字。</p>
+<h2 id="4-3-4-explain-the-need-for-higher-level-languages">4.3.4 Explain the need for higher level languages</h2>
+<p>因为计算机只能处理0和1组成的机器语言，所以后续人们开发了助记符(汇编语言)进行编程。因为汇编语言仍然会因为计算机的不同而不同，抽象程度不高，所以人们开发了高级语言。高级语言是一种使用自然语言元素的编程语言，易于使用，通过隐藏计算系统的重要区域来进行抽象，是程序开发更加简单。</p>
+<h2 id="4-3-5-outline-the-need-for-a-translation-process-from-a-higher-level-leanguage-to-machine-executable-code">4.3.5 Outline the need for a translation process from a higher-level leanguage to machine-executable code</h2>
+<p>现如今使用高级语言实现的程序要想运行在计算机上需要编译(compilation)或者解释(interpretation)。</p>
+<ul>
+<li>
+<p>Compilation: 编译器(compiler)是只执行一次翻译过程(translation)的翻译器(translator)。通常把整个源程序翻译成目标程序，下次使用目标程序是不需要再重新编译。编译器会对发现的所有语法错误发出错误信息，并在检查整个程序后将所有错误传达给程序员。编译器要比解释器快很多(喜)。</p>
+</li>
+<li>
+<p>Interpretation: 解释亲(interpreter)是一个翻译器，解释是指读取源程序的每一行(指令)，对其进行分析，将其翻译成目标程序的相应行，并执行该行的过程。对于每条被解释的指令，语法错误都会被告知程序员。</p>
+</li>
+<li>
+<p>JAVA: JAVA将编译和解释结合起来。首先将源代码编译成JAVA虚拟机字节码。也就是将.java文件转换为.class文件。这个JAVA虚拟机字节码可以被JAVA虚拟机解释器解释。JAVA这样的编译和解释过程允许代码在安装了JAVA虚拟机解释器的任何机器上运行。JAVA代码在特定硬件平台上运行的所有细节都由JAVA虚拟机(JVM)处理。</p>
+</li>
+</ul>
+<h1 id="use-of-programming-languages">Use of programming languages</h1>
+<h2 id="4-3-6-variable-constant-operator-object">4.3.6 Variable, constant, operator, object</h2>
+<ul>
+<li>
+<p>变量(variable)：用于存储程序的数据元素。存储的值可以在程序执行期间更改。变量有名称(或标识符)和类型。变量名不应与语言的保留关键字和字面值冲突。变量的类型可以是整数、双精度、字符串等。在大多数编程语言中，变量只能存储特定类型的数据元素。</p>
+</li>
+<li>
+<p>常数(constant)：常数代表不变的事物和数量。它们可以被视为不可修改的变量。存储在常量中的数据元素不能在程序执行期间被修改。</p>
+</li>
+<li>
+<p>操作符(operator)：操作符用于操作操作数。操作数可以是变量、文字、布尔值、数值等。运算符可以是算术、关系和逻辑等。</p>
+</li>
+<li>
+<p>对象(object)：对象是由数据和操作组成的。动作是指对象可以执行的操作。对象数据可以包括许多数据成员，而操作也可以成为方法。数据成员用于存储对象的当前状态，方法用于更改或访问这些数据成员。</p>
+</li>
+</ul>
+<h2 id="4-3-7-define-various-operators">4.3.7 Define various operators</h2>
+<p>=: 等于; !=: 不等于;</p>
+<blockquote>
+<p>: 大于; &gt;=: 大于等于; &lt;: 小于; &lt;=: 小于等于;<br>
+div: 取整; mod: 取余；</p>
+</blockquote>
+<h2 id="4-3-8-analyse-the-use-of-variables-constants-and-operators-in-algorithms">4.3.8 Analyse the use of variables, constants and operators in algorithms</h2>
+<h3 id="local-and-global-value">Local and global value</h3>
+<p>全局变量对程序的所有部分可见，而局部变量的作用域有限。</p>
+<h2 id="4-3-9-develop-algorithms-using-loops-branching">4.3.9 Develop algorithms using loops, branching</h2>
+<p>给了一个算闰年的Java程序。</p>
+<h2 id="4-3-10-describe-the-characteristics-and-applications-of-a-collection">4.3.10 Describe the characteristics and applications of a collection</h2>
+<p>集合由零个或多个元素组成。允许重复元素，并且可以包含有序和无序的数据元素。集合的重要操作有添加、删除等。每种类型的集合都配备了自己特定的操作。特定集合的元素通都是相同类型并表示一个实体。</p>
+<h2 id="4-3-11-develop-algorithms-using-the-access-methods-of-a-collection">4.3.11 Develop algorithms using the access methods of a collection</h2>
+<p>三个例子。</p>
+<h2 id="4-3-12-discuss-the-importance-of-sub-programmes-and-collections-within-programmed-solutions">4.3.12 Discuss the importance of sub-programmes and collections within programmed solutions</h2>
+<p>子程序是包含执行特定和预定义任务的计算机指令序列的单元。(编写函数)</p>
+<p>使用子程序的优点：</p>
+<ul>
+<li>复杂分成简单</li>
+<li>将问题分布到全世界</li>
+<li>允许代码重用</li>
+<li>隐藏实现细节，提高抽象程度</li>
+<li>提高可维护性</li>
+<li>减少代码重复</li>
+</ul>
+<p>使用集合的好处：</p>
+<ul>
+<li>集合可以直接进行操作</li>
+<li>提高性能</li>
+<li>重用更多代码</li>
+</ul>
+<h2 id="4-3-13-construct-algorithms-using-pre-defined-sub-programmes-one-dimensional-arrays-and-or-collections">4.3.13 Construct algorithms using pre-defined sub-programmes, one-dimensional arrays and/or collections</h2>
+<p>不同的高级语言使用过程、子过程、函数、例程、方法、模块等术语指代子程序。子程序包含的单元可以在各种计算机程序中使用。后跟一堆例子。</p>
+]]></content>
+      <tags>
+        <tag>IB Computer Science</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IB Environmental Systems and Societies 1.1-1.3 Summary</title>
+    <url>/posts/33d7dada.html</url>
+    <content><![CDATA[<p>一门水课，所以直接整理大纲中要求学生掌握的问题的答案。</p>
+<h1 id="1-1">1.1</h1>
+<h2 id="environmental-history">Environmental History</h2>
+<ol>
+<li>Significant historical influences on the development of the environmental movement have come from literature, the media, major environmental disasters, international agreements and technological developments. (a minimum of 3 in-depth examples).</li>
+</ol>
+<ul>
+<li>Montreal Protocol: The Montreal Protocol on Substances that Deplete the Ozone Layer is the landmark multilateral environmental agreement that regulates the production and consumption of nearly 100 man-made chemicals referred to as ozone depleting substances (ODS).</li>
+<li>Deadly Smog-London: The Great Smog of London, or Great Smog of 1952, was a severe air pollution event that affected London, England, in December 1952. Perhaps 12,000 people die.</li>
+<li>Publication of Silent Spring by Rachel Carson: Highlighting problems of DDT on ecosystems - led to a general raising of awareness of environmental issues by the public</li>
+</ul>
+<h2 id="environmental-value-system">Environmental Value System</h2>
+<ol>
+<li>Define an Environmental Value System and describe the differences between the Ecocentric, Technocentric and Anthropocentric EVSs.</li>
+</ol>
+<ul>
+<li>Definition: A worldview or paradigmthat shapes the way an individual, or group of people, perceives and evaluates environmental issues, influenced by cultural, religious, economic and socio-political contexts.</li>
+<li>Ecocentric:
+<ul>
+<li>Integrates social, spiritual and environmental dimensions into an holistic ideal.</li>
+<li>Ecology and nature are central to humanity</li>
+<li>Emphasises a less materialistic approach to life with greater self-sufficiency of societies.</li>
+<li>Prioritises biorights (a matter of morals)</li>
+<li>Emphasises importance of education is key</li>
+<li>Encourages self-restraint</li>
+</ul>
+</li>
+<li>Anthropocentric:
+<ul>
+<li>Humans must sustainably manage the global system.</li>
+<li>Might use taxes, environmental regulation and legislation</li>
+<li>Debate encouraged to reach a consensus</li>
+<li>Pragmatic approach to solving environmental problems</li>
+</ul>
+</li>
+<li>Technocentric:
+<ul>
+<li>Technology developments can provide solutions to environmental problems.</li>
+<li>Largely optimistic view of the role humans can play in improving the lot of humanity</li>
+<li>Scientific research is encouraged in order to form policies and to understand how systems can be controlled, manipulated or changed to solve resource depletion</li>
+<li>A pro-growth agenda is deemed necessary for society’s improvement</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>Explain how a particular EVS might approach an environmental issue<br>
+书里没写，但根据上面的应该也可以自己写了。<br>
+这里补充一下：
+<ul>
+<li>Ecocentric: Deep Ecologist</li>
+<li>Technocentric: Cornucopian</li>
+<li>Anthropocentric: Environmental Manager</li>
+</ul>
+</li>
+<li>Discuss the intrinsic value of the environment and how different EVSs feel about this<br>
+Intrinsic value is the value of the nature itself, despite the commercial or social value.</li>
+<li>Be able to evaluate how an environmental issue may be approached by a combination of many different EVSs<br>
+同样可以用上面那一长串的定义回答。</li>
+</ol>
+<h1 id="1-2">1.2</h1>
+<h2 id="systems-and-models">Systems and Models</h2>
+<ol>
+<li>
+<p>Describe a system with its flows, stores, transfers and transformations of energy and matter.</p>
+<ul>
+<li>A system is any collection of components that work together to perform a function.</li>
+<li>the system if made up of component parts</li>
+<li>the parts work together</li>
+<li>the whole thing serves some purpose</li>
+<li>transfer do not change the form of energy, while transformation do.</li>
+</ul>
+</li>
+<li>
+<p>Apply this to a variety of systems including unknown and novel systems to you including drawing a diagram to represent the system</p>
+</li>
+<li>
+<p>Understand the difference between open, closed and isolated systems and be able to identify a system as one of these.</p>
+<ul>
+<li>Isolated Systems:
+<ul>
+<li>no exchange of energy or material across the system boundaries</li>
+<li>such systems don’t exist in the natural world</li>
+<li>the entire cosmos could be considered to be an isolated system</li>
+<li>Recently isolated caves have been discovered in which the source of energy is minerals in the rocks which are utilised by chemoautotrophs. Even these cannot be considered as isolated systems due to leakage of water, the occasional input of organisms or minerals from other systems.</li>
+</ul>
+</li>
+<li>Closed Systems:
+<ul>
+<li>exchange energy but not material across the system boundaries</li>
+<li>the global water cycle is a closed system because there is a fixed amount of material (water) within the system and the circulation of water is maintained by energy from the sun which comes across the system boundary.</li>
+<li>Other global cycles of minerals are also examples of closed systems.</li>
+<li>an artificial example is Biosphere II which was created by scientists in the USA</li>
+</ul>
+</li>
+<li>Open Systems:
+<ul>
+<li>exchange of energy and materials freely across the system boundary</li>
+<li>most environmental systems, such as drainage basins, lakes and forests, are open</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Discuss why the global geochemical cycles approximate to closed systems<br>
+There is a fixed amount of material within the system and the circulation of materials is maintained by energy from the sun which comes across the system boundary.</p>
+</li>
+</ol>
+<h2 id="structure-of-a-system">Structure of a System</h2>
+<ol>
+<li>A system is comprised of storages and flows.</li>
+<li>The flows provide inputs and outputs of energy and matter.</li>
+<li>The flows are processes that may be either transfers (a change in location) or transformations (a change in the chemical nature, a change in state or a change in<br>
+energy).</li>
+<li>In system diagrams, storages are usually represented as rectangular boxes and flows as arrows, with the direction of each arrow indicating the direction of each flow. The size of the boxes and the arrows may be representative of the size / magnitude of the storage or flow.</li>
+<li>The first law of thermodynamics is the principle of conservation of energy, which states that energy in an isolated system can be transformed but cannot be created or destroyed.</li>
+<li>The principle of conservation of energy can be modelled by the energy transformations along food chains and energy production systems.</li>
+<li>The second law of thermodynamics states that the entropy of a system increases over time. Entropy is a measure of the amount of disorder in a system. An increase in entropy arising from energy transformations reduces the energy available to do work.</li>
+<li>The second law of thermodynamics explains the inefficiency and decrease in available energy along a food chain and energy generation systems.</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>IB Environmental Systems and Societies</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>南京大学计算机系统基础课程笔记1：计算机系统概述</title>
+    <url>/posts/b575443e.html</url>
+    <content><![CDATA[<h1 id="1-2-1-冯诺依曼结构主要思想">1.2.1 冯诺依曼结构主要思想</h1>
+<h2 id="eniac">ENIAC</h2>
+<p>1946年，世界上第一台通用电子计算机ENIAC出现（Electronic Numerical Integrator And Computer）</p>
+<ul>
+<li>有电子真空管组成</li>
+<li>由宾夕法尼亚大学研制</li>
+<li>用于解决复杂弹道问题，5000次加法/s</li>
+<li>用十进制表示信息并运算</li>
+<li>使用手动编程，通过设置开关和插拔电缆实现</li>
+<li>体积大，质量大，耗电大</li>
+</ul>
+<h2 id="冯-诺依曼">冯·诺依曼</h2>
+<ul>
+<li>1944年参加原子弹研制工作</li>
+<li>1945年遇到美国弹道实验室的军方负责人</li>
+<li>加入ENIAC研制组，发表了“存储程序通用电子计算机方案”，Electronic，Discrete，Variable，Automatic，Computer</li>
+<li>普林斯顿高等研究院批准依照方案建造计算机，1946年开始设计“存储程序”计算机，1951年完成IAS
+<ul>
+<li>报告中提到的计算机结构被称为冯·诺依曼结构</li>
+<li>“存储程序（Stored-program）”的工作方式：
+<ul>
+<li>任何计算机完成的工作要先被编写成程序，然后将程序和原始数据送入主存并执行，启动后可以自行完成取出指令和执行指令的任务。</li>
+<li>冯·诺依曼结构计算机被称为冯·诺依曼机器（Von Neumann Machine）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>世界上第一台存储程序计算机是1949年剑桥大学完成的EDSAC。</li>
+</ul>
+<h2 id="冯-诺依曼结构主要思想">冯·诺依曼结构主要思想</h2>
+<ul>
+<li>有主存，存放程序和数据</li>
+<li>有自动逐条取出指令的部件</li>
+<li>有具体执行指令的部件</li>
+<li>程序有指令构成</li>
+<li>指令描述如何对数据进行处理（指令译码，转换成控制信号）</li>
+<li>应该有将程序和原始数据输入计算机的部件</li>
+<li>应该有将运算结果输出计算机的部件</li>
+<li>早期计算机用分散方式连接，现在用总线方式</li>
+</ul>
+<p>我们将上述要求进行总结</p>
+<ul>
+<li>计算机应有运算器、控制器、存储器、输入设备和输出设备
+<ul>
+<li>存储器用于存放数据和指令（形式上没区别，但计算机能区分）</li>
+<li>控制器自动取指执行</li>
+<li>运算器支持基本算数运算和逻辑运算</li>
+<li>操作人员通过输入设备和输出设备与主机通信</li>
+</ul>
+</li>
+<li>内部用二进制表示指令和数据。指令由操作码和地址码组成，一串指令组成程序。</li>
+<li>采用“存储程序的工作方式”。</li>
+</ul>
+<h1 id="1-2-2-现代计算机结构模型及工作原理">1.2.2 现代计算机结构模型及工作原理</h1>
+<p><img src="/posts/b575443e.htm/Screenshot%202023-08-24%20123534.png" alt="Alt text"></p>
+<p>CPU：中央处理器<br>
+PC：程序计数器<br>
+MAR：存储器地址寄存器<br>
+ALU：算术逻辑部件<br>
+IR：指令寄存器<br>
+MDR：存储器数据寄存器<br>
+GPRs：通用寄存器组</p>
+<p>我们将CPU执行过程类比成做菜（类似“存储程序”的工作方式）</p>
+<p>做菜前：</p>
+<p>原材料（数据）和菜谱（指令）都按顺序放在厨房外的架子（存储器）上，每个架子有编号（存储单元地址），菜谱（指令）上的信息：原料位置、做法、做好的菜放在哪里等。然后决定从第几个架子（PC=？）上指定菜谱开始做。</p>
+<p>数据和指令实现存放在存储器中，每条指令和每个数据都有地址，指令按序存放，指令由OP、ADDR字段组成，程序起始地址置PC。</p>
+<p>开始做菜：</p>
+<p>第一步：从某号加上取菜谱（根据PC取指令）<br>
+第二步：看菜谱（指令译码）<br>
+第三步：从架上或盘中取原材料（取操作数）<br>
+第四步：洗、切、炒等具体操作（指令执行）<br>
+第五步：装盘或直接送桌（写回结果）<br>
+第六步：算出下一菜谱所在架子号（修改PC的值）<br>
+继续做下一道菜（然后执行下一条指令）</p>
+<p>因为指令和数据都存放在存储器中，形式上都是二进制数，所以指令中需要给出固定格式的信息以执行操作，指令中需给出的信息：</p>
+<ul>
+<li>操作性质（操作码OP）</li>
+<li>源操作数1 或/和 源操作数2（立即数、寄存器编号、存储地址ADDR）</li>
+<li>目的操作数地址（寄存器编号、存储地址ADDR）</li>
+<li>存储地址的表述与操作数的数据结构有关</li>
+</ul>
+<h1 id="1-3-1-从机器语言到高级编程语言">1.3.1 从机器语言到高级编程语言</h1>
+<p>最早的程序开发过程用机器语言编写程序，并记录在纸带或卡片上。所有的输入输出都是二进制数。<br>
+书写不灵活，阅读困难。</p>
+<p>用汇编语言开发程序用符号表示跳转位置和变量位置。使用助记符表示操作码，用标号表示位置，用助记符表示寄存器。不会因为增减指令而需要修改其他指令，读写性比机器语言强。汇编程序将汇编语言转换成机器语言。</p>
+<p>汇编语言由汇编指令构成。指令只能描述存取一个属、两个数运算或者根据运算结果判断执行是否转移</p>
+<p>用高级语言开发程序与具体机器结构无关。面向算法描述，描述能力强。高级语言中的一条语句可以对应若干条指令。高级语言有面向过程和面向对象之分。处理逻辑分为顺序结构、循环结构和选择结构。</p>
+<p>高级语言有两种转换方式：编译和解释。编译将高级语言源程序转换为机器级目标程序，执行时只要启动目标程序即可。解释程序将高级语言语句逐条翻译成机器指令并直接执行，不生成目标文件。</p>
+<h1 id="1-3-2-程序的开发和执行及其支撑环境">1.3.2 程序的开发和执行及其支撑环境</h1>
+<p>C在GCC+Linux平台中的处理过程：</p>
+<p>hello.c（文本） -&gt; 预处理 -&gt; hello.i（文本） -&gt; 编译 -&gt; hello.s（汇编文本） -&gt; 汇编 -&gt; hello.o（二进制）-&gt; 链接（程序中某些函数的实现在其他文件中）-&gt; hello（可执行文件）</p>
+<p><img src="/posts/b575443e.htm/Screenshot%202023-08-24%20131352.png" alt="Alt text"></p>
+<p><img src="/posts/b575443e.htm/Screenshot%202023-08-24%20131721.png" alt="Alt text"></p>
+<p>用高级语言开发需要语言处理系统和操作系统。</p>
+<p><img src="/posts/b575443e.htm/Screenshot%202023-08-24%20132005.png" alt="Alt text"></p>
+<h1 id="1-4-1-编程语言和计算机系统层次">1.4.1 编程语言和计算机系统层次</h1>
+<p>最早的计算机使用机器语言进行编写，这时候只需要使用指令集体系结构将计算机硬件抽象成接口供应用程序使用即可，一共分成三个层次。</p>
+<p>后来用汇编语言编程。所以我们要使用汇编程序将汇编语言转换成机器语言再通过指令集体系结构使用硬件的接口执行程序。因为是使用符号进行编写，所以我们同样需要操作系统或者图形化界面来提供人机交互，所以在这里一共有五个系统层次。</p>
+<p>现代计算机用高级语言编程，在这里我们使用语言处理程序将其转换成机器指令，其余部分与上述汇编语言相同。语言处理系统包括各种语言处理程序（编译、汇编、链接）和运行时系统（库函数，调试、优化等）。操作系统包括人机交互界面和提供服务功能的内核例程。</p>
+<h1 id="1-4-2-现代计算机系统的层次结构">1.4.2 现代计算机系统的层次结构</h1>
+<p><img src="/posts/b575443e.htm/Screenshot%202023-08-24%20133528.png" alt="Alt text"></p>
+<p><img src="/posts/b575443e.htm/Screenshot%202023-08-24%20133732.png" alt="Alt text"></p>
+<p>指令集体系结构（Instruction Set Architecture，ISA），有时简称为指令系统。<br>
+ISA是一种规范（Specification），它规定了如何使用硬件。<br>
+- 可执行的指令的集合，包括指令格式和操作种类的相应规定<br>
+- 指令可以接受的操作数的类型<br>
+- 操作数所能存放的寄存器组的结构<br>
+- 操作数所能存放的存储空间的大小和编址方式<br>
+- 操作数在存储空间存放时按照大端还是小段存放<br>
+- 寻址方式<br>
+- 指令执行过程的控制方式，包括程序计数器、条件码定义等</p>
+<p>计算机组成必须能够实现ISA规定的功能。ISA是计算机组成的抽象。<br>
+同一种ISA可以有不同的计算机组成，如乘法指令可用ALU或乘法器实现。</p>
+]]></content>
+      <tags>
+        <tag>计算机系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>南京大学计算机系统基础课程笔记3：运算电路基础</title>
+    <url>/posts/ef91a6c0.html</url>
+    <content><![CDATA[<h1 id="3-1-布尔代数和基本逻辑电路-无符号数加法器-整数加减运算器和alu">3.1 布尔代数和基本逻辑电路&amp;无符号数加法器&amp;整数加减运算器和ALU</h1>
+<ol>
+<li>布尔代数基本定义：</li>
+</ol>
+<ul>
+<li>0和1分别表示逻辑值的假和真</li>
+<li>通过逻辑关系可以构建基于0和1的布尔代数运算</li>
+<li>最基本的逻辑运算有：与（AND）、或（OR）、非（NOT）</li>
+<li>真值表可以反映输入和输出之间的关系</li>
+</ul>
+<ol start="2">
+<li>
+<p>逻辑运算可以通过逻辑门电路实现：与门、或门、非门。假使我们要进行按n位逻辑运算，则需要n个逻辑门</p>
+</li>
+<li>
+<p>逻辑电路有以下两种类型：</p>
+</li>
+</ol>
+<ul>
+<li>组合逻辑电路：没有存储功能，输出依赖于当前输入。</li>
+<li>时序逻辑电路：具有存储功能，输出不仅依赖于当前输入。</li>
+<li>功能部件：用逻辑门电路组成的带有特定功能的组合逻辑部件。</li>
+</ul>
+<ol start="4">
+<li>一位加法器称为全加器（n位加法器可以直接用若干个全加器实现，但是在这种情况只能实现无符号的整数加法）：</li>
+</ol>
+<ul>
+<li>两个加数为A和B，低位进位为Cin，和为F，向高位的进位为Cout。</li>
+<li>不考虑低位进位的加法器叫半加器。</li>
+</ul>
+<ol start="5">
+<li>n位带标志加法器：</li>
+</ol>
+<ul>
+<li>溢出标志OF：OF = Cn ^ Cn-1</li>
+<li>符号标志SF：SF = Fn-1</li>
+<li>零标志ZF：当且仅当F = 0时ZF = 1</li>
+<li>进位/借位标志CF：CF = Cout ^ Cin</li>
+</ul>
+<ol start="6">
+<li>n位整数加/减运算器：</li>
+</ol>
+<ul>
+<li>[ A + B ]补 = [ A ]补 + [ B ]补（mod 2^n）</li>
+<li>[ A - B ]补 = [ A ]补 + [ -B ]补（mod 2^n）<br>
+运用这样的逻辑并加上带标志加法器，可以进行无符号整数加、无符号整数减、带符号整数加和带符号整数减。在加减部件的基础上，加上寄存器、移位器和控制逻辑，就能够实现ALU、乘除运算和浮点运算电路。</li>
+</ul>
+<ol start="7">
+<li>算术逻辑部件（ALU）：</li>
+</ol>
+<ul>
+<li>能够进行基本算数运算和逻辑运算
+<ul>
+<li>无符号整数加减</li>
+<li>带符号整数加减</li>
+<li>与、或、非、异或等逻辑运算</li>
+</ul>
+</li>
+<li>核心电路是带标志加法器</li>
+<li>输出除和/差等，还有标志信息</li>
+<li>有一个操作控制端（ALUop），用来决定具体运算操作。</li>
+</ul>
+<h1 id="3-2-从c表达式到逻辑电路">3.2 从C表达式到逻辑电路</h1>
+<p>C语言中的基本数据类型：</p>
+<ul>
+<li>无符号数（二进制位串）、带符号整数（补码）</li>
+<li>浮点数（IEEE 754标准）</li>
+<li>位串、字符（串）（ASCII码）<br>
+C语言中的基本运算类型：</li>
+<li>算术</li>
+<li>按位</li>
+<li>逻辑</li>
+<li>移位</li>
+<li>扩展和截断（类型转换时会用到）</li>
+</ul>
+<p>指令集中涉及到的运算</p>
+<ul>
+<li>涉及到的定点数运算
+<ul>
+<li>算术运算
+<ul>
+<li>带符号整数：取负/符号扩展/加减乘除/算术移位</li>
+<li>无符号整数：0扩展/加减乘除/逻辑左移/逻辑右移</li>
+</ul>
+</li>
+<li>逻辑运算
+<ul>
+<li>逻辑操作：与或非…</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>涉及到的浮点数运算：加减乘除</li>
+</ul>
+<p>指令集中的运算操作在运算电路中进行：</p>
+<ul>
+<li>基本运算部件ALU、通用寄存器组和其他部件</li>
+</ul>
+<p>高级运算操作先转换成指令，再在计算机中的逻辑门电路进行运算。</p>
+<h1 id="3-3-c语言中的各类运算">3.3 C语言中的各类运算</h1>
+<p>本节是对上一小节中提到的运算进行展开解释，直接放图。</p>
+<p><img src="/posts/ef91a6c0.htm/Screenshot%202023-09-01%20111027.png" alt="Alt text"></p>
+<p><img src="/posts/ef91a6c0.htm/Screenshot%202023-09-01%20111216.png" alt="Alt text"></p>
+<p><img src="/posts/ef91a6c0.htm/Screenshot%202023-09-01%20111311.png" alt="Alt text"></p>
+<p><img src="/posts/ef91a6c0.htm/Screenshot%202023-09-01%20111344.png" alt="Alt text"></p>
+<h1 id="3-4-加减运算生成的标志信息">3.4 加减运算生成的标志信息</h1>
+<p>C语言中的整数有：</p>
+<ul>
+<li>带符号整数：char, short, int, long</li>
+<li>无符号整数：unsigned char, unsigned short, unsigned</li>
+</ul>
+<p>指针和地址通常是无符号整数，进行指针或地址的运算就是进行无符号整数的加减运算。<br>
+无符号整数和带符号整数的加减运算电路相同，运算电路称为整数加减运算部件，都基于带标志加法器实现。计算机中的加法器是一种模2^n运算系统。</p>
+<p>补码加减运算要点和运算部件：</p>
+<ul>
+<li>加减运算统一用加法处理。</li>
+<li>符号位和数值位一起参与运算。</li>
+<li>计算机中所有运算都基于加法器实现。</li>
+<li>加法器不知道运算的是带符号数或无符号数。</li>
+<li>加法器不知道运算结果是否正确。</li>
+</ul>
+<p>在c语言中通常会有分支指令（条件转移指令，如if），而条件标志（Flag）在运算电路中产生，被记录到程序/状态字寄存器或标志寄存器中，每个标志对应标志寄存器中的一个标志位。</p>
+<p>n位带标志加法器：</p>
+<ul>
+<li>无法用于两个n位带符号整数（补码）相加，因为无法判断是否溢出。</li>
+<li>程序中比较大小的操作通过在加法器中做减法得到的标志信息进行判断。<br>
+无符号加溢出条件：CF = 1<br>
+带符号加溢出条件：OF = 1<br>
+带符号减溢出条件：</li>
+<li>最高位和次高位的进位不同</li>
+<li>和的符号位和加数的符号位不同<br>
+无符号减溢出：</li>
+<li>差为负数（CF = 1）</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>计算机系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IB计算机组成知识小结</title>
+    <url>/posts/4b4db486.html</url>
+    <content><![CDATA[<!-- 我对IB计算机课程体系已经失望至极了...整套课程并不注重学生计算机能力的培养，而注重八股文的书写，而我还必须强忍不适把这些nonsense记下。本文主要记录IB Topic 2 Computer Organization所涉及到的“知识内容”。定义全部是IB教材中给出的，请不要在实践中遵守其中的**任何**一条，如有问题概不负责。 -->
+<h1 id="computer-architecture-话说ca和co难道不是一个意思吗？">Computer Architecture（话说CA和CO难道不是一个意思吗？）</h1>
+<p>CPU：Central Processing Unit, data or instructions that are processed by a computer system in the process phase of the input, proces, output and storage model are processed by them.</p>
+<p>ALU：Arithmetic Logic Unit, performs all basic arithmetic, logical or input/output operations.</p>
+<p>CU：Control Unit, is responsible for the operation of the CPU. It controls the retrieval of instructions from the primary memory as the sequence of their execution. (Or a simpler definition that can help you to get the full score: Getting new instructions and data from memory and provide them to ALU, direct data flow)</p>
+<p>MAR：Memory Address Register. Holds the memory address of the data to be used by the ALU, so that the ALU can fetch the corresponding content from the memory and process it accordingly.</p>
+<p>MDR：Memory Data Register. Holds the data that is to be used by the ALU and then saved to the RAM.</p>
+<p>Address Bus：Connect MAR and RAM.</p>
+<p>Data Bus：Connect MDR and RAM.</p>
+<p>下图是所谓的CPU架构，记下来然后在考试中画上去。<br>
+<img src="/posts/4b4db486.htm/Screenshot%202023-10-26%20234800.png" alt="Alt text"></p>
+<p>The use of primary memory：The only storage that is directly accessible by the CPU. The primary memory may hold both data and instructions that are currently running on the computer system. D&amp;I stored in primary memory as binary machine code.</p>
+<p>RAM：Random Access Memory. General-purpose storage area, data stored can be over-written. Volatile.</p>
+<p>ROM：Read Only Memory. Store data that cannot be over-written. Non-volatile. Store programs and instructions that do not need to be updated or change.</p>
+<p>Differences Between RAM and ROM：</p>
+<ul>
+<li>ROM cannot be written to, but RAM can be written to.</li>
+<li>ROM holds the BIOS, but RAM holds the programs running and the data used.</li>
+<li>ROM is much bigger than RAM.</li>
+<li>Volatile/Non-volatile.</li>
+</ul>
+<p>Cache：</p>
+<ul>
+<li>Nearer to the CPU than RAM.</li>
+<li>Faster than RAM.</li>
+<li>More expensive than RAM.</li>
+<li>Seperated in L1 and L2.</li>
+</ul>
+<p>Machine Instruction Cycle：It is the basic operation cycle of a computer, taking place in a definite time period, during which one instruction is fetched from memory and executed. It typically consists of four stages：fetch, decode, executer and store.</p>
+<p>累了，指令执行这块也没什么要多写的，看图即可：<br>
+<img src="/posts/4b4db486.htm/Screenshot%202023-10-27%20000238.png" alt="Alt text"></p>
+<h1 id="secondary-memory">Secondary Memory</h1>
+<p>Persistent storage(a.k.a. secondary memory/auxiliary storage): relatively slow memory that may be written to but is also non-volatile. The contents of the memory are not wiped if power is lost.</p>
+<p>Need for persistent storage: If secondary memory did not exist a computer system would be unable to store instructions and data persistently. Whenever it shut down all the contents of the only existing primary memory would be lost.</p>
+<p>Virtual Memory: secondary memory is required to hold information that may not be needed all of the time or may be too large to fit as a whole in primary memory.</p>
+<p>The use of virtual memory: Secondary memory allow us to run all these programs confurrently and seamlessly. Since there is not enough space in the primary memory to load the extra program, some other program loaded by the user is copied into secondary memory. Whenever the program that was moved into the secondary memory is needed, some other program in the primary memory is copied to the secondary memory.</p>
+<p>Examples of secondary memory:</p>
+<ul>
+<li>Hard drive(hard disk)</li>
+<li>CD-RW, DVD-RW</li>
+<li>USB Flash drive</li>
+<li>Secure Digital(SD) or Compact Flash(CF) card</li>
+<li>Zip disk</li>
+<li>Floppy disk</li>
+<li>Magnetic tape</li>
+</ul>
+<p>Differences between primary and secondary memory:</p>
+<ul>
+<li>Most computers are equipped with a smaller amount of primary memory and a larger amount of secondary memory.</li>
+<li>Primary memory is volatile, which means it does not retain data when the power is turned off.</li>
+<li>Primary memory is more expensive compared to secondary memory.</li>
+<li>Primary memory is much faster than secondary memory.</li>
+<li>Primary memory is directly accessed by the CPU, while secondary memory is not.</li>
+<li>Secondary memory is non-volatile, which means it retains data when the power is turned off.</li>
+</ul>
+<h1 id="operating-and-application-systems">Operating and Application Systems</h1>
+<p>Operating System: a set of software that controls the computer’s hardware resources and provides services for computer programs. An intermediary between software applications and the computer hardware.</p>
+<p>Main functions of OS:</p>
+<ul>
+<li>Peripheral communication</li>
+<li>Memory management</li>
+<li>Resource monitoring and multitasking</li>
+<li>Networking</li>
+<li>Disk access and data management</li>
+<li>Security<br>
+（极其通俗，不做具体展开）</li>
+</ul>
+<p>Application software: preloaded when it is manufactured and complete predefined tasks.<br>
+Examples:</p>
+<ul>
+<li>Word processors: production of any sort of document.</li>
+<li>Spreadsheets: organization and analysis of data.</li>
+<li>Database management systems(DBMS): manages(creates, queries, updates stores, modifies, and extracts information) databases and is designed to provide an interface between users and a database.</li>
+<li>Web browsers: used to access, retrieve, and present content on the World Wide Web.</li>
+<li>Email: allows for the exchange of digital messages from a single author to one or more recipients.</li>
+<li>Computer Aided Design(CAD): assists engineers to create, modify, analyze and optimize a design.</li>
+<li>Graphic processing software: allows a user to manipulate visual images on a computer.</li>
+</ul>
+<p>Toolbars: GUI element on which buttons, icons, menus, or other input or output elements are placed.<br>
+Menus: displays a list of commands that can be chosen by the user to perform various functions.<br>
+Dialogue boxes: communicate information to the user and allow him/her to respond by choosing an option from a list of specific choices.<br>
+Graphical User Interfaces(GUI): WIMP, windows, icons, menus, pointers. Interact with computer in a number of ways.<br>
+Command Line Interfaces(CLI): Type in commands to interact with the Computer.<br>
+Natural Language Interface(NLIs): User speaks to the interface.<br>
+Menu Based Interface(MBIs): Gives user a selection options.</p>
+<h1 id="binary-representation">Binary Representation</h1>
+<p>没啥好讲的，记住two’s complement是补码，sign-and-magnitude是原码即可。</p>
+<h1 id="simple-logic-gates">Simple Logic Gates</h1>
+<p>更没啥好讲的了，记住写boolean expression的时候不能写|或者&amp;，要直接写OR或者AND。逻辑门直接画圆即可。</p>
+]]></content>
+      <tags>
+        <tag>IB Computer Science</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>General Principles</title>
+    <url>/posts/3273f0a5.html</url>
+    <content><![CDATA[<h1 id="thinking-procedurally">Thinking procedurally</h1>
+<h2 id="4-1-1-procedure-appropriate-to-solving-a-problem">4.1.1 Procedure appropriate to solving a problem</h2>
+<p>我们通常需要指定有效的方法或流程来解决某一个特定问题，而解决问题的步骤顺序十分重要。</p>
+<h2 id="4-1-2-order-of-activities-and-required-outcome">4.1.2 Order of activities and required outcome</h2>
+<p>活动进行的步骤十分重要。先分析问题再解决问题，先解决而不分析问题本身会导致人力和财力的损失。</p>
+<h2 id="4-1-3-the-role-of-sub-procedures-in-solving-a-problem">4.1.3 The role of sub-procedures in solving a problem</h2>
+<p>解决复杂问题的有效方法之一就是将大问题转化成小问题，因为攻克小问题要比解决大问题更加简单。而拆分出的小问题可以进一步的划分为更小的问题，直到可以被单独解决。这样的策略被叫做自顶向下设计(top-down design)或者逐步细化(stepwise refinement)。</p>
+<p>通过自顶向下设计可以将问题细化，而为某一个小问题编写的解决过程就叫做模块化编程(modular programming approach)。</p>
+<h2 id="4-1-4-decision-making-in-a-specified-situation">4.1.4 Decision-making in a specified situation</h2>
+<p>分支逻辑，有些代码是顺序执行，而有些代码是对于某些条件进行判断后再进行特定操作。</p>
+<h2 id="4-1-5-decisions-required-for-the-solution-to-a-specified-problem">4.1.5 Decisions required for the solution to a specified problem</h2>
+<p>在真实场景中我们会对多个条件进行判断再采取对应的流程进行应对。</p>
+<h2 id="4-1-6-iteration-associated-with-a-given-decision-in-a-specified-problem">4.1.6 Iteration associated with a given decision in a specified problem</h2>
+<p>迭代(Iteration)是重复一系列指令的过程。在重复算法中的某个部分是十分有用。</p>
+<h2 id="4-1-7-decisions-and-conditional-statements">4.1.7 Decisions and conditional statements</h2>
+<p>条件语句根据布尔测试返回的值执行相对应的指令。</p>
+<h2 id="4-1-8-logical-rules-for-real-world">4.1.8 Logical rules for real-world</h2>
+<p>编程和算法思维将逻辑规则或者推理规则转换为算法，将逻辑与知识结合起来。</p>
+<h1 id="thinking-ahead">Thinking ahead</h1>
+<h2 id="4-1-9-inputs-and-outputs-required-in-a-solution">4.1.9 Inputs and outputs required in a solution</h2>
+<p>输入是输入到程序中的东西，而输出是程序经过处理后产生的东西。</p>
+<h2 id="4-1-10-pre-planning-in-a-suggested-problem-and-solution">4.1.10 Pre-planning in a suggested problem and solution</h2>
+<p>预计划(Pre-planning)是提前计划某事的过程。作者举了两个例子来说明，预取(Prefetching)是在实际需要数据或指令之前，将它们从内存中获取到缓存中。当程序请求先前预取的数据时，就可以使用预取的数据并继续执行，而不是等待RAM中的数据。另一个例子时软件库，其中有预先编写好的代码、类组成，程序员可以直接调用而不用重复造轮子。</p>
+<p>甘特图(Gantt chart)是一种条形图。用于显示活动，任务和事件。可以清晰地显示每个项目的持续时间，开始时间和结束时间。以此方便任务的并行管理。</p>
+<h2 id="4-1-11-need-for-pre-conditions">4.1.11 Need for pre-conditions</h2>
+<p>前面提到的模块化编程是将某一个复杂问题转换为小问题后再编写算法解决，而将若干个模块拼接起来来解决原始的复杂问题时就需要前置和后置条件来进行管理，表示前一个算法是否结束和下一个算法是否可以开始执行。</p>
+<h2 id="4-1-12-pre-amd-post-condition">4.1.12 Pre- amd post-condition</h2>
+<p>与上一小节想要表达的思想基本相同。</p>
+<h2 id="4-1-13-exceptions-that-need-to-be-considered">4.1.13 Exceptions that need to be considered</h2>
+<p>异常(Exception)是破坏程序执行预期流程的行为或事件。异常发生在程序执行期间，可以通过大多数现代编程语言提供的特定机制有效地处理。</p>
+<h1 id="thinking-concurrently">Thinking concurrently</h1>
+<h2 id="4-1-14-parts-of-a-solution-that-could-be-implemented-concurrently">4.1.14 Parts of a solution that could be implemented concurrently</h2>
+<p>并发(Concurrent)是指与其他事情同时发生的事情。计算机科学中，并发处理是指多个处理器同时执行不同的指令，以提高性能。</p>
+<h2 id="4-1-15-concurrent-processing-and-problem-solution">4.1.15 Concurrent processing and problem solution</h2>
+<p>没有并发处理，处理某个任务就会花费更长的时间。</p>
+<h2 id="4-1-16-decision-to-use-concurrent-processing-in-solving-a-problem">4.1.16 Decision to use concurrent processing in solving a problem</h2>
+<p>并发处理需要更好的资源规划和协调，应当确定并发处理的任务对互相没有影响。</p>
+<h1 id="thinking-abstractly">Thinking abstractly</h1>
+<h2 id="4-1-17-examples-of-abstraction">4.1.17 Examples of abstraction</h2>
+<p>抽象思维(Abstract thinking)是指对事件、观念、属性和关系进行一般性的思考，而不去考虑具体对象的所有不必要的细节，所有不需要实现目标的信息都被删除和忽略。一个经典的抽象例子就是RAM和CPU，从数百万个晶体管的门和集成电路抽象而来。另一个抽象例子就是汇编语言到高级语言的演变。</p>
+<h2 id="4-1-18-abstraction-and-computational-solutions-for-a-specified-situation">4.1.18 Abstraction and computational solutions for a specified situation</h2>
+<h3 id="object-oriented-programming">Object-oriented programming</h3>
+<p>面向对象编程(Object-oriented programming)使用抽象，并且基于将所有日常任务视为实体的原则。面向对象编程使用描述真实对象的数据(属性)和行为(方法)的编程对象，并促进代码的可重用性和抽象。面向对象编程中我们将现实任务中的某些特征抽象成对象，解决抽象问题，隐藏不必要的细节，只关注对特定实现重要的属性和行为。</p>
+<h3 id="object-manipulation">Object manipulation</h3>
+<p>程序员通过“获取”方法取回某一特定对象的的特定数据。</p>
+<h3 id="modelling-and-simulation">Modelling and simulation</h3>
+<p>数学建模(Mathematical modelling)指的是一个过程，在这个过程中，一个系统背而学家用数学语言来描述它。数学模型是真实系统的抽象，只包含研究真实系统的一个方面所需的细节、规则和对象。数学模型可以转化为算法，然后转化为程序。</p>
+<h2 id="4-1-19-abstraction-from-a-specified-situation">4.1.19 Abstraction from a specified situation</h2>
+<p>模块化的程序更容易理解，并且便于抽象的使用，模块化促进了抽象。</p>
+<h2 id="4-1-20-real-world-and-abstraction">4.1.20 Real-world and abstraction</h2>
+<p>以地图为例，不同地图专注于强调的特定主体不同，而选择性忽略了其他方面，这样的方法有助于研究和理解特定的组件和相互作用。</p>
+]]></content>
+      <tags>
+        <tag>IB Computer Science</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>南京大学计算机系统基础课程笔记2：数据的表示和存储</title>
+    <url>/posts/dbdd54e.html</url>
+    <content><![CDATA[<h1 id="2-1-十进制数和二进制数-不同进制数之间的转换">2.1 十进制数和二进制数&amp;不同进制数之间的转换</h1>
+<ol>
+<li>转换的概念在数据上的表示</li>
+</ol>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-24%20191109.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-24%20191518.png" alt="Alt text"></p>
+<ol start="2">
+<li>
+<p>机器级数据分为两大类</p>
+<ul>
+<li>数值数据：无符号整数、带符号整数、浮点数（实数）</li>
+<li>非数值数据：逻辑数、西文字符和汉字</li>
+</ul>
+</li>
+<li>
+<p>计算机内部信息都使用二进制进行编码（冯诺依曼结构规定），原因：</p>
+<ul>
+<li>制造两个稳定态的物理器件容易（电位高/低、脉冲有/无、正/负极）</li>
+<li>二进制编码、计数和运算规则简单</li>
+<li>正好与逻辑命题的真与假对应，便于逻辑运算</li>
+<li>方便地用逻辑电路实现算术运算</li>
+</ul>
+</li>
+<li>
+<p>真值和机器数</p>
+<ul>
+<li>机器数：用0和1编码的计算机内部的二进制数</li>
+<li>真值：真正的值</li>
+</ul>
+</li>
+<li>
+<p>数值数据表示的三要素</p>
+<ul>
+<li>进位计数制（二进制、十六进制、十进制、八进制及其相互转换）</li>
+<li>定、浮点表示（定点整数、定点小数、浮点数）</li>
+<li>二进制编码（原码、补码、反码、移码）</li>
+</ul>
+</li>
+</ol>
+<p>二进制的表示十分繁琐，所以我们有时会使用十六进制（后缀H，前缀0x）和八进制（后缀O）表示，便于阅读和书写。</p>
+<ol>
+<li>
+<p>十进制数与R进制数的转换</p>
+<ul>
+<li>R进制数转十进制数：按“权”展开</li>
+<li>十进制数转R进制数：先转二进制，再转其他进制数。整数部分和小数部分分别转换。</li>
+<li>整数部分，除基取余，上右下左；小数部分，乘基取整，上左下右（对于整数部分，记住2的0次到16次，小数部分记住0.5，0.25，0.125，0.0625即可）。</li>
+</ul>
+</li>
+<li>
+<p>小数点位置的约定</p>
+<ul>
+<li>计算机通过约定小数点的位置来表示小数
+<ul>
+<li>小数点约定在固定位置的数是定点数</li>
+<li>小数点约定在可浮动的数是浮点数</li>
+</ul>
+</li>
+<li>定点小数表示浮点数的尾数部分</li>
+<li>定点整数用来表示整数，分带符号整数和无符号整数</li>
+</ul>
+</li>
+</ol>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-24%20193720.png" alt="Alt text"></p>
+<h1 id="2-2-原码和移码表示-模运算系统和补码表示-补码和真值的对应关系">2.2 原码和移码表示&amp;模运算系统和补码表示&amp;补码和真值的对应关系</h1>
+<p>定点数的编码（解决正负号问题）</p>
+<ul>
+<li>原码、补码、移码、反码（很少用）</li>
+</ul>
+<p>原码表示：对于正数用1表示，对于负数用1表示<br>
+缺点：</p>
+<ul>
+<li>0的表示不唯一</li>
+<li>加减运算方式不统一</li>
+<li>需要额外对符号位进行处理</li>
+</ul>
+<p>移码表示：将每个数值加上一个偏置常数。<br>
+用移码来表示指数便于浮点数加减运算时的对阶操作（比较大小）</p>
+<ul>
+<li>正数的移码编码值和真值一致</li>
+<li>负数的移码编码值在真值的基础上偏移2^(n-1)</li>
+<li>由于移码的适用场合，所以不讨论定点小数的移码编码</li>
+<li>根据移码的定义 0的移码编码为10000000</li>
+<li>移码编码的大小和真值的大小成线性正比关系</li>
+<li>移码编码中只有一个0，因此和补码表示数的范围一致</li>
+</ul>
+<p>补码表示：在一个模运算系统中，一个数与它除以“模”后的余数等价。</p>
+<ul>
+<li>一个负数的补码等于该模减该负数的绝对值</li>
+<li>对于某一确定的模，某数减去小于模的另一数，总可以用该数加上另一数负数的补码来代替<br>
+补码表示：2^n + X（-2^n&lt;=X&lt;2^n, mod 2^n）<br>
+正数补码：符号位（sign bit）为0，数值部分不变<br>
+负数补码：符号位为1，数值部分“各位取反，末位加一”（从右向左遇到第一个1的前面各位取反）<br>
+变形补码：双符号，用于存放可能溢出的中间结果</li>
+</ul>
+<h1 id="2-3-无符号整数和带符号整数-c语言程序中整数举例">2.3 无符号整数和带符号整数&amp;C语言程序中整数举例</h1>
+<p>无符号整数（Unsigned integer）：机器中字的为排列顺序有两种方式</p>
+<ul>
+<li>高到低位从左到右</li>
+<li>高到低位从右导左</li>
+<li>我们用LSB（Least Significant Bit）来表示最低有效位，MSB表示最高有效位</li>
+<li>高到低位一般从左到右<br>
+没有符号位，一般在全部都是正数运算且不出现负值结果的场合下使用（地址运算、编号表示），能表示的最大值大于位数相同的带符号数。因为总是整数，所以有时简称为“无符号数”。</li>
+</ul>
+<p>带符号整数（Signed integer）：使用MSB表示符号<br>
+对于浮点数的尾数来说，我们使用原码的方式表示定点小数<br>
+对于浮点数的指数来说，我们使用移码的方式表示定点整数<br>
+对于带符号整数来说，我们使用补码方式表示，原因如下：</p>
+<ul>
+<li>补码运算系统是模运算系统，加减运算统一</li>
+<li>数0的表示唯一，方便使用</li>
+<li>比原码多表示一个最小负数</li>
+</ul>
+<p>如果同时有无符号和带符号整数，则C编译器将带符号数转成无符号数</p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20213700.png" alt="Alt text"></p>
+<h1 id="2-4-浮点数的表示范围-ieee-754中规格化数的表示-ieee-754中特殊数的表示">2.4 浮点数的表示范围&amp;IEEE 754中规格化数的表示&amp;IEEE 754中特殊数的表示</h1>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20214551.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20215145.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20215332.png" alt="Alt text"></p>
+<p>1985年完成了浮点数标准IEEE 754的制定。</p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20220324.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20220642.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20221046.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20221229.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20221340.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20221833.png" alt="Alt text"></p>
+<h1 id="2-5-非数值数据的编码表示">2.5 非数值数据的编码表示</h1>
+<p>逻辑数据的表示：用1位表示<br>
+逻辑数据的运算：按位进行。如按位与/按位或/逻辑左移/逻辑右移等。<br>
+逻辑数据的识别：逻辑数据和数值数据在形式上并无差别，都是01序列。计算机靠指令进行识别。</p>
+<p>西文字符的特点：</p>
+<ul>
+<li>是一种拼音文字，用有限几个字母可拼写出所有单词</li>
+<li>只需对有限个字母和数学符号、标点符号等辅助字符编码</li>
+<li>所有字符总数不超过256个，使用7个或8个二进制位可表示<br>
+西文字符的表示（常用编码为7位ASCII码）：</li>
+<li>十进制数字</li>
+<li>英文字母</li>
+<li>专用符号</li>
+<li>控制字符<br>
+西文字符的操作：字符串操作，传送/比较等</li>
+</ul>
+<p>汉字的特点：</p>
+<ul>
+<li>汉字是表意文字，一个字就是一个方块图形</li>
+<li>汉字数量巨大，所以给计算机内部的表示，汉字的传输与交换和汉字的输入与输出带来问题。<br>
+汉字的编码形式：</li>
+<li>输入码：对汉字用相应按键进行编码表示，用于输入</li>
+<li>内码：0和1，用于在系统中进行存储查找和传送</li>
+<li>字模点阵或轮廓描述：描述汉字字模点阵或轮廓，用于打印</li>
+</ul>
+<p>图形、图像、音频、视频等信息在机器内部也用0和1表示：</p>
+<ul>
+<li>图形用构建图形的直线或曲线的坐标点及控制点来描述，而这些坐标点或控制点则用数值数据描述。</li>
+<li>图像用构成图像的点（像素）的亮度、颜色或灰度等信息来描述，这些亮度货颜色等值用数值数据描述。</li>
+<li>音频信息通过对模拟声音进行采样、量化（用二进制编码）来获得，因此量化后得到的是一个数值数据序列（随时间变化）。</li>
+<li>视频信息描述的是随时间变化的图像（每一幅图像称为一帧）。</li>
+<li>音乐信息（MIDI）通过对演奏的乐器、乐谱等相关的各类信息用0和1进行编码来描述。</li>
+</ul>
+<h1 id="2-6-数据宽度和存储容量的单位">2.6 数据宽度和存储容量的单位</h1>
+<p>比特（bit，位）是计算机中处理、存储、传输信息的最小单位。<br>
+二进制信息最基本的计量单位是“字节”（Byte）：</p>
+<ul>
+<li>现代计算机中，存储器按字节编址</li>
+<li>字节是最小可寻址单位（addressable unit）</li>
+<li>如果以字节为一个排列单位，则LSB表示最低有效字节，MSB表示最高有效字节<br>
+除比特和字节外，还经常使用“字”（word）作为单位</li>
+<li>“字”和“字长”的概念不同
+<ul>
+<li>“字长”指数据通路的宽度。“字长”等于CPU内部总线的宽度、运算器的位数、通用寄存器的宽度（这些部件的宽度都是一样的）。</li>
+<li>“字”表示被处理信息的单位，用来度量数据类型的宽度</li>
+<li>字和字长的宽度可以一样，也可以不同</li>
+</ul>
+</li>
+</ul>
+<p>数据通路是指CPU内部数据流经的路径以及路径上的部件，主要是CPU内部进行数据运算、存储和传送的部件，这些部件的宽度基本上要一致，才能相互匹配。</p>
+<h1 id="2-7-数据存储时的字节排列">2.7 数据存储时的字节排列</h1>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20230854.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20231125.png" alt="Alt text"></p>
+]]></content>
+      <tags>
+        <tag>计算机系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Connecting computational thinking and program design</title>
+    <url>/posts/c6b4bfe9.html</url>
+    <content><![CDATA[<h1 id="4-2-1-searching-sorting-and-other-algorithms-on-arrays">4.2.1 Searching, sorting and other algorithms on arrays</h1>
+<h2 id="variable">Variable</h2>
+<p>变量用于存储值，每个变量有一个名称，用于引用存储的值。变量可以在程序执行期间更改。变量可以是字符串(strings)、实数(reals)、布尔型(boolean)和整型(integers)。</p>
+<h2 id="one-dimensional-arrays-or-linear-arrays">One dimensional arrays or linear arrays</h2>
+<p>数组可以保存相同类型的多个数据元素(整型、字符串、布尔型等)。数组有一个名称、一个在程序执行期间不能更改的大小(大多数情况下)和一个可以描述它的数据类型。一维数组是线性数组的一种。数组总是使用零号为开头。</p>
+<h2 id="parallel-arrays">Parallel arrays</h2>
+<p>定义不同的数组类型，记录某一件事情的不同方面(类似于结构体)。</p>
+<h2 id="arrays-of-objects">Arrays of objects</h2>
+<p>对象数组是引用变量数组。每个引用变量都是数组的一个元素，是对对象的引用。</p>
+<h2 id="two-dimensional-arrays">Two dimensional arrays</h2>
+<p>二维数组通过两个下标进行索引，第一个指向行，第二个指向列。</p>
+<h2 id="comparision-between-the-arrays-above">Comparision between the arrays above</h2>
+<p>一维数组只能存储一个数据类型，和一串信息。如果想要处理多串不同数据类型的信息，就要使用并行数组(也就是使用多个不同数据类型的一维数组进行处理)。二维数组可以处理多串信息，但是只能处理一种数据类型。</p>
+<h2 id="sequential-search">Sequential search</h2>
+<p>顺序或者线性搜索算法(其实就是枚举)是最简单的搜索算法，依靠蛮力美剧搜索到想要的数据。</p>
+<h2 id="binary-search">Binary search</h2>
+<p>二分搜索(或半间隔搜索)算法是一种依靠分治策略实现搜索的算法。在每次搜索迭代中，数组中一般的元素作为不可能的答案被消除。性能要稍微高点。</p>
+<h2 id="bubble-sort">Bubble sort</h2>
+<p>冒泡排序通过重复遍历要排序的数组实现搜索。比较相邻数组数据的大小，如果顺序不正确(升序或降序)则交换两个数据，直到重复到所有数据都符合排序规则。</p>
+<h2 id="selection-sort">Selection sort</h2>
+<p>选择排序通过建立一个新的数组进行排序，两层循环判断。</p>
+<h1 id="4-2-2-standard-operations-of-collections">4.2.2 Standard operations of collections</h1>
+<p>当我们希望在一个数据结构中存储整数、数组、布尔值和字符串时就应该使用集合。泛型集合只能保存相同类型的数据，而非泛型集合可以保存不同数据类型的元素。集合是一个可调整大小的数组，不需要提前设置好范围。</p>
+<h2 id="standard-operations-in-collection">Standard operations in collection</h2>
+<ul>
+<li>AddItem(). 用于在集合中添加数据。</li>
+<li>getNext(). 返回集合中的第一项(检索)。</li>
+</ul>
+<h2 id="additional-operations">Additional operations</h2>
+<ul>
+<li>resetNext(). 重新启动迭代。</li>
+<li>hasNext(). 用于表示集合中是否存在当前迭代未访问的剩余元素。</li>
+<li>isEmpty(). 检测集合是否为空。</li>
+</ul>
+<h1 id="4-2-3-algorithm-to-solve-a-specific-problem">4.2.3 Algorithm to solve a specific problem</h1>
+<p>一个算法的例子。</p>
+<h1 id="4-2-4-analyse-an-algorithm-presented-as-a-flow-chart">4.2.4 Analyse an algorithm presented as a flow chart</h1>
+<p>如何将算法转换成流程图的例子。</p>
+<h1 id="4-2-5-analyse-an-algorithm-presented-as-pseudocode">4.2.5 Analyse an algorithm presented as pseudocode</h1>
+<p>辨识伪代码的例子</p>
+<h1 id="4-2-6-construct-pseudocode-to-represent-an-algorithm">4.2.6 Construct pseudocode to represent an algorithm</h1>
+<p>学习如何写伪代码</p>
+<h1 id="4-2-7-suggest-suitable-algorithms-to-solve-a-specific-problem">4.2.7 Suggest suitable algorithms to solve a specific problem</h1>
+<p>算法的效率(Efficiency)是指执行其功能所需的计算机资源的数量。尽量减少各种运算资源的使用是重要的。<br>
+算法的正确性(Correctness)是指算法在多大程度上满足其规范，没有错误，并完成设计和实现阶段设定的所有目标。<br>
+算法的可靠性(Reliability)是指算法能够在规定的条件下保持预定义的性能水平，并执行所有需要的功能。<br>
+算法的灵活性(Flexibility)是指修改算法以满足其最初开发目的以外的其他目的所需的努力。</p>
+<h1 id="4-2-8-deduce-the-efficiency-of-an-algorithm-in-the-context-of-its-use">4.2.8 Deduce the efficiency of an algorithm in the context of its use</h1>
+<p>O符号是算法复杂度的度量，O(n)的意思是算法中指令的增长率(the growth rate of the instructions)需要执行n次。</p>
+<p>对于一个不涉及循环的线性程序来说，他的时间复杂度是O(1)。对于一个涉及一层循环的程序来说，他的时间复杂度是0(n)。对于一个涉及两层循环嵌套的程序来说，他的时间复杂度是0(n^2)。</p>
+<h1 id="4-2-9-determine-number-of-iterations-for-given-input-data">4.2.9 Determine number of iterations for given input data</h1>
+<p>简单地计算循环次数。</p>
+]]></content>
+      <tags>
+        <tag>IB Computer Science</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机组成与设计2：指令-计算机的语言</title>
+    <url>/posts/8ae5b0dd.html</url>
+    <content><![CDATA[<h1 id="2-2-计算机硬件的操作-2-3-计算机硬件的操作数">2.2 计算机硬件的操作 &amp; 2.3 计算机硬件的操作数</h1>
+<h3 id="计算机操作数">计算机操作数</h3>
+<p>双字：计算机中一种访问的基本单位，通常是64位一组；对应于RISC-V体系结构中寄存器的大小。每个双字代表8个字节。<br>
+字：计算机中另一种访问的基本单位，通常是32位一组。<br>
+RISC-V的算术指令的三个操作数必须从32个64位寄存器中选择。</p>
+<p>硬件设计的三条基本原则：</p>
+<ol>
+<li>简单源于规整</li>
+<li>更少则更快：<br>
+更多则电信号传输的距离越远，花费时间越长。但设计原则并不绝对，31个寄存器也许并不比32个更快。</li>
+</ol>
+<h3 id="存储器操作数">存储器操作数</h3>
+<p>RISC-V中的计算指令只能作用于寄存器，但计算机中一些庞大的数据结构只能存储与内存当中，因此RISC-V中包含将数据在内存和寄存器之间传输的指令，也就是数据传输指令。<br>
+数据传输指令：在内存和寄存器之间传送数据的命令。<br>
+指令访问内存数据需要提供地址。<br>
+地址：用于描述内存数组中特定数据元素位置的值。<br>
+用于将数据从内存中取出的指令通常被称作载入指令(load)，在RISC-V中该指令为ld，表示取双字。<br>
+ld指令中存放基址的寄存器被称为基址寄存器，而数据传输指令中的常数被称为偏移量。</p>
+<p>计算机中有一些使用最左边(大端)字节的地址作为双字地址，另一种使用最右边(小端)字节的地址作为双字地址。RISC-V使用小端字节的地址。但只有在一双字形式和八个单独字节访问相同数据时，才需要考虑大小端。</p>
+<p>与载入指令相反的指令被称为存储指令(store)，在RISC-V中是sd，将数据从寄存器复制到内存。指令的格式与load基本相同。</p>
+]]></content>
+      <tags>
+        <tag>计算机组成原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>南京大学计算机系统基础课程笔记4：乘除运算及浮点数运算</title>
+    <url>/posts/10fe15d4.html</url>
+    <content><![CDATA[<h1 id="4-1-整数乘法运算">4.1 整数乘法运算</h1>
+<p>通常在高级语言中两个n位整数相乘得到的结果通常也是一个n位整数（2n位乘积中的低n位）<br>
+参与乘法的两个数据类型相同，如果不同会先转换。</p>
+<p><img src="/posts/10fe15d4.htm/Screenshot%202023-09-04%20063140.png" alt="Alt text"></p>
+<p>对于无符号乘法，判断高n位是否都等于0，是则不溢出；对于带符号乘法，判断高n位是否每位都等于低n位的最高位，是则不溢出。或者可以判断低n位与两个输入之间的关系，如上图所示。</p>
+<p>因为无符号和带符号处理不同，对应的乘法指令也不同。</p>
+<p>因为乘法指令所需的时钟时间长，所以在编译器处理乘法时，往往通过移位运算和加减法运算来代替组合运算（移位和加减法通常只需要一个或者更少的时钟周期）。</p>
+<h1 id="4-2-整数除法运算">4.2 整数除法运算</h1>
+<p>整数除法的商一定小于被除数，所以不会发生溢出。<br>
+按照整数除法，正数商取比自身小的最接近整数（Floor），负数商取比自身大的最接近整数（Ceiling）。<br>
+整数除法时，除数不能为零（机器数无法表示），如果为零就调用异常处理程序。<br>
+除法运算更加复杂（30个以上的时钟周期，并且不能用流水线实现），所以在编译器中常使用右移运算实现（处理除数为2的倍数的情况时）。<br>
+不能整除时，采用下面两个截断方式：</p>
+<ul>
+<li>无符号数、带符号正整数（地板）：移出的低位直接丢弃</li>
+<li>带符号负整数（天板）：加偏移量（2^k - 1），然后再右移k位，低位截断（K是右移位数）</li>
+</ul>
+<h1 id="4-3-浮点加减运算-浮点运算的精度">4.3 浮点加减运算&amp;浮点运算的精度</h1>
+<p><img src="/posts/10fe15d4.htm/Screenshot%202023-09-04%20075326.png" alt="Alt text"></p>
+<p><img src="/posts/10fe15d4.htm/Screenshot%202023-09-05%20062827.png" alt="Alt text"></p>
+<p><img src="/posts/10fe15d4.htm/Screenshot%202023-09-05%20063318.png" alt="Alt text"></p>
+<p><img src="/posts/10fe15d4.htm/Screenshot%202023-09-05%20063447.png" alt="Alt text"></p>
+<p><img src="/posts/10fe15d4.htm/Screenshot%202023-09-05%20063920.png" alt="Alt text"></p>
+<p><img src="/posts/10fe15d4.htm/Screenshot%202023-09-05%20064346.png" alt="Alt text"></p>
+<p><img src="/posts/10fe15d4.htm/Screenshot%202023-09-05%20064711.png" alt="Alt text"></p>
+]]></content>
+      <tags>
+        <tag>计算机系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>黑盒子与现实世界的桥梁：指令集</title>
+    <url>/posts/476bbe4b.html</url>
+    <content><![CDATA[<p>本文对体系结构相关知识做一个简单的梳理，不进行具体技术的讲解。</p>
+<h1 id="前言">前言</h1>
+<p>今天，计算机正在以惊人的速度发展着。如果运输行业能够和自从20世纪40年代末诞生的计算机行业保持同样的发展速度，那么如今我们花一分钱就可以在一秒钟内从纽约赶到伦敦 (David A. Patterson，计算机组成与设计)。但是如今人们并没有时间去深入了解飞速发展期间的每一门技术，这就导致大部分人将所需的技术视为一个黑盒，之把时间花在学习其表面上，而并没有探索到其本质，仅仅接触表象同样导致很多人对计算机感到乏味。计算机结构的底层是晶体管，其顶层是计算机显示器上呈现的信息。尽管现代计算机的内部结构不断推陈出新，但其本质上仍然是一些常见且简洁的操作集合。受限于字数限制，本文不会对计算机最底层的组成细节和抽象层次较高的软件进行详细解释，而是将精力主要集中软件和硬件的接口——指令集。希望可以作为一个引子激发起更多人对于计算机的关注，当你掌握了计算机的本质，计算机就会变得越来越有趣。</p>
+<h1 id="程序表象之下">程序表象之下</h1>
+<p>或许你曾使用过C实现某一个具体的算法，但你有没有好奇过它究竟是如何在计算机上运行并且实现想要实现的功能的？</p>
+<p>从复杂的应用程序到简单原始的指令需要若干软件层次来将高层次操作解释或翻译成简单的计算机指令。我们可以简单将计算机抽象成三个层次，外层是应用软件，中心是硬件，而系统软件(systems software)则位于两者之间。在现代计算机中，系统软件中包含的操作系统和编译器是必须的。操作系统是指用户程序和硬件之间的接口，可以为用户提供服务和监控功能，它能够处理基本输入输出、分配外存和内存并为多个应用程序提供共享计算机资源的服务，本篇文章不会对其进行深入讲解。而编译器可以将高级语言(C、Java…)编写的程序翻译成硬件能执行的指令。那么问题来了，晶体管组成的计算机理论上只能理解0和1(或者说电信号的通和断)，编译器翻译出的指令是什么鬼？其实在计算机刚刚诞生的时候，人们都是直接编写0和1组成的二进制数(我们可以将其称作机器语言)运行计算机，人们无法忍受这样乏味的工作，所以助记符就诞生了。助记符更加符合人类的思维方式，但把助记符手动翻译成机器语言还是过于麻烦，于是汇编器(assembler)应运而生(有没有注意到这里是汇编器而不是编译器？)。在今天，我们将助记符这种符号语言称作汇编语言(assembly language)。</p>
+<p>在今天计算机组成原理相关的教材中常常会提到指令集是硬件与软件之间的接口。其实所谓的指令集就是标准的规定了汇编语言与机器语言之间的关系，现在主流的指令集有x86、ARM、RISCV和MIPS等等。英特尔的芯片通常基于x86开发，苹果和移动端的芯片基于ARM开发，而RISCV和MIPS通常被应用于教学。其中x86指令集被英特尔完全闭源，使用ARM的厂家每年要上交高额的授权费，开源的道路还是任重而道远啊…因为指令集也反映了软件人员对CPU进行编程的接口，指令集也被称作指令系统架构(Instruction System Architecture, ISA)或者处理器架构。</p>
+<p>虽然编译器的诞生是一个巨大的进步，但是其与人们的现实生活仍然相差甚远，下面是一个汇编语言的举例：         st.w     $t2, $zero, 1028<br>
+这条指令选自LoongArch指令集，如果想要对其进行编写，需要很好地掌握官方手册中对于相关指令的定义并且熟记各个寄存器名，这对于高层的软件编写无疑是十分繁琐的。于是人们发明了编译器(Compiler)来将高级编程语言转换为汇编语言。人们通过高级编程语言对计算机编程是计算机早期的一个重大突破，大大地提高了软件的生产率。对于实现相同的计算问题，高级语言使用的代码量平均只有汇编语言的1/7。更少的代码意味着更少的编程时间和更少的错误。高级语言的另一个好处是&quot;平台无关&quot;。对于不同的指令集，汇编语言是不相同的。面向一种指令集的程序在移植到另外一种指令集时，汇编代码不能通用，几乎要从头重写。如果是用高级语言，代码对所有指令集是通用的，只需要使用新平台的编译器重新编译一遍，就可以生成面向新指令的机器代码。</p>
+<p>那么又问题来了，高级语言这么好，汇编语言还有存在的必要吗？答案是汇编语言不可能完全消亡，其在以下两种场景中仍然有着应用价值：</p>
+<ol>
+<li>用于实现高级语言不能实现的功能。高级语言只是定义了面向大多数问题的共性语法，但每一种指令集夺回有一些特性是高级语言无法实现的，例如读写CPU内部的寄存器、访问外设的端口等，这种情况下只能使用汇编语言。因此，在基本输入输出系统(BIOS)、操作系统内核和嵌入式控制程序中常见汇编语言。</li>
+<li>对于程序性能高，需要优化代码。高级语言是通过编译器转换为机器指令的，有时候并不能生成最优的指令。如果是人工编写汇编语言，就可以针对CPU的特点，发挥最大性能。</li>
+</ol>
+<p>一个无法掌握汇编语言的基本素养的计算机学生不是一个合格的计算机学生。</p>
+<h1 id="指令集生存指南">指令集生存指南</h1>
+<p>说了这么多，我们来聊聊如和让一个指令集活下去。首先我们要解释指令集的兼容性，运行相同指令集的CPU称为“兼容的”。这里的兼容主要是指CPU可以识别相同的指令编码，因此可以运行相同的上层程序。兼容性在CPU⽣态中具有重要的意义，⼀个良性发展的⽣态是在兼容的指令集基础上制造出更多计算机、开发出更多应⽤软件。有⽣命⼒的CPU企业都会⾮常看重CPU指令集的稳定性，向指令集中添加、删除指令都⾮常⼩⼼谨慎。如果指令集发⽣变化，很容易因为设计上的疏忽⽽引⼊“不兼容”问题，导致以前的软件⽆法在新的计算机上运⾏，那么新的计算机是不会被⽤户购买的。</p>
+<p>那么指令集就永远不变了吗？也不是这样的。时代的发展总是要求计算机实现更多功能，指令集也应该与时俱进。⼈们在实践中找到⼀种⽐较好的折中⽅法，既能够保持兼容性、⼜能够让指令集越来越强⼤。这个⽅法就是“增量演进、向下兼容”。“增量演进”的意义是，指令集的发展只能添加新的指令，不允许删除现有的指令，也不允许改变现有指令的功能。这样做的好处是，以前的软件⼀定能够在新指令集的CPU上运⾏，新的CPU能够“继承”以前全部的软件成果。坚持这样的路线，新的计算机⼀定能够对⽼的计算机实现“向下兼容”（有的书上也叫“向前兼容”）。</p>
+<p>前文说到当前主流的指令集都因为各种各样的原因导致运用到实际当中的代价十分昂贵，那我们自己能做指令集吗？指令集是⼀个标准规范。表⾯上看，“做指令集”的成果形式就是写出了⼀份⽂档。设计⼀个指令集不算什么⾼难度的事情，和做⼀个CPU动辄需要⼏年⼯夫相⽐，它可能⼏个⽉就能完成。⾸先，做指令集不难，难的是做软件⽣态。把CPU做出来只能算是第⼀步，还需要在这种CPU上开发越来越多的软件，这样才能让CPU的使⽤价值更⼤。然⽽，现在的软件开发是很耗成本的⼯作，⾼质量软件的销售价格很容易就超过计算机硬件。软件⼚商⾯对⼀种新指令集时，很难有动⼒为其投⼊成本做开发。尤其是在指令集刚推出、还没有多少⽤户的阶段，如何吸引软件⼚商是很难解决的问题。很多指令集本⾝设计得很好，只是因为没有打破“没⽤户—没⼚商—没⽤户”的双向悖论⽽迟迟不能打开局⾯。</p>
+<p>其次，⾼端CPU需要的指令集已经⾮常复杂，远远超过简单CPU。对于只做简单控制类⼯作的嵌⼊式CPU、微控制器CPU，可能⼏⼗条指令就够⽤了。但是对于在台式计算机、服务器中使⽤的CPU，往往需要上百条甚⾄更多的指令。尤其是像电源管理、安全机制、虚拟化、调试接⼝这些技术，设计指令集时必须和CPU内部架构、操作系统进⾏统筹考虑。有时候甚⾄需要把CPU、操作系统的原型都开发出来，经过⻓期测试验证才能保证指令集的设计达到完善程度。</p>
+<h1 id="繁琐与精简">繁琐与精简</h1>
+<p>控制复杂性是计算机编程的本质。<br>
+——布莱恩·克尼汉（Brian Kernighan）</p>
+<p>在计算机发展过程中，指令集形成了两种⻛格，即复杂指令集计算机（Complex Instruction Set Computer，CISC）和精简指令集计算机（Reduced Instruction Set Computer，RISC）。⼀起来回顾⼀下这两者的渊源。早期的计算机指令集都很简单。ENIAC主要⽤于数学计算，指令集只<br>
+包含50条指令。1971年发布的微处理器Intel 4004的指令集也只有45条。可以说从20世纪50年代到20世纪70年代，指令集的数量增⻓并不明显。</p>
+<p>随后的计算机不断增加功能，指令集也越来越复杂化。到20世纪80年代，进⼊个⼈计算机时代，指令集包含的指令数量迅速增⻓。1978年推出的Intel 8086的指令集为72条，1985年推出的Intel 80386就超过了100条，1993年推出的Intel Pentium则达到了220条。2000年Intel发布的CPU的指令数量已经超过1000条。</p>
+<p>为什么CPU的指令集会越来越庞⼤？主要有两个原因。第⼀，晶体管技术取代电⼦管技术后，CPU制造起来越来越容易，让CPU指令⽀持更多功能具备了可能性。例如Intel在Pentium中增加的MMX指令集，主要⾯向多媒体的⾳频、视频，可以在⼀条指令中对多个数据进⾏编码、解码，其性能远远超过以前的型号。第⼆，计算机从单纯科学计算⾛向个⼈计算机，应⽤软件越来越丰富，程序员希望指令集功能强⼤，来⽅便编写程序。例如，早期计算机每条指令只能访问⼀个内存单元，⽽“串指令”可以⼀次对连续的多个内存单元进⾏读写，这样在开发相同功能的软件时，汇编代码更为简短。</p>
+<p>但是，指令集的增⻓也带来了很多弊端。第⼀，CPU的设计制造更复杂，⽤于解析指令的电路开销变⼤，也更容易导致设计错误。第⼆，指令之间产⽣了很多的重复功能，很多新增的指令只是把已有多条指令的功能组合起来，相当于引⼊了很多的冗余，不符合指令集的正交性原则。第三，也是最严重的问题，指令的⻓度不同，执⾏时间有⻓有短，不利于实现流⽔线式结构 ，也不利于编译器进⾏优化调度。只要⽭盾积累到⼀定程度，就会有⼈站出来提出⾰命性的理念。早在20世纪70年代，就有⼀些科学家开始反思“⼀味增加指令数量”的做法是否可取。</p>
+<p>统计表明，计算机中各种指令的使⽤率相差悬殊，可以总结为“二⼋原则”：CPU中最常⽤的20%指令，占⽤80％的执⾏频率。使⽤最频繁的指令往往是加减运算、条件判断、内存访问这些最原始的指令。也就是说，⼈们为越来越复杂的指令系统付出了很⼤的设计代价，⽽实际上增加的指令被使⽤的机会是很低的。</p>
+<p>“精简指令集”的设想正是受此启发——指令集应该只包含最常⽤的少量指令。指令集应该尽可能符合“正交性”，即每条指令都实现某⼀⽅⾯的独⽴功能，指令之间没有重复和冗余的功能，所有指令组合起来能够实现计算机的全部功能。按照这个原则设计⽽成的计算机称为RISC。</p>
+<p>RISC天⽣具有便于实现流⽔线架构的优点。RISC指令集清晰简洁，容易在电路的硬件层⾯进⾏分析和优化，使⽤RISC指令集的CPU能够以相对简单的电路达到较⾼的主频和性能。20世纪90年代的处理器市场上，⾼主频、⾼性能CPU基本被RISC占领。</p>
+<p>CISC⼚商痛定思痛，决⼼找到在保持指令集不变的前提下，解决性能问题的⽅法。保持指令集不变的根本原因是坚持兼容原则，避免影响⽣态、失去⽤户。</p>
+<p>CISC⼚商发现，CISC指令集可以采⽤两级译码的⽅法转换成RISC。⾸先，CPU对运⾏的CISC指令先进⾏⼀种“预译码”转换，⽣成⼀种内部指令“微指令”，也叫微操作（μOP）。微指令是CPU内部使⽤的，对软件不可⻅。微指令完全采⽤RISC的设计思想，对微指令的执⾏过程完全可以采⽤流⽔线架构。这样，⼀个CPU既可以执⾏CISC指令集的软件、⼜可以达到RISC架构的相同性能。现在的Intel CPU⼤多是外表披着CISC外壳、⾥⾯都是RISC的结构。</p>
+<p>指令不是越多越好，⽽是要以满⾜应⽤需求为标准。指令数量太多，对于学习成本、编译器复杂度都代价过⾼。优秀的指令集是每⼀条指令都有必要、每⼀条指令都能在软件中良好使⽤。</p>
+<h1 id="小结">小结</h1>
+<p>本文简单对指令集的概念和发展历史进行了梳理，因为不涉及具体技术细节，感兴趣的读者可以自行查找相关资料(比如说指令集的官方手册)进行学习。虽然从宏观上来讲，指令集或许只是计算机组成中的一小部分。但其存在嫁接起了硬件与软件，在计算机组成中起着至关重要的作用。而近年也不断涌现出有识之士为开源指令集贡献力量以解决指令集生态的难题，让我们敬请期待…</p>
+<p>参考资料：<br>
+《计算机组成与设计：软硬件接口（RISCV版）》<br>
+《CPU通识课》<br>
+《计算机是怎样跑起来的》</p>
+]]></content>
+      <tags>
+        <tag>CPU设计</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机组成与设计1：计算机抽象及相关技术</title>
+    <url>/posts/a0d2e26f.html</url>
+    <content><![CDATA[<h1 id="1-2-计算机体系结构中的8个伟大思想">1.2 计算机体系结构中的8个伟大思想</h1>
+<h3 id="1-面向摩尔定律的设计">1. 面向摩尔定律的设计</h3>
+<p>摩尔定律：单芯片上所集成的晶体管资源每18至24个月翻一番。因此计算机架构师设计芯片时要预测项目完成时的工艺水平。</p>
+<h3 id="2-使用抽象简化设计">2. 使用抽象简化设计</h3>
+<p>隐藏底层细节以提供给高层一个更简单的模型。</p>
+<h3 id="3-加速经常性事件">3. 加速经常性事件</h3>
+<p>经常性事件比罕见情形更简单，性能更容易提升。</p>
+<h3 id="4-通过并行提高性能">4. 通过并行提高性能</h3>
+<p>并行计算。</p>
+<h3 id="5-通过流水线提高性能">5. 通过流水线提高性能</h3>
+<p>并行性的一种特殊场景。</p>
+<h3 id="6-通过预测提高性能">6. 通过预测提高性能</h3>
+<p>前提：从预测错误中恢复的代价并不高且预测相对准确。</p>
+<h3 id="7-存储层次">7. 存储层次</h3>
+<p>速度最快、容量最小、价格最贵的存储器处于顶层。速度、容量、价格向下递减。以此节约成本的同时提高性能。</p>
+<h3 id="8-通过冗余提高可靠性">8. 通过冗余提高可靠性</h3>
+<p>冗余部件在系统发生故障时替代失效组件并检测故障。</p>
+<h1 id="1-3-程序表象之下">1.3 程序表象之下</h1>
+<h2 id="系统软件">系统软件</h2>
+<p>从复杂的应用程序到简单原始的指令需要若干软件层次来将高层次操作解释或翻译成简单的计算机指令。外层是应用软件，中心是硬件，系统软件(systems softwar)位于两者之间。系统软件中的操作系统和编译器对现代计算机来说是必须的。</p>
+<h3 id="1-操作系统：">1. 操作系统：</h3>
+<pre><code>是用户程序和硬件之间的接口，为用户提供服务和监控功能。
+1. 处理基本输入输出
+2. 分配外存和内存
+3. 为多个应用程序提供共享计算机资源的服务
+</code></pre>
+<h3 id="2-编译器：">2. 编译器：</h3>
+<pre><code>把高级语言（C、Java、etc.）编写的程序翻译成硬件能执行的指令。
+</code></pre>
+<h2 id="从高级语言到硬件语言">从高级语言到硬件语言</h2>
+<pre><code>电信号：通和断，0和1。
+指令：能被计算机识别并执行的位串。
+汇编语言：以助记符形式表示的机器指令。
+机器语言：以二进制形式表示的机器指令。
+高级编程语言：C, Java, C++, etc. 有单词和代数符号组成，可移植。
+编译器将高级编程语言编译成汇编语言，汇编器将汇编语言会变为机器语言，即二进制指令。
+</code></pre>
+<h1 id="1-4-箱盖后的硬件">1.4 箱盖后的硬件</h1>
+<h2 id="计算机体系结构">计算机体系结构</h2>
+<p>任何一台计算机的组成部件都由输入、输出、存储器、数据通路（运算器）和控制器组成，后两个部件可以统称为处理器。<br>
+<strong>输入设备：</strong> 为计算机提供信息。<br>
+<strong>输出设备：</strong> 将计算结果输出给用户。<br>
+经典流程：处理器从存储器中读出指令和数据，输入部件将数据写入存储器，输出部件从存储器中读出数据，控制器向数据通路、存储器、输入和输出设备发出命令信号。</p>
+<h3 id="1-显示器">1. 显示器</h3>
+<pre><code>液晶显示（Liquid Crystal Display, LCD）是作为输出设备的图形显示器。LCD并非光源，而是通过控制光的传输来显示图像。图像由像素矩阵构成，可以表示成二进制位的矩阵称为**位图**。
+</code></pre>
+<h3 id="2-集成电路">2. 集成电路</h3>
+<pre><code>也叫芯片，集成了几十个甚至上亿个晶体管的设备。
+</code></pre>
+<h3 id="3-中央处理单元">3. 中央处理单元</h3>
+<pre><code>处理器，处理器包括数据通路和控制器，能完成数据相加，数据测试，按结果发出控制信号时I/O设备做出动作。
+</code></pre>
+<h3 id="4-数据通路">4. 数据通路</h3>
+<pre><code>处理器中执行算术操作的部分。
+</code></pre>
+<h3 id="5-控制器">5. 控制器</h3>
+<pre><code>根据程序的指令指挥数据通路、存储器和I/O设备。
+</code></pre>
+<h3 id="6-内存">6. 内存</h3>
+<pre><code>由DRAM芯片组成。是程序运行时的存储空间，同时还存储程序运行时所需的数据。
+</code></pre>
+<h3 id="7-dram">7. DRAM</h3>
+<pre><code>动态随机访问存储器(Dynamic Random Access Memory)，集成电路形式的存储器，可随机访问任何地址的内存，且所需的时间基本相同。
+</code></pre>
+<h3 id="8-高速存储">8. 高速存储</h3>
+<pre><code>Cache memory，隐藏事物的安全地方，小而快，采用SRAM技术。
+&quot;You're like cache.&quot;
+&quot;Do you mean that I'm small and fast?&quot;
+&quot;No, every time I visit my memory because of missing you.&quot;
+</code></pre>
+<h3 id="9-sram">9. SRAM</h3>
+<pre><code>静态随机访问存储器(Static Random Access Memory)，另一种集成电路形式的存储器，速度快，集成度更低，价格更贵。
+</code></pre>
+<h3 id="10-指令系统体系结构">10. 指令系统体系结构</h3>
+<pre><code>也叫体系结构，是计算机硬件和底层软件之间的抽象接口，包含了需要编写正确运行的机器语言程序所需要的指令、寄存器、存储器访问和I/O等。提供给程序员的基本指令系统和操作系统接口合称为应用二进制接口(Application Binary Interface, ABI)。
+</code></pre>
+<h2 id="数据安全">数据安全</h2>
+<pre><code>易失性存储：主存储，类似DRAM的存储器，仅在加电时保存数据。
+非易失性存储：辅助存储，在掉电时仍可保持数据的存储器，用于存储需运行的程序。
+主存储：保持运行中的程序。
+辅助存储：保存两次运行之间的程序和数据，在个人设备中由闪存构成，在服务器设备中由磁盘(硬盘)构成。闪存速度比DRAM慢，单位价格高于磁盘，但在体积、电容、可靠性和能耗方面都优于磁盘。但与磁盘和DRAM不同，在写入100000-1000000次后会产生老化或损坏。
+</code></pre>
+<h2 id="与其他计算机通信">与其他计算机通信</h2>
+<pre><code>1. 以太网：一种普遍的网络类型，传输距离可达1公里，传输速率可达到40Gbps。
+2. 局域网(Local Area Network, LAN)：用于在一定地理区域（同一栋大楼）内传输数据的网络。
+3. 广域网：可跨越大陆，是因特网的骨干构成部分，可支持万维网。
+</code></pre>
+<h1 id="1-5-处理器和存储制造内容">1.5 处理器和存储制造内容</h1>
+<p>晶体管：由电信号控制的简单开关。<br>
+集成电路：由成千上万个晶体管组成的芯片。<br>
+超大规模集成电路(Very Large-Scale Integrated Circuit, VLSI)：由数十万到数百万晶体管组成的电路。</p>
+<p>芯片的制造从沙子中的<strong>硅</strong>(自然元素、半导体)开始，因为硅的导电性能不强，配成为<strong>半导体</strong>(导电性能不好的物质)。<br>
+通过对硅添加某些材料，可以将硅转化为以下三种类型：</p>
+<ul>
+<li>优秀的导电体</li>
+<li>优秀的绝缘体</li>
+<li>可在特殊条件下导电或绝缘的区域(晶体管)<br>
+VLSI电路是由数十亿个上述三种类型的材料组合起来的。</li>
+</ul>
+<p>集成电路的制造从硅锭(单硅晶体构成的圆棒)开始，将硅锭切片制成晶圆(厚度不超过0.1英寸的切片，用于制造芯片)。因为晶圆的曝光过程中可能会产生缺陷(微小的瑕疵，晶片可能因为包含这个缺陷而失效)，所以我们将曝光成像后的晶圆切割成晶片(非正式名称叫芯片)，去掉缺陷部分后重新封装。从而只淘汰有瑕疵的晶片，而不必淘汰整个晶圆。量化描述为工艺良率(yield，合格芯片占总芯片数的百分比)。</p>
+<h1 id="1-6-性能">1.6 性能</h1>
+<h3 id="什么是性能？">什么是性能？</h3>
+<p><strong>响应时间</strong>：也叫执行时间(execution time)，是计算机完成某任务所需的总时间。包括硬盘访问、内存访问、I/O活动、操作系统开销和CPU执行时间等。</p>
+<p><strong>吞吐率</strong>：也叫带宽(band-width)，性能的另一种度量参数，单位时间内完成的任务数量。</p>
+<p>计算机组成与设计：软硬件接口中将性能定义为1/执行时间。</p>
+<h3 id="性能的度量">性能的度量</h3>
+<p>CPU执行时间：简称为CPU时间，执行某一任务在CPU上所花费的时间。<br>
+- 用户CPU时间：程序本身所花费的CPU时间。<br>
+- 系统CPU时间：为执行程序而花费在操作系统上的时间。<br>
+我们用系统性能(system performance)来表示基于响应时间的性能度量，CPU性能(CPU performance)表示用户CPU时间的性能度量。</p>
+<p>时钟周期数：也叫滴答数、时钟滴答数、时钟数、周期数，为计算机一个时钟周期的时间，通常是指处理器时钟，在固定频率下运行。<br>
+周期长度：每个时钟周期持续的时间长度。</p>
+<h3 id="cpu性能及度量因素">CPU性能及度量因素</h3>
+<p>程序的CPU执行时间 = 程序的CPU时钟周期数/时钟频率</p>
+<h3 id="指令性能">指令性能</h3>
+<p>CPU时钟周期数 = 程序的指令数 * 指令平均时钟周期数<br>
+指令平均时钟周期数 (clock cycle per instruction)： 表示执行每条指令所需的时钟周期平均数，缩写为CPI，提供了一种相同指令系统在不同实现下比较性能的方法。<br>
+CPI = CPU时钟周期数 / 指令数</p>
+<h3 id="经典的cpu性能公式">经典的CPU性能公式</h3>
+<p>指令书：执行某程序所需的总指令数量<br>
+CPU时间 = 指令数 * CPI * 时钟周期长度 = 指令数 * CPI / 时钟频率<br>
+指令分布：在一个或多个程序中，对指令的动态使用频度的评价指标，CPI根据其不同而变化。</p>
+<ul>
+<li>算法影响指令数和CPI</li>
+<li>编程语言影响指令数和CPI</li>
+<li>编译器影响指令数和CPI</li>
+<li>指令系统体系结构影响指令数，时钟频率和CPI</li>
+</ul>
+<h1 id="1-7-功耗墙">1.7 功耗墙</h1>
+<p>当前在集成电路技术中占统治地位的时CMOS(互补型金属氧化半导体)，其主要的能耗来源是动态能耗，即在晶体管开关过程中产生的能耗。</p>
+<h1 id="1-8-沧海巨变：从单处理器到多处理器">1.8 沧海巨变：从单处理器到多处理器</h1>
+<p>功耗的极限是处理器设计出现了创新，我们在单个微处理器(microprocessor)芯片中放入更多的处理器(processor，核)。<br>
+多核处理器的出现也促使程序员进行并行设计，其中有两个难点：</p>
+<ul>
+<li>程序要正确，并且以提高性能为目的。</li>
+<li>要将应用划分为每个核上有数量大致相同的任务，减少调度开销。</li>
+</ul>
+<h1 id="1-9-实例-1-10-谬误与陷阱">1.9 实例 &amp; 1.10 谬误与陷阱</h1>
+<ol>
+<li>
+<p>陷阱：在改进计算机的某个方面时期望总性能的提高与改进大小成正比。</p>
+</li>
+<li>
+<p>谬误：利用率低的计算机具有更低功耗。</p>
+</li>
+<li>
+<p>谬误：面向性能的设计和面向能效的设计具有不相关的目标。</p>
+</li>
+<li>
+<p>陷阱：用性能公式的一个子集去度量性能。</p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>计算机组成原理</tag>
+      </tags>
+  </entry>
 </search>
