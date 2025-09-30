@@ -1,0 +1,108 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>IB计算机组成知识小结 | Shoufeng's Blog</title><link rel="stylesheet" href="/css/minimalfolio.css"><meta name="generator" content="Hexo 7.0.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><header class="site-header"><div class="container"><a class="logo" href="/">Shoufeng's Blog</a><nav class="main-nav"><ul><li><a href="/">Home</a></li><li><a href="/archives/">Archives</a></li><li><a href="/categories/">Categories</a></li></ul></nav></div></header><main class="container post"><article><h1 class="post-title">IB计算机组成知识小结</h1><p class="post-meta">2023-10-26</p><div class="post-content"><!-- 我对IB计算机课程体系已经失望至极了...整套课程并不注重学生计算机能力的培养，而注重八股文的书写，而我还必须强忍不适把这些nonsense记下。本文主要记录IB Topic 2 Computer Organization所涉及到的“知识内容”。定义全部是IB教材中给出的，请不要在实践中遵守其中的**任何**一条，如有问题概不负责。 -->
+<h1 id="computer-architecture-话说ca和co难道不是一个意思吗？">Computer Architecture（话说CA和CO难道不是一个意思吗？）</h1>
+<p>CPU：Central Processing Unit, data or instructions that are processed by a computer system in the process phase of the input, proces, output and storage model are processed by them.</p>
+<p>ALU：Arithmetic Logic Unit, performs all basic arithmetic, logical or input/output operations.</p>
+<p>CU：Control Unit, is responsible for the operation of the CPU. It controls the retrieval of instructions from the primary memory as the sequence of their execution. (Or a simpler definition that can help you to get the full score: Getting new instructions and data from memory and provide them to ALU, direct data flow)</p>
+<p>MAR：Memory Address Register. Holds the memory address of the data to be used by the ALU, so that the ALU can fetch the corresponding content from the memory and process it accordingly.</p>
+<p>MDR：Memory Data Register. Holds the data that is to be used by the ALU and then saved to the RAM.</p>
+<p>Address Bus：Connect MAR and RAM.</p>
+<p>Data Bus：Connect MDR and RAM.</p>
+<p>下图是所谓的CPU架构，记下来然后在考试中画上去。<br>
+<img src="/posts/4b4db486.htm/Screenshot%202023-10-26%20234800.png" alt="Alt text"></p>
+<p>The use of primary memory：The only storage that is directly accessible by the CPU. The primary memory may hold both data and instructions that are currently running on the computer system. D&amp;I stored in primary memory as binary machine code.</p>
+<p>RAM：Random Access Memory. General-purpose storage area, data stored can be over-written. Volatile.</p>
+<p>ROM：Read Only Memory. Store data that cannot be over-written. Non-volatile. Store programs and instructions that do not need to be updated or change.</p>
+<p>Differences Between RAM and ROM：</p>
+<ul>
+<li>ROM cannot be written to, but RAM can be written to.</li>
+<li>ROM holds the BIOS, but RAM holds the programs running and the data used.</li>
+<li>ROM is much bigger than RAM.</li>
+<li>Volatile/Non-volatile.</li>
+</ul>
+<p>Cache：</p>
+<ul>
+<li>Nearer to the CPU than RAM.</li>
+<li>Faster than RAM.</li>
+<li>More expensive than RAM.</li>
+<li>Seperated in L1 and L2.</li>
+</ul>
+<p>Machine Instruction Cycle：It is the basic operation cycle of a computer, taking place in a definite time period, during which one instruction is fetched from memory and executed. It typically consists of four stages：fetch, decode, executer and store.</p>
+<p>累了，指令执行这块也没什么要多写的，看图即可：<br>
+<img src="/posts/4b4db486.htm/Screenshot%202023-10-27%20000238.png" alt="Alt text"></p>
+<h1 id="secondary-memory">Secondary Memory</h1>
+<p>Persistent storage(a.k.a. secondary memory/auxiliary storage): relatively slow memory that may be written to but is also non-volatile. The contents of the memory are not wiped if power is lost.</p>
+<p>Need for persistent storage: If secondary memory did not exist a computer system would be unable to store instructions and data persistently. Whenever it shut down all the contents of the only existing primary memory would be lost.</p>
+<p>Virtual Memory: secondary memory is required to hold information that may not be needed all of the time or may be too large to fit as a whole in primary memory.</p>
+<p>The use of virtual memory: Secondary memory allow us to run all these programs confurrently and seamlessly. Since there is not enough space in the primary memory to load the extra program, some other program loaded by the user is copied into secondary memory. Whenever the program that was moved into the secondary memory is needed, some other program in the primary memory is copied to the secondary memory.</p>
+<p>Examples of secondary memory:</p>
+<ul>
+<li>Hard drive(hard disk)</li>
+<li>CD-RW, DVD-RW</li>
+<li>USB Flash drive</li>
+<li>Secure Digital(SD) or Compact Flash(CF) card</li>
+<li>Zip disk</li>
+<li>Floppy disk</li>
+<li>Magnetic tape</li>
+</ul>
+<p>Differences between primary and secondary memory:</p>
+<ul>
+<li>Most computers are equipped with a smaller amount of primary memory and a larger amount of secondary memory.</li>
+<li>Primary memory is volatile, which means it does not retain data when the power is turned off.</li>
+<li>Primary memory is more expensive compared to secondary memory.</li>
+<li>Primary memory is much faster than secondary memory.</li>
+<li>Primary memory is directly accessed by the CPU, while secondary memory is not.</li>
+<li>Secondary memory is non-volatile, which means it retains data when the power is turned off.</li>
+</ul>
+<h1 id="operating-and-application-systems">Operating and Application Systems</h1>
+<p>Operating System: a set of software that controls the computer’s hardware resources and provides services for computer programs. An intermediary between software applications and the computer hardware.</p>
+<p>Main functions of OS:</p>
+<ul>
+<li>Peripheral communication</li>
+<li>Memory management</li>
+<li>Resource monitoring and multitasking</li>
+<li>Networking</li>
+<li>Disk access and data management</li>
+<li>Security<br>
+（极其通俗，不做具体展开）</li>
+</ul>
+<p>Application software: preloaded when it is manufactured and complete predefined tasks.<br>
+Examples:</p>
+<ul>
+<li>Word processors: production of any sort of document.</li>
+<li>Spreadsheets: organization and analysis of data.</li>
+<li>Database management systems(DBMS): manages(creates, queries, updates stores, modifies, and extracts information) databases and is designed to provide an interface between users and a database.</li>
+<li>Web browsers: used to access, retrieve, and present content on the World Wide Web.</li>
+<li>Email: allows for the exchange of digital messages from a single author to one or more recipients.</li>
+<li>Computer Aided Design(CAD): assists engineers to create, modify, analyze and optimize a design.</li>
+<li>Graphic processing software: allows a user to manipulate visual images on a computer.</li>
+</ul>
+<p>Toolbars: GUI element on which buttons, icons, menus, or other input or output elements are placed.<br>
+Menus: displays a list of commands that can be chosen by the user to perform various functions.<br>
+Dialogue boxes: communicate information to the user and allow him/her to respond by choosing an option from a list of specific choices.<br>
+Graphical User Interfaces(GUI): WIMP, windows, icons, menus, pointers. Interact with computer in a number of ways.<br>
+Command Line Interfaces(CLI): Type in commands to interact with the Computer.<br>
+Natural Language Interface(NLIs): User speaks to the interface.<br>
+Menu Based Interface(MBIs): Gives user a selection options.</p>
+<h1 id="binary-representation">Binary Representation</h1>
+<p>没啥好讲的，记住two’s complement是补码，sign-and-magnitude是原码即可。</p>
+<h1 id="simple-logic-gates">Simple Logic Gates</h1>
+<p>更没啥好讲的了，记住写boolean expression的时候不能写|或者&amp;，要直接写OR或者AND。逻辑门直接画圆即可。</p>
+</div></article><aside class="toc"><h3>Table of contents</h3><nav id="toc"></nav></aside></main><footer class="site-footer"><div class="container"><p>© 2025 Zhang Shoufeng</p></div></footer><script src="/js/minimalfolio.js"></script><script>(function(){
+  const content = document.querySelector('.post-content');
+  const toc = document.getElementById('toc');
+  if(!content || !toc) return;
+  const headings = content.querySelectorAll('h1, h2, h3');
+  const ul = document.createElement('ul');
+  headings.forEach(function(h){
+    const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-');
+    h.id = id;
+    const li = document.createElement('li');
+    li.className = h.tagName.toLowerCase();
+    const a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    ul.appendChild(li);
+  });
+  toc.appendChild(ul);
+})();</script></body></html>

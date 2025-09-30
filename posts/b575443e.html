@@ -1,0 +1,132 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>南京大学计算机系统基础课程笔记1：计算机系统概述 | Shoufeng's Blog</title><link rel="stylesheet" href="/css/minimalfolio.css"><meta name="generator" content="Hexo 7.0.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><header class="site-header"><div class="container"><a class="logo" href="/">Shoufeng's Blog</a><nav class="main-nav"><ul><li><a href="/">Home</a></li><li><a href="/archives/">Archives</a></li><li><a href="/categories/">Categories</a></li></ul></nav></div></header><main class="container post"><article><h1 class="post-title">南京大学计算机系统基础课程笔记1：计算机系统概述</h1><p class="post-meta">2023-08-23</p><div class="post-content"><h1 id="1-2-1-冯诺依曼结构主要思想">1.2.1 冯诺依曼结构主要思想</h1>
+<h2 id="eniac">ENIAC</h2>
+<p>1946年，世界上第一台通用电子计算机ENIAC出现（Electronic Numerical Integrator And Computer）</p>
+<ul>
+<li>有电子真空管组成</li>
+<li>由宾夕法尼亚大学研制</li>
+<li>用于解决复杂弹道问题，5000次加法/s</li>
+<li>用十进制表示信息并运算</li>
+<li>使用手动编程，通过设置开关和插拔电缆实现</li>
+<li>体积大，质量大，耗电大</li>
+</ul>
+<h2 id="冯-诺依曼">冯·诺依曼</h2>
+<ul>
+<li>1944年参加原子弹研制工作</li>
+<li>1945年遇到美国弹道实验室的军方负责人</li>
+<li>加入ENIAC研制组，发表了“存储程序通用电子计算机方案”，Electronic，Discrete，Variable，Automatic，Computer</li>
+<li>普林斯顿高等研究院批准依照方案建造计算机，1946年开始设计“存储程序”计算机，1951年完成IAS
+<ul>
+<li>报告中提到的计算机结构被称为冯·诺依曼结构</li>
+<li>“存储程序（Stored-program）”的工作方式：
+<ul>
+<li>任何计算机完成的工作要先被编写成程序，然后将程序和原始数据送入主存并执行，启动后可以自行完成取出指令和执行指令的任务。</li>
+<li>冯·诺依曼结构计算机被称为冯·诺依曼机器（Von Neumann Machine）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>世界上第一台存储程序计算机是1949年剑桥大学完成的EDSAC。</li>
+</ul>
+<h2 id="冯-诺依曼结构主要思想">冯·诺依曼结构主要思想</h2>
+<ul>
+<li>有主存，存放程序和数据</li>
+<li>有自动逐条取出指令的部件</li>
+<li>有具体执行指令的部件</li>
+<li>程序有指令构成</li>
+<li>指令描述如何对数据进行处理（指令译码，转换成控制信号）</li>
+<li>应该有将程序和原始数据输入计算机的部件</li>
+<li>应该有将运算结果输出计算机的部件</li>
+<li>早期计算机用分散方式连接，现在用总线方式</li>
+</ul>
+<p>我们将上述要求进行总结</p>
+<ul>
+<li>计算机应有运算器、控制器、存储器、输入设备和输出设备
+<ul>
+<li>存储器用于存放数据和指令（形式上没区别，但计算机能区分）</li>
+<li>控制器自动取指执行</li>
+<li>运算器支持基本算数运算和逻辑运算</li>
+<li>操作人员通过输入设备和输出设备与主机通信</li>
+</ul>
+</li>
+<li>内部用二进制表示指令和数据。指令由操作码和地址码组成，一串指令组成程序。</li>
+<li>采用“存储程序的工作方式”。</li>
+</ul>
+<h1 id="1-2-2-现代计算机结构模型及工作原理">1.2.2 现代计算机结构模型及工作原理</h1>
+<p><img src="/posts/b575443e.htm/Screenshot%202023-08-24%20123534.png" alt="Alt text"></p>
+<p>CPU：中央处理器<br>
+PC：程序计数器<br>
+MAR：存储器地址寄存器<br>
+ALU：算术逻辑部件<br>
+IR：指令寄存器<br>
+MDR：存储器数据寄存器<br>
+GPRs：通用寄存器组</p>
+<p>我们将CPU执行过程类比成做菜（类似“存储程序”的工作方式）</p>
+<p>做菜前：</p>
+<p>原材料（数据）和菜谱（指令）都按顺序放在厨房外的架子（存储器）上，每个架子有编号（存储单元地址），菜谱（指令）上的信息：原料位置、做法、做好的菜放在哪里等。然后决定从第几个架子（PC=？）上指定菜谱开始做。</p>
+<p>数据和指令实现存放在存储器中，每条指令和每个数据都有地址，指令按序存放，指令由OP、ADDR字段组成，程序起始地址置PC。</p>
+<p>开始做菜：</p>
+<p>第一步：从某号加上取菜谱（根据PC取指令）<br>
+第二步：看菜谱（指令译码）<br>
+第三步：从架上或盘中取原材料（取操作数）<br>
+第四步：洗、切、炒等具体操作（指令执行）<br>
+第五步：装盘或直接送桌（写回结果）<br>
+第六步：算出下一菜谱所在架子号（修改PC的值）<br>
+继续做下一道菜（然后执行下一条指令）</p>
+<p>因为指令和数据都存放在存储器中，形式上都是二进制数，所以指令中需要给出固定格式的信息以执行操作，指令中需给出的信息：</p>
+<ul>
+<li>操作性质（操作码OP）</li>
+<li>源操作数1 或/和 源操作数2（立即数、寄存器编号、存储地址ADDR）</li>
+<li>目的操作数地址（寄存器编号、存储地址ADDR）</li>
+<li>存储地址的表述与操作数的数据结构有关</li>
+</ul>
+<h1 id="1-3-1-从机器语言到高级编程语言">1.3.1 从机器语言到高级编程语言</h1>
+<p>最早的程序开发过程用机器语言编写程序，并记录在纸带或卡片上。所有的输入输出都是二进制数。<br>
+书写不灵活，阅读困难。</p>
+<p>用汇编语言开发程序用符号表示跳转位置和变量位置。使用助记符表示操作码，用标号表示位置，用助记符表示寄存器。不会因为增减指令而需要修改其他指令，读写性比机器语言强。汇编程序将汇编语言转换成机器语言。</p>
+<p>汇编语言由汇编指令构成。指令只能描述存取一个属、两个数运算或者根据运算结果判断执行是否转移</p>
+<p>用高级语言开发程序与具体机器结构无关。面向算法描述，描述能力强。高级语言中的一条语句可以对应若干条指令。高级语言有面向过程和面向对象之分。处理逻辑分为顺序结构、循环结构和选择结构。</p>
+<p>高级语言有两种转换方式：编译和解释。编译将高级语言源程序转换为机器级目标程序，执行时只要启动目标程序即可。解释程序将高级语言语句逐条翻译成机器指令并直接执行，不生成目标文件。</p>
+<h1 id="1-3-2-程序的开发和执行及其支撑环境">1.3.2 程序的开发和执行及其支撑环境</h1>
+<p>C在GCC+Linux平台中的处理过程：</p>
+<p>hello.c（文本） -&gt; 预处理 -&gt; hello.i（文本） -&gt; 编译 -&gt; hello.s（汇编文本） -&gt; 汇编 -&gt; hello.o（二进制）-&gt; 链接（程序中某些函数的实现在其他文件中）-&gt; hello（可执行文件）</p>
+<p><img src="/posts/b575443e.htm/Screenshot%202023-08-24%20131352.png" alt="Alt text"></p>
+<p><img src="/posts/b575443e.htm/Screenshot%202023-08-24%20131721.png" alt="Alt text"></p>
+<p>用高级语言开发需要语言处理系统和操作系统。</p>
+<p><img src="/posts/b575443e.htm/Screenshot%202023-08-24%20132005.png" alt="Alt text"></p>
+<h1 id="1-4-1-编程语言和计算机系统层次">1.4.1 编程语言和计算机系统层次</h1>
+<p>最早的计算机使用机器语言进行编写，这时候只需要使用指令集体系结构将计算机硬件抽象成接口供应用程序使用即可，一共分成三个层次。</p>
+<p>后来用汇编语言编程。所以我们要使用汇编程序将汇编语言转换成机器语言再通过指令集体系结构使用硬件的接口执行程序。因为是使用符号进行编写，所以我们同样需要操作系统或者图形化界面来提供人机交互，所以在这里一共有五个系统层次。</p>
+<p>现代计算机用高级语言编程，在这里我们使用语言处理程序将其转换成机器指令，其余部分与上述汇编语言相同。语言处理系统包括各种语言处理程序（编译、汇编、链接）和运行时系统（库函数，调试、优化等）。操作系统包括人机交互界面和提供服务功能的内核例程。</p>
+<h1 id="1-4-2-现代计算机系统的层次结构">1.4.2 现代计算机系统的层次结构</h1>
+<p><img src="/posts/b575443e.htm/Screenshot%202023-08-24%20133528.png" alt="Alt text"></p>
+<p><img src="/posts/b575443e.htm/Screenshot%202023-08-24%20133732.png" alt="Alt text"></p>
+<p>指令集体系结构（Instruction Set Architecture，ISA），有时简称为指令系统。<br>
+ISA是一种规范（Specification），它规定了如何使用硬件。<br>
+- 可执行的指令的集合，包括指令格式和操作种类的相应规定<br>
+- 指令可以接受的操作数的类型<br>
+- 操作数所能存放的寄存器组的结构<br>
+- 操作数所能存放的存储空间的大小和编址方式<br>
+- 操作数在存储空间存放时按照大端还是小段存放<br>
+- 寻址方式<br>
+- 指令执行过程的控制方式，包括程序计数器、条件码定义等</p>
+<p>计算机组成必须能够实现ISA规定的功能。ISA是计算机组成的抽象。<br>
+同一种ISA可以有不同的计算机组成，如乘法指令可用ALU或乘法器实现。</p>
+</div></article><aside class="toc"><h3>Table of contents</h3><nav id="toc"></nav></aside></main><footer class="site-footer"><div class="container"><p>© 2025 Zhang Shoufeng</p></div></footer><script src="/js/minimalfolio.js"></script><script>(function(){
+  const content = document.querySelector('.post-content');
+  const toc = document.getElementById('toc');
+  if(!content || !toc) return;
+  const headings = content.querySelectorAll('h1, h2, h3');
+  const ul = document.createElement('ul');
+  headings.forEach(function(h){
+    const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-');
+    h.id = id;
+    const li = document.createElement('li');
+    li.className = h.tagName.toLowerCase();
+    const a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    ul.appendChild(li);
+  });
+  toc.appendChild(ul);
+})();</script></body></html>

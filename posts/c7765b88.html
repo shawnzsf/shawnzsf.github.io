@@ -1,0 +1,109 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>线性回归1：最小二乘法 | Shoufeng's Blog</title><link rel="stylesheet" href="/css/minimalfolio.css"><meta name="generator" content="Hexo 7.0.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><header class="site-header"><div class="container"><a class="logo" href="/">Shoufeng's Blog</a><nav class="main-nav"><ul><li><a href="/">Home</a></li><li><a href="/archives/">Archives</a></li><li><a href="/categories/">Categories</a></li></ul></nav></div></header><main class="container post"><article><h1 class="post-title">线性回归1：最小二乘法</h1><p class="post-meta">2023-08-14</p><div class="post-content"><p>本篇文章做一个简单的机器学习引入，并且介绍机器学习中最简单的方法——线性回归。</p>
+<h2 id="什么是机器学习">什么是机器学习?</h2>
+<p>机器学习从数据开始：</p>
+<ul>
+<li>数据可以是对于人的观察(偏好、健康…)</li>
+<li>数据也可以是对于世界的观察(图像、声音…)</li>
+</ul>
+<p>通过机器学习，我们可以找到相似的对象、为对象做预测、从对象身上总结知识、为对象分组…</p>
+<h2 id="算法-算法">算法！算法！</h2>
+<p>机器学习可以被认为是一个拥有不断增长的数据集的算法。<br>
+但是算法很难被应用到实际，并且在应用过程中可能会进行调整，所以理解他们是必要的。</p>
+<p>AI -&gt; Neural Networks -&gt; Modelling biological neurons &amp; Predicting stuff from data</p>
+<p>机器学习的实例可以是谷歌、微软或亚马逊等商业公司的推荐机制…<br>
+也可以是通过学习人类基因片段来诊断病症…<br>
+可以是信息检索：新闻检索、语言模型预测、图像和视频检索…<br>
+或者是人机交互：语音识别、姿势识别…<br>
+可以与生物信息相关：预测生物与基因反应、预测基因和蛋白质网络结构、通过序列预测蛋白质功能…</p>
+<h2 id="监督学习-supervised-learning">监督学习(Supervised Learning)</h2>
+<p>机器学习分为三大板块：监督学习、无监督学习和强化学习，本文暂时只讨论前两种。</p>
+<p>监督学习，顾名思义，即是基于已经标识好的数据集进行训练(训练过程像是做一本有答案的练习册)。</p>
+<h3 id="回归-regression">回归(Regression)</h3>
+<p>回归是监督学习的一种，即从数据集中总结出一种连续的函数。<br>
+例子：预测股票价格(参数可以是时间或者跟利息相关的其他变量)。</p>
+<h3 id="分类-classification">分类(Classification)</h3>
+<p>学习一种可以将不同对象区分开的规则。<br>
+例子：疾病诊断，垃圾邮件检测。</p>
+<h2 id="无监督学习-unsupervised-learning">无监督学习(Unsupervised Learning)</h2>
+<p>继续上面练习册的例子，无监督学习即是做一本没有答案的练习册，自己总结规律。</p>
+<h3 id="聚类-clustering">聚类(Clustering)</h3>
+<p>为相似的对象划分组别。<br>
+例子：具有相同偏好的人，具有相似功能的基因。</p>
+<h3 id="投影-projection">投影(Projection)</h3>
+<p>减少参数数量。<br>
+例子：将复杂的数据可视化。</p>
+<p>当然上述算法的介绍是十分泛泛的，以后应该会补全的…吧？ —2023.08.14</p>
+<h2 id="回归的伊始：线性回归">回归的伊始：线性回归</h2>
+<p>我们使用1896-2000年间奥林匹克运动会一百米赛的金牌数据进行训练，随后对2004、2008、2012以及2016年的金牌时间进行预测。(具体数据可以到www.statisca.com进行查找)</p>
+<p>为了使用线性回归做的一些假设(错误的)：</p>
+<ul>
+<li>奥林匹克举办年份与获奖时间之间存在关系。(实则不然，年份只是训练方法、医疗条件等等进步的一个外显)</li>
+<li>关系是线性的。(实则不然，获奖时间明显是波动下降)</li>
+<li>会一直保持线性关系。(那将来的某一天获奖时间会变成负的喽？)</li>
+</ul>
+<p>综上，线性回归作为新手入门手段，仍然存在许多局限性，在此先忽略这些错误。</p>
+<p>属性(Attributes)和目标(Targets)：<br>
+属性是影响预测结果的因变量，在这里即是年份。目标是要进行预测的对象，在这里即是获奖时间。</p>
+<p>数学意义上，我们可以用变量x和变量t来表示这两个参数。<br>
+如此我们便得到了预测模型，t = f(x)。<br>
+我们有若干个带答案数据集(attribute-response pairs)。<br>
+将上面的模型展开，我们可以得到t = f(x) = w0 + w1*x<br>
+w0和w1是线性模型的两个参数。<br>
+如此我们便得到了数据和要进行调整的参数。</p>
+<p>那么我们如何评判模型的优劣呢？下面介绍一种简单的损失函数，平方损失。</p>
+<p>Lossn = (tn - f(xn; w0; w1))^2</p>
+<p>平均损失即是：</p>
+<p>Lossn = 1/N Σ1-&gt;n (tn - f(xn; w0; w1))^2</p>
+<p>Lower is better.</p>
+<p>因此我们要对上述损失函数进行求导，如此便可以找到损失最小的参数。<br>
+问题来了，当参数多于两个时该怎么导损失函数呢？偏微分。<br>
+中间冗长的(或许也不，只是这里不好写公式)推算先略去不表，我们最终得出了当损失最小时参数w1和参数w0的公式：</p>
+<p>w1 = (xt_bar - x_bar<em>t_bar)/(x_square_bar - x_bar</em>x_bar)<br>
+w0 = t_bar - w1*x_bar</p>
+<p>如此我们便得到了质量最高的线性回归模型。<br>
+以下为c++的代码实现(太简单了所以没放github)：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;cmath&gt;</span><br><span class="line">#include &lt;cstring&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    float w1, w0, x_bar, t_bar, xt_bar, x_square_bar, pre_2004, pre_2008, pre_2012, pre_2016;</span><br><span class="line">    </span><br><span class="line">    t_bar = (131 + 121.2 + 116 + 112.8 + 111.9 + 113.4 + 112.4 + 111.8 </span><br><span class="line">    + 109.8 + 112.9 + 109.2 + 109.2 + 107.7 + 106.3 + 105.1 + 104.3 </span><br><span class="line">    + 105.86 + 103.5 + 105.4 + 103 + 103.55 + 103.66 + 102.58 + 105.08)/24;</span><br><span class="line"></span><br><span class="line">    x_bar = (1896 + 1900 + 1904 + 1908 + 1912 + 1920 + 1924 </span><br><span class="line">    + 1928 + 1932 + 1936 + 1948 + 1952 + 1956 + 1960 + 1964 + 1968</span><br><span class="line">    + 1972 + 1976 + 1980 + 1984 + 1988 + 1992 + 1996 + 2000)/24;</span><br><span class="line">    </span><br><span class="line">    xt_bar = (131*1896 + 121.2*1900 + 116*1904 + 112.8*1908 + 111.9*1912 </span><br><span class="line">    + 113.4*1920 + 112.4*1924 + 111.8*1928 + 109.8*1932 + 112.9*1936 + 109.2*1948</span><br><span class="line">    + 109.2*1952 + 107.7*1956 + 106.3*1960 + 105.1*1964 + 104.3*1968 + 105.86*1972</span><br><span class="line">    + 103.5*1976 + 105.4*1980 + 103*1984 + 103.55*1988 + 103.66*1992 + 102.58*1996</span><br><span class="line">    + 105.08*2000)/24;</span><br><span class="line">    </span><br><span class="line">    x_square_bar = (1896*1896 + 1900*1900 + 1904*1904 + 1908*1908 + 1912*1912 + 1920*1920 + 1924*1924 </span><br><span class="line">    + 1928*1928 + 1932*1932 + 1936*1936 + 1948*1948 + 1952*1952 + 1956*1956 + 1960*1960 + 1964*1964 + 1968*1968</span><br><span class="line">    + 1972*1972 + 1976*1976 + 1980*1980 + 1984*1984 + 1988*1988 + 1992*1992 + 1996*1996 + 2000*2000)/24;</span><br><span class="line">    </span><br><span class="line">    w1 = (xt_bar-x_bar*t_bar)/(x_square_bar-x_bar*x_bar);</span><br><span class="line">    w0 = t_bar - w1*x_bar;</span><br><span class="line"></span><br><span class="line">    pre_2004 = w0 + w1*2004;</span><br><span class="line">    pre_2008 = w0 + w1*2008;</span><br><span class="line">    pre_2012 = w0 + w1*2012;</span><br><span class="line">    pre_2016 = w0 + w1*2016;</span><br><span class="line"></span><br><span class="line">    printf(&quot;x_bar = %.2f\n&quot;, x_bar);</span><br><span class="line">    printf(&quot;t_bar = %.2f\n&quot;, t_bar);</span><br><span class="line">    printf(&quot;xt_bar = %.2f\n&quot;, xt_bar);</span><br><span class="line">    printf(&quot;x_square_bar = %.2f\n&quot;, x_square_bar);</span><br><span class="line">    printf(&quot;The two parameters are: w0 = %.2f, w1 = %.2f\n&quot;, w0, w1);</span><br><span class="line">    printf(&quot;The equation is t = f(x) = %.2f + %.2fx\n&quot;, w0, w1);</span><br><span class="line">    printf(&quot;The predicted time of gold medal in 800m race in 2004 is %.2f seconds\n&quot;, pre_2004);</span><br><span class="line">    printf(&quot;The real time of gold medal in 800m race in 2004 is 104.45 seconds. \n&quot;);</span><br><span class="line">    printf(&quot;The predicted time of gold medal in 800m race in 2008 is %.2f seconds\n&quot;, pre_2008);</span><br><span class="line">    printf(&quot;The real time of gold medal in 800m race in 2008 is 104.65 seconds. \n&quot;);</span><br><span class="line">    printf(&quot;The predicted time of gold medal in 800m race in 2012 is %.2f seconds\n&quot;, pre_2012);</span><br><span class="line">    printf(&quot;The real time of gold medal in 800m race in 2012 is 100.91 seconds. \n&quot;);</span><br><span class="line">    printf(&quot;The predicted time of gold medal in 800m race in 2016 is %.2f seconds\n&quot;, pre_2016);</span><br><span class="line">    printf(&quot;The real time of gold medal in 800m race in 2016 is 102.15 seconds. \n&quot;);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="向量表示方法">向量表示方法</h2>
+<p>到这里一个简单的线性回归程序已经编写好了，但是我们还需要进一步的完善。<br>
+我们可以发现在上面定义的模型实际上只是一条直线，为了提高模型能力，我们可以增加参数的次数。<br>
+增加函数的次数可以让函数的拟合能力变强，因为整个函数会变得十分灵活，模型越复杂(次数越高)则模型的Loss越低。但是这里要注意一点，损失的减少并不意味着模型泛化(generalization, predictive ability)能力一定提高，要找到合适的模型复杂度，一味提高次数会导致过拟合(over-fitting, decreasing the loss)。</p>
+<p>因为参数增加了，在使用上面最高二次的表示方法未免会显得很蠢，所以我们在这里引用向量表示方法。<br>
+我们令<strong>w</strong>表示一个2 * 1的向量，包含w0和w1，令<strong>x</strong>同样表示为一个2 * 1的向量，包括x0和x1。如此我们便可以将上面的模型：<br>
+t = w0 + w1*x = Σ0-&gt;k wk * xk<br>
+简化为：<br>
+t = <strong>w</strong> ^ T * <strong>x</strong><br>
+损失为：<br>
+Ln = (tn - <strong>w</strong> ^ T * <strong>x</strong>n)^2<br>
+平均损失为：<br>
+L = 1/N Σ1-&gt;N (tn - <strong>w</strong> ^ T * <strong>x</strong>n)^2</p>
+<p>优雅的表示方法！<br>
+但这样就足够了吗？</p>
+<p>我们令qn = (tn - <strong>w</strong> ^ T * <strong>x</strong>n)，也就是一个N * 1的向量<br>
+如此我们又可以对损失公式进行简化：<br>
+L = 1/N <strong>q</strong> ^ T * <strong>q</strong></p>
+<p>我们接着设<strong>X</strong>为N * 1的矩阵，包括x1到xn。(矩阵是粗体大写字母，向量是粗体小写字母)<br>
+于是我们可以得到<strong>q</strong> = <strong>t</strong> - <strong>X</strong> * <strong>w</strong><br>
+而平均损失函数也可以更新为：<br>
+L = 1/N (<strong>t</strong> - <strong>X</strong> * <strong>w</strong>) ^ T * (<strong>t</strong> - <strong>X</strong> * <strong>w</strong>)</p>
+<p>对于损失函数的偏微分计算同样略去不表，这里给出最后参数的公式：<br>
+<strong>w</strong> = (<strong>X</strong> ^ T * <strong>X</strong>)^-1 * <strong>X</strong> ^ T * <strong>t</strong></p>
+<p>本篇文章到此结束。</p>
+</div></article><aside class="toc"><h3>Table of contents</h3><nav id="toc"></nav></aside></main><footer class="site-footer"><div class="container"><p>© 2025 Zhang Shoufeng</p></div></footer><script src="/js/minimalfolio.js"></script><script>(function(){
+  const content = document.querySelector('.post-content');
+  const toc = document.getElementById('toc');
+  if(!content || !toc) return;
+  const headings = content.querySelectorAll('h1, h2, h3');
+  const ul = document.createElement('ul');
+  headings.forEach(function(h){
+    const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-');
+    h.id = id;
+    const li = document.createElement('li');
+    li.className = h.tagName.toLowerCase();
+    const a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    ul.appendChild(li);
+  });
+  toc.appendChild(ul);
+})();</script></body></html>

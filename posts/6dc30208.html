@@ -1,0 +1,48 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>正则表达式速览 | Shoufeng's Blog</title><link rel="stylesheet" href="/css/minimalfolio.css"><meta name="generator" content="Hexo 7.0.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><header class="site-header"><div class="container"><a class="logo" href="/">Shoufeng's Blog</a><nav class="main-nav"><ul><li><a href="/">Home</a></li><li><a href="/archives/">Archives</a></li><li><a href="/categories/">Categories</a></li></ul></nav></div></header><main class="container post"><article><h1 class="post-title">正则表达式速览</h1><p class="post-meta">2023-08-06</p><div class="post-content"><h1 id="限定符">限定符</h1>
+<pre><code>?: 表示某一个词元可以出现零次或一次，例：used?可以匹配use和used。
+*：表示某一个词元可以出现零次或多次，例：ab*c可以匹配ac, abc, abbc...
+**注：词元在这里是我生造的词汇，表示某一个具体的字母，符号或数字。**
++：表示某一个词元必须出现一次以上。
+&#123;...&#125;(数字)：括号内的数字表示某一个词元必须出现的特定次数。&#123;2&#125;，为出现两次，&#123;2,6&#125;，为出现2到6次，&#123;2，&#125;为出现2次以上。
+&#123;...&#125;(字母)：如果想对多个词元进行限定符操作，则用括号将其括起来。如&#123;ab&#125;。
+^：匹配除了后续括号内以外的字符。
+</code></pre>
+<h1 id="或运算符">或运算符</h1>
+<pre><code>例子：a (cat|dog)
+匹配结果：a cat, a dog
+</code></pre>
+<h1 id="字符类运算符">字符类运算符</h1>
+<pre><code>[...]：指定了能匹配的字符范围，如[abc]+表示所有abc，[a-zA-z]+代表所有的英文字符，[0-9]+代表所有的数字。
+</code></pre>
+<h1 id="元字符">元字符</h1>
+<pre><code>元字符是预先定义好的匹配规则。
+\d+：代表所有数字内容。
+\w+：代表所有英文字符内容。
+\s+：代表空白字符，包括tab和换行符。
+\D+：非数字内容。
+\W+：非英文字符内容。
+\S+：非空白内容。
+.+：代表任意字符。
+^x：只会匹配行首的字符。
+$x：只会匹配行尾的字符。
+</code></pre>
+<p>PA1阶段并不需要对正则表达式多么高深的理解，所以本篇文章到此暂时结束。</p>
+</div></article><aside class="toc"><h3>Table of contents</h3><nav id="toc"></nav></aside></main><footer class="site-footer"><div class="container"><p>© 2025 Zhang Shoufeng</p></div></footer><script src="/js/minimalfolio.js"></script><script>(function(){
+  const content = document.querySelector('.post-content');
+  const toc = document.getElementById('toc');
+  if(!content || !toc) return;
+  const headings = content.querySelectorAll('h1, h2, h3');
+  const ul = document.createElement('ul');
+  headings.forEach(function(h){
+    const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-');
+    h.id = id;
+    const li = document.createElement('li');
+    li.className = h.tagName.toLowerCase();
+    const a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    ul.appendChild(li);
+  });
+  toc.appendChild(ul);
+})();</script></body></html>

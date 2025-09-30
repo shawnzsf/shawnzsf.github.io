@@ -1,0 +1,198 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>南京大学计算机系统基础课程笔记2：数据的表示和存储 | Shoufeng's Blog</title><link rel="stylesheet" href="/css/minimalfolio.css"><meta name="generator" content="Hexo 7.0.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><header class="site-header"><div class="container"><a class="logo" href="/">Shoufeng's Blog</a><nav class="main-nav"><ul><li><a href="/">Home</a></li><li><a href="/archives/">Archives</a></li><li><a href="/categories/">Categories</a></li></ul></nav></div></header><main class="container post"><article><h1 class="post-title">南京大学计算机系统基础课程笔记2：数据的表示和存储</h1><p class="post-meta">2023-08-24</p><div class="post-content"><h1 id="2-1-十进制数和二进制数-不同进制数之间的转换">2.1 十进制数和二进制数&amp;不同进制数之间的转换</h1>
+<ol>
+<li>转换的概念在数据上的表示</li>
+</ol>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-24%20191109.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-24%20191518.png" alt="Alt text"></p>
+<ol start="2">
+<li>
+<p>机器级数据分为两大类</p>
+<ul>
+<li>数值数据：无符号整数、带符号整数、浮点数（实数）</li>
+<li>非数值数据：逻辑数、西文字符和汉字</li>
+</ul>
+</li>
+<li>
+<p>计算机内部信息都使用二进制进行编码（冯诺依曼结构规定），原因：</p>
+<ul>
+<li>制造两个稳定态的物理器件容易（电位高/低、脉冲有/无、正/负极）</li>
+<li>二进制编码、计数和运算规则简单</li>
+<li>正好与逻辑命题的真与假对应，便于逻辑运算</li>
+<li>方便地用逻辑电路实现算术运算</li>
+</ul>
+</li>
+<li>
+<p>真值和机器数</p>
+<ul>
+<li>机器数：用0和1编码的计算机内部的二进制数</li>
+<li>真值：真正的值</li>
+</ul>
+</li>
+<li>
+<p>数值数据表示的三要素</p>
+<ul>
+<li>进位计数制（二进制、十六进制、十进制、八进制及其相互转换）</li>
+<li>定、浮点表示（定点整数、定点小数、浮点数）</li>
+<li>二进制编码（原码、补码、反码、移码）</li>
+</ul>
+</li>
+</ol>
+<p>二进制的表示十分繁琐，所以我们有时会使用十六进制（后缀H，前缀0x）和八进制（后缀O）表示，便于阅读和书写。</p>
+<ol>
+<li>
+<p>十进制数与R进制数的转换</p>
+<ul>
+<li>R进制数转十进制数：按“权”展开</li>
+<li>十进制数转R进制数：先转二进制，再转其他进制数。整数部分和小数部分分别转换。</li>
+<li>整数部分，除基取余，上右下左；小数部分，乘基取整，上左下右（对于整数部分，记住2的0次到16次，小数部分记住0.5，0.25，0.125，0.0625即可）。</li>
+</ul>
+</li>
+<li>
+<p>小数点位置的约定</p>
+<ul>
+<li>计算机通过约定小数点的位置来表示小数
+<ul>
+<li>小数点约定在固定位置的数是定点数</li>
+<li>小数点约定在可浮动的数是浮点数</li>
+</ul>
+</li>
+<li>定点小数表示浮点数的尾数部分</li>
+<li>定点整数用来表示整数，分带符号整数和无符号整数</li>
+</ul>
+</li>
+</ol>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-24%20193720.png" alt="Alt text"></p>
+<h1 id="2-2-原码和移码表示-模运算系统和补码表示-补码和真值的对应关系">2.2 原码和移码表示&amp;模运算系统和补码表示&amp;补码和真值的对应关系</h1>
+<p>定点数的编码（解决正负号问题）</p>
+<ul>
+<li>原码、补码、移码、反码（很少用）</li>
+</ul>
+<p>原码表示：对于正数用1表示，对于负数用1表示<br>
+缺点：</p>
+<ul>
+<li>0的表示不唯一</li>
+<li>加减运算方式不统一</li>
+<li>需要额外对符号位进行处理</li>
+</ul>
+<p>移码表示：将每个数值加上一个偏置常数。<br>
+用移码来表示指数便于浮点数加减运算时的对阶操作（比较大小）</p>
+<ul>
+<li>正数的移码编码值和真值一致</li>
+<li>负数的移码编码值在真值的基础上偏移2^(n-1)</li>
+<li>由于移码的适用场合，所以不讨论定点小数的移码编码</li>
+<li>根据移码的定义 0的移码编码为10000000</li>
+<li>移码编码的大小和真值的大小成线性正比关系</li>
+<li>移码编码中只有一个0，因此和补码表示数的范围一致</li>
+</ul>
+<p>补码表示：在一个模运算系统中，一个数与它除以“模”后的余数等价。</p>
+<ul>
+<li>一个负数的补码等于该模减该负数的绝对值</li>
+<li>对于某一确定的模，某数减去小于模的另一数，总可以用该数加上另一数负数的补码来代替<br>
+补码表示：2^n + X（-2^n&lt;=X&lt;2^n, mod 2^n）<br>
+正数补码：符号位（sign bit）为0，数值部分不变<br>
+负数补码：符号位为1，数值部分“各位取反，末位加一”（从右向左遇到第一个1的前面各位取反）<br>
+变形补码：双符号，用于存放可能溢出的中间结果</li>
+</ul>
+<h1 id="2-3-无符号整数和带符号整数-c语言程序中整数举例">2.3 无符号整数和带符号整数&amp;C语言程序中整数举例</h1>
+<p>无符号整数（Unsigned integer）：机器中字的为排列顺序有两种方式</p>
+<ul>
+<li>高到低位从左到右</li>
+<li>高到低位从右导左</li>
+<li>我们用LSB（Least Significant Bit）来表示最低有效位，MSB表示最高有效位</li>
+<li>高到低位一般从左到右<br>
+没有符号位，一般在全部都是正数运算且不出现负值结果的场合下使用（地址运算、编号表示），能表示的最大值大于位数相同的带符号数。因为总是整数，所以有时简称为“无符号数”。</li>
+</ul>
+<p>带符号整数（Signed integer）：使用MSB表示符号<br>
+对于浮点数的尾数来说，我们使用原码的方式表示定点小数<br>
+对于浮点数的指数来说，我们使用移码的方式表示定点整数<br>
+对于带符号整数来说，我们使用补码方式表示，原因如下：</p>
+<ul>
+<li>补码运算系统是模运算系统，加减运算统一</li>
+<li>数0的表示唯一，方便使用</li>
+<li>比原码多表示一个最小负数</li>
+</ul>
+<p>如果同时有无符号和带符号整数，则C编译器将带符号数转成无符号数</p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20213700.png" alt="Alt text"></p>
+<h1 id="2-4-浮点数的表示范围-ieee-754中规格化数的表示-ieee-754中特殊数的表示">2.4 浮点数的表示范围&amp;IEEE 754中规格化数的表示&amp;IEEE 754中特殊数的表示</h1>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20214551.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20215145.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20215332.png" alt="Alt text"></p>
+<p>1985年完成了浮点数标准IEEE 754的制定。</p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20220324.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20220642.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20221046.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20221229.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20221340.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20221833.png" alt="Alt text"></p>
+<h1 id="2-5-非数值数据的编码表示">2.5 非数值数据的编码表示</h1>
+<p>逻辑数据的表示：用1位表示<br>
+逻辑数据的运算：按位进行。如按位与/按位或/逻辑左移/逻辑右移等。<br>
+逻辑数据的识别：逻辑数据和数值数据在形式上并无差别，都是01序列。计算机靠指令进行识别。</p>
+<p>西文字符的特点：</p>
+<ul>
+<li>是一种拼音文字，用有限几个字母可拼写出所有单词</li>
+<li>只需对有限个字母和数学符号、标点符号等辅助字符编码</li>
+<li>所有字符总数不超过256个，使用7个或8个二进制位可表示<br>
+西文字符的表示（常用编码为7位ASCII码）：</li>
+<li>十进制数字</li>
+<li>英文字母</li>
+<li>专用符号</li>
+<li>控制字符<br>
+西文字符的操作：字符串操作，传送/比较等</li>
+</ul>
+<p>汉字的特点：</p>
+<ul>
+<li>汉字是表意文字，一个字就是一个方块图形</li>
+<li>汉字数量巨大，所以给计算机内部的表示，汉字的传输与交换和汉字的输入与输出带来问题。<br>
+汉字的编码形式：</li>
+<li>输入码：对汉字用相应按键进行编码表示，用于输入</li>
+<li>内码：0和1，用于在系统中进行存储查找和传送</li>
+<li>字模点阵或轮廓描述：描述汉字字模点阵或轮廓，用于打印</li>
+</ul>
+<p>图形、图像、音频、视频等信息在机器内部也用0和1表示：</p>
+<ul>
+<li>图形用构建图形的直线或曲线的坐标点及控制点来描述，而这些坐标点或控制点则用数值数据描述。</li>
+<li>图像用构成图像的点（像素）的亮度、颜色或灰度等信息来描述，这些亮度货颜色等值用数值数据描述。</li>
+<li>音频信息通过对模拟声音进行采样、量化（用二进制编码）来获得，因此量化后得到的是一个数值数据序列（随时间变化）。</li>
+<li>视频信息描述的是随时间变化的图像（每一幅图像称为一帧）。</li>
+<li>音乐信息（MIDI）通过对演奏的乐器、乐谱等相关的各类信息用0和1进行编码来描述。</li>
+</ul>
+<h1 id="2-6-数据宽度和存储容量的单位">2.6 数据宽度和存储容量的单位</h1>
+<p>比特（bit，位）是计算机中处理、存储、传输信息的最小单位。<br>
+二进制信息最基本的计量单位是“字节”（Byte）：</p>
+<ul>
+<li>现代计算机中，存储器按字节编址</li>
+<li>字节是最小可寻址单位（addressable unit）</li>
+<li>如果以字节为一个排列单位，则LSB表示最低有效字节，MSB表示最高有效字节<br>
+除比特和字节外，还经常使用“字”（word）作为单位</li>
+<li>“字”和“字长”的概念不同
+<ul>
+<li>“字长”指数据通路的宽度。“字长”等于CPU内部总线的宽度、运算器的位数、通用寄存器的宽度（这些部件的宽度都是一样的）。</li>
+<li>“字”表示被处理信息的单位，用来度量数据类型的宽度</li>
+<li>字和字长的宽度可以一样，也可以不同</li>
+</ul>
+</li>
+</ul>
+<p>数据通路是指CPU内部数据流经的路径以及路径上的部件，主要是CPU内部进行数据运算、存储和传送的部件，这些部件的宽度基本上要一致，才能相互匹配。</p>
+<h1 id="2-7-数据存储时的字节排列">2.7 数据存储时的字节排列</h1>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20230854.png" alt="Alt text"></p>
+<p><img src="/posts/dbdd54e.htm/Screenshot%202023-08-25%20231125.png" alt="Alt text"></p>
+</div></article><aside class="toc"><h3>Table of contents</h3><nav id="toc"></nav></aside></main><footer class="site-footer"><div class="container"><p>© 2025 Zhang Shoufeng</p></div></footer><script src="/js/minimalfolio.js"></script><script>(function(){
+  const content = document.querySelector('.post-content');
+  const toc = document.getElementById('toc');
+  if(!content || !toc) return;
+  const headings = content.querySelectorAll('h1, h2, h3');
+  const ul = document.createElement('ul');
+  headings.forEach(function(h){
+    const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-');
+    h.id = id;
+    const li = document.createElement('li');
+    li.className = h.tagName.toLowerCase();
+    const a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    ul.appendChild(li);
+  });
+  toc.appendChild(ul);
+})();</script></body></html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>计算机组成与设计1：计算机抽象及相关技术 | Shoufeng's Blog</title><link rel="stylesheet" href="/css/minimalfolio.css"><meta name="generator" content="Hexo 7.0.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><header class="site-header"><div class="container"><a class="logo" href="/">Shoufeng's Blog</a><nav class="main-nav"><ul><li><a href="/">Home</a></li><li><a href="/archives/">Archives</a></li><li><a href="/categories/">Categories</a></li></ul></nav></div></header><main class="container post"><article><h1 class="post-title">计算机组成与设计1：计算机抽象及相关技术</h1><p class="post-meta">2023-08-01</p><div class="post-content"><h1 id="1-2-计算机体系结构中的8个伟大思想">1.2 计算机体系结构中的8个伟大思想</h1>
+<h3 id="1-面向摩尔定律的设计">1. 面向摩尔定律的设计</h3>
+<p>摩尔定律：单芯片上所集成的晶体管资源每18至24个月翻一番。因此计算机架构师设计芯片时要预测项目完成时的工艺水平。</p>
+<h3 id="2-使用抽象简化设计">2. 使用抽象简化设计</h3>
+<p>隐藏底层细节以提供给高层一个更简单的模型。</p>
+<h3 id="3-加速经常性事件">3. 加速经常性事件</h3>
+<p>经常性事件比罕见情形更简单，性能更容易提升。</p>
+<h3 id="4-通过并行提高性能">4. 通过并行提高性能</h3>
+<p>并行计算。</p>
+<h3 id="5-通过流水线提高性能">5. 通过流水线提高性能</h3>
+<p>并行性的一种特殊场景。</p>
+<h3 id="6-通过预测提高性能">6. 通过预测提高性能</h3>
+<p>前提：从预测错误中恢复的代价并不高且预测相对准确。</p>
+<h3 id="7-存储层次">7. 存储层次</h3>
+<p>速度最快、容量最小、价格最贵的存储器处于顶层。速度、容量、价格向下递减。以此节约成本的同时提高性能。</p>
+<h3 id="8-通过冗余提高可靠性">8. 通过冗余提高可靠性</h3>
+<p>冗余部件在系统发生故障时替代失效组件并检测故障。</p>
+<h1 id="1-3-程序表象之下">1.3 程序表象之下</h1>
+<h2 id="系统软件">系统软件</h2>
+<p>从复杂的应用程序到简单原始的指令需要若干软件层次来将高层次操作解释或翻译成简单的计算机指令。外层是应用软件，中心是硬件，系统软件(systems softwar)位于两者之间。系统软件中的操作系统和编译器对现代计算机来说是必须的。</p>
+<h3 id="1-操作系统：">1. 操作系统：</h3>
+<pre><code>是用户程序和硬件之间的接口，为用户提供服务和监控功能。
+1. 处理基本输入输出
+2. 分配外存和内存
+3. 为多个应用程序提供共享计算机资源的服务
+</code></pre>
+<h3 id="2-编译器：">2. 编译器：</h3>
+<pre><code>把高级语言（C、Java、etc.）编写的程序翻译成硬件能执行的指令。
+</code></pre>
+<h2 id="从高级语言到硬件语言">从高级语言到硬件语言</h2>
+<pre><code>电信号：通和断，0和1。
+指令：能被计算机识别并执行的位串。
+汇编语言：以助记符形式表示的机器指令。
+机器语言：以二进制形式表示的机器指令。
+高级编程语言：C, Java, C++, etc. 有单词和代数符号组成，可移植。
+编译器将高级编程语言编译成汇编语言，汇编器将汇编语言会变为机器语言，即二进制指令。
+</code></pre>
+<h1 id="1-4-箱盖后的硬件">1.4 箱盖后的硬件</h1>
+<h2 id="计算机体系结构">计算机体系结构</h2>
+<p>任何一台计算机的组成部件都由输入、输出、存储器、数据通路（运算器）和控制器组成，后两个部件可以统称为处理器。<br>
+<strong>输入设备：</strong> 为计算机提供信息。<br>
+<strong>输出设备：</strong> 将计算结果输出给用户。<br>
+经典流程：处理器从存储器中读出指令和数据，输入部件将数据写入存储器，输出部件从存储器中读出数据，控制器向数据通路、存储器、输入和输出设备发出命令信号。</p>
+<h3 id="1-显示器">1. 显示器</h3>
+<pre><code>液晶显示（Liquid Crystal Display, LCD）是作为输出设备的图形显示器。LCD并非光源，而是通过控制光的传输来显示图像。图像由像素矩阵构成，可以表示成二进制位的矩阵称为**位图**。
+</code></pre>
+<h3 id="2-集成电路">2. 集成电路</h3>
+<pre><code>也叫芯片，集成了几十个甚至上亿个晶体管的设备。
+</code></pre>
+<h3 id="3-中央处理单元">3. 中央处理单元</h3>
+<pre><code>处理器，处理器包括数据通路和控制器，能完成数据相加，数据测试，按结果发出控制信号时I/O设备做出动作。
+</code></pre>
+<h3 id="4-数据通路">4. 数据通路</h3>
+<pre><code>处理器中执行算术操作的部分。
+</code></pre>
+<h3 id="5-控制器">5. 控制器</h3>
+<pre><code>根据程序的指令指挥数据通路、存储器和I/O设备。
+</code></pre>
+<h3 id="6-内存">6. 内存</h3>
+<pre><code>由DRAM芯片组成。是程序运行时的存储空间，同时还存储程序运行时所需的数据。
+</code></pre>
+<h3 id="7-dram">7. DRAM</h3>
+<pre><code>动态随机访问存储器(Dynamic Random Access Memory)，集成电路形式的存储器，可随机访问任何地址的内存，且所需的时间基本相同。
+</code></pre>
+<h3 id="8-高速存储">8. 高速存储</h3>
+<pre><code>Cache memory，隐藏事物的安全地方，小而快，采用SRAM技术。
+&quot;You're like cache.&quot;
+&quot;Do you mean that I'm small and fast?&quot;
+&quot;No, every time I visit my memory because of missing you.&quot;
+</code></pre>
+<h3 id="9-sram">9. SRAM</h3>
+<pre><code>静态随机访问存储器(Static Random Access Memory)，另一种集成电路形式的存储器，速度快，集成度更低，价格更贵。
+</code></pre>
+<h3 id="10-指令系统体系结构">10. 指令系统体系结构</h3>
+<pre><code>也叫体系结构，是计算机硬件和底层软件之间的抽象接口，包含了需要编写正确运行的机器语言程序所需要的指令、寄存器、存储器访问和I/O等。提供给程序员的基本指令系统和操作系统接口合称为应用二进制接口(Application Binary Interface, ABI)。
+</code></pre>
+<h2 id="数据安全">数据安全</h2>
+<pre><code>易失性存储：主存储，类似DRAM的存储器，仅在加电时保存数据。
+非易失性存储：辅助存储，在掉电时仍可保持数据的存储器，用于存储需运行的程序。
+主存储：保持运行中的程序。
+辅助存储：保存两次运行之间的程序和数据，在个人设备中由闪存构成，在服务器设备中由磁盘(硬盘)构成。闪存速度比DRAM慢，单位价格高于磁盘，但在体积、电容、可靠性和能耗方面都优于磁盘。但与磁盘和DRAM不同，在写入100000-1000000次后会产生老化或损坏。
+</code></pre>
+<h2 id="与其他计算机通信">与其他计算机通信</h2>
+<pre><code>1. 以太网：一种普遍的网络类型，传输距离可达1公里，传输速率可达到40Gbps。
+2. 局域网(Local Area Network, LAN)：用于在一定地理区域（同一栋大楼）内传输数据的网络。
+3. 广域网：可跨越大陆，是因特网的骨干构成部分，可支持万维网。
+</code></pre>
+<h1 id="1-5-处理器和存储制造内容">1.5 处理器和存储制造内容</h1>
+<p>晶体管：由电信号控制的简单开关。<br>
+集成电路：由成千上万个晶体管组成的芯片。<br>
+超大规模集成电路(Very Large-Scale Integrated Circuit, VLSI)：由数十万到数百万晶体管组成的电路。</p>
+<p>芯片的制造从沙子中的<strong>硅</strong>(自然元素、半导体)开始，因为硅的导电性能不强，配成为<strong>半导体</strong>(导电性能不好的物质)。<br>
+通过对硅添加某些材料，可以将硅转化为以下三种类型：</p>
+<ul>
+<li>优秀的导电体</li>
+<li>优秀的绝缘体</li>
+<li>可在特殊条件下导电或绝缘的区域(晶体管)<br>
+VLSI电路是由数十亿个上述三种类型的材料组合起来的。</li>
+</ul>
+<p>集成电路的制造从硅锭(单硅晶体构成的圆棒)开始，将硅锭切片制成晶圆(厚度不超过0.1英寸的切片，用于制造芯片)。因为晶圆的曝光过程中可能会产生缺陷(微小的瑕疵，晶片可能因为包含这个缺陷而失效)，所以我们将曝光成像后的晶圆切割成晶片(非正式名称叫芯片)，去掉缺陷部分后重新封装。从而只淘汰有瑕疵的晶片，而不必淘汰整个晶圆。量化描述为工艺良率(yield，合格芯片占总芯片数的百分比)。</p>
+<h1 id="1-6-性能">1.6 性能</h1>
+<h3 id="什么是性能？">什么是性能？</h3>
+<p><strong>响应时间</strong>：也叫执行时间(execution time)，是计算机完成某任务所需的总时间。包括硬盘访问、内存访问、I/O活动、操作系统开销和CPU执行时间等。</p>
+<p><strong>吞吐率</strong>：也叫带宽(band-width)，性能的另一种度量参数，单位时间内完成的任务数量。</p>
+<p>计算机组成与设计：软硬件接口中将性能定义为1/执行时间。</p>
+<h3 id="性能的度量">性能的度量</h3>
+<p>CPU执行时间：简称为CPU时间，执行某一任务在CPU上所花费的时间。<br>
+- 用户CPU时间：程序本身所花费的CPU时间。<br>
+- 系统CPU时间：为执行程序而花费在操作系统上的时间。<br>
+我们用系统性能(system performance)来表示基于响应时间的性能度量，CPU性能(CPU performance)表示用户CPU时间的性能度量。</p>
+<p>时钟周期数：也叫滴答数、时钟滴答数、时钟数、周期数，为计算机一个时钟周期的时间，通常是指处理器时钟，在固定频率下运行。<br>
+周期长度：每个时钟周期持续的时间长度。</p>
+<h3 id="cpu性能及度量因素">CPU性能及度量因素</h3>
+<p>程序的CPU执行时间 = 程序的CPU时钟周期数/时钟频率</p>
+<h3 id="指令性能">指令性能</h3>
+<p>CPU时钟周期数 = 程序的指令数 * 指令平均时钟周期数<br>
+指令平均时钟周期数 (clock cycle per instruction)： 表示执行每条指令所需的时钟周期平均数，缩写为CPI，提供了一种相同指令系统在不同实现下比较性能的方法。<br>
+CPI = CPU时钟周期数 / 指令数</p>
+<h3 id="经典的cpu性能公式">经典的CPU性能公式</h3>
+<p>指令书：执行某程序所需的总指令数量<br>
+CPU时间 = 指令数 * CPI * 时钟周期长度 = 指令数 * CPI / 时钟频率<br>
+指令分布：在一个或多个程序中，对指令的动态使用频度的评价指标，CPI根据其不同而变化。</p>
+<ul>
+<li>算法影响指令数和CPI</li>
+<li>编程语言影响指令数和CPI</li>
+<li>编译器影响指令数和CPI</li>
+<li>指令系统体系结构影响指令数，时钟频率和CPI</li>
+</ul>
+<h1 id="1-7-功耗墙">1.7 功耗墙</h1>
+<p>当前在集成电路技术中占统治地位的时CMOS(互补型金属氧化半导体)，其主要的能耗来源是动态能耗，即在晶体管开关过程中产生的能耗。</p>
+<h1 id="1-8-沧海巨变：从单处理器到多处理器">1.8 沧海巨变：从单处理器到多处理器</h1>
+<p>功耗的极限是处理器设计出现了创新，我们在单个微处理器(microprocessor)芯片中放入更多的处理器(processor，核)。<br>
+多核处理器的出现也促使程序员进行并行设计，其中有两个难点：</p>
+<ul>
+<li>程序要正确，并且以提高性能为目的。</li>
+<li>要将应用划分为每个核上有数量大致相同的任务，减少调度开销。</li>
+</ul>
+<h1 id="1-9-实例-1-10-谬误与陷阱">1.9 实例 &amp; 1.10 谬误与陷阱</h1>
+<ol>
+<li>
+<p>陷阱：在改进计算机的某个方面时期望总性能的提高与改进大小成正比。</p>
+</li>
+<li>
+<p>谬误：利用率低的计算机具有更低功耗。</p>
+</li>
+<li>
+<p>谬误：面向性能的设计和面向能效的设计具有不相关的目标。</p>
+</li>
+<li>
+<p>陷阱：用性能公式的一个子集去度量性能。</p>
+</li>
+</ol>
+</div></article><aside class="toc"><h3>Table of contents</h3><nav id="toc"></nav></aside></main><footer class="site-footer"><div class="container"><p>© 2025 Zhang Shoufeng</p></div></footer><script src="/js/minimalfolio.js"></script><script>(function(){
+  const content = document.querySelector('.post-content');
+  const toc = document.getElementById('toc');
+  if(!content || !toc) return;
+  const headings = content.querySelectorAll('h1, h2, h3');
+  const ul = document.createElement('ul');
+  headings.forEach(function(h){
+    const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-');
+    h.id = id;
+    const li = document.createElement('li');
+    li.className = h.tagName.toLowerCase();
+    const a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    ul.appendChild(li);
+  });
+  toc.appendChild(ul);
+})();</script></body></html>

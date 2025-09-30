@@ -1,0 +1,44 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>南京大学计算机系统基础课程笔记4：乘除运算及浮点数运算 | Shoufeng's Blog</title><link rel="stylesheet" href="/css/minimalfolio.css"><meta name="generator" content="Hexo 7.0.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><header class="site-header"><div class="container"><a class="logo" href="/">Shoufeng's Blog</a><nav class="main-nav"><ul><li><a href="/">Home</a></li><li><a href="/archives/">Archives</a></li><li><a href="/categories/">Categories</a></li></ul></nav></div></header><main class="container post"><article><h1 class="post-title">南京大学计算机系统基础课程笔记4：乘除运算及浮点数运算</h1><p class="post-meta">2023-09-04</p><div class="post-content"><h1 id="4-1-整数乘法运算">4.1 整数乘法运算</h1>
+<p>通常在高级语言中两个n位整数相乘得到的结果通常也是一个n位整数（2n位乘积中的低n位）<br>
+参与乘法的两个数据类型相同，如果不同会先转换。</p>
+<p><img src="/posts/10fe15d4.htm/Screenshot%202023-09-04%20063140.png" alt="Alt text"></p>
+<p>对于无符号乘法，判断高n位是否都等于0，是则不溢出；对于带符号乘法，判断高n位是否每位都等于低n位的最高位，是则不溢出。或者可以判断低n位与两个输入之间的关系，如上图所示。</p>
+<p>因为无符号和带符号处理不同，对应的乘法指令也不同。</p>
+<p>因为乘法指令所需的时钟时间长，所以在编译器处理乘法时，往往通过移位运算和加减法运算来代替组合运算（移位和加减法通常只需要一个或者更少的时钟周期）。</p>
+<h1 id="4-2-整数除法运算">4.2 整数除法运算</h1>
+<p>整数除法的商一定小于被除数，所以不会发生溢出。<br>
+按照整数除法，正数商取比自身小的最接近整数（Floor），负数商取比自身大的最接近整数（Ceiling）。<br>
+整数除法时，除数不能为零（机器数无法表示），如果为零就调用异常处理程序。<br>
+除法运算更加复杂（30个以上的时钟周期，并且不能用流水线实现），所以在编译器中常使用右移运算实现（处理除数为2的倍数的情况时）。<br>
+不能整除时，采用下面两个截断方式：</p>
+<ul>
+<li>无符号数、带符号正整数（地板）：移出的低位直接丢弃</li>
+<li>带符号负整数（天板）：加偏移量（2^k - 1），然后再右移k位，低位截断（K是右移位数）</li>
+</ul>
+<h1 id="4-3-浮点加减运算-浮点运算的精度">4.3 浮点加减运算&amp;浮点运算的精度</h1>
+<p><img src="/posts/10fe15d4.htm/Screenshot%202023-09-04%20075326.png" alt="Alt text"></p>
+<p><img src="/posts/10fe15d4.htm/Screenshot%202023-09-05%20062827.png" alt="Alt text"></p>
+<p><img src="/posts/10fe15d4.htm/Screenshot%202023-09-05%20063318.png" alt="Alt text"></p>
+<p><img src="/posts/10fe15d4.htm/Screenshot%202023-09-05%20063447.png" alt="Alt text"></p>
+<p><img src="/posts/10fe15d4.htm/Screenshot%202023-09-05%20063920.png" alt="Alt text"></p>
+<p><img src="/posts/10fe15d4.htm/Screenshot%202023-09-05%20064346.png" alt="Alt text"></p>
+<p><img src="/posts/10fe15d4.htm/Screenshot%202023-09-05%20064711.png" alt="Alt text"></p>
+</div></article><aside class="toc"><h3>Table of contents</h3><nav id="toc"></nav></aside></main><footer class="site-footer"><div class="container"><p>© 2025 Zhang Shoufeng</p></div></footer><script src="/js/minimalfolio.js"></script><script>(function(){
+  const content = document.querySelector('.post-content');
+  const toc = document.getElementById('toc');
+  if(!content || !toc) return;
+  const headings = content.querySelectorAll('h1, h2, h3');
+  const ul = document.createElement('ul');
+  headings.forEach(function(h){
+    const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-');
+    h.id = id;
+    const li = document.createElement('li');
+    li.className = h.tagName.toLowerCase();
+    const a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    ul.appendChild(li);
+  });
+  toc.appendChild(ul);
+})();</script></body></html>

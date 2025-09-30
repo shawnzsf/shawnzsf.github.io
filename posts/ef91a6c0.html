@@ -1,0 +1,153 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>南京大学计算机系统基础课程笔记3：运算电路基础 | Shoufeng's Blog</title><link rel="stylesheet" href="/css/minimalfolio.css"><meta name="generator" content="Hexo 7.0.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><header class="site-header"><div class="container"><a class="logo" href="/">Shoufeng's Blog</a><nav class="main-nav"><ul><li><a href="/">Home</a></li><li><a href="/archives/">Archives</a></li><li><a href="/categories/">Categories</a></li></ul></nav></div></header><main class="container post"><article><h1 class="post-title">南京大学计算机系统基础课程笔记3：运算电路基础</h1><p class="post-meta">2023-09-01</p><div class="post-content"><h1 id="3-1-布尔代数和基本逻辑电路-无符号数加法器-整数加减运算器和alu">3.1 布尔代数和基本逻辑电路&amp;无符号数加法器&amp;整数加减运算器和ALU</h1>
+<ol>
+<li>布尔代数基本定义：</li>
+</ol>
+<ul>
+<li>0和1分别表示逻辑值的假和真</li>
+<li>通过逻辑关系可以构建基于0和1的布尔代数运算</li>
+<li>最基本的逻辑运算有：与（AND）、或（OR）、非（NOT）</li>
+<li>真值表可以反映输入和输出之间的关系</li>
+</ul>
+<ol start="2">
+<li>
+<p>逻辑运算可以通过逻辑门电路实现：与门、或门、非门。假使我们要进行按n位逻辑运算，则需要n个逻辑门</p>
+</li>
+<li>
+<p>逻辑电路有以下两种类型：</p>
+</li>
+</ol>
+<ul>
+<li>组合逻辑电路：没有存储功能，输出依赖于当前输入。</li>
+<li>时序逻辑电路：具有存储功能，输出不仅依赖于当前输入。</li>
+<li>功能部件：用逻辑门电路组成的带有特定功能的组合逻辑部件。</li>
+</ul>
+<ol start="4">
+<li>一位加法器称为全加器（n位加法器可以直接用若干个全加器实现，但是在这种情况只能实现无符号的整数加法）：</li>
+</ol>
+<ul>
+<li>两个加数为A和B，低位进位为Cin，和为F，向高位的进位为Cout。</li>
+<li>不考虑低位进位的加法器叫半加器。</li>
+</ul>
+<ol start="5">
+<li>n位带标志加法器：</li>
+</ol>
+<ul>
+<li>溢出标志OF：OF = Cn ^ Cn-1</li>
+<li>符号标志SF：SF = Fn-1</li>
+<li>零标志ZF：当且仅当F = 0时ZF = 1</li>
+<li>进位/借位标志CF：CF = Cout ^ Cin</li>
+</ul>
+<ol start="6">
+<li>n位整数加/减运算器：</li>
+</ol>
+<ul>
+<li>[ A + B ]补 = [ A ]补 + [ B ]补（mod 2^n）</li>
+<li>[ A - B ]补 = [ A ]补 + [ -B ]补（mod 2^n）<br>
+运用这样的逻辑并加上带标志加法器，可以进行无符号整数加、无符号整数减、带符号整数加和带符号整数减。在加减部件的基础上，加上寄存器、移位器和控制逻辑，就能够实现ALU、乘除运算和浮点运算电路。</li>
+</ul>
+<ol start="7">
+<li>算术逻辑部件（ALU）：</li>
+</ol>
+<ul>
+<li>能够进行基本算数运算和逻辑运算
+<ul>
+<li>无符号整数加减</li>
+<li>带符号整数加减</li>
+<li>与、或、非、异或等逻辑运算</li>
+</ul>
+</li>
+<li>核心电路是带标志加法器</li>
+<li>输出除和/差等，还有标志信息</li>
+<li>有一个操作控制端（ALUop），用来决定具体运算操作。</li>
+</ul>
+<h1 id="3-2-从c表达式到逻辑电路">3.2 从C表达式到逻辑电路</h1>
+<p>C语言中的基本数据类型：</p>
+<ul>
+<li>无符号数（二进制位串）、带符号整数（补码）</li>
+<li>浮点数（IEEE 754标准）</li>
+<li>位串、字符（串）（ASCII码）<br>
+C语言中的基本运算类型：</li>
+<li>算术</li>
+<li>按位</li>
+<li>逻辑</li>
+<li>移位</li>
+<li>扩展和截断（类型转换时会用到）</li>
+</ul>
+<p>指令集中涉及到的运算</p>
+<ul>
+<li>涉及到的定点数运算
+<ul>
+<li>算术运算
+<ul>
+<li>带符号整数：取负/符号扩展/加减乘除/算术移位</li>
+<li>无符号整数：0扩展/加减乘除/逻辑左移/逻辑右移</li>
+</ul>
+</li>
+<li>逻辑运算
+<ul>
+<li>逻辑操作：与或非…</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>涉及到的浮点数运算：加减乘除</li>
+</ul>
+<p>指令集中的运算操作在运算电路中进行：</p>
+<ul>
+<li>基本运算部件ALU、通用寄存器组和其他部件</li>
+</ul>
+<p>高级运算操作先转换成指令，再在计算机中的逻辑门电路进行运算。</p>
+<h1 id="3-3-c语言中的各类运算">3.3 C语言中的各类运算</h1>
+<p>本节是对上一小节中提到的运算进行展开解释，直接放图。</p>
+<p><img src="/posts/ef91a6c0.htm/Screenshot%202023-09-01%20111027.png" alt="Alt text"></p>
+<p><img src="/posts/ef91a6c0.htm/Screenshot%202023-09-01%20111216.png" alt="Alt text"></p>
+<p><img src="/posts/ef91a6c0.htm/Screenshot%202023-09-01%20111311.png" alt="Alt text"></p>
+<p><img src="/posts/ef91a6c0.htm/Screenshot%202023-09-01%20111344.png" alt="Alt text"></p>
+<h1 id="3-4-加减运算生成的标志信息">3.4 加减运算生成的标志信息</h1>
+<p>C语言中的整数有：</p>
+<ul>
+<li>带符号整数：char, short, int, long</li>
+<li>无符号整数：unsigned char, unsigned short, unsigned</li>
+</ul>
+<p>指针和地址通常是无符号整数，进行指针或地址的运算就是进行无符号整数的加减运算。<br>
+无符号整数和带符号整数的加减运算电路相同，运算电路称为整数加减运算部件，都基于带标志加法器实现。计算机中的加法器是一种模2^n运算系统。</p>
+<p>补码加减运算要点和运算部件：</p>
+<ul>
+<li>加减运算统一用加法处理。</li>
+<li>符号位和数值位一起参与运算。</li>
+<li>计算机中所有运算都基于加法器实现。</li>
+<li>加法器不知道运算的是带符号数或无符号数。</li>
+<li>加法器不知道运算结果是否正确。</li>
+</ul>
+<p>在c语言中通常会有分支指令（条件转移指令，如if），而条件标志（Flag）在运算电路中产生，被记录到程序/状态字寄存器或标志寄存器中，每个标志对应标志寄存器中的一个标志位。</p>
+<p>n位带标志加法器：</p>
+<ul>
+<li>无法用于两个n位带符号整数（补码）相加，因为无法判断是否溢出。</li>
+<li>程序中比较大小的操作通过在加法器中做减法得到的标志信息进行判断。<br>
+无符号加溢出条件：CF = 1<br>
+带符号加溢出条件：OF = 1<br>
+带符号减溢出条件：</li>
+<li>最高位和次高位的进位不同</li>
+<li>和的符号位和加数的符号位不同<br>
+无符号减溢出：</li>
+<li>差为负数（CF = 1）</li>
+</ul>
+</div></article><aside class="toc"><h3>Table of contents</h3><nav id="toc"></nav></aside></main><footer class="site-footer"><div class="container"><p>© 2025 Zhang Shoufeng</p></div></footer><script src="/js/minimalfolio.js"></script><script>(function(){
+  const content = document.querySelector('.post-content');
+  const toc = document.getElementById('toc');
+  if(!content || !toc) return;
+  const headings = content.querySelectorAll('h1, h2, h3');
+  const ul = document.createElement('ul');
+  headings.forEach(function(h){
+    const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-');
+    h.id = id;
+    const li = document.createElement('li');
+    li.className = h.tagName.toLowerCase();
+    const a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    ul.appendChild(li);
+  });
+  toc.appendChild(ul);
+})();</script></body></html>

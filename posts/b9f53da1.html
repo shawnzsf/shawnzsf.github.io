@@ -1,0 +1,152 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>IB Computer Science topic 6: Resource Management | Shoufeng's Blog</title><link rel="stylesheet" href="/css/minimalfolio.css"><meta name="generator" content="Hexo 7.0.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><header class="site-header"><div class="container"><a class="logo" href="/">Shoufeng's Blog</a><nav class="main-nav"><ul><li><a href="/">Home</a></li><li><a href="/archives/">Archives</a></li><li><a href="/categories/">Categories</a></li></ul></nav></div></header><main class="container post"><article><h1 class="post-title">IB Computer Science topic 6: Resource Management</h1><p class="post-meta">2023-11-02</p><div class="post-content"><h2 id="6-1-1-critical-sources">6.1.1 Critical Sources</h2>
+<p>System sources include computer harware, software, trained personnel and suppotring infrastructure. And Operating System is usually responsible for the resources management.</p>
+<p>Primary memory</p>
+<ul>
+<li>stores all processed data and instructions and all resulting data.</li>
+<li>It is directly connected to the processor and feed the processor with required data during the Machine Instruction Cycle.</li>
+</ul>
+<p>RAM and Cache memory</p>
+<ul>
+<li>RAM can be overwritten. And there are two types of RAM: static RAM and dynamic RAM. SRAM is a type of semiconductor that holds data while they are powered. Data stores in  DRAM will gradually leaks away, so it needs to be refreshed periodically</li>
+<li>SRAM is more expensive and need more transistors per byte but faster. Both SRAM and DRAM are volatile and used concurrently. DRAM is used in large quantities to store data and SRAM is used in small quantity to enhance performance.</li>
+<li>Level 1 cache is usually built onto the professor while level 2 cache located on a seperated chip placed between the processor and the DRAM</li>
+</ul>
+<p>ROM</p>
+<ul>
+<li>Read Only Memory is non-volatile and slower than RAM. It holds critical instructions or programs like BIOS to make sure the PC and be booted successfully.</li>
+<li>ROM is also built in embedded microprocessors, microcontrollers and control systems.</li>
+</ul>
+<p>Secondary Memory</p>
+<ul>
+<li>Refers to hardware that provide data integrity, low cost, mass storage capacity and permanent storage. Some of them use direct access while the other uses squential access
+<ul>
+<li>Direct access storage techniques
+<ul>
+<li>Retrieve data without having to read through all previous data.</li>
+<li>Examples: Floppy disks, CD-ROMS, Hard disks, DVDs, USB sticks.</li>
+</ul>
+</li>
+<li>Sequential access storage techniques
+<ul>
+<li>Having to read sequentially through all previous data to request data.</li>
+<li>Example: Magnetic tape
+<ul>
+<li>Ideal for backup purposes.</li>
+<li>Built-in data encryption, low cost and less energy consumption.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Processor Speed
+<ul>
+<li>MIPS(Million instructions Per Second) is used to measuer the performance of a processor, but only an approximation of a processor’s performance since it do not consider the situation that some instructions have a higher effectiveness than others.</li>
+<li>Clock rate refers to the frequency at which the processor is running and used to measure the processor’s performance. The unit used is hertz and gigahertz(GHz). But it is also do not accurate because the clock rate of different processor families varies.</li>
+</ul>
+</li>
+</ul>
+<p>BandWidth</p>
+<ul>
+<li>Memory Bandwidth is the rate ar which data can travel from SRAM and DRAM to the processor. Its unit is millions of bits per second or in Mb per second(Mb/s). The peak theoretical bandwidth is not same as the sustained memory bandwidth, which is less and is affected by different designed features.</li>
+</ul>
+<p>Screen resolution</p>
+<ul>
+<li>Digital devices have different maximum number of distinct pixels that can be used to display video. Most devices can support a number of different resolutions.</li>
+</ul>
+<p>Disk storage</p>
+<ul>
+<li>A general category of metal or plastic storage plates. Current common examples are hard disk drive(HDD), solid state drives(SSD) and solid state hybrid drives(SSHD).</li>
+<li>SSD is expensive, fast, durable and consume less evergy.</li>
+<li>HDD is cheap, slower, but can cover all storage requirements and cost effective.</li>
+<li>SSHD share the advantages and disadvantages fo HDD and SSD.</li>
+</ul>
+<p>Sound processor</p>
+<ul>
+<li>Facilitate the input process and output of audio signals. Commonly integrated onto the motherboard, while some advanced models are sold as seperate cards that use expansion slots of the motherboard.</li>
+<li>Sound processors can convert analog sound to digital files, digital files to analog sound and process multiple audio channels.</li>
+</ul>
+<p>Graphics processor</p>
+<ul>
+<li>Massively parallel processors, very efficient at manipulating and processing graphics and images.</li>
+<li>Ideal for running algorithms that require processing of large blocks of graphics data and computer generated imagery.</li>
+<li>Seperated cards that needs expansion or embbeded on the motherboard.</li>
+</ul>
+<p>Network connectivity</p>
+<ul>
+<li>A laptop euipped with both a wired Network Interface Card(NIC) and a wireless NIC will perform better than a device only equipped with wireless NIC.</li>
+<li>Modern tablets have SIM(Subscriber Identification Module) to improve its connectivity.</li>
+</ul>
+<h2 id="6-1-2-availability-of-resources">6.1.2 Availability of resources</h2>
+<p>Resources are available in a variety of computer systems.</p>
+<p>Mainframes</p>
+<ul>
+<li>used to handle large-bandwidth communication, bulk data processing, enterprise resource planning and large-scale transaction processing.</li>
+<li>Are largest computer systems available an are typically housed in isolated, air-conditional rooms</li>
+<li>Equipped with extremely great processing power, vast amounts of RAM, arrays of disks and backup tapes, and serve hundreds of user terminals.</li>
+<li>Are able to handle high volumes of input and output and run a lot of different applications concurrently.</li>
+</ul>
+<p>Supercomputers</p>
+<ul>
+<li>Fast and expensive, and focus on mathematical calculations, modelling, and engineering applications.</li>
+<li>The performance of supercomputers is measured in FLOPS(floating-point operations per second)</li>
+<li>Current supercomputers are considered as massively parallel systems equipped with multiple arrays of computers and processors.</li>
+</ul>
+<p>Servers</p>
+<ul>
+<li>A software, hardware, or both and provides various services to clients.</li>
+<li>Client-server model is fundamental in networking and database management.</li>
+<li>Need multiple network connections, lots of RAM, fault tolerance, ability to fix problems without the need of shut down, advanced backup facilities, superior security characteristics and various automation capabilities.</li>
+</ul>
+<p>PCs</p>
+<ul>
+<li>Personal Computers are devices that are capable of supporting the computational needs of one user at a time.</li>
+<li>Popular Operating System for PCs are Windows, Mac, or Linux.</li>
+</ul>
+<p>Laptops</p>
+<ul>
+<li>An alternative of PCs.</li>
+<li>Have long-lasting batteries that can be used to support hours of computing.</li>
+</ul>
+<p>Tablets</p>
+<ul>
+<li>Mobile computer equipped with a touch-screen display which is used as input and output device.</li>
+<li>Popular Operating Systems are iOS, Android and Windows.</li>
+<li>Hybrid tablets have a detachabel keyboard and closely resemble laptops.</li>
+</ul>
+<p>PDAs</p>
+<ul>
+<li>Personal digital assistants</li>
+<li>Used as electronic agendas, calanders and personal information systems.</li>
+</ul>
+<p>Cell phones</p>
+<ul>
+<li>Cell phones hardware components and software are managed by a moble operating system.</li>
+<li>It combines features of PCs, PDAs, cameras, media players and GPS navigation units.</li>
+<li>Modern smartphones use iOS, Windows and Android OSs. So various developers can develop apps and distribute them online through application stores.</li>
+</ul>
+<p>Digital Cameras</p>
+<ul>
+<li>Encodes images and videos digitally and stores them in the attached memory card.</li>
+<li>Support various image formats.</li>
+<li>WIFI connection or HDMI output.</li>
+</ul>
+</div></article><aside class="toc"><h3>Table of contents</h3><nav id="toc"></nav></aside></main><footer class="site-footer"><div class="container"><p>© 2025 Zhang Shoufeng</p></div></footer><script src="/js/minimalfolio.js"></script><script>(function(){
+  const content = document.querySelector('.post-content');
+  const toc = document.getElementById('toc');
+  if(!content || !toc) return;
+  const headings = content.querySelectorAll('h1, h2, h3');
+  const ul = document.createElement('ul');
+  headings.forEach(function(h){
+    const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-');
+    h.id = id;
+    const li = document.createElement('li');
+    li.className = h.tagName.toLowerCase();
+    const a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    ul.appendChild(li);
+  });
+  toc.appendChild(ul);
+})();</script></body></html>

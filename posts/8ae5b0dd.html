@@ -1,0 +1,39 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>计算机组成与设计2：指令-计算机的语言 | Shoufeng's Blog</title><link rel="stylesheet" href="/css/minimalfolio.css"><meta name="generator" content="Hexo 7.0.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><header class="site-header"><div class="container"><a class="logo" href="/">Shoufeng's Blog</a><nav class="main-nav"><ul><li><a href="/">Home</a></li><li><a href="/archives/">Archives</a></li><li><a href="/categories/">Categories</a></li></ul></nav></div></header><main class="container post"><article><h1 class="post-title">计算机组成与设计2：指令-计算机的语言</h1><p class="post-meta">2023-08-04</p><div class="post-content"><h1 id="2-2-计算机硬件的操作-2-3-计算机硬件的操作数">2.2 计算机硬件的操作 &amp; 2.3 计算机硬件的操作数</h1>
+<h3 id="计算机操作数">计算机操作数</h3>
+<p>双字：计算机中一种访问的基本单位，通常是64位一组；对应于RISC-V体系结构中寄存器的大小。每个双字代表8个字节。<br>
+字：计算机中另一种访问的基本单位，通常是32位一组。<br>
+RISC-V的算术指令的三个操作数必须从32个64位寄存器中选择。</p>
+<p>硬件设计的三条基本原则：</p>
+<ol>
+<li>简单源于规整</li>
+<li>更少则更快：<br>
+更多则电信号传输的距离越远，花费时间越长。但设计原则并不绝对，31个寄存器也许并不比32个更快。</li>
+</ol>
+<h3 id="存储器操作数">存储器操作数</h3>
+<p>RISC-V中的计算指令只能作用于寄存器，但计算机中一些庞大的数据结构只能存储与内存当中，因此RISC-V中包含将数据在内存和寄存器之间传输的指令，也就是数据传输指令。<br>
+数据传输指令：在内存和寄存器之间传送数据的命令。<br>
+指令访问内存数据需要提供地址。<br>
+地址：用于描述内存数组中特定数据元素位置的值。<br>
+用于将数据从内存中取出的指令通常被称作载入指令(load)，在RISC-V中该指令为ld，表示取双字。<br>
+ld指令中存放基址的寄存器被称为基址寄存器，而数据传输指令中的常数被称为偏移量。</p>
+<p>计算机中有一些使用最左边(大端)字节的地址作为双字地址，另一种使用最右边(小端)字节的地址作为双字地址。RISC-V使用小端字节的地址。但只有在一双字形式和八个单独字节访问相同数据时，才需要考虑大小端。</p>
+<p>与载入指令相反的指令被称为存储指令(store)，在RISC-V中是sd，将数据从寄存器复制到内存。指令的格式与load基本相同。</p>
+</div></article><aside class="toc"><h3>Table of contents</h3><nav id="toc"></nav></aside></main><footer class="site-footer"><div class="container"><p>© 2025 Zhang Shoufeng</p></div></footer><script src="/js/minimalfolio.js"></script><script>(function(){
+  const content = document.querySelector('.post-content');
+  const toc = document.getElementById('toc');
+  if(!content || !toc) return;
+  const headings = content.querySelectorAll('h1, h2, h3');
+  const ul = document.createElement('ul');
+  headings.forEach(function(h){
+    const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-');
+    h.id = id;
+    const li = document.createElement('li');
+    li.className = h.tagName.toLowerCase();
+    const a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    ul.appendChild(li);
+  });
+  toc.appendChild(ul);
+})();</script></body></html>

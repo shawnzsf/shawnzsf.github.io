@@ -1,0 +1,146 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>CMU 15122：Deliberate Programming | Shoufeng's Blog</title><link rel="stylesheet" href="/css/minimalfolio.css"><meta name="generator" content="Hexo 7.0.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><header class="site-header"><div class="container"><a class="logo" href="/">Shoufeng's Blog</a><nav class="main-nav"><ul><li><a href="/">Home</a></li><li><a href="/archives/">Archives</a></li><li><a href="/categories/">Categories</a></li></ul></nav></div></header><main class="container post"><article><h1 class="post-title">CMU 15122：Deliberate Programming</h1><p class="post-meta">2024-07-02</p><div class="post-content"><p>本篇总结CMU 15122第一单元Deliberate Programming的全部内容（除了Contracts部分）。这门课的整体脉络还是较为清晰的，虽然大部分东西并不陌生，但从safety和correctness的角度重新审视一遍也是不错的。</p>
+<h1 id="integers">Integers</h1>
+<p>涉及进制转换的内容略过不提。</p>
+<h2 id="two-s-complement">Two’s Complement</h2>
+<p>Two’s Complement是C0中表示数字的一种方法。C0中的整数一共占据32个比特位，其中最高的比特位是该比特位代表的负的2的31次方，也就是说，C0中的最大正整数可以用0x7FFFFFFF表示，正数的范围是0x00000000-0x7FFFFFFF(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mtext> </mtext><msup><mn>2</mn><mn>31</mn></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0~2^{31}-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord">0</span><span class="mspace nobreak"> </span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>)。当最大正整数int_max()再继续做加法的时候整数就会溢出到负数的范围内，也就是0x80000000-0xFFFFFFFF。其中0x80000000是int_min()，其顺序与正数表示相反。由此，c0能够表示的整个整数范围是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mo>−</mo><msup><mn>2</mn><mn>31</mn></msup><mo separator="true">,</mo><msup><mn>2</mn><mn>31</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">[-2^{31}, 2^{31})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">−</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>。</p>
+<p>对于int的操作类型有：Addition, multiplication, division, subtraction, comparisons, mod;</p>
+<p>对于Tow’s complement表示方法来说，有以下成立：</p>
+<ul>
+<li>-x = ~x + 1</li>
+<li>int_min() = -int_min()</li>
+</ul>
+<p>对于以下操作会产生runtime error：</p>
+<ul>
+<li>int_min() (/ or %) - 1</li>
+<li>x / 0</li>
+</ul>
+<h2 id="bit-pattern">Bit Pattern</h2>
+<p>Int不是数字，是0和1组成的字符串。因此，bitwise operation可以通过对每一比特位进行操作来改变数字大小。其中包括是掩码以及各种比特位操作。&amp; 0xFF000000 可以将另外一个32位数的后24位全部置为零，这就是为什么其被称作mask（掩码）。另外我们可以通过| 0xFF000000 将32位数的前8位全部置为1。左移&lt;&lt;就是将比特数左移多少位，右边补零。右移&gt;&gt;会根据最高位进行补齐。</p>
+<h1 id="arrays">Arrays</h1>
+<p>数组是相同类型数据的集合，例如 int[] 表示整型数组。数组可以包含任何类型的元素，包括其他数组。</p>
+<p>局部变量存储在局部内存中，函数的变量在各自的帧（frame）中。函数调用时，每个被调用的函数都有自己的帧，且只能操作自己帧中的变量。函数返回后，其帧被撤销。</p>
+<p>使用 alloc_array(type, n) 创建数组，返回一个类型为 type[] 的数组，包含 n 个元素。数组的元素存储在分配的内存中，而数组变量本身存储在局部内存中，包含指向分配内存的地址。通过 A[i] 访问数组 A 的第 i 个元素，索引从0开始。分配的内存使用默认值初始化，对于整型数组，默认值为0。越界访问（out-of-bound access）是不允许的，有效索引是0到数组长度减一。数组操作需要满足前提条件（preconditions），例如 alloc_array(type, n) 需要 n ≥ 0。</p>
+<p>C0中Aarray变量名存储的是数列的地址，因此，假如int[] B = A，A是某个已经存在的数列，B只会复制A的地址。后续对B的操作也实际上是对于A的操作。一旦某个数列没有指针指向它，C0的Garbage Collector就会消除掉该数列。整数与整数之间不涉及到地址的问题。C0无法返回某个数组的长度，但是用Contract中的\length()可以。</p>
+<h1 id="searching-and-sorting">Searching and Sorting</h1>
+<p>In-place: allocates constant amount of memory.<br>
+Stable: relative position of duplicates is preserved.</p>
+<h2 id="linear-search">Linear Search</h2>
+<p>Linear Search本身没什么可以探讨的，主要是关于contracts方面的问题。</p>
+<h3 id="implementation">Implementation</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">bool is_in(int x, int[] A, int lo, int hi)</span><br><span class="line">//@requires 0 &lt;= lo &amp;&amp; lo &lt;= hi &amp;&amp; hi &lt;= \length(A);</span><br><span class="line">//Check whether x is in array segment A, [lo, hi)</span><br><span class="line"></span><br><span class="line">int linearSearch(int x, int[] A, int n)</span><br><span class="line">//@requires n == \length(A);</span><br><span class="line">/*@ensures (-1 == \result &amp;&amp; !is_in(x, A, 0, n)) ||</span><br><span class="line">           ((0 &lt;= \result &amp;&amp; \result &lt; n) &amp;&amp; A[\result] == x);</span><br><span class="line">&#123;</span><br><span class="line">  for (int i = 0; i &lt; n; i++)</span><br><span class="line">  //@loop_invariant 0 &lt;= i &amp;&amp; i &lt;= n;</span><br><span class="line">  //@loop_invariant !is_in(x, A, 0, n);</span><br><span class="line">  &#123;</span><br><span class="line">    if (A[i] == x) return i;</span><br><span class="line">  &#125;</span><br><span class="line">  //@assert !is_in(x, A, 0, n);</span><br><span class="line">  return -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="safety-and-correctness">Safety and Correctness</h3>
+<p>确保搜索过程中数组索引 i 在有效范围内，即 0 &lt;= i &lt; n，其中 n 是数组 A 的长度。使用contract来定义函数的前提条件（@requires）和后置条件（@ensures）。前提条件：确保传入的数组长度 n 与数组 A 的实际长度相匹配。后置条件：如果找到元素 x，则返回其索引；否则返回 -1。</p>
+<ul>
+<li>数组段表示数组中的一部分，用 A[lo, hi) 表示，包含从索引 lo（包含）到索引 hi（不包含）的元素。</li>
+<li>定义 is_in(x, A, lo, hi) 函数，用于检查元素 x 是否在数组段 A[lo, hi) 中。</li>
+</ul>
+<h3 id="contract-exploits">Contract Exploits</h3>
+<p>即使函数满足Contract，也可能不满足预期的行为。例如，一个函数可以满足Contract但在逻辑上是错误的。</p>
+<h2 id="binary-search">Binary Search</h2>
+<h3 id="implementation">Implementation</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">int binarySearch(int x, int[] A, int n)</span><br><span class="line">//@requires n == \length(A);</span><br><span class="line">//@requires is_sorted(A,0,n);</span><br><span class="line">/*@ensures (-1 == \result &amp;&amp; !is_in(x, A,0,n))</span><br><span class="line">        || ((0 &lt;= \result &amp;&amp; \result &lt; n) &amp;&amp; A[\result] == x);</span><br><span class="line">  @*/</span><br><span class="line">&#123;</span><br><span class="line">  for (int i = 0; i &lt; n; i++)</span><br><span class="line">  //@loop_invariant 0 &lt;= i &amp;&amp; i &lt;= n;</span><br><span class="line">  //@loop_invariant gt_seg(x, A,0,i);       // implies !is_in(x, A,0,i)</span><br><span class="line">  //@loop_invariant !is_in(x, A,0,i);</span><br><span class="line">  //@loop_invariant le_segs(A,0,i, A,i,n);  // because is_sorted(A,0,n)</span><br><span class="line">  &#123;</span><br><span class="line">    if (A[i] == x) return i;</span><br><span class="line">    if (A[i] &gt; x) &#123;</span><br><span class="line">      //@assert lt_seg(x, A,i,n);           // implies !is_in(x, A,i,n)</span><br><span class="line">      //@assert !is_in(x, A,i,n);</span><br><span class="line">      return -1;</span><br><span class="line">    &#125;</span><br><span class="line">    //@assert A[i] &lt; x;                     // implies gt_seg(x, A,0,i+1);</span><br><span class="line">    //@assert gt_seg(x, A,0,i+1);</span><br><span class="line">  &#125;</span><br><span class="line">  //@assert !is_in(x, A,0,n);</span><br><span class="line">  return -1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>使用循环，维护两个指针lo（low）和hi（high），分别代表搜索区间的下限和上限。<br>
+计算中间索引mid，并与目标值x进行比较。</p>
+<ul>
+<li>如果A[mid]等于x，则返回mid。</li>
+<li>如果x小于A[mid]，则更新hi为mid。</li>
+<li>如果x大于A[mid]，则更新lo为mid + 1。</li>
+</ul>
+<p>当lo和hi相遇时，搜索结束，返回-1表示未找到。</p>
+<h3 id="loop-invariant">Loop Invariant</h3>
+<ul>
+<li>0 ≤ lo</li>
+<li>lo ≤ hi</li>
+<li>hi ≤ n</li>
+<li>A[0, lo) &lt; x</li>
+<li>x &lt; A[hi, n)</li>
+</ul>
+<p>应确保mid的计算不会超出整数范围，避免溢出错误。循环不变式在算法的初始化（INIT）、保持（PRES）和终止（TERMINATE）阶段都是可以被证明有效的。</p>
+<h2 id="mergesort">Mergesort</h2>
+<h3 id="implementation">Implementation</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">void merge(int[] A, int lo, int mid, int hi)</span><br><span class="line">//@requires 0 &lt;= lo &amp;&amp; lo &lt;= mid &amp;&amp; mid &lt;= hi &amp;&amp; hi &lt;= \length(A);</span><br><span class="line">//@requires is_sorted(A, lo, mid) &amp;&amp; is_sorted(A, mid, hi);</span><br><span class="line">//@ensures is_sorted(A, lo, hi);</span><br><span class="line">&#123;</span><br><span class="line">  int[] B = alloc_array(int, hi-lo);</span><br><span class="line">  int i = lo;</span><br><span class="line">  int j = mid;</span><br><span class="line">  int k = 0;</span><br><span class="line"></span><br><span class="line">  while (i &lt; mid &amp;&amp; j &lt; hi)</span><br><span class="line">  //@loop_invariant lo &lt;= i &amp;&amp; i &lt;= mid;</span><br><span class="line">  //@loop_invariant mid &lt;= j &amp;&amp; j &lt;= hi;</span><br><span class="line">  //@loop_invariant k == (i - lo) + (j - mid);</span><br><span class="line">  &#123;</span><br><span class="line">    if (A[i] &lt;= A[j]) &#123;</span><br><span class="line">      B[k] = A[i];</span><br><span class="line">      i++;</span><br><span class="line">    &#125; else &#123; //@assert A[i] &gt; A[j];</span><br><span class="line">      B[k] = A[j];</span><br><span class="line">      j++;</span><br><span class="line">    &#125;</span><br><span class="line">    k++;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //@assert i == mid || j == hi;</span><br><span class="line">  // Exercise: write the omitted invariants for these loops</span><br><span class="line">  while (i &lt; mid) &#123; B[k] = A[i]; i++; k++; &#125;</span><br><span class="line">  while (j &lt; hi)  &#123; B[k] = A[j]; j++; k++; &#125;</span><br><span class="line"></span><br><span class="line">  // Copy sorted array back into A</span><br><span class="line">  for (k = 0; k &lt; hi-lo; k++)</span><br><span class="line">    A[lo+k] = B[k];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// mergesort</span><br><span class="line">void sort(int[] A, int lo, int hi)</span><br><span class="line">//@requires 0 &lt;= lo &amp;&amp; lo &lt;= hi &amp;&amp; hi &lt;= \length(A);</span><br><span class="line">//@ensures is_sorted(A, lo, hi);</span><br><span class="line">&#123;</span><br><span class="line">  if (hi - lo &lt;= 1)            //@assert is_sorted(A, lo, hi);</span><br><span class="line">    return;</span><br><span class="line"></span><br><span class="line">  int mid = lo + (hi - lo)/2;  //@assert lo &lt; mid &amp;&amp; mid &lt; hi;</span><br><span class="line">  sort(A, lo, mid);            //@assert is_sorted(A, lo, mid);</span><br><span class="line">  sort(A, mid, hi);            //@assert is_sorted(A, mid, hi);</span><br><span class="line">  merge(A, lo, mid, hi);       //@assert is_sorted(A, lo, hi);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="explanation">Explanation</h3>
+<ol>
+<li>递归地将数组分成两半，直到分出的数组长度为1或者为0;</li>
+<li>递归地将数组两两合并，合并的时候做具体的比较运算使得合并出来的数组都是有序的;</li>
+<li>Merge Halves -&gt; O(n) cost.</li>
+<li>Levels of Merging -&gt; O(logn) cost.</li>
+<li>O(nlogn) cost.</li>
+</ol>
+<h2 id="quicksort">Quicksort</h2>
+<h3 id="implementation">Implementation</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">int partition(int[] A, int lo, int hi)</span><br><span class="line">//@requires 0 &lt;= lo &amp;&amp; lo &lt; hi &amp;&amp; hi &lt;= \length(A);</span><br><span class="line">//@ensures lo &lt;= \result &amp;&amp; \result &lt; hi;</span><br><span class="line">//@ensures ge_seg(A[\result], A, lo, \result);</span><br><span class="line">//@ensures le_seg(A[\result], A, \result+1, hi);</span><br><span class="line">&#123;</span><br><span class="line">  int pi = lo + (hi - lo)/2;</span><br><span class="line">  int pivot = A[pi];</span><br><span class="line">  swap(A, pi, lo);</span><br><span class="line">  int left = lo + 1;</span><br><span class="line">  int right = hi;</span><br><span class="line"></span><br><span class="line">  while (left &lt; right)</span><br><span class="line">  //@loop_invariant lo+1 &lt;= left &amp;&amp; left &lt;= right &amp;&amp; right &lt;= hi;</span><br><span class="line">  //@loop_invariant ge_seg(pivot, A, lo, left);</span><br><span class="line">  //@loop_invariant le_seg(pivot, A, right, hi);</span><br><span class="line">  //@loop_invariant pivot == A[lo];</span><br><span class="line">  &#123;</span><br><span class="line">    if (A[left] &lt;= pivot) &#123;</span><br><span class="line">      left++;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      //@assert A[left] &gt; pivot;</span><br><span class="line">      swap(A, left, right-1);</span><br><span class="line">      right--;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //@assert left == right;</span><br><span class="line">  swap(A, lo, left-1);</span><br><span class="line">  return left-1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// quicksort</span><br><span class="line">void sort(int[] A, int lo, int hi)</span><br><span class="line">//@requires 0 &lt;= lo &amp;&amp; lo &lt;= hi &amp;&amp; hi &lt;= \length(A);</span><br><span class="line">//@ensures is_sorted(A, lo, hi);</span><br><span class="line">&#123;</span><br><span class="line">  if (hi - lo &lt;= 1)               //@assert is_sorted(A, lo, hi);</span><br><span class="line">    return;</span><br><span class="line"></span><br><span class="line">  int p = partition(A, lo, hi);   //@assert lo &lt;= p &amp;&amp; p &lt; hi;</span><br><span class="line">  //@assert ge_seg(A[p], A,lo,p) &amp;&amp; le_seg(A[p], A,p+1,hi);</span><br><span class="line">  sort(A, lo, p);                 //@assert is_sorted(A, lo, p);</span><br><span class="line">  sort(A, p+1, hi);               //@assert is_sorted(A, p+1, hi);</span><br><span class="line">  //@assert is_sorted(A, lo, hi);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="explanation">Explanation</h3>
+<ol>
+<li>随机挑一个轴;</li>
+<li>遍历整个数组，把每个数和轴比较，然后放到轴的左右边;</li>
+<li>递归地向下分，分到长度为1或者0时表示整个数组排序完毕;</li>
+<li>Quicksort 和 Mergesort本质上很像，只不过一个在分的过程中做比较运算，一个是分完之后在合并的过程中做比较运算。</li>
+<li>Unlucky: Pick smallest element as pivot O(n^2), just selection sort;</li>
+<li>Average: Pick middle element -&gt; O(nlogn);</li>
+</ol>
+<h1 id="complexity">Complexity</h1>
+<p>O(g(n))是一组函数，其中f(n)∈O(g(n))。当且仅当：</p>
+<ul>
+<li>有c∈R+</li>
+<li>有n0∈N<br>
+使对于所有n≥n0，f(n)≤cg(n)。</li>
+</ul>
+<p>O(1) ⊂ O(log n) ⊂ O(n) ⊂ O(n log n) ⊂ O(n2) ⊂ O(2n) ⊂ O(n!)</p>
+<p>做复杂度分析是可以直接抛掉常数，取变量最坏的情况。保留不同变量间的运算。log的底因为可以通过换底公式换成常数乘以以某数为底因此不重要。</p>
+<p>Linear search: O(1) best case, O(n) worst case.<br>
+Binary search: O(1) best case, O(logn) worst case.<br>
+Selection sort: O(n^2)<br>
+Merge sort: O(nlogn)<br>
+Quick sort: O(nlogn) best case, O(nlogn) avg case, O(n^2) worst case.</p>
+<h1 id="structs-and-pointers">Structs and pointers</h1>
+<h2 id="local-memory-and-allocated-memory">Local Memory and Allocated Memory</h2>
+<ul>
+<li>Local memory: Literals (int, bool, string, any direct value);
+<ul>
+<li>Born when: declared in its scope</li>
+<li>Vanishes when: exit its scope</li>
+</ul>
+</li>
+<li>Allocated memory: (contents of) pointers, arrays, tructs;
+<ul>
+<li>Born when: we allocate them;</li>
+<li>Vanishes when: we can no longer access them -&gt; garbage collector;</li>
+</ul>
+</li>
+</ul>
+<h2 id="pointers">Pointers</h2>
+<p>多重指针，指针修改，内存图绘制，不做赘述</p>
+<p>Default values:</p>
+<ul>
+<li>int: 0</li>
+<li>char: ‘\0’</li>
+<li>string: “”</li>
+<li>bool: false</li>
+<li>pointer: NULL</li>
+<li>array: empty array</li>
+</ul>
+<h2 id="structs">Structs</h2>
+<p>统一管理多种类数据的方便手段。内存图绘制同样不做赘述。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">struct goose_header&#123;</span><br><span class="line">  string name;</span><br><span class="line">  string bowtie_color;</span><br><span class="line">  image* img;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct goose_header* silly = alloc(struct goose_header); //Using pointer to access struct fields</span><br><span class="line">typedef struct goose_header goose;</span><br><span class="line">goose* silly = alloc(goose);</span><br><span class="line"></span><br><span class="line">(*silly).bowtie_color = &quot;pink&quot;;</span><br><span class="line">//Otherwise, also recommended</span><br><span class="line">silly-&gt;bowtie_color = &quot;pink&quot;;</span><br><span class="line"></span><br><span class="line">//valid data structure</span><br><span class="line"></span><br><span class="line">bool is_goose(goose* g)&#123;</span><br><span class="line">  return g != NULL &amp;&amp; g-&gt;img != NULL;</span><br><span class="line">&#125;</span><br><span class="line">//specification function used to check if goose valid</span><br><span class="line"></span><br><span class="line">//safe pointer accesses:</span><br><span class="line">//requires g != NULL</span><br><span class="line">//requires is_goose(g), valid goose input</span><br><span class="line">//ensures is_goose(g), our function doesn&#x27;t make the goose invalid</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="interfaces-vs-implementation">Interfaces vs. Implementation</h1>
+<p>我们可以通过typedef给数据起别名，这样可以增加程序的抽象程度，方便调用。调用interface进行开发的方面也不需要深入程序细节，使用提供的函数接口和数据别名就可以完成开发。因此通常情况下client使用的只是interface提供的指针，不对具体数据进行操作。specification function属于implementation contracts部分，确保程序正确性，因此client不会调用它们。因为client知道他们调用的是指针，因此为了防止指针被设置成NULL，interface中都会有NULL check，作为另一种监督程序正确性的手段。</p>
+</div></article><aside class="toc"><h3>Table of contents</h3><nav id="toc"></nav></aside></main><footer class="site-footer"><div class="container"><p>© 2025 Zhang Shoufeng</p></div></footer><script src="/js/minimalfolio.js"></script><script>(function(){
+  const content = document.querySelector('.post-content');
+  const toc = document.getElementById('toc');
+  if(!content || !toc) return;
+  const headings = content.querySelectorAll('h1, h2, h3');
+  const ul = document.createElement('ul');
+  headings.forEach(function(h){
+    const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-');
+    h.id = id;
+    const li = document.createElement('li');
+    li.className = h.tagName.toLowerCase();
+    const a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    ul.appendChild(li);
+  });
+  toc.appendChild(ul);
+})();</script></body></html>

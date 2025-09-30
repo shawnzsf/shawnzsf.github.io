@@ -1,0 +1,26 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>NJU DC：基于NVBoard实现键盘输入 | Shoufeng's Blog</title><link rel="stylesheet" href="/css/minimalfolio.css"><meta name="generator" content="Hexo 7.0.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><header class="site-header"><div class="container"><a class="logo" href="/">Shoufeng's Blog</a><nav class="main-nav"><ul><li><a href="/">Home</a></li><li><a href="/archives/">Archives</a></li><li><a href="/categories/">Categories</a></li></ul></nav></div></header><main class="container post"><article><h1 class="post-title">NJU DC：基于NVBoard实现键盘输入</h1><p class="post-meta">2023-08-10</p><div class="post-content"><h1 id="接入nvboard">接入NVBoard</h1>
+<p>仿真第一步先为verilator接入NVBoard。NVBoard是一生一芯往届学生为学习数字电路实验开发的虚拟FPGA板。安装的具体步骤根据README里面的提示运行脚本文件并安装相关的依赖即可。</p>
+<h1 id="键盘输入的具体实现">键盘输入的具体实现</h1>
+<p>在键盘输入中除了基本的clk，resetn，ps2_clk，ps2_data和数码管输出之外，还定义了五个类型的变量。首先建立一个reg类型的十位buffer变量，作为接受ps2_data的地方，再定义一个reg类型的四位count变量，来为ps2_data的bit计数。reg类型的三位ps2_clk_sync是用作记录PS2时钟信号的历史信息并检测时钟的下降沿。cnt是用作记录按键被按下的次数的变量。除此之外还定义了34个状态，一个输入状态和一个输出状态，默认值都是S0。</p>
+<p>在流程一开始先通过一个死循环，将ps2_clk时钟上的采样送到最低为并丢弃最高位，形成一个三位的时间队列。因为最新的采样放入的是最低位0位，所以计算ps2_clk_sync[2] &amp; ~ps2_clk_sync[1]。若为下降沿则sampling为1，上升沿为0。</p>
+<p>接下来通过时序逻辑进行具体接受信号的处理。如果接收到的resetn为0，则将count置为零。如果sampling为真(也就是处于下降沿)，则判断count是否为10，如果是的话就进一步判断首位和末位是否为0和1，并进行奇偶校验(在数据的最后添加一个校验位，使得数据位和校验位中1的个数为奇数或偶数，如果接收方收到的数据位和校验位中1的个数不是奇偶性相同，就说明传输的数据出现了错误)。如果条件都满足就进行数码管的输出。对buffer的高四位和低四位分别用case语句进行判断。然后数码管输出对应的数字(注意这里数码管是低电平有效)。判断完buffer就对cnt进行判断，判断逻辑大致相同。输出玩数码管后将count置为零。如果count不是10就将ps2_data传到buffer对应的位数中，然后count加一。在case判断中除了输出数码管还要将cnt加一，以显示按键次数的增多。同时要将输出状态切到对应的状态，在代码最后将输出状态赋值给输入状态。</p>
+<p>至此键盘输入功能全部实现。</p>
+</div></article><aside class="toc"><h3>Table of contents</h3><nav id="toc"></nav></aside></main><footer class="site-footer"><div class="container"><p>© 2025 Zhang Shoufeng</p></div></footer><script src="/js/minimalfolio.js"></script><script>(function(){
+  const content = document.querySelector('.post-content');
+  const toc = document.getElementById('toc');
+  if(!content || !toc) return;
+  const headings = content.querySelectorAll('h1, h2, h3');
+  const ul = document.createElement('ul');
+  headings.forEach(function(h){
+    const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-');
+    h.id = id;
+    const li = document.createElement('li');
+    li.className = h.tagName.toLowerCase();
+    const a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    ul.appendChild(li);
+  });
+  toc.appendChild(ul);
+})();</script></body></html>
