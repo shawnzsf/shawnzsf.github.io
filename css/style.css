@@ -1,149 +1,199 @@
-/* GOOGLE FONTS IMPORT */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500&family=Inter:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;600&display=swap');
+/* ==========================================================================
+   1. CONFIGURATION & VARIABLES
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif+JP:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap');
 
 :root {
-    /* PALETTE: Kachi-iro (Dark Indigo) & Slate */
-    --bg-base: #181a1f;       /* Deep matte dark */
-    --bg-panel: #1e2126;      /* Slightly lighter for panels */
-    --text-main: #c0c5ce;     /* Off-white/Silver */
-    --text-muted: #6f7887;    /* Muted grey for metadata */
-    --accent: #d4af37;        /* Muted Gold (Kintsugi style) - Use sparingly */
-    --border: rgba(255, 255, 255, 0.08);
-    --sumi-black: #1a1a1b;     /* Ink Black (Yūgen depth) */
-    --gofun-white: #f8f7f2;    /* Shell White (Washi paper texture) */
-    --shui-red: #8c2727;       /* Lacquer Red (Subtle accent) */
-    --kage-shadow: rgba(0, 0, 0, 0.4);
-    --transition-slow: 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    /* --- COLOR PALETTE: Kachi-iro & Slate --- */
+    --bg-base:          #181a1f;       /* Deep matte dark */
+    --bg-panel:         #1e2126;       /* Slightly lighter for panels/code */
+    --bg-highlight:     rgba(255, 255, 255, 0.05);
     
-    /* SPACING */
-    --gap: 40px;
+    --text-main:        #c0c5ce;       /* Off-white/Silver */
+    --text-bright:      #e6e8eb;       /* Headings */
+    --text-muted:       #6f7887;       /* Metadata/Footer */
+    --text-faint:       rgba(111, 120, 135, 0.5); /* Decorative text */
+
+    --accent-gold:      #d4af37;       /* Kintsugi Gold */
+    --accent-red:       #8c2727;       /* Lacquer Red */
+    
+    --border-color:     rgba(255, 255, 255, 0.08);
+    --border-hover:     rgba(212, 175, 55, 0.5); /* Gold fade */
+
+    /* --- TYPOGRAPHY SCALE (Based on 16px root) --- */
+    --font-sans:        'Inter', sans-serif;
+    --font-serif:       'Noto Serif JP', serif;
+    --font-mono:        'Fira Code', monospace;
+
+    /* Readable Sizes: 
+       xs: 12px, sm: 14px, base: 16px, lg: 18px, xl: 24px, 2xl: 30px */
+    --text-xs:          0.75rem; 
+    --text-sm:          0.875rem;
+    --text-base:        1rem;
+    --text-lg:          1.125rem;
+    --text-xl:          1.5rem;
+    --text-2xl:         1.875rem;
+    --text-3xl:         2.25rem;
+
+    /* --- SPACING & LAYOUT --- */
+    --gap-standard:     40px;
+    --gap-tight:        20px;
+    --radius-sm:        4px;
+    --radius-md:        8px;
+    
+    /* --- ANIMATION --- */
+    --transition-fast:  0.2s ease;
+    --transition-slow:  1.2s cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* --- SYNTAX HIGHLIGHTING (One Dark inspired) --- */
+    --syntax-bg:        #121418;
+    --syntax-gutter:    rgba(0, 0, 0, 0.2);
+    --syntax-keyword:   #c678dd; /* Purple */
+    --syntax-string:    #98c379; /* Green */
+    --syntax-comment:   #5c6370; /* Grey */
+    --syntax-func:      #61afef; /* Blue */
+    --syntax-var:       #e06c75; /* Red */
+    --syntax-class:     #e5c07b; /* Yellow */
 }
 
-/* GLOBAL RESET & TEXTURE */
+/* ==========================================================================
+   2. GLOBAL RESET & BASE
+   ========================================================================== */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
     background-color: var(--bg-base);
     color: var(--text-main);
-    font-family: 'Inter', sans-serif; /* Clean reading */
-    font-size: 18px; /* High density readable size */
-    line-height: 1.6;
+    font-family: var(--font-sans);
+    font-size: 16px; /* Restored standard browser readability */
+    line-height: 1.7;
     letter-spacing: 0.02em;
     -webkit-font-smoothing: antialiased;
     
     /* WABI-SABI NOISE TEXTURE */
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+    background-attachment: fixed; /* Keeps texture stable during scroll */
 }
 
-/* LAYOUT GRID */
+a { 
+    color: inherit; 
+    text-decoration: none; 
+    transition: var(--transition-fast); 
+    border-bottom: 1px dotted var(--text-muted); 
+}
+a:hover { 
+    color: var(--accent-gold); 
+    border-bottom-color: var(--accent-gold); 
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    color: var(--text-bright);
+    margin-bottom: 1rem;
+}
+
+/* ==========================================================================
+   3. LAYOUT GRID
+   ========================================================================== */
 .container {
     max-width: 100%;
     display: grid;
-    grid-template-columns: 25vw minmax(0,1fr);
+    /* Sidebar: 280px fixed, Main: Rest of space */
+    grid-template-columns: 280px minmax(0, 1fr);
     min-height: 100vh;
 }
 
-/* TYPOGRAPHY UTILS */
-h1, h2, h3, h4 {
-    font-family: 'Noto Serif JP', serif;
-    font-weight: 400;
-    color: #e6e8eb;
-    margin-bottom: 0.8rem;
-}
-
-a { color: inherit; text-decoration: none; transition: 0.2s; border-bottom: 1px dotted var(--text-muted); }
-a:hover { color: var(--accent); border-bottom-color: var(--accent); }
-
-/* ===========================
-   LEFT SIDEBAR (Personal Info)
-   =========================== */
+/* ==========================================================================
+   4. LEFT SIDEBAR (Personal Info)
+   ========================================================================== */
 aside.sidebar {
-    padding: 60px 40px 60px 40px;
-    border-right: 1px solid var(--border);
-    width: 80%;
+    padding: 60px 40px;
+    border-right: 1px solid var(--border-color);
     position: sticky;
     top: 0;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background: rgba(24, 26, 31, 0.95); /* Slight contrast */
 }
 
 .profile-intro h1 {
-    font-size: 1.7rem;
+    font-size: var(--text-xl); /* ~24px */
     letter-spacing: 0.05em;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
 }
 
 .profile-intro .jp-name {
-    font-size: 1.1rem;
+    font-size: var(--text-sm); /* ~14px */
     color: var(--text-muted);
-    font-family: 'Noto Serif JP', serif;
-    margin-bottom: 2rem;
+    font-family: var(--font-serif);
+    margin-bottom: 2.5rem;
     display: block;
 }
 
 .info-block {
     margin-bottom: 2rem;
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
 }
 
 .info-label {
     display: block;
     color: var(--text-muted);
-    font-size: 0.9rem;
+    font-size: var(--text-xs); /* ~12px */
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
 }
 
 .contact-list li {
     list-style: none;
     margin-bottom: 0.5rem;
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
 }
 
-/* Vertical Japanese Text Decoration (Optional aesthetic) */
+/* Vertical Japanese Text Decoration */
 .vertical-deco {
     position: absolute;
     right: 20px;
     top: 60px;
     writing-mode: vertical-rl;
-    color: var(--text-muted);
-    opacity: 0.5;
-    font-family: 'Noto Serif JP';
+    color: var(--text-faint);
+    font-family: var(--font-serif);
     letter-spacing: 0.5em;
     user-select: none;
+    pointer-events: none;
 }
 
-/* ===========================
-   RIGHT MAIN (CV/Experience)
-   =========================== */
+/* ==========================================================================
+   5. RIGHT MAIN CONTENT
+   ========================================================================== */
 main.main-content {
-    padding: 60px 5% 60px 2%;
+    padding: 60px 8% 80px 5%;
     width: 100%;
+    max-width: 1400px; /* Prevent stretching on ultrawide monitors */
 }
 
+/* Section Dividers */
 .section-title {
-    font-size: 1.15rem;
-    border-bottom: 1px solid var(--border);
+    font-size: var(--text-lg);
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     color: var(--text-muted);
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
 }
+.section-title span.jp { font-size: var(--text-xs); opacity: 0.6; }
 
-.section-title span.jp { font-size: 0.85rem; opacity: 0.6; }
-
-/* High Density CV Item */
+/* --- CV / Timeline Items --- */
 .cv-item {
     display: grid;
-    grid-template-columns: 120px 1fr; /* Date | Content */
-    gap: 20px;
-    margin-bottom: 35px;
+    grid-template-columns: 140px 1fr; /* Fixed width for date */
+    gap: var(--gap-tight);
+    margin-bottom: 45px;
     opacity: 0.9;
     transition: opacity 0.3s;
 }
@@ -151,577 +201,360 @@ main.main-content {
 .cv-item:hover { opacity: 1; }
 
 .cv-date {
-    font-size: 0.85rem;
+    font-size: var(--text-xs);
     color: var(--text-muted);
     text-align: right;
-    font-family: 'Noto Serif JP'; /* Monospace-ish feel */
-    padding-top: 4px;
+    font-family: var(--font-serif);
+    padding-top: 5px;
+    line-height: 1.4;
 }
 
 .cv-content h3 {
-    font-size: 1.1rem;
-    margin-bottom: 0.2rem;
-    color: #fff;
+    font-size: var(--text-lg);
+    margin-bottom: 0.25rem;
+    color: var(--text-bright);
 }
 
 .cv-content .role {
-    font-size: 0.9rem;
-    color: var(--accent);
-    margin-bottom: 0.8rem;
+    font-size: var(--text-sm);
+    color: var(--accent-gold);
+    margin-bottom: 1rem;
     font-style: italic;
-    font-family: 'Noto Serif JP';
+    font-family: var(--font-serif);
+    display: block;
 }
 
 .cv-content p {
-    font-size: 0.95rem;
+    font-size: var(--text-base); /* Readable paragraph size */
     margin-bottom: 0.5rem;
-    text-align: justify; /* Zen alignment */
-    color: #b0b5be;
+    text-align: justify;
+    color: var(--text-main);
 }
 
-/* FOOTER */
-footer.footer {
-    margin-top: 80px;
-    border-top: 1px solid var(--border);
-    padding-top: 20px;
-    padding-right: 20px;
-    padding-bottom: 20px;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    text-align: right;
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .container { grid-template-columns: 1fr; }
-    aside.sidebar { 
-        height: auto; 
-        position: relative; 
-        border-right: none; 
-        border-bottom: 1px solid var(--border);
-        padding: 40px 20px;
-    }
-    main.main-content { padding: 40px 20px; }
-    .cv-item { grid-template-columns: 1fr; gap: 5px; }
-    .cv-date { text-align: left; font-size: 0.7rem; margin-bottom: 5px; color: var(--accent); }
-}
-
-/* ===========================
-   BLOG POST LAYOUT
-   =========================== */
+/* ==========================================================================
+   6. BLOG POST LAYOUT
+   ========================================================================== */
 .post-container {
-    display: flex; /* Switched to Flexbox for better control over max-width */
-    flex-direction: row;
+    display: flex;
     gap: 60px;
     position: relative;
     width: 100%;
-    max-width: 100%;
 }
 
 .blog-article {
-    /* OPTIMIZATION: 
-       Limit width to ~75 characters (approx 700px-750px) 
-       This prevents eye fatigue on wide screens. */
-    max-width: 740px; 
+    max-width: 760px; /* Optimal reading width (approx 75 chars) */
     flex: 1;
-    min-width: 0; /* Prevents flex overflow */
+    min-width: 0;
 }
 
-/* Post Header */
 .post-header {
     margin-bottom: 50px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 30px;
 }
 
 .post-meta {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.65rem;
-    color: var(--accent);
-    margin-bottom: 15px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--accent-gold);
+    margin-bottom: 1rem;
+    display: block;
 }
 
 .post-title {
-    font-size: 2.2rem; /* Larger title for hierarchy */
-    line-height: 1.25;
-    color: #e6e8eb;
+    font-size: var(--text-3xl);
+    line-height: 1.3;
+    color: var(--text-bright);
 }
 
-/* ===========================
-   MARKDOWN CONTENT STYLE
-   =========================== */
+/* ==========================================================================
+   7. MARKDOWN CONTENT STYLE (Typography heavy)
+   ========================================================================== */
 .markdown-body {
-    /* Assuming root font-size is ~20px based on your comment, 
-       or standard 16px making this small. Adjust as needed. */
-    font-size: 0.9rem; 
-    color: #c0c5ce;
+    font-size: var(--text-base);
+    color: var(--text-main);
     line-height: 1.8;
-    overflow-wrap: break-word;
-    text-align: left; 
 }
 
-/* ===========================
-   HEADING HIERARCHY
-   =========================== */
+/* Headings in Markdown */
+.markdown-body h1 { font-size: var(--text-2xl); margin: 3rem 0 1.5rem; text-align: center; }
 
-/* H1 - Title (Usually outside markdown-body, but just in case) */
-.markdown-body h1 {
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-    font-weight: 700;
-    color: #fff;
-    text-align: center;
-}
-
-/* H2 - The "Section Divider" 
-   High contrast, horizontal line to break up the page visually.
-*/
+/* H2: Section Divider */
 .markdown-body h2 {
     margin-top: 4rem;
     margin-bottom: 2rem;
-    font-size: 1.5rem; /* Slightly larger for distinction */
-    font-weight: 700;
-    color: #fff;
-    
-    /* Visual: Bottom Border */
+    font-size: var(--text-xl);
+    font-weight: 600;
     padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-color);
     position: relative;
 }
-
-/* Optional: Add a small accent indicator under the H2 */
 .markdown-body h2::after {
     content: '';
     position: absolute;
-    bottom: -1px; /* Sit on top of the border */
+    bottom: -1px;
     left: 0;
-    width: 60px; /* Short line */
-    height: 3px; /* Thicker than the main border */
-    background-color: var(--accent);
-    border-radius: 2px;
+    width: 60px;
+    height: 2px;
+    background-color: var(--accent-gold);
 }
 
-/* H3 - The "Topic Block" 
-   Vertical accent border makes it look like a distinct entry.
-*/
+/* H3: Topic Block */
 .markdown-body h3 {
     margin-top: 3rem;
-    margin-bottom: 1.2rem;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--accent);
-    
-    /* Visual: Left Border (The "Magazine" look) */
-    padding-left: 16px;
-    border-left: 4px solid var(--accent);
-    line-height: 1.4;
+    font-size: var(--text-lg);
+    color: var(--accent-gold);
+    padding-left: 1rem;
+    border-left: 3px solid var(--accent-gold);
 }
 
-/* H4 - The "Sub-Point" 
-   Uses a symbol/icon to denote specific details without heavy borders.
-*/
+/* H4: Sub-point */
 .markdown-body h4 {
     margin-top: 2rem;
-    margin-bottom: 1rem;
-    font-size: 1rem; /* Distinct from body text */
+    font-size: var(--text-base);
     font-weight: 600;
-    color: #e6e8eb;
-    
-    /* Visual: Icon/Symbol */
     position: relative;
     padding-left: 1.2rem;
 }
-
 .markdown-body h4::before {
-    content: '#'; /* Or use a Unicode dot like '●' */
-    position: absolute;
-    left: 0;
-    color: var(--accent); /* Tie it back to the theme */
-    font-weight: 400;
+    content: '#';
+    position: absolute; left: 0;
+    color: var(--accent-gold);
     opacity: 0.7;
 }
 
-/* H5 & H6 - The "Labels"
-   Used for technical notes or deep nesting. 
-*/
-.markdown-body h5 {
-    margin-top: 1.5rem;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase; /* Makes it look like a label */
-    letter-spacing: 1px;
-    color: #c0c5ce;
+/* Body Text & Lists */
+.markdown-body p, .markdown-body ul, .markdown-body ol {
+    margin-bottom: 1.5rem;
 }
+.markdown-body ul, .markdown-body ol { padding-left: 1.5rem; }
+.markdown-body li { margin-bottom: 0.5rem; padding-left: 0.5rem; }
+.markdown-body li::marker { color: var(--accent-gold); }
 
-.markdown-body h6 {
-    margin-top: 1.5rem;
-    font-size: 0.8rem;
+/* Blockquotes */
+.markdown-body blockquote {
+    border-left: 3px solid var(--accent-gold);
+    margin: 2rem 0;
+    padding: 1rem 1.5rem;
+    background: var(--bg-highlight);
+    color: var(--text-bright);
+    font-family: var(--font-serif);
     font-style: italic;
-    color: #7b818b; /* Muted color */
-}
-
-/* Paragraphs & Lists */
-.markdown-body p {
-    margin-bottom: 1.8rem;
-}
-
-.markdown-body ul, .markdown-body ol {
-    margin-bottom: 1.8rem;
-    padding-left: 25px;
-}
-
-/* Make list markers accent color for consistency */
-.markdown-body ul li::marker,
-.markdown-body ol li::marker {
-    color: var(--accent);
-}
-
-.markdown-body li {
-    margin-bottom: 0.5rem;
-    color: #b0b5be;
-    padding-left: 5px; /* Visual breathing room */
-}
-
-/* Links inside body */
-.markdown-body a {
-    color: var(--text-main);
-    border-bottom: 1px solid var(--accent);
-    padding-bottom: 1px;
-}
-.markdown-body a:hover {
-    background: rgba(212, 175, 55, 0.1); /* Subtle highlight bg */
-    border-bottom: none;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
 /* Images */
 .markdown-body img {
     max-width: 100%;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     display: block;
-    margin: 40px auto;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* Lift image off background */
+    margin: 3rem auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
-/* Blockquotes */
-.markdown-body blockquote {
-    border-left: 3px solid var(--accent); /* Thinner, accent color */
-    margin: 30px 0;
-    padding: 15px 25px;
-    background: rgba(255, 255, 255, 0.02);
-    color: #e6e8eb;
-    font-family: 'Noto Serif JP', serif;
-    font-style: italic;
-    border-radius: 0 4px 4px 0;
-}
-
-/* ===========================
-   CODE BLOCKS - STABILIZED
-   =========================== */
+/* ==========================================================================
+   8. CODE BLOCKS (STABILIZED)
+   ========================================================================== */
 .markdown-body figure.highlight {
-    /* Define variables for exact pixel matching */
-    --code-font-size: 13px;       /* Use PX, not REM */
-    --code-line-height: 22px;     /* Use integer PX to prevent sub-pixel rounding errors */
-    --code-font-family: 'Fira Code', Consolas, monospace; /* Define once */
-    
-    background: #121418;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    margin: 40px 0;
+    background: var(--syntax-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    margin: 2.5rem 0;
     width: 100%;
     overflow-x: auto;
-    position: relative;
+    font-family: var(--font-mono);
 }
 
 .markdown-body figure.highlight table {
     width: 100%;
     border-collapse: collapse;
     border: 0;
-    margin: 0;
-    table-layout: fixed;
 }
 
-.markdown-body figure.highlight td {
-    border: 0;
-    padding: 0;
-    vertical-align: top;
-}
-
-/* 1. FORCE FONT CONSISTENCY 
-   Ensure Gutter and Code use the EXACT same font family. 
-   If Gutter uses 'Arial' and Code uses 'Fira Code', heights will desync.
-*/
+/* Common font settings for Gutter and Code to ensure alignment */
 .markdown-body figure.highlight .gutter pre, 
-.markdown-body figure.highlight .code pre,
-.markdown-body figure.highlight .code pre span { 
-    font-family: var(--code-font-family) !important;
-    font-size: var(--code-font-size) !important;
-    line-height: var(--code-line-height) !important;
-    
-    /* Critical: Prevent bold fonts from increasing line height */
-    font-weight: normal; 
-    font-style: normal; 
+.markdown-body figure.highlight .code pre {
+    font-family: var(--font-mono) !important;
+    font-size: 0.9rem !important; /* Fixed readable code size */
+    line-height: 1.6 !important;
+    font-weight: normal;
+    font-style: normal;
+    padding: 12px 0;
 }
 
-/* Re-apply styling for syntax highlighting, but keep dimensions locked */
-.markdown-body figure.highlight .keyword { font-weight: 700; } 
-.markdown-body figure.highlight .comment { font-style: italic; }
-
-/* 2. GUTTER ALIGNMENT */
+/* Gutter (Line Numbers) */
 .markdown-body figure.highlight .gutter {
     width: 50px;
-    background: rgba(0, 0, 0, 0.2);
-    border-right: 1px solid var(--border);
+    background: var(--syntax-gutter);
+    border-right: 1px solid var(--border-color);
     user-select: none;
-    /* Apply vertical padding to container, not lines */
-    padding: 10px 0; 
+    vertical-align: top;
 }
-
 .markdown-body figure.highlight .gutter pre {
-    color: #6a737d;
+    color: var(--text-muted);
     text-align: right;
-    padding-right: 15px;
+    padding-right: 12px;
     opacity: 0.6;
 }
 
-/* 3. CODE ALIGNMENT */
+/* Code Content */
 .markdown-body figure.highlight .code {
-    /* Must match vertical padding of gutter EXACTLY */
-    padding: 10px 20px; 
-    text-align: left;
+    vertical-align: top;
+    padding: 0 15px;
     width: 100%;
 }
-
-/* 4. STOP WRAPPING & OVERFLOW
-   If a line wraps, the single-row gutter desyncs immediately.
-*/
 .markdown-body figure.highlight pre {
     margin: 0;
-    padding: 0;
     border: none;
     overflow: visible;
-    white-space: pre; /* Force no wrap */
-    word-wrap: normal;
+    white-space: pre;
 }
 
-/* Syntax Highlighting Colors (Unchanged) */
-.markdown-body figure.highlight .keyword { color: #c678dd; } 
-.markdown-body figure.highlight .string { color: #98c379; }  
-.markdown-body figure.highlight .comment { color: #5c6370; font-style: italic; } 
-.markdown-body figure.highlight .function { color: #61afef; } 
-.markdown-body figure.highlight .title { color: #e5c07b; }
+/* Syntax Highlighting Mapping */
+.markdown-body figure.highlight .keyword { color: var(--syntax-keyword); font-weight: 700; }
+.markdown-body figure.highlight .string { color: var(--syntax-string); }
+.markdown-body figure.highlight .comment { color: var(--syntax-comment); font-style: italic; }
+.markdown-body figure.highlight .function { color: var(--syntax-func); }
+.markdown-body figure.highlight .title { color: var(--syntax-class); }
+.markdown-body figure.highlight .variable { color: var(--syntax-var); }
 
-/* ===========================
-   RIGHT SIDE TOC MENU (Subtle & Non-distracting)
-   =========================== */
+/* ==========================================================================
+   9. TABLE OF CONTENTS (TOC)
+   ========================================================================== */
 aside.post-toc {
     width: 240px;
-    flex-shrink: 0; /* Prevent shrinking */
+    flex-shrink: 0;
+    margin-left: auto;
 }
 
 .toc-wrapper {
     position: sticky;
-    top: 100px; 
-    border-left: 1px solid var(--border);
+    top: 100px;
+    border-left: 1px solid var(--border-color);
     max-height: 70vh;
     overflow-y: auto;
     padding-left: 20px;
-    /* Design Choice: Fade out the whole list when not hovering to reduce distraction */
-    opacity: 0.6;
+    opacity: 0.5;
     transition: opacity 0.3s;
 }
 
 .toc-wrapper:hover { opacity: 1; }
 
 .toc-header {
-    font-size: 0.5rem;
+    font-size: var(--text-xs);
     color: var(--text-muted);
     letter-spacing: 0.15em;
-    margin-bottom: 20px;
-    font-family: 'Inter', sans-serif;
+    margin-bottom: 1rem;
     text-transform: uppercase;
     font-weight: 600;
 }
 
 .toc-wrapper ol { list-style: none; padding: 0; margin: 0; }
-.toc-wrapper .toc-item { margin-bottom: 8px; line-height: 1.4; }
+.toc-wrapper .toc-item { margin-bottom: 0.5rem; line-height: 1.4; }
 
 .toc-wrapper .toc-link {
-    font-size: 0.65rem; /* Larger than before for readability */
+    font-size: var(--text-xs);
     color: var(--text-muted);
-    text-decoration: none;
-    border-bottom: none;
+    border: none;
     display: block;
-    transition: all 0.2s;
-    /* Truncate */
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
 }
 
-/* Indentation Guide */
-.toc-wrapper .toc-child {
-    padding-left: 12px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    border-left: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* Active State - Crucial for "Where am I?" */
+.toc-wrapper .toc-link:hover,
 .toc-wrapper .toc-link.active {
-    color: var(--accent);
-    font-weight: 500;
+    color: var(--accent-gold);
     transform: translateX(5px);
 }
 
-/* Subtle scrollbar */
-.toc-wrapper::-webkit-scrollbar { width: 3px; }
-.toc-wrapper::-webkit-scrollbar-thumb { background-color: var(--border); }
+.toc-wrapper .toc-child {
+    padding-left: 12px;
+    margin-top: 0.5rem;
+    border-left: 1px solid var(--bg-highlight);
+}
 
-/* ===========================
-   RESPONSIVE ADJUSTMENTS
-   =========================== */
+/* ==========================================================================
+   10. FOOTER & PAGINATION
+   ========================================================================== */
+footer.footer {
+    margin-top: 80px;
+    border-top: 1px solid var(--border-color);
+    padding: 30px 20px;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
+    gap: 10px;
+}
+
+.pagination .page-number, 
+.pagination .extend {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    transition: all 0.3s;
+    font-family: var(--font-serif);
+    font-size: var(--text-sm);
+}
+
+.pagination .page-number:hover,
+.pagination .extend:hover,
+.pagination .current {
+    background-color: var(--text-bright);
+    color: var(--bg-base);
+    border-color: var(--text-bright);
+}
+
+/* ==========================================================================
+   11. RESPONSIVE DESIGN
+   ========================================================================== */
 @media (max-width: 1200px) {
-    .container { grid-template-columns: 280px 1fr; }
+    .container { grid-template-columns: 260px 1fr; }
     aside.post-toc { display: none; } /* Hide TOC on medium screens */
-    .blog-article { max-width: 100%; padding-right: 0; }
+    .blog-article { max-width: 100%; }
 }
 
 @media (max-width: 768px) {
     .container { grid-template-columns: 1fr; }
-    aside.sidebar { height: auto; position: relative; border-right: none; padding: 40px 20px; border-bottom: 1px solid var(--border); }
+    
+    aside.sidebar { 
+        height: auto; 
+        position: relative; 
+        border-right: none; 
+        border-bottom: 1px solid var(--border-color);
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    /* Adjust header for mobile */
+    .vertical-deco { display: none; }
+    
     main.main-content { padding: 40px 20px; }
     
-    .post-container { flex-direction: column; }
-    .post-title { font-size: 1.6rem; }
+    .cv-item { 
+        grid-template-columns: 1fr; 
+        gap: 5px; 
+    }
     
-    /* Code blocks go full width on mobile */
+    .cv-date { 
+        text-align: left; 
+        color: var(--accent-gold); 
+        margin-bottom: 5px;
+    }
+
+    .post-title { font-size: var(--text-2xl); }
+    
+    /* Full width code blocks on mobile */
     .markdown-body figure.highlight {
         margin-left: -20px; 
         width: calc(100% + 40px);
         border-radius: 0;
         border-left: none; border-right: none;
     }
-}
-
-
-
-/* --- Layout Fix for main-content ---
-.container {
-  display: flex;
-  max-width: 100vw;
-  overflow-x: hidden;
-} */
-
-/* .main-content {
-  flex: 1;
-  min-width: 0;
-  background-color: var(--bg-base);
-}  */
-
-/* --- Justified Gapless Gallery Logic --- */
-.gallery-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0; /* Gapless as requested */
-  padding: 0;
-}
-
-.gallery-item {
-  height: 35vh; /* Base height for rows */
-  flex-grow: 1;
-  position: relative;
-  overflow: hidden;
-  background-color: var(--bg-base);
-}
-
-/* Fix for the last row: prevents one photo from stretching to 100% width */
-.gallery-grid::after {
-  content: '';
-  flex-grow: 999999999;
-}
-
-.gallery-item img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover; /* Dense filling */
-  vertical-align: bottom;
-  filter: grayscale(15%) brightness(0.9);
-  transition: filter var(--transition-slow), transform var(--transition-slow);
-}
-
-/* --- Aesthetic Enhancements --- */
-
-/* Mono no aware: A soft breathing fade-in */
-.gallery-item {
-  animation: awareFade 2s ease-out;
-}
-
-@keyframes awareFade {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Yūgen: The hidden beauty revealed on hover */
-.gallery-info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 20px;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-  opacity: 0;
-  transition: opacity var(--transition-slow);
-}
-
-.gallery-item:hover .gallery-info {
-  opacity: 1;
-}
-
-.gallery-item:hover img {
-  filter: grayscale(0%) brightness(1.05);
-  transform: scale(1.03);
-}
-
-.gallery-title {
-  color: var(--gofun-white);
-  font-family: "Sawarabi Mincho", serif; /* Traditional Japanese Serif */
-  letter-spacing: 0.15em;
-  font-size: 0.85rem;
-  border-left: 2px solid var(--shui-red);
-  padding-left: 10px;
-}
-
-/* Responsive adjustment for mobile */
-@media (max-width: 768px) {
-  .gallery-item {
-    height: 25vh;
-  }
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 3rem;
-    gap: 10px;
-}
-
-.pagination .page-number, 
-.pagination .extend {
-    padding: 8px 16px 11px 16px;
-    border: 1px solid var(--text-muted);
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: all 0.3s;
-    font-family: 'Noto Serif JP', serif;
-}
-
-.pagination .page-number:hover,
-.pagination .extend:hover {
-    background-color: var(--sumi-black);
-    color: var(--gofun-white);
-}
-
-.pagination .current {
-    background-color: var(--sumi-black);
-    color: var(--gofun-white);
-    border-color: var(--sumi-black);
-    font-family: 'Noto Serif JP', serif;
 }
