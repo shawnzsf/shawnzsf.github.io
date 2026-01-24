@@ -1,0 +1,75 @@
+<div class="gallery-wrapper">
+  <div class="gallery-grid" id="gallery-grid">
+    <% if (page.photos) { %>
+      <% page.photos.forEach(function(photo, index){ %>
+        <div class="gallery-item photo-wrapper <%= index >= 6 ? 'is-hidden' : '' %>">
+          <img src="<%- url_for(photo.src) %>" 
+               alt="<%= photo.title %>" 
+               loading="lazy" 
+               data-glightbox="title: <%= photo.title %>; description: <%= photo.description %>">
+          <div class="gallery-info">
+            <span class="gallery-title"><%= photo.title %></span>
+          </div>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+
+  <% if (page.photos && page.photos.length > 6) { %>
+    <div class="pagination-container">
+      <button id="load-more-btn" class="load-more-btn">View More</button>
+    </div>
+  <% } %>
+</div>
+
+<style>
+  /* Hide items beyond the initial limit */
+  .gallery-item.is-hidden {
+    display: none;
+  }
+
+  .pagination-container {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  .load-more-btn {
+    padding: 15px 45px;
+    background: transparent;
+    border: 1px solid #f8f7f2;
+    cursor: pointer;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.9rem;
+    color: #6f7887;
+    transition: all 0.3s ease;
+  }
+
+  .load-more-btn:hover {
+    background: #1a1a1b;
+    color: #f8f7f2;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const loadMoreBtn = document.getElementById('load-more-btn');
+  const itemsPerPage = 6; // How many more photos to show on each click
+
+  loadMoreBtn?.addEventListener('click', function() {
+    const hiddenItems = document.querySelectorAll('.gallery-item.is-hidden');
+    
+    // Unhide the next batch
+    for (let i = 0; i < itemsPerPage; i++) {
+      if (hiddenItems[i]) {
+        hiddenItems[i].classList.remove('is-hidden');
+      }
+    }
+
+    // If no more hidden items remain, hide the button
+    if (document.querySelectorAll('.gallery-item.is-hidden').length === 0) {
+      loadMoreBtn.style.display = 'none';
+    }
+  });
+});
+</script>

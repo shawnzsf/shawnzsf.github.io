@@ -1,0 +1,68 @@
+# themes/terminal-optics/_config.yml
+menu:
+  Home: /
+  Blog: /archives
+  /usr/bin/photos: /photos # Naming convention geek-style
+  About: /about
+
+user:
+  name: "Dev.Photog"
+  hostname: "localhost"
+  prompt: "$"
+
+# Visuals
+colors:
+  background: "#0d1117"
+  foreground: "#c9d1d9"
+  accent: "#58a6ff" # Cyan/Blue
+  cursor: "#58a6ff"
+
+# Academic CV Data
+cv_profile:
+  image: /images/avatar.png  # Put youcr photo in source/images/
+  name: Shoufeng Zhang (张寿峰)
+  role: Computer Science / Engineering
+  affiliation: University of Hong Kong
+  location: Beijing, China / Hong Kong SAR
+  email: zhangshoufeng07@gmail.com
+  github: https://github.com/yourusername
+  
+about_me: |
+  "I must go, I must travel, I must enter freedom."
+  <br><br>
+  Hi! Welcome to my personal website. I am currently enrolled at the <strong>University of Hong Kong</strong> as an undergrad, started 2025 fall. My academic interests lie at the intersection of <strong>computer architecture, digital system design</strong>, and <strong>machine learning systems</strong>.
+
+education:
+  - school: The University of Hong Kong
+    degree: B.Eng Elite Programme
+    date: Exp. May 2029
+  - school: Carnegie Mellon University
+    degree: Summer Session Student (GPA:\ 4.0/4.0)
+    date: Summer 2024
+  - school: Beijing 101 High School
+    degree: IB Diploma Programme
+    date: Jul 2025
+
+achievements:
+  - year: "2025"
+    desc: HKU Entrance Scholarship
+  - year: "2024"
+    desc: IMMC Outstanding Award (Top 1%)
+  - year: "2023"
+    desc: Science Talent Program (Outstanding Student)
+
+projects:
+  - name: Hardware-Accelerated 1-Bit Quantization
+    stack: PyRTL, System Design
+    desc: Designed a 1-bit MAC unit for a Systolic Array reducing area requirements.
+  - name: Yishengyizhen Program (CAS)
+    stack: Verilog, Vivado, C
+    desc: Explored computer architecture, designed circuits for RV32 instructions.
+  
+mathjax:
+  tags: none # or 'ams' for advanced users
+  single_dollars: true # allow inline math with single $
+  cjk_width: 0.9
+  normal_width: 0.6
+  append_css: true
+  every_page: false # strictly recommended to be false to save load time

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= config.title %></title>
+  <link rel="stylesheet" href="<%- url_for('css/style.css') %>">
+</head>
+<body>
+  
+  <div class="container">
+    <!-- Left Sidebar -->
+    <%- partial('_partial/sidebar') %>
+    
+    <!-- Right Content -->
+    <main class="main-content">
+      <%- body %>
+      <%- partial('_partial/footer') %>
+    </main>
+  </div>
+
+</body>
+</html>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+    const lightbox = GLightbox({
+        selector: '.photo-wrapper img',
+        touchNavigation: true,
+        loop: true,
+    });
+</script>

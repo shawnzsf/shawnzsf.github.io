@@ -1,0 +1,43 @@
+<section class="archive-section">
+  <div class="section-title">
+    <h2>Blogs</h2>
+    <span class="jp">記録</span>
+  </div>
+
+  <% page.posts.each(function(post) { %>
+    <article class="cv-item archive-item">
+      <div class="cv-date">
+        <%= date(post.date, 'YYYY.MM.DD') %>
+      </div>
+      
+      <div class="cv-content">
+        <h3>
+          <a href="<%- url_for(post.path) %>"><%= post.title %></a>
+        </h3>
+        <% if (post.tags && post.tags.length){ %>
+          <div class="role" style="font-size: 0.8rem;">
+            # <%= post.tags.map(t => t.name).join(' # ') %>
+          </div>
+        <% } %>
+        <p>
+          <% if(post.excerpt) { %>
+            <%- post.excerpt %>
+          <% } else { %>
+            <%= strip_html(post.content).substring(0, 120) %>...
+          <% } %>
+        </p>
+      </div>
+    </article>
+  <% }) %>
+  
+  <!-- Improved Pagination Logic -->
+  <% if (page.total > 1){ %>
+    <nav class="pagination">
+      <%- paginator({
+        prev_text: '<i class="fa fa-angle-left"></i> Prev',
+        next_text: 'Next <i class="fa fa-angle-right"></i>',
+        escape: false
+      }) %>
+    </nav>
+  <% } %>
+</section>
