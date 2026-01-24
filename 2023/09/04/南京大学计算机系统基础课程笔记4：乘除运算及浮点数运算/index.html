@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shoufeng&#39;s Personal Website</title>
+  <link rel="stylesheet" href="/css/style.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+  
+  <div class="container">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+  <div class="top-section">
+    <div class="profile-intro">
+      <h1>Shoufeng Zhang</h1>
+      <!-- Japanese Transliteration or Kanji Name -->
+      <span class="jp-name">張寿峰</span>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Current Status</span>
+      <p>Undergrad @ HKU</p>
+      <p>CS / Engineering</p>
+      <p>Beijing / Hong Kong SAR</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Interests</span>
+      <p>Computing Hardware</p>
+      <p>Robotics</p>
+      <p>Systems and Security</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Contact</span>
+      <ul class="contact-list">
+        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal: zhangshoufng07@gmail.com</a></li>
+        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work: zhangshoufeng@connect.hku.hk</a></li>
+        <!-- <li><a href="#">Google Scholar</a></li> -->
+        <li><a target="_blank" rel="noopener" href="https://github.com/shawnzsf">GitHub</a></li>
+        <!-- <li><a href="#">Twitter/X</a></li> -->
+      </ul>
+    </div>
+  </div>
+
+  <!-- Optional Navigation if you have blog posts later -->
+  <nav class="site-nav">
+    <div class="info-block">
+      <span class="info-label">Menu</span>
+      <ul class="contact-list">
+        <li><a href="/">Index</a></li>
+        <li><a href="/archives">Blogs</a></li>
+        <!-- <li><a target="_blank" rel="noopener" href="https://shawnzsf.zonerama.com">Pictures</a></li> -->
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Aesthetic Touch: Vertical Text -->
+  <div class="vertical-deco">
+    海濤悲湧深藍色
+  </div>
+</aside>
+    
+    <!-- Right Content -->
+    <main class="main-content">
+      <div class="post-container">
+  
+  <!-- 1. The Article Content -->
+  <article class="blog-article">
+    <header class="post-header">
+      <div class="post-meta">
+        <span class="jp-date">2023/09/04</span>
+        
+      </div>
+      <h1 class="post-title">南京大学计算机系统基础课程笔记4：乘除运算及浮点数运算</h1>
+    </header>
+
+    <div class="markdown-body">
+      <h1 id="4-1-整数乘法运算"><a href="#4-1-整数乘法运算" class="headerlink" title="4.1 整数乘法运算"></a>4.1 整数乘法运算</h1><p>通常在高级语言中两个n位整数相乘得到的结果通常也是一个n位整数（2n位乘积中的低n位）<br>参与乘法的两个数据类型相同，如果不同会先转换。</p>
+<p><img src="/img/Screenshot 2023-09-04 063140.png" alt="Alt text"></p>
+<p>对于无符号乘法，判断高n位是否都等于0，是则不溢出；对于带符号乘法，判断高n位是否每位都等于低n位的最高位，是则不溢出。或者可以判断低n位与两个输入之间的关系，如上图所示。</p>
+<p>因为无符号和带符号处理不同，对应的乘法指令也不同。</p>
+<p>因为乘法指令所需的时钟时间长，所以在编译器处理乘法时，往往通过移位运算和加减法运算来代替组合运算（移位和加减法通常只需要一个或者更少的时钟周期）。</p>
+<h1 id="4-2-整数除法运算"><a href="#4-2-整数除法运算" class="headerlink" title="4.2 整数除法运算"></a>4.2 整数除法运算</h1><p>整数除法的商一定小于被除数，所以不会发生溢出。<br>按照整数除法，正数商取比自身小的最接近整数（Floor），负数商取比自身大的最接近整数（Ceiling）。<br>整数除法时，除数不能为零（机器数无法表示），如果为零就调用异常处理程序。<br>除法运算更加复杂（30个以上的时钟周期，并且不能用流水线实现），所以在编译器中常使用右移运算实现（处理除数为2的倍数的情况时）。<br>不能整除时，采用下面两个截断方式：</p>
+<ul>
+<li>无符号数、带符号正整数（地板）：移出的低位直接丢弃</li>
+<li>带符号负整数（天板）：加偏移量（2^k - 1），然后再右移k位，低位截断（K是右移位数）</li>
+</ul>
+<h1 id="4-3-浮点加减运算-amp-浮点运算的精度"><a href="#4-3-浮点加减运算-amp-浮点运算的精度" class="headerlink" title="4.3 浮点加减运算&amp;浮点运算的精度"></a>4.3 浮点加减运算&amp;浮点运算的精度</h1><p><img src="/img/Screenshot 2023-09-04 075326.png" alt="Alt text"></p>
+<p><img src="/img/Screenshot 2023-09-05 062827.png" alt="Alt text"></p>
+<p><img src="/img/Screenshot 2023-09-05 063318.png" alt="Alt text"></p>
+<p><img src="/img/Screenshot 2023-09-05 063447.png" alt="Alt text"></p>
+<p><img src="/img/Screenshot 2023-09-05 063920.png" alt="Alt text"></p>
+<p><img src="/img/Screenshot 2023-09-05 064346.png" alt="Alt text"></p>
+<p><img src="/img/Screenshot 2023-09-05 064711.png" alt="Alt text"></p>
+
+    </div>
+    
+    <!-- Optional: Footer of the post -->
+    <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem; font-style: italic;">
+      <p>Thanks for reading.</p>
+    </div>
+  </article>
+
+  <!-- 2. The Right-Side Menu (TOC) -->
+  <aside class="post-toc">
+    <div class="toc-wrapper">
+      <div class="toc-header">
+        On this page
+      </div>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#4-1-%E6%95%B4%E6%95%B0%E4%B9%98%E6%B3%95%E8%BF%90%E7%AE%97"><span class="toc-text">4.1 整数乘法运算</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-2-%E6%95%B4%E6%95%B0%E9%99%A4%E6%B3%95%E8%BF%90%E7%AE%97"><span class="toc-text">4.2 整数除法运算</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-3-%E6%B5%AE%E7%82%B9%E5%8A%A0%E5%87%8F%E8%BF%90%E7%AE%97-amp-%E6%B5%AE%E7%82%B9%E8%BF%90%E7%AE%97%E7%9A%84%E7%B2%BE%E5%BA%A6"><span class="toc-text">4.3 浮点加减运算&amp;浮点运算的精度</span></a></li></ol>
+    </div>
+  </aside>
+
+</div>
+
+<!-- Improved Highlight Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tocLinks = document.querySelectorAll('.post-toc a');
+    const sections = document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4');
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: '-100px 0px -60% 0px', 
+      // This margin is key: it effectively draws a line near the top of the screen.
+      // An element only "intersects" when it crosses this line.
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          
+          // Remove active class from all
+          tocLinks.forEach(link => link.classList.remove('active'));
+          
+          // Add active class to current
+          // We must decodeURI because Hexo might encode Japanese/special chars in IDs
+          const activeLink = document.querySelector(`.post-toc a[href="#${decodeURI(id)}"]`);
+          if (activeLink) {
+            activeLink.classList.add('active');
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
+  });
+</script>
+      <footer class="footer">
+  &copy; 2026 Shoufeng Zhang. 
+  <span style="opacity:0.5">Monofolio designed based on Hexo.</span>
+</footer>
+    </main>
+  </div>
+
+</body>
+</html>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+    const lightbox = GLightbox({
+        selector: '.photo-wrapper img',
+        touchNavigation: true,
+        loop: true,
+    });
+</script>

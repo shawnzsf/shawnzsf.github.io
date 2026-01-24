@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shoufeng&#39;s Personal Website</title>
+  <link rel="stylesheet" href="/css/style.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+  
+  <div class="container">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+  <div class="top-section">
+    <div class="profile-intro">
+      <h1>Shoufeng Zhang</h1>
+      <!-- Japanese Transliteration or Kanji Name -->
+      <span class="jp-name">張寿峰</span>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Current Status</span>
+      <p>Undergrad @ HKU</p>
+      <p>CS / Engineering</p>
+      <p>Beijing / Hong Kong SAR</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Interests</span>
+      <p>Computing Hardware</p>
+      <p>Robotics</p>
+      <p>Systems and Security</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Contact</span>
+      <ul class="contact-list">
+        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal: zhangshoufng07@gmail.com</a></li>
+        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work: zhangshoufeng@connect.hku.hk</a></li>
+        <!-- <li><a href="#">Google Scholar</a></li> -->
+        <li><a target="_blank" rel="noopener" href="https://github.com/shawnzsf">GitHub</a></li>
+        <!-- <li><a href="#">Twitter/X</a></li> -->
+      </ul>
+    </div>
+  </div>
+
+  <!-- Optional Navigation if you have blog posts later -->
+  <nav class="site-nav">
+    <div class="info-block">
+      <span class="info-label">Menu</span>
+      <ul class="contact-list">
+        <li><a href="/">Index</a></li>
+        <li><a href="/archives">Blogs</a></li>
+        <!-- <li><a target="_blank" rel="noopener" href="https://shawnzsf.zonerama.com">Pictures</a></li> -->
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Aesthetic Touch: Vertical Text -->
+  <div class="vertical-deco">
+    海濤悲湧深藍色
+  </div>
+</aside>
+    
+    <!-- Right Content -->
+    <main class="main-content">
+      <div class="post-container">
+  
+  <!-- 1. The Article Content -->
+  <article class="blog-article">
+    <header class="post-header">
+      <div class="post-meta">
+        <span class="jp-date">2024/06/27</span>
+        
+           <span class="separator">/</span> 
+           <span class="category">Computer Science</span>
+        
+      </div>
+      <h1 class="post-title">CMU 15122: Contracts</h1>
+    </header>
+
+    <div class="markdown-body">
+      <p>CMU15122开头部分讲的内容都是关于如何编写Contracts来保证程序的正确性和安全性，以及利用Contract对程序进行验证。本文简单梳理其中引出的概念。</p>
+<h2 id="Contract"><a href="#Contract" class="headerlink" title="Contract"></a>Contract</h2><p>c0中有四种Contract：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- //@requires exp; checked before function execution</span><br><span class="line">- //@ensures exp; checked function returns</span><br><span class="line">- //@assert exp; checked wherever it is</span><br><span class="line">- //@loop_invariant exp; checked before the loop guard</span><br></pre></td></tr></table></figure>
+<p>其中@requires旨在检查函数的precondition是否满足，@ensures旨在检查postcondition是否满足。其中@ensures中可以使用\result来表示函数返回值。@loop_invariant通常检查的是循环中几个变量构成的常量表达式，其在每轮iteration检查循环条件是否满足时被检查，并且只能在循环开头写。@assert即在程序任意位置检查附上表达式的真假。</p>
+<h2 id="Proving-Function-Correctness"><a href="#Proving-Function-Correctness" class="headerlink" title="Proving Function Correctness"></a>Proving Function Correctness</h2><ul>
+<li><p>INITialization：证明loop invariant在进入循环之前满足条件。允许使用循环前的代码以及preconditions进行证明。</p>
+</li>
+<li><p>PREServation：证明任意循环后loop invariant的表达式都为真。可以使用循环内部代码，loop invariant(因为INIT已经验证了进入循环时表达式为真，因此可以假设循环开始时为真)，以及loop guard。</p>
+</li>
+<li><p>EXIT：证明经过循环postcondition为真。可以使用loop guard，loop invariant以及循环之后的代码进行证明。需要注意的是虽然可使用loop guard以及loop invariant，但无法使用循环内部代码。</p>
+</li>
+<li><p>TERMination：证明循环可终止。Operational reasoning(Expression strictly decreases at each iteration of the loop and can never become smaller than the constant)。</p>
+</li>
+</ul>
+<h3 id="Template"><a href="#Template" class="headerlink" title="Template"></a>Template</h3><p>Loop invariant/… on line x (…):<br>    Assume:<br>    To show:<br>    A.       by<br>    B.       by<br>    C.       by<br>    D.       by</p>
+<h2 id="Point-to-Reasoning"><a href="#Point-to-Reasoning" class="headerlink" title="Point-to Reasoning"></a>Point-to Reasoning</h2><p>Point-to Reasoning is drawing conclusions about what we know to be true by pointing to specific lines of code that justify them. </p>
+<p>Examples: </p>
+<ul>
+<li>Boolean conditions<ul>
+<li>condition of an if statement in the “then” branch</li>
+<li>negation of the condition of an if statement in the “else” branch</li>
+<li>loop guard inside the body of a loop</li>
+<li>negation of the loop guard after the loop</li>
+</ul>
+</li>
+<li>Contract annotations<ul>
+<li>preconditions of the current function</li>
+<li>postconditions of a function just called</li>
+<li>loop invariant inside the loop body</li>
+<li>loop invariant after the loop</li>
+<li>earlier fully justified assertions</li>
+</ul>
+</li>
+<li>Math<ul>
+<li>laws of logic</li>
+<li>some laws of arithmetic</li>
+</ul>
+</li>
+<li>Value of variables right after an assignment</li>
+</ul>
+
+    </div>
+    
+    <!-- Optional: Footer of the post -->
+    <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem; font-style: italic;">
+      <p>Thanks for reading.</p>
+    </div>
+  </article>
+
+  <!-- 2. The Right-Side Menu (TOC) -->
+  <aside class="post-toc">
+    <div class="toc-wrapper">
+      <div class="toc-header">
+        On this page
+      </div>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Contract"><span class="toc-text">Contract</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Proving-Function-Correctness"><span class="toc-text">Proving Function Correctness</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Template"><span class="toc-text">Template</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Point-to-Reasoning"><span class="toc-text">Point-to Reasoning</span></a></li></ol>
+    </div>
+  </aside>
+
+</div>
+
+<!-- Improved Highlight Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tocLinks = document.querySelectorAll('.post-toc a');
+    const sections = document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4');
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: '-100px 0px -60% 0px', 
+      // This margin is key: it effectively draws a line near the top of the screen.
+      // An element only "intersects" when it crosses this line.
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          
+          // Remove active class from all
+          tocLinks.forEach(link => link.classList.remove('active'));
+          
+          // Add active class to current
+          // We must decodeURI because Hexo might encode Japanese/special chars in IDs
+          const activeLink = document.querySelector(`.post-toc a[href="#${decodeURI(id)}"]`);
+          if (activeLink) {
+            activeLink.classList.add('active');
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
+  });
+</script>
+      <footer class="footer">
+  &copy; 2026 Shoufeng Zhang. 
+  <span style="opacity:0.5">Monofolio designed based on Hexo.</span>
+</footer>
+    </main>
+  </div>
+
+</body>
+</html>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+    const lightbox = GLightbox({
+        selector: '.photo-wrapper img',
+        touchNavigation: true,
+        loop: true,
+    });
+</script>

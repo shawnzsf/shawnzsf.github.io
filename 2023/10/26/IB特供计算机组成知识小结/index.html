@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shoufeng&#39;s Personal Website</title>
+  <link rel="stylesheet" href="/css/style.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+  
+  <div class="container">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+  <div class="top-section">
+    <div class="profile-intro">
+      <h1>Shoufeng Zhang</h1>
+      <!-- Japanese Transliteration or Kanji Name -->
+      <span class="jp-name">張寿峰</span>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Current Status</span>
+      <p>Undergrad @ HKU</p>
+      <p>CS / Engineering</p>
+      <p>Beijing / Hong Kong SAR</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Interests</span>
+      <p>Computing Hardware</p>
+      <p>Robotics</p>
+      <p>Systems and Security</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Contact</span>
+      <ul class="contact-list">
+        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal: zhangshoufng07@gmail.com</a></li>
+        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work: zhangshoufeng@connect.hku.hk</a></li>
+        <!-- <li><a href="#">Google Scholar</a></li> -->
+        <li><a target="_blank" rel="noopener" href="https://github.com/shawnzsf">GitHub</a></li>
+        <!-- <li><a href="#">Twitter/X</a></li> -->
+      </ul>
+    </div>
+  </div>
+
+  <!-- Optional Navigation if you have blog posts later -->
+  <nav class="site-nav">
+    <div class="info-block">
+      <span class="info-label">Menu</span>
+      <ul class="contact-list">
+        <li><a href="/">Index</a></li>
+        <li><a href="/archives">Blogs</a></li>
+        <!-- <li><a target="_blank" rel="noopener" href="https://shawnzsf.zonerama.com">Pictures</a></li> -->
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Aesthetic Touch: Vertical Text -->
+  <div class="vertical-deco">
+    海濤悲湧深藍色
+  </div>
+</aside>
+    
+    <!-- Right Content -->
+    <main class="main-content">
+      <div class="post-container">
+  
+  <!-- 1. The Article Content -->
+  <article class="blog-article">
+    <header class="post-header">
+      <div class="post-meta">
+        <span class="jp-date">2023/10/26</span>
+        
+      </div>
+      <h1 class="post-title">IB计算机组成知识小结</h1>
+    </header>
+
+    <div class="markdown-body">
+      <!-- 我对IB计算机课程体系已经失望至极了...整套课程并不注重学生计算机能力的培养，而注重八股文的书写，而我还必须强忍不适把这些nonsense记下。本文主要记录IB Topic 2 Computer Organization所涉及到的“知识内容”。定义全部是IB教材中给出的，请不要在实践中遵守其中的**任何**一条，如有问题概不负责。 -->
+<h1 id="Computer-Architecture（话说CA和CO难道不是一个意思吗？）"><a href="#Computer-Architecture（话说CA和CO难道不是一个意思吗？）" class="headerlink" title="Computer Architecture（话说CA和CO难道不是一个意思吗？）"></a>Computer Architecture（话说CA和CO难道不是一个意思吗？）</h1><p>CPU：Central Processing Unit, data or instructions that are processed by a computer system in the process phase of the input, proces, output and storage model are processed by them.</p>
+<p>ALU：Arithmetic Logic Unit, performs all basic arithmetic, logical or input/output operations.</p>
+<p>CU：Control Unit, is responsible for the operation of the CPU. It controls the retrieval of instructions from the primary memory as the sequence of their execution. (Or a simpler definition that can help you to get the full score: Getting new instructions and data from memory and provide them to ALU, direct data flow)</p>
+<p>MAR：Memory Address Register. Holds the memory address of the data to be used by the ALU, so that the ALU can fetch the corresponding content from the memory and process it accordingly.</p>
+<p>MDR：Memory Data Register. Holds the data that is to be used by the ALU and then saved to the RAM.</p>
+<p>Address Bus：Connect MAR and RAM.</p>
+<p>Data Bus：Connect MDR and RAM.</p>
+<p>下图是所谓的CPU架构，记下来然后在考试中画上去。<br><img src="/img/Screenshot 2023-10-26 234800.png" alt="Alt text"></p>
+<p>The use of primary memory：The only storage that is directly accessible by the CPU. The primary memory may hold both data and instructions that are currently running on the computer system. D&amp;I stored in primary memory as binary machine code.</p>
+<p>RAM：Random Access Memory. General-purpose storage area, data stored can be over-written. Volatile. </p>
+<p>ROM：Read Only Memory. Store data that cannot be over-written. Non-volatile. Store programs and instructions that do not need to be updated or change.</p>
+<p>Differences Between RAM and ROM：</p>
+<ul>
+<li>ROM cannot be written to, but RAM can be written to.</li>
+<li>ROM holds the BIOS, but RAM holds the programs running and the data used.</li>
+<li>ROM is much bigger than RAM.</li>
+<li>Volatile/Non-volatile.</li>
+</ul>
+<p>Cache：</p>
+<ul>
+<li>Nearer to the CPU than RAM.</li>
+<li>Faster than RAM.</li>
+<li>More expensive than RAM.</li>
+<li>Seperated in L1 and L2.</li>
+</ul>
+<p>Machine Instruction Cycle：It is the basic operation cycle of a computer, taking place in a definite time period, during which one instruction is fetched from memory and executed. It typically consists of four stages：fetch, decode, executer and store.</p>
+<p>累了，指令执行这块也没什么要多写的，看图即可：<br><img src="/img/Screenshot 2023-10-27 000238.png" alt="Alt text"></p>
+<h1 id="Secondary-Memory"><a href="#Secondary-Memory" class="headerlink" title="Secondary Memory"></a>Secondary Memory</h1><p>Persistent storage(a.k.a. secondary memory/auxiliary storage): relatively slow memory that may be written to but is also non-volatile. The contents of the memory are not wiped if power is lost.</p>
+<p>Need for persistent storage: If secondary memory did not exist a computer system would be unable to store instructions and data persistently. Whenever it shut down all the contents of the only existing primary memory would be lost.</p>
+<p>Virtual Memory: secondary memory is required to hold information that may not be needed all of the time or may be too large to fit as a whole in primary memory.</p>
+<p>The use of virtual memory: Secondary memory allow us to run all these programs confurrently and seamlessly. Since there is not enough space in the primary memory to load the extra program, some other program loaded by the user is copied into secondary memory. Whenever the program that was moved into the secondary memory is needed, some other program in the primary memory is copied to the secondary memory.</p>
+<p>Examples of secondary memory: </p>
+<ul>
+<li>Hard drive(hard disk)</li>
+<li>CD-RW, DVD-RW</li>
+<li>USB Flash drive</li>
+<li>Secure Digital(SD) or Compact Flash(CF) card</li>
+<li>Zip disk</li>
+<li>Floppy disk</li>
+<li>Magnetic tape</li>
+</ul>
+<p>Differences between primary and secondary memory:</p>
+<ul>
+<li>Most computers are equipped with a smaller amount of primary memory and a larger amount of secondary memory.</li>
+<li>Primary memory is volatile, which means it does not retain data when the power is turned off.</li>
+<li>Primary memory is more expensive compared to secondary memory.</li>
+<li>Primary memory is much faster than secondary memory.</li>
+<li>Primary memory is directly accessed by the CPU, while secondary memory is not.</li>
+<li>Secondary memory is non-volatile, which means it retains data when the power is turned off.</li>
+</ul>
+<h1 id="Operating-and-Application-Systems"><a href="#Operating-and-Application-Systems" class="headerlink" title="Operating and Application Systems"></a>Operating and Application Systems</h1><p>Operating System: a set of software that controls the computer’s hardware resources and provides services for computer programs. An intermediary between software applications and the computer hardware.</p>
+<p>Main functions of OS: </p>
+<ul>
+<li>Peripheral communication</li>
+<li>Memory management</li>
+<li>Resource monitoring and multitasking</li>
+<li>Networking</li>
+<li>Disk access and data management</li>
+<li>Security<br>（极其通俗，不做具体展开）</li>
+</ul>
+<p>Application software: preloaded when it is manufactured and complete predefined tasks.<br>Examples:</p>
+<ul>
+<li>Word processors: production of any sort of document.</li>
+<li>Spreadsheets: organization and analysis of data.</li>
+<li>Database management systems(DBMS): manages(creates, queries, updates stores, modifies, and extracts information) databases and is designed to provide an interface between users and a database.</li>
+<li>Web browsers: used to access, retrieve, and present content on the World Wide Web.</li>
+<li>Email: allows for the exchange of digital messages from a single author to one or more recipients.</li>
+<li>Computer Aided Design(CAD): assists engineers to create, modify, analyze and optimize a design.</li>
+<li>Graphic processing software: allows a user to manipulate visual images on a computer.</li>
+</ul>
+<p>Toolbars: GUI element on which buttons, icons, menus, or other input or output elements are placed.<br>Menus: displays a list of commands that can be chosen by the user to perform various functions.<br>Dialogue boxes: communicate information to the user and allow him/her to respond by choosing an option from a list of specific choices.<br>Graphical User Interfaces(GUI): WIMP, windows, icons, menus, pointers. Interact with computer in a number of ways.<br>Command Line Interfaces(CLI): Type in commands to interact with the Computer.<br>Natural Language Interface(NLIs): User speaks to the interface.<br>Menu Based Interface(MBIs): Gives user a selection options. </p>
+<h1 id="Binary-Representation"><a href="#Binary-Representation" class="headerlink" title="Binary Representation"></a>Binary Representation</h1><p>没啥好讲的，记住two’s complement是补码，sign-and-magnitude是原码即可。</p>
+<h1 id="Simple-Logic-Gates"><a href="#Simple-Logic-Gates" class="headerlink" title="Simple Logic Gates"></a>Simple Logic Gates</h1><p>更没啥好讲的了，记住写boolean expression的时候不能写|或者&amp;，要直接写OR或者AND。逻辑门直接画圆即可。</p>
+
+    </div>
+    
+    <!-- Optional: Footer of the post -->
+    <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem; font-style: italic;">
+      <p>Thanks for reading.</p>
+    </div>
+  </article>
+
+  <!-- 2. The Right-Side Menu (TOC) -->
+  <aside class="post-toc">
+    <div class="toc-wrapper">
+      <div class="toc-header">
+        On this page
+      </div>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Computer-Architecture%EF%BC%88%E8%AF%9D%E8%AF%B4CA%E5%92%8CCO%E9%9A%BE%E9%81%93%E4%B8%8D%E6%98%AF%E4%B8%80%E4%B8%AA%E6%84%8F%E6%80%9D%E5%90%97%EF%BC%9F%EF%BC%89"><span class="toc-text">Computer Architecture（话说CA和CO难道不是一个意思吗？）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Secondary-Memory"><span class="toc-text">Secondary Memory</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Operating-and-Application-Systems"><span class="toc-text">Operating and Application Systems</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Binary-Representation"><span class="toc-text">Binary Representation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Simple-Logic-Gates"><span class="toc-text">Simple Logic Gates</span></a></li></ol>
+    </div>
+  </aside>
+
+</div>
+
+<!-- Improved Highlight Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tocLinks = document.querySelectorAll('.post-toc a');
+    const sections = document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4');
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: '-100px 0px -60% 0px', 
+      // This margin is key: it effectively draws a line near the top of the screen.
+      // An element only "intersects" when it crosses this line.
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          
+          // Remove active class from all
+          tocLinks.forEach(link => link.classList.remove('active'));
+          
+          // Add active class to current
+          // We must decodeURI because Hexo might encode Japanese/special chars in IDs
+          const activeLink = document.querySelector(`.post-toc a[href="#${decodeURI(id)}"]`);
+          if (activeLink) {
+            activeLink.classList.add('active');
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
+  });
+</script>
+      <footer class="footer">
+  &copy; 2026 Shoufeng Zhang. 
+  <span style="opacity:0.5">Monofolio designed based on Hexo.</span>
+</footer>
+    </main>
+  </div>
+
+</body>
+</html>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+    const lightbox = GLightbox({
+        selector: '.photo-wrapper img',
+        touchNavigation: true,
+        loop: true,
+    });
+</script>

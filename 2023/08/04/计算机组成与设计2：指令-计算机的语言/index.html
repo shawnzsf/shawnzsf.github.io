@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shoufeng&#39;s Personal Website</title>
+  <link rel="stylesheet" href="/css/style.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+  
+  <div class="container">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+  <div class="top-section">
+    <div class="profile-intro">
+      <h1>Shoufeng Zhang</h1>
+      <!-- Japanese Transliteration or Kanji Name -->
+      <span class="jp-name">張寿峰</span>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Current Status</span>
+      <p>Undergrad @ HKU</p>
+      <p>CS / Engineering</p>
+      <p>Beijing / Hong Kong SAR</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Interests</span>
+      <p>Computing Hardware</p>
+      <p>Robotics</p>
+      <p>Systems and Security</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Contact</span>
+      <ul class="contact-list">
+        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal: zhangshoufng07@gmail.com</a></li>
+        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work: zhangshoufeng@connect.hku.hk</a></li>
+        <!-- <li><a href="#">Google Scholar</a></li> -->
+        <li><a target="_blank" rel="noopener" href="https://github.com/shawnzsf">GitHub</a></li>
+        <!-- <li><a href="#">Twitter/X</a></li> -->
+      </ul>
+    </div>
+  </div>
+
+  <!-- Optional Navigation if you have blog posts later -->
+  <nav class="site-nav">
+    <div class="info-block">
+      <span class="info-label">Menu</span>
+      <ul class="contact-list">
+        <li><a href="/">Index</a></li>
+        <li><a href="/archives">Blogs</a></li>
+        <!-- <li><a target="_blank" rel="noopener" href="https://shawnzsf.zonerama.com">Pictures</a></li> -->
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Aesthetic Touch: Vertical Text -->
+  <div class="vertical-deco">
+    海濤悲湧深藍色
+  </div>
+</aside>
+    
+    <!-- Right Content -->
+    <main class="main-content">
+      <div class="post-container">
+  
+  <!-- 1. The Article Content -->
+  <article class="blog-article">
+    <header class="post-header">
+      <div class="post-meta">
+        <span class="jp-date">2023/08/04</span>
+        
+      </div>
+      <h1 class="post-title">计算机组成与设计2：指令-计算机的语言</h1>
+    </header>
+
+    <div class="markdown-body">
+      <h1 id="2-2-计算机硬件的操作-amp-2-3-计算机硬件的操作数"><a href="#2-2-计算机硬件的操作-amp-2-3-计算机硬件的操作数" class="headerlink" title="2.2 计算机硬件的操作 &amp; 2.3 计算机硬件的操作数"></a>2.2 计算机硬件的操作 &amp; 2.3 计算机硬件的操作数</h1><h3 id="计算机操作数"><a href="#计算机操作数" class="headerlink" title="计算机操作数"></a>计算机操作数</h3><p>双字：计算机中一种访问的基本单位，通常是64位一组；对应于RISC-V体系结构中寄存器的大小。每个双字代表8个字节。<br>字：计算机中另一种访问的基本单位，通常是32位一组。<br>RISC-V的算术指令的三个操作数必须从32个64位寄存器中选择。</p>
+<p>硬件设计的三条基本原则：</p>
+<ol>
+<li>简单源于规整</li>
+<li>更少则更快：<br> 更多则电信号传输的距离越远，花费时间越长。但设计原则并不绝对，31个寄存器也许并不比32个更快。</li>
+</ol>
+<h3 id="存储器操作数"><a href="#存储器操作数" class="headerlink" title="存储器操作数"></a>存储器操作数</h3><p>RISC-V中的计算指令只能作用于寄存器，但计算机中一些庞大的数据结构只能存储与内存当中，因此RISC-V中包含将数据在内存和寄存器之间传输的指令，也就是数据传输指令。<br>数据传输指令：在内存和寄存器之间传送数据的命令。<br>指令访问内存数据需要提供地址。<br>地址：用于描述内存数组中特定数据元素位置的值。<br>用于将数据从内存中取出的指令通常被称作载入指令(load)，在RISC-V中该指令为ld，表示取双字。<br>ld指令中存放基址的寄存器被称为基址寄存器，而数据传输指令中的常数被称为偏移量。</p>
+<p>计算机中有一些使用最左边(大端)字节的地址作为双字地址，另一种使用最右边(小端)字节的地址作为双字地址。RISC-V使用小端字节的地址。但只有在一双字形式和八个单独字节访问相同数据时，才需要考虑大小端。</p>
+<p>与载入指令相反的指令被称为存储指令(store)，在RISC-V中是sd，将数据从寄存器复制到内存。指令的格式与load基本相同。</p>
+
+    </div>
+    
+    <!-- Optional: Footer of the post -->
+    <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem; font-style: italic;">
+      <p>Thanks for reading.</p>
+    </div>
+  </article>
+
+  <!-- 2. The Right-Side Menu (TOC) -->
+  <aside class="post-toc">
+    <div class="toc-wrapper">
+      <div class="toc-header">
+        On this page
+      </div>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2-2-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E7%9A%84%E6%93%8D%E4%BD%9C-amp-2-3-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E7%9A%84%E6%93%8D%E4%BD%9C%E6%95%B0"><span class="toc-text">2.2 计算机硬件的操作 &amp; 2.3 计算机硬件的操作数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E6%95%B0"><span class="toc-text">计算机操作数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%99%A8%E6%93%8D%E4%BD%9C%E6%95%B0"><span class="toc-text">存储器操作数</span></a></li></ol></li></ol>
+    </div>
+  </aside>
+
+</div>
+
+<!-- Improved Highlight Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tocLinks = document.querySelectorAll('.post-toc a');
+    const sections = document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4');
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: '-100px 0px -60% 0px', 
+      // This margin is key: it effectively draws a line near the top of the screen.
+      // An element only "intersects" when it crosses this line.
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          
+          // Remove active class from all
+          tocLinks.forEach(link => link.classList.remove('active'));
+          
+          // Add active class to current
+          // We must decodeURI because Hexo might encode Japanese/special chars in IDs
+          const activeLink = document.querySelector(`.post-toc a[href="#${decodeURI(id)}"]`);
+          if (activeLink) {
+            activeLink.classList.add('active');
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
+  });
+</script>
+      <footer class="footer">
+  &copy; 2026 Shoufeng Zhang. 
+  <span style="opacity:0.5">Monofolio designed based on Hexo.</span>
+</footer>
+    </main>
+  </div>
+
+</body>
+</html>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+    const lightbox = GLightbox({
+        selector: '.photo-wrapper img',
+        touchNavigation: true,
+        loop: true,
+    });
+</script>

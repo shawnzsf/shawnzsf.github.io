@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shoufeng&#39;s Personal Website</title>
+  <link rel="stylesheet" href="/css/style.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+  
+  <div class="container">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+  <div class="top-section">
+    <div class="profile-intro">
+      <h1>Shoufeng Zhang</h1>
+      <!-- Japanese Transliteration or Kanji Name -->
+      <span class="jp-name">張寿峰</span>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Current Status</span>
+      <p>Undergrad @ HKU</p>
+      <p>CS / Engineering</p>
+      <p>Beijing / Hong Kong SAR</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Interests</span>
+      <p>Computing Hardware</p>
+      <p>Robotics</p>
+      <p>Systems and Security</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Contact</span>
+      <ul class="contact-list">
+        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal: zhangshoufng07@gmail.com</a></li>
+        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work: zhangshoufeng@connect.hku.hk</a></li>
+        <!-- <li><a href="#">Google Scholar</a></li> -->
+        <li><a target="_blank" rel="noopener" href="https://github.com/shawnzsf">GitHub</a></li>
+        <!-- <li><a href="#">Twitter/X</a></li> -->
+      </ul>
+    </div>
+  </div>
+
+  <!-- Optional Navigation if you have blog posts later -->
+  <nav class="site-nav">
+    <div class="info-block">
+      <span class="info-label">Menu</span>
+      <ul class="contact-list">
+        <li><a href="/">Index</a></li>
+        <li><a href="/archives">Blogs</a></li>
+        <!-- <li><a target="_blank" rel="noopener" href="https://shawnzsf.zonerama.com">Pictures</a></li> -->
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Aesthetic Touch: Vertical Text -->
+  <div class="vertical-deco">
+    海濤悲湧深藍色
+  </div>
+</aside>
+    
+    <!-- Right Content -->
+    <main class="main-content">
+      <div class="post-container">
+  
+  <!-- 1. The Article Content -->
+  <article class="blog-article">
+    <header class="post-header">
+      <div class="post-meta">
+        <span class="jp-date">2023/08/06</span>
+        
+           <span class="separator">/</span> 
+           <span class="category">Computer Science</span>
+        
+      </div>
+      <h1 class="post-title">正则表达式速览</h1>
+    </header>
+
+    <div class="markdown-body">
+      <h1 id="限定符"><a href="#限定符" class="headerlink" title="限定符"></a>限定符</h1><pre><code>?: 表示某一个词元可以出现零次或一次，例：used?可以匹配use和used。
+*：表示某一个词元可以出现零次或多次，例：ab*c可以匹配ac, abc, abbc...
+**注：词元在这里是我生造的词汇，表示某一个具体的字母，符号或数字。**
++：表示某一个词元必须出现一次以上。
+{...}(数字)：括号内的数字表示某一个词元必须出现的特定次数。{2}，为出现两次，{2,6}，为出现2到6次，{2，}为出现2次以上。
+{...}(字母)：如果想对多个词元进行限定符操作，则用括号将其括起来。如{ab}。
+^：匹配除了后续括号内以外的字符。
+</code></pre><h1 id="或运算符"><a href="#或运算符" class="headerlink" title="或运算符"></a>或运算符</h1><pre><code>例子：a (cat|dog)
+匹配结果：a cat, a dog
+</code></pre><h1 id="字符类运算符"><a href="#字符类运算符" class="headerlink" title="字符类运算符"></a>字符类运算符</h1><pre><code>[...]：指定了能匹配的字符范围，如[abc]+表示所有abc，[a-zA-z]+代表所有的英文字符，[0-9]+代表所有的数字。
+</code></pre><h1 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h1><pre><code>元字符是预先定义好的匹配规则。
+\d+：代表所有数字内容。
+\w+：代表所有英文字符内容。
+\s+：代表空白字符，包括tab和换行符。
+\D+：非数字内容。
+\W+：非英文字符内容。
+\S+：非空白内容。
+.+：代表任意字符。
+^x：只会匹配行首的字符。
+$x：只会匹配行尾的字符。
+</code></pre><p>PA1阶段并不需要对正则表达式多么高深的理解，所以本篇文章到此暂时结束。</p>
+
+    </div>
+    
+    <!-- Optional: Footer of the post -->
+    <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem; font-style: italic;">
+      <p>Thanks for reading.</p>
+    </div>
+  </article>
+
+  <!-- 2. The Right-Side Menu (TOC) -->
+  <aside class="post-toc">
+    <div class="toc-wrapper">
+      <div class="toc-header">
+        On this page
+      </div>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%99%90%E5%AE%9A%E7%AC%A6"><span class="toc-text">限定符</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%88%96%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">或运算符</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E7%B1%BB%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">字符类运算符</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%83%E5%AD%97%E7%AC%A6"><span class="toc-text">元字符</span></a></li></ol>
+    </div>
+  </aside>
+
+</div>
+
+<!-- Improved Highlight Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tocLinks = document.querySelectorAll('.post-toc a');
+    const sections = document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4');
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: '-100px 0px -60% 0px', 
+      // This margin is key: it effectively draws a line near the top of the screen.
+      // An element only "intersects" when it crosses this line.
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          
+          // Remove active class from all
+          tocLinks.forEach(link => link.classList.remove('active'));
+          
+          // Add active class to current
+          // We must decodeURI because Hexo might encode Japanese/special chars in IDs
+          const activeLink = document.querySelector(`.post-toc a[href="#${decodeURI(id)}"]`);
+          if (activeLink) {
+            activeLink.classList.add('active');
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
+  });
+</script>
+      <footer class="footer">
+  &copy; 2026 Shoufeng Zhang. 
+  <span style="opacity:0.5">Monofolio designed based on Hexo.</span>
+</footer>
+    </main>
+  </div>
+
+</body>
+</html>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+    const lightbox = GLightbox({
+        selector: '.photo-wrapper img',
+        touchNavigation: true,
+        loop: true,
+    });
+</script>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shoufeng&#39;s Personal Website</title>
+  <link rel="stylesheet" href="/css/style.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+  
+  <div class="container">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+  <div class="top-section">
+    <div class="profile-intro">
+      <h1>Shoufeng Zhang</h1>
+      <!-- Japanese Transliteration or Kanji Name -->
+      <span class="jp-name">張寿峰</span>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Current Status</span>
+      <p>Undergrad @ HKU</p>
+      <p>CS / Engineering</p>
+      <p>Beijing / Hong Kong SAR</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Interests</span>
+      <p>Computing Hardware</p>
+      <p>Robotics</p>
+      <p>Systems and Security</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Contact</span>
+      <ul class="contact-list">
+        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal: zhangshoufng07@gmail.com</a></li>
+        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work: zhangshoufeng@connect.hku.hk</a></li>
+        <!-- <li><a href="#">Google Scholar</a></li> -->
+        <li><a target="_blank" rel="noopener" href="https://github.com/shawnzsf">GitHub</a></li>
+        <!-- <li><a href="#">Twitter/X</a></li> -->
+      </ul>
+    </div>
+  </div>
+
+  <!-- Optional Navigation if you have blog posts later -->
+  <nav class="site-nav">
+    <div class="info-block">
+      <span class="info-label">Menu</span>
+      <ul class="contact-list">
+        <li><a href="/">Index</a></li>
+        <li><a href="/archives">Blogs</a></li>
+        <!-- <li><a target="_blank" rel="noopener" href="https://shawnzsf.zonerama.com">Pictures</a></li> -->
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Aesthetic Touch: Vertical Text -->
+  <div class="vertical-deco">
+    海濤悲湧深藍色
+  </div>
+</aside>
+    
+    <!-- Right Content -->
+    <main class="main-content">
+      <div class="post-container">
+  
+  <!-- 1. The Article Content -->
+  <article class="blog-article">
+    <header class="post-header">
+      <div class="post-meta">
+        <span class="jp-date">2023/09/20</span>
+        
+           <span class="separator">/</span> 
+           <span class="category">Computer Science</span>
+        
+      </div>
+      <h1 class="post-title">IB Computer Science： 伪代码、流程图和简单算法小记</h1>
+    </header>
+
+    <div class="markdown-body">
+      <!-- 事先声明，我并不认同IB的垃圾计算机教学大纲和它规定的垃圾标准，将下列内容整理在博客中只是为了苟住校内成绩做出的无奈妥协。 -->
+<p>伪代码编写练习可以使用网站：<a target="_blank" rel="noopener" href="http://ibcomp.fis.edu/pseudocode/pcode.html">http://ibcomp.fis.edu/pseudocode/pcode.html</a></p>
+<h2 id="伪代码语法"><a href="#伪代码语法" class="headerlink" title="伪代码语法"></a>伪代码语法</h2><h3 id="循环逻辑："><a href="#循环逻辑：" class="headerlink" title="循环逻辑："></a>循环逻辑：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">loop i from ... to ...</span><br><span class="line">    TODO()</span><br><span class="line">end loop</span><br><span class="line"></span><br><span class="line">loop while (condition?)</span><br><span class="line">    TODO()</span><br><span class="line">end loop</span><br></pre></td></tr></table></figure>
+<h3 id="分支逻辑："><a href="#分支逻辑：" class="headerlink" title="分支逻辑："></a>分支逻辑：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (condition?) then</span><br><span class="line">    TODO()</span><br><span class="line">else if (condition?) then</span><br><span class="line">    TODO()</span><br><span class="line">else</span><br><span class="line">    TODO()</span><br><span class="line">end if</span><br></pre></td></tr></table></figure>
+<h3 id="数组管理："><a href="#数组管理：" class="headerlink" title="数组管理："></a>数组管理：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">arr = new array()                     // set a new array</span><br><span class="line">arr = [..., ..., ...]                 //set values for the array</span><br><span class="line">arr[...]                              //returns the value of a certain index</span><br><span class="line">arr.Length()                          //returns the length of an array(for some reason this could not run on the above website)</span><br></pre></td></tr></table></figure>
+<h3 id="集合管理："><a href="#集合管理：" class="headerlink" title="集合管理："></a>集合管理：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">coll = new collection()               //set a new collection</span><br><span class="line">coll.addItem(certain things)          //add something to the collection</span><br><span class="line">coll.getNext()                        //return the next value</span><br><span class="line">coll.resetNext()                      //go back to the start of the collection</span><br><span class="line">coll.hasNext()                        //returns a boolean value that indicates whether it has next item or not</span><br><span class="line">coll.isEmpty()                        //returns a boolean value that indicates whether the collection is empty or not</span><br></pre></td></tr></table></figure>
+<h3 id="栈管理："><a href="#栈管理：" class="headerlink" title="栈管理："></a>栈管理：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// One thing to be remember, first in last out</span><br><span class="line">stack = new stack()                   //set a new stack</span><br><span class="line">stack.push(certain things)            //push an item into the stack</span><br><span class="line">stack.pop()                           //returns the last item of the stack</span><br><span class="line">stack.isEmpty()                       //returns a boolean value that indicates whether the stack is empty or not</span><br></pre></td></tr></table></figure>
+<h3 id="队列管理："><a href="#队列管理：" class="headerlink" title="队列管理："></a>队列管理：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// Another thing to remember, first in first out</span><br><span class="line">queue = new queue()                   //set a new queue</span><br><span class="line">queue.enqueue(certain things)         //put an item to the end of the queue</span><br><span class="line">queue.dequeue()                       //delete and return the front item of the queue</span><br><span class="line">queue.isEmpty()                       //returns a boolean value that indicates whether the queue is empty or not</span><br></pre></td></tr></table></figure>
+<h2 id="流程图画法"><a href="#流程图画法" class="headerlink" title="流程图画法"></a>流程图画法</h2><p><img src="/IB-Computer-Science：伪代码、流程图和简单算法小记/Screenshot 2023-09-20 182101.png" alt=""></p>
+<p>Then use arrows to link the blocks.</p>
+<h2 id="简单代码的伪代码实现"><a href="#简单代码的伪代码实现" class="headerlink" title="简单代码的伪代码实现"></a>简单代码的伪代码实现</h2><p>The following codes are all based on arrays. Searching/Sorting other form of data set need to do simple modifications to the code. </p>
+<h3 id="Sequential-Search"><a href="#Sequential-Search" class="headerlink" title="Sequential Search"></a>Sequential Search</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">arr = [5, 6, 3, 4, 2, 7, 8, 1]</span><br><span class="line"></span><br><span class="line">loop i from 0 to 7</span><br><span class="line">   if (arr[i] == 2) then</span><br><span class="line">      index = i</span><br><span class="line">   end if</span><br><span class="line">end loop</span><br><span class="line"></span><br><span class="line">output &quot;The index of number 2 is: &quot;, index</span><br></pre></td></tr></table></figure>
+<h3 id="Binary-Search"><a href="#Binary-Search" class="headerlink" title="Binary Search"></a>Binary Search</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">arr = [5, 6, 3, 4, 2, 7, 8, 1]</span><br><span class="line"></span><br><span class="line">loop i from 0 to 6</span><br><span class="line">   min_idx = i</span><br><span class="line">   loop j from i+1 to 7</span><br><span class="line">      if arr[j] &lt; arr[min_idx] then</span><br><span class="line">         min_idx = j</span><br><span class="line">      end if</span><br><span class="line">   end loop</span><br><span class="line">   if NOT(min_idx == i) then</span><br><span class="line">      TEMP = arr[min_idx]</span><br><span class="line">      arr[min_idx] = arr[i]</span><br><span class="line">      arr[i] = TEMP</span><br><span class="line">   end if</span><br><span class="line">end loop</span><br><span class="line">//Sort the array first since binary search is only applicable in ordered series</span><br><span class="line"></span><br><span class="line">low = 0</span><br><span class="line">high = 7</span><br><span class="line">found = -1</span><br><span class="line">loop while found = -1 AND low &lt;= high</span><br><span class="line">   mid = div(low + high, 2)</span><br><span class="line">   if (arr[mid] = 8) then</span><br><span class="line">      found = mid</span><br><span class="line">   else if (arr[mid] &lt; 8) then</span><br><span class="line">      low = mid + 1</span><br><span class="line">   else</span><br><span class="line">      high = mid - 1 </span><br><span class="line">   end if</span><br><span class="line">end loop</span><br><span class="line"></span><br><span class="line">if found &gt;= 0 then</span><br><span class="line">   output &quot;The index of number 8 is: &quot;, found</span><br><span class="line">else</span><br><span class="line">   output &quot;Number was not found&quot;</span><br><span class="line">end if</span><br></pre></td></tr></table></figure>
+<h3 id="Bubble-Sort"><a href="#Bubble-Sort" class="headerlink" title="Bubble Sort"></a>Bubble Sort</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">arr = [5, 6, 3, 4, 2, 7, 8, 1]</span><br><span class="line"></span><br><span class="line">loop i from 0 to 6</span><br><span class="line">   loop j from 0 to 6-i</span><br><span class="line">      if arr[j] &gt; arr[j+1] then</span><br><span class="line">         TEMP = arr[j+1]</span><br><span class="line">         arr[j+1] = arr[j]</span><br><span class="line">         arr[j] = TEMP</span><br><span class="line">      end if</span><br><span class="line">   end loop </span><br><span class="line">end loop</span><br><span class="line"> </span><br><span class="line">loop i from 0 to 7</span><br><span class="line">   output arr[i]</span><br><span class="line">end loop</span><br></pre></td></tr></table></figure>
+<h3 id="Selection-Sort"><a href="#Selection-Sort" class="headerlink" title="Selection Sort"></a>Selection Sort</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">arr = [5, 6, 3, 4, 2, 7, 8, 1]</span><br><span class="line">loop i from 0 to 6</span><br><span class="line">   min_idx = i</span><br><span class="line">   loop j from i+1 to 7</span><br><span class="line">      if arr[j] &lt; arr[min_idx] then</span><br><span class="line">         min_idx = j</span><br><span class="line">      end if</span><br><span class="line">   end loop</span><br><span class="line">   if NOT(min_idx == i) then</span><br><span class="line">      TEMP = arr[min_idx]</span><br><span class="line">      arr[min_idx] = arr[i]</span><br><span class="line">      arr[i] = TEMP</span><br><span class="line">   end if</span><br><span class="line">end loop</span><br><span class="line"></span><br><span class="line">loop i from 0 to 7</span><br><span class="line">   output arr[i]</span><br><span class="line">end loop</span><br></pre></td></tr></table></figure>
+<h2 id="简单算法的流程图实现"><a href="#简单算法的流程图实现" class="headerlink" title="简单算法的流程图实现"></a>简单算法的流程图实现</h2><h3 id="Sequential-Search-1"><a href="#Sequential-Search-1" class="headerlink" title="Sequential Search"></a>Sequential Search</h3><p><img src="/IB-Computer-Science：伪代码、流程图和简单算法小记/SS.jpg" alt=""></p>
+<h3 id="Binary-Search-1"><a href="#Binary-Search-1" class="headerlink" title="Binary Search"></a>Binary Search</h3><p><img src="/IB-Computer-Science：伪代码、流程图和简单算法小记/BS.jpg" alt=""></p>
+<h3 id="Bubble-Sort-1"><a href="#Bubble-Sort-1" class="headerlink" title="Bubble Sort"></a>Bubble Sort</h3><p><img src="/IB-Computer-Science：伪代码、流程图和简单算法小记/BubS.jpg" alt=""></p>
+<h3 id="Selection-Sort-1"><a href="#Selection-Sort-1" class="headerlink" title="Selection Sort"></a>Selection Sort</h3><p><img src="/IB-Computer-Science：伪代码、流程图和简单算法小记/SelS.jpg" alt=""></p>
+
+    </div>
+    
+    <!-- Optional: Footer of the post -->
+    <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem; font-style: italic;">
+      <p>Thanks for reading.</p>
+    </div>
+  </article>
+
+  <!-- 2. The Right-Side Menu (TOC) -->
+  <aside class="post-toc">
+    <div class="toc-wrapper">
+      <div class="toc-header">
+        On this page
+      </div>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%AA%E4%BB%A3%E7%A0%81%E8%AF%AD%E6%B3%95"><span class="toc-text">伪代码语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E9%80%BB%E8%BE%91%EF%BC%9A"><span class="toc-text">循环逻辑：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%94%AF%E9%80%BB%E8%BE%91%EF%BC%9A"><span class="toc-text">分支逻辑：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%AE%A1%E7%90%86%EF%BC%9A"><span class="toc-text">数组管理：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E5%90%88%E7%AE%A1%E7%90%86%EF%BC%9A"><span class="toc-text">集合管理：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88%E7%AE%A1%E7%90%86%EF%BC%9A"><span class="toc-text">栈管理：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%9F%E5%88%97%E7%AE%A1%E7%90%86%EF%BC%9A"><span class="toc-text">队列管理：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E5%9B%BE%E7%94%BB%E6%B3%95"><span class="toc-text">流程图画法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81%E7%9A%84%E4%BC%AA%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-text">简单代码的伪代码实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Sequential-Search"><span class="toc-text">Sequential Search</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Binary-Search"><span class="toc-text">Binary Search</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bubble-Sort"><span class="toc-text">Bubble Sort</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Selection-Sort"><span class="toc-text">Selection Sort</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95%E7%9A%84%E6%B5%81%E7%A8%8B%E5%9B%BE%E5%AE%9E%E7%8E%B0"><span class="toc-text">简单算法的流程图实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Sequential-Search-1"><span class="toc-text">Sequential Search</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Binary-Search-1"><span class="toc-text">Binary Search</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bubble-Sort-1"><span class="toc-text">Bubble Sort</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Selection-Sort-1"><span class="toc-text">Selection Sort</span></a></li></ol></li></ol>
+    </div>
+  </aside>
+
+</div>
+
+<!-- Improved Highlight Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tocLinks = document.querySelectorAll('.post-toc a');
+    const sections = document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4');
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: '-100px 0px -60% 0px', 
+      // This margin is key: it effectively draws a line near the top of the screen.
+      // An element only "intersects" when it crosses this line.
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          
+          // Remove active class from all
+          tocLinks.forEach(link => link.classList.remove('active'));
+          
+          // Add active class to current
+          // We must decodeURI because Hexo might encode Japanese/special chars in IDs
+          const activeLink = document.querySelector(`.post-toc a[href="#${decodeURI(id)}"]`);
+          if (activeLink) {
+            activeLink.classList.add('active');
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
+  });
+</script>
+      <footer class="footer">
+  &copy; 2026 Shoufeng Zhang. 
+  <span style="opacity:0.5">Monofolio designed based on Hexo.</span>
+</footer>
+    </main>
+  </div>
+
+</body>
+</html>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+    const lightbox = GLightbox({
+        selector: '.photo-wrapper img',
+        touchNavigation: true,
+        loop: true,
+    });
+</script>

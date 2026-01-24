@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shoufeng&#39;s Personal Website</title>
+  <link rel="stylesheet" href="/css/style.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+  
+  <div class="container">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+  <div class="top-section">
+    <div class="profile-intro">
+      <h1>Shoufeng Zhang</h1>
+      <!-- Japanese Transliteration or Kanji Name -->
+      <span class="jp-name">張寿峰</span>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Current Status</span>
+      <p>Undergrad @ HKU</p>
+      <p>CS / Engineering</p>
+      <p>Beijing / Hong Kong SAR</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Interests</span>
+      <p>Computing Hardware</p>
+      <p>Robotics</p>
+      <p>Systems and Security</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Contact</span>
+      <ul class="contact-list">
+        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal: zhangshoufng07@gmail.com</a></li>
+        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work: zhangshoufeng@connect.hku.hk</a></li>
+        <!-- <li><a href="#">Google Scholar</a></li> -->
+        <li><a target="_blank" rel="noopener" href="https://github.com/shawnzsf">GitHub</a></li>
+        <!-- <li><a href="#">Twitter/X</a></li> -->
+      </ul>
+    </div>
+  </div>
+
+  <!-- Optional Navigation if you have blog posts later -->
+  <nav class="site-nav">
+    <div class="info-block">
+      <span class="info-label">Menu</span>
+      <ul class="contact-list">
+        <li><a href="/">Index</a></li>
+        <li><a href="/archives">Blogs</a></li>
+        <!-- <li><a target="_blank" rel="noopener" href="https://shawnzsf.zonerama.com">Pictures</a></li> -->
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Aesthetic Touch: Vertical Text -->
+  <div class="vertical-deco">
+    海濤悲湧深藍色
+  </div>
+</aside>
+    
+    <!-- Right Content -->
+    <main class="main-content">
+      <div class="post-container">
+  
+  <!-- 1. The Article Content -->
+  <article class="blog-article">
+    <header class="post-header">
+      <div class="post-meta">
+        <span class="jp-date">2024/07/17</span>
+        
+           <span class="separator">/</span> 
+           <span class="category">Math</span>
+        
+      </div>
+      <h1 class="post-title">CMU 21127：Summary Sheet of Strategy in Chapter 3-6</h1>
+    </header>
+
+    <div class="markdown-body">
+      <ol>
+<li><p>Strategy 3.1.5 (Proving two functions are equal)<br>Given functions $f, g: X \to Y$ with the same domain and codomain, in order to prove that $f=g$, it suffices to prove that $f(x)=g(x)$ for all $x \in X$.</p>
+</li>
+<li><p>Strategy 3.1.27 (Proving set identities using characteristic functions)<br>In order to prove that two subsets U and V of a set X are eq    ual, it suffices to prove that $\chi<em>{U} = \chi</em>{V}$. </p>
+</li>
+<li><p>Strategy 3.2.2 (Proving a function is injective)<br>In order to prove that a function $f: X \to Y$ is injective, it suffices to fix, $a, b \in X$, assume that $f(a) = f(b)$, and then derive $a=b$.<br>s</p>
+</li>
+<li><p>Strategy 3.2.10 (Proving a function is surjective)<br>To prove that a function $f: X \to Y$ is surjective, it suffices to take an aribitrary element $y \in Y$ and, in terms of y, find an element $x \in X$ such that $f(x) = y$.<br>In order to fiind x, it is often useful to start from the equation $f(x) = y$ and derive some possible values of x. But be careful——in order to complete the proof, it is necessary to verify that the equation $f(x) = y$ istrue for the chosen value of x. </p>
+</li>
+<li><p>Strategy 3.2.10.5 (Proving a function is bijective)<br>To prove that a function f is bijective, prove that it is injective and surjective.</p>
+</li>
+<li><p>Strategy 3.2.26 (Proving a functio is injective by finding a left inverse)<br>In order to prove that a function $f: X \to Y$ is injective, it suffices to find a function $g: Y \to X$ such that $g(f(x)) = x$ for all $x \in X$.</p>
+</li>
+<li><p>Strategy 3.2.32 (Proving a function is surjective by finding a right inverse)<br>In order to prove that a function $f: X \to Y$ is surjective, it suffices to find a function $g: Y \to X$ such that $f(g(y)) = y$ for all $y \in Y$. </p>
+</li>
+<li><p>Strategy 4.1.3 (Definition by recursion)<br>In order to specify a function $f: \mathbb{N} \to X$, it suffices to define $f(0)$ and, for given $n \in \mathbb{N}$, assume that $f(n)$ has been defined, and define $f(s(n))$ in terms of $n$ and $f(n)$, where $s(n)$ is the successor function.</p>
+</li>
+<li><p>Strategy 4.2.2 (Proof by (weak) induction)<br>In order to prove a proposition of the form $\forall n \ge n_0,p(n)$, it suffices to prove that:</p>
+</li>
+</ol>
+<ul>
+<li>$p(n_0)$ is true, and</li>
+<li>For all $n \ge n_0$, if $p(n)$ is true, then $p(n+1)$ is true.<br>Some terminology has evolved for proofs by induction:</li>
+<li>The proof of $p(n_0)$ is called the <strong>base case</strong>.</li>
+<li>The proof of $\forall n \ge n_0, (p(n) \rightarrow p(n+1))$ is called the <strong>induction step</strong>.</li>
+<li>In the induction step, the assumption $p(n)$ is called the <strong>induction hypothesis</strong>;</li>
+<li>In the induction step, the proposition $p(n+1)$ is called the <strong>induction goal</strong>.</li>
+</ul>
+<ol>
+<li>Strategy 4.3.3 (Proof by strong induction)<br>In order to prove a proposition of the form $\forall n \ge n_0, p(n)$, it suffices to prove that: </li>
+</ol>
+<ul>
+<li>(<strong>Base case</strong>) $p(n_0)$ is true; and</li>
+<li>(<strong>Inductio step</strong>) For all $n \ge n_0$, if $p(k)$ is true for all $n_0 \le k \le n$, then $p(n+1)$ is true.</li>
+</ul>
+<ol>
+<li>Strategy 4.3.6 (Proof by strong induction with multiple base cases)<br>In order to prove a statement of the form $\forall n \ge n_0, p(n)$, it suffices to prove that:</li>
+</ol>
+<ul>
+<li>(<strong>Base cases</strong>) $p(k)$ for all $k \in {n_0, n_0 + 1, …, n_1}$, where $n_1 \gt n_0$; and</li>
+<li>(<strong>Induction step</strong>) For all $n \ge n_1$, if $p(k)$ is true for all $n_0 \le k \le n$, then <script type="math/tex">p(n+1)</script> is true.</li>
+</ul>
+<ol>
+<li><p>Strategy 6.1.2 (Proving that a set is finite)<br>In order to prove that a set X is finite, it suffices to find a bijection $[n] \to X$ for some $n \in \mathbb{N}$.</p>
+</li>
+<li><p>Strategy 6.1.16 (Comparing the sizes of finite sets)<br>Let X and Y be finite sets. </p>
+</li>
+</ol>
+<p>(a) In order to prove that $[X] \le [Y]$, it suffices to find an injection $X \to Y$.<br>(b) In order to prove that $[X] \ge [Y]$, it suffices to find a surjection $X \to Y$.<br>(c) In order to prove that $[X] = [Y]$, it suffices to find a bijection $X \to Y$. </p>
+<p>Strategy (c) is commonly known as <strong>bijective proof</strong>. </p>
+<ol>
+<li><p>Strategy 6.2.18(Cantor’s diagonal argument)<br>In order to prove that a set X is uncountable, it suffices to prove that no function $f: \mathbb{N} \to X$ is surjective using the following argument: given a function $f: \mathbb{N} \to X$, find an element $b \in X$ that “disagrees” with each value $f(n)$ about some statement involving n.</p>
+</li>
+<li><p>Proposition (Helpful to Prove Supremums)<br>Let $A \subset R$ and $m \in \mathbb{R}$ be an upper bound of A, we have<br>$m = sup(A) \leftrightarrow \forall \epsilon \in \mathbb{R}, \epsilon &gt; 0 \rightarrow[\exists a \in A, a &gt; m - \epsilon ]$</p>
+</li>
+</ol>
+
+    </div>
+    
+    <!-- Optional: Footer of the post -->
+    <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem; font-style: italic;">
+      <p>Thanks for reading.</p>
+    </div>
+  </article>
+
+  <!-- 2. The Right-Side Menu (TOC) -->
+  <aside class="post-toc">
+    <div class="toc-wrapper">
+      <div class="toc-header">
+        On this page
+      </div>
+      
+    </div>
+  </aside>
+
+</div>
+
+<!-- Improved Highlight Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tocLinks = document.querySelectorAll('.post-toc a');
+    const sections = document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4');
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: '-100px 0px -60% 0px', 
+      // This margin is key: it effectively draws a line near the top of the screen.
+      // An element only "intersects" when it crosses this line.
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          
+          // Remove active class from all
+          tocLinks.forEach(link => link.classList.remove('active'));
+          
+          // Add active class to current
+          // We must decodeURI because Hexo might encode Japanese/special chars in IDs
+          const activeLink = document.querySelector(`.post-toc a[href="#${decodeURI(id)}"]`);
+          if (activeLink) {
+            activeLink.classList.add('active');
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
+  });
+</script>
+      <footer class="footer">
+  &copy; 2026 Shoufeng Zhang. 
+  <span style="opacity:0.5">Monofolio designed based on Hexo.</span>
+</footer>
+    </main>
+  </div>
+
+</body>
+</html>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+    const lightbox = GLightbox({
+        selector: '.photo-wrapper img',
+        touchNavigation: true,
+        loop: true,
+    });
+</script>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shoufeng&#39;s Personal Website</title>
+  <link rel="stylesheet" href="/css/style.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+  
+  <div class="container">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+  <div class="top-section">
+    <div class="profile-intro">
+      <h1>Shoufeng Zhang</h1>
+      <!-- Japanese Transliteration or Kanji Name -->
+      <span class="jp-name">張寿峰</span>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Current Status</span>
+      <p>Undergrad @ HKU</p>
+      <p>CS / Engineering</p>
+      <p>Beijing / Hong Kong SAR</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Interests</span>
+      <p>Computing Hardware</p>
+      <p>Robotics</p>
+      <p>Systems and Security</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Contact</span>
+      <ul class="contact-list">
+        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal: zhangshoufng07@gmail.com</a></li>
+        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work: zhangshoufeng@connect.hku.hk</a></li>
+        <!-- <li><a href="#">Google Scholar</a></li> -->
+        <li><a target="_blank" rel="noopener" href="https://github.com/shawnzsf">GitHub</a></li>
+        <!-- <li><a href="#">Twitter/X</a></li> -->
+      </ul>
+    </div>
+  </div>
+
+  <!-- Optional Navigation if you have blog posts later -->
+  <nav class="site-nav">
+    <div class="info-block">
+      <span class="info-label">Menu</span>
+      <ul class="contact-list">
+        <li><a href="/">Index</a></li>
+        <li><a href="/archives">Blogs</a></li>
+        <!-- <li><a target="_blank" rel="noopener" href="https://shawnzsf.zonerama.com">Pictures</a></li> -->
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Aesthetic Touch: Vertical Text -->
+  <div class="vertical-deco">
+    海濤悲湧深藍色
+  </div>
+</aside>
+    
+    <!-- Right Content -->
+    <main class="main-content">
+      <div class="post-container">
+  
+  <!-- 1. The Article Content -->
+  <article class="blog-article">
+    <header class="post-header">
+      <div class="post-meta">
+        <span class="jp-date">2024/07/03</span>
+        
+           <span class="separator">/</span> 
+           <span class="category">Math</span>
+        
+      </div>
+      <h1 class="post-title">CMU 21127：Summary Sheet of Definitions &amp; Theorems</h1>
+    </header>
+
+    <div class="markdown-body">
+      <h1 id="Propositional-Logic"><a href="#Propositional-Logic" class="headerlink" title="Propositional Logic"></a>Propositional Logic</h1><ul>
+<li>Definition 0.1: Proposition is a statement to which it is possible to assign a truth value.</li>
+<li>A <strong>proposition</strong> is an umbrella term which can be used for any result.</li>
+<li>A <strong>theorem</strong> is a key result which is particularly important.</li>
+<li>A <strong>lemma</strong> is a result which is proved for the purpose of being used in the proof of a theorem.</li>
+<li>A <strong>corollary</strong> is a result which follows from a theorem without much additional effort.</li>
+</ul>
+<h1 id="Sets-and-Numbers"><a href="#Sets-and-Numbers" class="headerlink" title="Sets and Numbers"></a>Sets and Numbers</h1><ul>
+<li>Definition 0.3: A <strong>set</strong> is a collection of objects. The objects in the set are called <strong>elements</strong> of the set.</li>
+<li>Definition 0.5: The <strong>natural numbers</strong> are represented by the points on the number line which can be obtained by starting at 0 and moving right by the unit length any number of times.</li>
+</ul>
+<h2 id="Basis-for-natural-numbers"><a href="#Basis-for-natural-numbers" class="headerlink" title="Basis for natural numbers"></a>Basis for natural numbers</h2><ul>
+<li>Definition 0.6: Let $b \gt 1$. The <strong>base-b expansion</strong> of a natural number n is the string $d<em>rd</em>{r-1}…d_0$<ul>
+<li>$n = d<em>r \times b^r + d</em>{r-1} \times b^{r-1} + … + d_0 \times b^0$ ;</li>
+<li>$0 \le d_i \lt b$ for each i; and </li>
+<li>if $n &gt; 0$, then $d_r \ne 0$, the base-b expansion of zero is 0 in all cases b;</li>
+</ul>
+</li>
+<li>Definition 0.11: The <strong>integers</strong> are represented by the points on the number line which can be obtained by starting at 0 and movnig in either direction by the unit length any number of times.</li>
+<li>Definition 0.12: Let $a, b \in Z$. We say b <strong>divides</strong> a if $a=qb$ for some integer q.</li>
+<li>Proposition 0.15: Let $a,b,c \in Z$. If c divides b and b divides a, then c divides a.</li>
+<li>Definition 0.17: An integer n is even if it is divisible by 2; otherwise, n is odd.</li>
+<li>Theorem 0.18: Let $a,b \in Z$ with $b \ne 0$. There is exactly one way to write<br>$a = qb + r$<br>such that q and r are integers, and $0 \le r \lt b$(if $b \gt 0$), or $0 \le r \lt -b$(if $b \lt 0$).</li>
+</ul>
+<h2 id="Algorithm-to-find-basis"><a href="#Algorithm-to-find-basis" class="headerlink" title="Algorithm to find basis"></a>Algorithm to find basis</h2><p>Given $n \in N$:</p>
+<ul>
+<li>Step 1: Let $d_0$ be the remainder when n is divided by b, and let $n_0=\frac{n-d_0}{b}$ be the quotient. Fix i = 0.</li>
+<li>Step 2: Suppose $n<em>i$ and $d_i$ have been defined. If $n_i = 0$, then proceed to Step 3. Otherwise, define $d</em>{i+1}$ to be the remainder when $n<em>i$ is divided by b, and define $n</em>{i+1} = \frac{n_i-d_i+1}{b}$. Increment i, and repeat Step 2.</li>
+<li>Step 3: The base-b expansion of n, is $d<em>id</em>{i-1}…d_0$.</li>
+</ul>
+<h2 id="Rationals"><a href="#Rationals" class="headerlink" title="Rationals"></a>Rationals</h2><ul>
+<li>Definition 0.24: The <strong>rational numbers</strong> are represented by the points at the number line which can be obtained by dividing any of the unit line segments between integers into an equal number of parts.</li>
+</ul>
+<h2 id="Real-numbers"><a href="#Real-numbers" class="headerlink" title="Real numbers"></a>Real numbers</h2><ul>
+<li>Definition 0.25: The <strong>real numebrs</strong> are the points on the number line. We write R for the set of all real numbers.</li>
+</ul>
+<h2 id="Irrational-numbers"><a href="#Irrational-numbers" class="headerlink" title="Irrational numbers"></a>Irrational numbers</h2><ul>
+<li>Definition 0.27: An <strong>irrational number</strong> is a real number that is not rational.</li>
+</ul>
+<h2 id="Complex-numbers"><a href="#Complex-numbers" class="headerlink" title="Complex numbers"></a>Complex numbers</h2><ul>
+<li>Definition 0.31: The <strong>complex numbers</strong> are those obtained by the non-negative real numbers upon rotation by any angle about the point 0. We write C for the set of all complex numbers.</li>
+</ul>
+<p><img src="../cmu21127note1/Screenshot 2024-07-03 195150.png" alt="Complex number"></p>
+<ul>
+<li>Addition corresponds to translation.</li>
+<li>Multiplication correspond to rotation.</li>
+</ul>
+<p><strong>Omit complex conjugate here.</strong></p>
+<h1 id="Polynomials"><a href="#Polynomials" class="headerlink" title="Polynomials"></a>Polynomials</h1><ul>
+<li>Definition 0.32: Let S=N,Z,Q,R or C. A <strong>(univariate) polynomial over</strong> S in the <strong>indeterminate</strong> x is an expression of the form<br>$a_0+a_1x+…+a_nx^n$<br>Where $n \in N$ and each $a_k \in S$. The numbers $a_k$ are called the <strong>coefficients</strong> of the polynomial. If not all coefficients are zero, the largest value of k for which $a_k \ne 0$ is called the <strong>degree</strong> of the polynomial. By convention, the degree of the polynomial 0 is $-\infinity$</li>
+<li>Definition 0.37: Let p(x) be a polynomial. A $root$ of p(x) is a complex number $\alpha$ such that $p(\alpha)=0$.</li>
+<li>Omit the theorem of complex conjugate root.</li>
+</ul>
+<h1 id="Sets"><a href="#Sets" class="headerlink" title="Sets"></a>Sets</h1><ul>
+<li><p>Axiom 2.1.22 (Sets extensionality)<br>Let X and Y be sets. Then X = Y if and only if $\forall a, (a \in X \leftrightarrow a \in Y)$, or equivalently, if $X \sub Y$, and $Y \sub X$. </p>
+</li>
+<li><p>Definition 2.1.36<br>Let X be a set. The <strong>power set</strong> of X, written $\mathcal{P}(X)$, is the set of all subsets of X.</p>
+</li>
+<li><p>Definition 2.2.8<br>Let X and Y be sets. We say X and Y are <strong>disjoint</strong> if $X \cap Y$ is empty.</p>
+</li>
+<li><p>Definition 2.2.18<br>An <strong>(indexed) family of sets</strong> is a specification of a set $X_i$ for each element i of some <strong>indexing set</strong> I. We write ${X_i | i \in I}$ for the indexed family of sets. </p>
+</li>
+<li><p>Definition 2.2.20<br>The <strong>(indexed) intersection</strong> of an indexed family ${X<em>i | i \in I}$ is defined by<br>$\bigcap</em>{i \in I} X<em>i = {a | \forall i \in I, a \in X_i}$<br>The <strong>(indexed) union</strong> of ${X_i | i \in I}$ is defined by<br>$\bigcup</em>{i \in I} X_i = {a | \exists i \in I, a \in X_i}$</p>
+</li>
+<li><p>Definition 2.2.26<br>Let X and Y be sets. The <strong>relative complement</strong> of Y in X, denoted $X \setminus Y$, is defined by<br>$X \setminus Y = {x \in X | x \notin Y}$<br>The operation is also known as the <strong>set difference</strong> operation. Some authors write Y - X instead of $Y \setminus X$.</p>
+</li>
+<li><p>Theorem 2.2.31 (De Morgan’s Laws for sets)<br>Given sets A, X, Y and a family ${X<em>i | i \in I}$, we have<br>(a) $A \setminus (X \cup Y) = (A \setminus X) \cap (A \setminus Y)$<br>(b) $A \setminus (X \cap Y) = (A \setminus X) \cup (A \setminus Y)$<br>(c) $A \setminus \bigcup</em>{i \in I} X<em>i = \bigcap</em>{i \in I}(A \setminus X<em>i)$<br>(d) $A \setminus \bigcap</em>{i \in I} X<em>i = \bigcup</em>{i \in I}(A \setminus X_i)$</p>
+</li>
+<li><p>Definition 2.2.33<br>Let X and Y be sets. The <strong>(pairwise) cartesian product</strong> of X and Y is the set $X \times Y$ defined by<br>$X \times Y = {(a, b) | a \in X \wedge b \in Y}$<br>The elements $(a,b) \in X \times Y$ are called <strong>ordered pairs</strong>, whose defining property is that, for all $a, x \in X$ and all $b, y \in Y$, we have $(a, b) = (x, y)$ if and only if a = x and b = y.</p>
+</li>
+<li><p>Definition 2.2.38<br>Let $n \in \mathbb{N}$ and let $X<em>1, X_2, …, X_n$ be sets. The $(n-fold)cartesian product$ of $X_1, X_2, …, X_n$ is the set $\prod</em>{k=1}^{n} X<em>k$ defined by<br>$\prod</em>{k=1}^{n} = {(a<em>1, a_2, …, a_n) | a_k \in X_k, 1 \le k \le n}$<br>The elements $(a_1, a_2, …, a_n) \in \prod</em>{k=1}^{n} X<em>k$ are called $ordered k-tuples$, whose defining property is that, for all $1 \le k \le n$ and all $a_k, b_k \in X_k$, we have $(a_1, a_2, … ,a_n) = (b_1, b_2, …, b_n)$ if and only if $a_k = b_k$ for all $1 \le k \le n$.<br>Given a set X, write $X^n$ to denote the set $\prod</em>{k=1}^{n}X$. We might on occasion also write<br>$X<em>1 \times X_2 \times … \times X_n = \prod</em>{k=1}^{n}X_k$</p>
+</li>
+<li><p>Definition 9.2.1<br>Let $A \subseteq \mathbb{R}$. A real number m is an <strong>upper bound</strong> for A if $a \le m$ for all $a \in A$. A <strong>supremum</strong> of A is a least upper bound of A; that is, a real number m such that:<br>(i) m is an upper bound of A——that is, $a \le m$ for all $a \in A$; and<br>(ii) m is least amongst all upper bounds for A——that is, for all $x \in \mathbb{R}$, if $a \le x$ for all $a \in A$, then $x \le m$.</p>
+</li>
+<li><p>Theorem 9.2.5(Uniqueness of suprema)<br>Let A be a subset of $\mathbb{R}$. If $m_1$ and $m_2$ are suprema of A, then $m_1 = m_2$.</p>
+</li>
+<li><p>Axiom 9.2.7 (Completemess axiom)<br>Let $A \subseteq \mathbb{R}$ be inhabited. If A has an upper bound, then A has a supremum.</p>
+</li>
+<li><p>Definition 9.2.8<br>If $f: X \to \mathbb{R}$ is a funciton and X is an arbitrary set, we define<br>$sup f(x) := sup{f(x) : x \in X}$<br>whenever the sup on RHS exists.</p>
+</li>
+<li><p>Definition 9.2.9<br>Let $n \in \mathbb(N), n \ge 1$, we define the n-dimensional Euclidian space $\mathbb{R}^n$ as follows:<br>$\prod_{i = 1}^{n}\mathbb{R} = \mathbb{R}^n := {(x_1, x_2, x_n) : x_i \in \mathbb{R}, \forall i \in {1, …, n}}$</p>
+</li>
+<li><p>Definition 9.2.10<br>Let $\vec{x}, \vec{y} \in \mathbb{R}^n$ and $\lambda \in \mathbb{R}$, we define<br>(sum) $\vec{x} + \vec{y} = (x_1 + y_1, … ,x_n + y_n)$<br>(multiplication by scalar) $\lambda \vec{x} = (\lambda x_1, …, \lambda x_n)$<br>obs: The definition above does not say anything about multiplying vectors by another vector. </p>
+</li>
+<li><p>Definition 9.2.11<br>Let $\vec{x}, \vec{y} \in \mathbb{R}^n$. The scalar or dot product of $\vec{x}$ and $\vec{y}$ is the real number defined as<br>$\vec{x} \dot \vec{y} = &lt;\vec{x}, \vec{y}&gt; := \sum_{i=1}^{n}x_i y_i = x_1y_1 + … + x_ny_n$</p>
+</li>
+<li><p>Proposition 9.2.12<br>For any $\vec{x} \in \mathbb{R}^n$, we have: $||\vec{x}||^2 = \vec{x} \dot \vec{x}$</p>
+</li>
+<li><p>Theorem 9.2.13<br>Let $\vec{x}, \vec{y} \in \mathbb{R}^n$. Then $\vec{x} \dot \vec{y} = ||\vec{x}||||\vec{y}||cos\theta$<br>The latter theorem says that vector x is orthogonal to vector y if and only if their scalar product is zero.</p>
+</li>
+<li><p>Theorem 9.1.16 (Cauchy-Schwarz inequality)<br>Let $n \in \mathbb{N}$ and let $x_i, y_i \in \mathbb{R}$ for each $i \in [n]$. Then<br>$|\vec{x} \dot \vec{y}| \le ||\vec{x}||||\vec{y}||$<br>with equality if and only if $a \vec{x} = b\vec{y}$ for some $a, b \in \mathbb{R}$ which are not both zero.</p>
+</li>
+<li><p>Theorem 9.2.17 (Triangle inequality)<br>Let $\vec{x}, \vec{y} \in \mathbb{R}^n$. Then $|| \vec{x} + \vec{y} || \le ||\vec{x}|| + ||\vec{y}||$<br>Equality holds if and only if $a\vec{x} = b\vec{y}$ for some $a, b \in \mathbb{R}$ which are noth zero and $a, b \ge 0$</p>
+</li>
+<li><p>Theorem 9.2.18 (Parallelogram law)<br>Given $\vec{x}, \vec{y} \in \mathbb{R}^n$, we have<br>$||\vec{x} + \vec{y}||^2 + ||\vec{x} - \vec{y}||^2 = 2||\vec{x}||^2 + 2||\vec{y}||^2$<br>Moreover, if $\vec{x}$ is orthogonal to $\vec{y}$, then (Pitagoras theorem)<br>$||x - y||^2 = ||x||^2 + ||y||^2$</p>
+</li>
+<li><p>Definition 9.1.20<br>Let $n \ge 1$. The <strong>(arithmetic) mean</strong> of real numbers $x<em>1, …, x_n$ is<br>$\frac{1}{n}\sum</em>{i=1}^{n}x_i = \frac{x_1 + x_2 + … + x_n}{n}$</p>
+</li>
+<li><p>Definition 9.1.21<br>Let $n \ge 1$. The <strong>geometric mean</strong> of non-negative real numbers $x<em>1, …, x_n$ is<br>$\sqrt[n]{\prod</em>{i=1}^{n}x_i} = \sqrt[n]{x_1 \dot x_2 \dot … \dot x_n}$</p>
+</li>
+<li><p>Theorem 9.1.22 (Inequality of arithmetic and geometric means)<br>Let $n \in \mathbb{N}$ and $x_1, x_2, …, x_n \ge 0$. Then<br>$\sqrt[n]{x_1 \dot \dot \dot x_n} \le \frac{x_1 + … + x_n}{n}$<br>with equality if and only if $x_1 = … = x_n$</p>
+</li>
+<li><p>Theorem 9.1.31 (Inequality of geometric and harmonic means)<br>let $n \in \mathbb{N}$ and $x_1, x_2, …, x_n \gt 0$. Then<br>$\frac{n}{\frac{1}{x_1} + frac{1}{x_2} + … + frac{1}{x_n}} \le \sqrt[n]{x_1x_2 \dot \dot \dot x_n}$</p>
+</li>
+<li><p>Theorem 9.1.34 (Inequality of quadratic and arithmetic means)<br>Let $n \gt 0$ and $x_1, x_2, …, x_n \ge 0$. Then<br>$\frac{x_1 + … + x_n}{n} \le \sqrt{\frac{x_1^2 + x_2^2 + … + x_n^2}{n}}$<br>with equality if and only if $x_1 = … = x_n$. </p>
+</li>
+</ul>
+
+    </div>
+    
+    <!-- Optional: Footer of the post -->
+    <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem; font-style: italic;">
+      <p>Thanks for reading.</p>
+    </div>
+  </article>
+
+  <!-- 2. The Right-Side Menu (TOC) -->
+  <aside class="post-toc">
+    <div class="toc-wrapper">
+      <div class="toc-header">
+        On this page
+      </div>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Propositional-Logic"><span class="toc-text">Propositional Logic</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sets-and-Numbers"><span class="toc-text">Sets and Numbers</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Basis-for-natural-numbers"><span class="toc-text">Basis for natural numbers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Algorithm-to-find-basis"><span class="toc-text">Algorithm to find basis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rationals"><span class="toc-text">Rationals</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Real-numbers"><span class="toc-text">Real numbers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Irrational-numbers"><span class="toc-text">Irrational numbers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Complex-numbers"><span class="toc-text">Complex numbers</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Polynomials"><span class="toc-text">Polynomials</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sets"><span class="toc-text">Sets</span></a></li></ol>
+    </div>
+  </aside>
+
+</div>
+
+<!-- Improved Highlight Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tocLinks = document.querySelectorAll('.post-toc a');
+    const sections = document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4');
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: '-100px 0px -60% 0px', 
+      // This margin is key: it effectively draws a line near the top of the screen.
+      // An element only "intersects" when it crosses this line.
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          
+          // Remove active class from all
+          tocLinks.forEach(link => link.classList.remove('active'));
+          
+          // Add active class to current
+          // We must decodeURI because Hexo might encode Japanese/special chars in IDs
+          const activeLink = document.querySelector(`.post-toc a[href="#${decodeURI(id)}"]`);
+          if (activeLink) {
+            activeLink.classList.add('active');
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
+  });
+</script>
+      <footer class="footer">
+  &copy; 2026 Shoufeng Zhang. 
+  <span style="opacity:0.5">Monofolio designed based on Hexo.</span>
+</footer>
+    </main>
+  </div>
+
+</body>
+</html>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+    const lightbox = GLightbox({
+        selector: '.photo-wrapper img',
+        touchNavigation: true,
+        loop: true,
+    });
+</script>

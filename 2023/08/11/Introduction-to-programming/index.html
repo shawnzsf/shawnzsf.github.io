@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shoufeng&#39;s Personal Website</title>
+  <link rel="stylesheet" href="/css/style.css">
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body>
+  
+  <div class="container">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+  <div class="top-section">
+    <div class="profile-intro">
+      <h1>Shoufeng Zhang</h1>
+      <!-- Japanese Transliteration or Kanji Name -->
+      <span class="jp-name">張寿峰</span>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Current Status</span>
+      <p>Undergrad @ HKU</p>
+      <p>CS / Engineering</p>
+      <p>Beijing / Hong Kong SAR</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Interests</span>
+      <p>Computing Hardware</p>
+      <p>Robotics</p>
+      <p>Systems and Security</p>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label">Contact</span>
+      <ul class="contact-list">
+        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal: zhangshoufng07@gmail.com</a></li>
+        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work: zhangshoufeng@connect.hku.hk</a></li>
+        <!-- <li><a href="#">Google Scholar</a></li> -->
+        <li><a target="_blank" rel="noopener" href="https://github.com/shawnzsf">GitHub</a></li>
+        <!-- <li><a href="#">Twitter/X</a></li> -->
+      </ul>
+    </div>
+  </div>
+
+  <!-- Optional Navigation if you have blog posts later -->
+  <nav class="site-nav">
+    <div class="info-block">
+      <span class="info-label">Menu</span>
+      <ul class="contact-list">
+        <li><a href="/">Index</a></li>
+        <li><a href="/archives">Blogs</a></li>
+        <!-- <li><a target="_blank" rel="noopener" href="https://shawnzsf.zonerama.com">Pictures</a></li> -->
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Aesthetic Touch: Vertical Text -->
+  <div class="vertical-deco">
+    海濤悲湧深藍色
+  </div>
+</aside>
+    
+    <!-- Right Content -->
+    <main class="main-content">
+      <div class="post-container">
+  
+  <!-- 1. The Article Content -->
+  <article class="blog-article">
+    <header class="post-header">
+      <div class="post-meta">
+        <span class="jp-date">2023/08/11</span>
+        
+      </div>
+      <h1 class="post-title">Introduction to programming</h1>
+    </header>
+
+    <div class="markdown-body">
+      <h1 id="Nature-of-programming-languages"><a href="#Nature-of-programming-languages" class="headerlink" title="Nature of programming languages"></a>Nature of programming languages</h1><h2 id="4-3-1-State-the-fundamental-operations-of-a-computer"><a href="#4-3-1-State-the-fundamental-operations-of-a-computer" class="headerlink" title="4.3.1 State the fundamental operations of a computer"></a>4.3.1 State the fundamental operations of a computer</h2><p>计算机的基本操作(包括加，比较，加载和存储)，涉及到了一些指令，但作者没有继续向下讲。</p>
+<h2 id="4-3-2-Distingguish-between-fundamental-and-compound-operations-of-a-computer"><a href="#4-3-2-Distingguish-between-fundamental-and-compound-operations-of-a-computer" class="headerlink" title="4.3.2 Distingguish between fundamental and compound operations of a computer"></a>4.3.2 Distingguish between fundamental and compound operations of a computer</h2><p>写了运用上述操作找最大值的一个算法示例。</p>
+<h2 id="4-3-3-Explain-the-essential-features-of-a-computer-language"><a href="#4-3-3-Explain-the-essential-features-of-a-computer-language" class="headerlink" title="4.3.3 Explain the essential features of a computer language"></a>4.3.3 Explain the essential features of a computer language</h2><p>一门编程语言被描述为它的语义(semantics)的结合，语义指的是语言中可能的每一个结构的含义，而语法则与它的结构有关。语法(grammar)是一种元语言，用于定义语言的语法(syntax)，语句构造的规则称为语法(syntax)。每种高级语言都有独特的语法和特定的关键字。</p>
+<h2 id="4-3-4-Explain-the-need-for-higher-level-languages"><a href="#4-3-4-Explain-the-need-for-higher-level-languages" class="headerlink" title="4.3.4 Explain the need for higher level languages"></a>4.3.4 Explain the need for higher level languages</h2><p>因为计算机只能处理0和1组成的机器语言，所以后续人们开发了助记符(汇编语言)进行编程。因为汇编语言仍然会因为计算机的不同而不同，抽象程度不高，所以人们开发了高级语言。高级语言是一种使用自然语言元素的编程语言，易于使用，通过隐藏计算系统的重要区域来进行抽象，是程序开发更加简单。</p>
+<h2 id="4-3-5-Outline-the-need-for-a-translation-process-from-a-higher-level-leanguage-to-machine-executable-code"><a href="#4-3-5-Outline-the-need-for-a-translation-process-from-a-higher-level-leanguage-to-machine-executable-code" class="headerlink" title="4.3.5 Outline the need for a translation process from a higher-level leanguage to machine-executable code"></a>4.3.5 Outline the need for a translation process from a higher-level leanguage to machine-executable code</h2><p>现如今使用高级语言实现的程序要想运行在计算机上需要编译(compilation)或者解释(interpretation)。</p>
+<ul>
+<li><p>Compilation: 编译器(compiler)是只执行一次翻译过程(translation)的翻译器(translator)。通常把整个源程序翻译成目标程序，下次使用目标程序是不需要再重新编译。编译器会对发现的所有语法错误发出错误信息，并在检查整个程序后将所有错误传达给程序员。编译器要比解释器快很多(喜)。</p>
+</li>
+<li><p>Interpretation: 解释亲(interpreter)是一个翻译器，解释是指读取源程序的每一行(指令)，对其进行分析，将其翻译成目标程序的相应行，并执行该行的过程。对于每条被解释的指令，语法错误都会被告知程序员。</p>
+</li>
+<li><p>JAVA: JAVA将编译和解释结合起来。首先将源代码编译成JAVA虚拟机字节码。也就是将.java文件转换为.class文件。这个JAVA虚拟机字节码可以被JAVA虚拟机解释器解释。JAVA这样的编译和解释过程允许代码在安装了JAVA虚拟机解释器的任何机器上运行。JAVA代码在特定硬件平台上运行的所有细节都由JAVA虚拟机(JVM)处理。</p>
+</li>
+</ul>
+<h1 id="Use-of-programming-languages"><a href="#Use-of-programming-languages" class="headerlink" title="Use of programming languages"></a>Use of programming languages</h1><h2 id="4-3-6-Variable-constant-operator-object"><a href="#4-3-6-Variable-constant-operator-object" class="headerlink" title="4.3.6 Variable, constant, operator, object"></a>4.3.6 Variable, constant, operator, object</h2><ul>
+<li><p>变量(variable)：用于存储程序的数据元素。存储的值可以在程序执行期间更改。变量有名称(或标识符)和类型。变量名不应与语言的保留关键字和字面值冲突。变量的类型可以是整数、双精度、字符串等。在大多数编程语言中，变量只能存储特定类型的数据元素。</p>
+</li>
+<li><p>常数(constant)：常数代表不变的事物和数量。它们可以被视为不可修改的变量。存储在常量中的数据元素不能在程序执行期间被修改。</p>
+</li>
+<li><p>操作符(operator)：操作符用于操作操作数。操作数可以是变量、文字、布尔值、数值等。运算符可以是算术、关系和逻辑等。</p>
+</li>
+<li><p>对象(object)：对象是由数据和操作组成的。动作是指对象可以执行的操作。对象数据可以包括许多数据成员，而操作也可以成为方法。数据成员用于存储对象的当前状态，方法用于更改或访问这些数据成员。</p>
+</li>
+</ul>
+<h2 id="4-3-7-Define-various-operators"><a href="#4-3-7-Define-various-operators" class="headerlink" title="4.3.7 Define various operators"></a>4.3.7 Define various operators</h2><p>=: 等于; !=: 不等于;</p>
+<blockquote>
+<p>: 大于; &gt;=: 大于等于; &lt;: 小于; &lt;=: 小于等于;<br>div: 取整; mod: 取余；</p>
+</blockquote>
+<h2 id="4-3-8-Analyse-the-use-of-variables-constants-and-operators-in-algorithms"><a href="#4-3-8-Analyse-the-use-of-variables-constants-and-operators-in-algorithms" class="headerlink" title="4.3.8 Analyse the use of variables, constants and operators in algorithms"></a>4.3.8 Analyse the use of variables, constants and operators in algorithms</h2><h3 id="Local-and-global-value"><a href="#Local-and-global-value" class="headerlink" title="Local and global value"></a>Local and global value</h3><p>全局变量对程序的所有部分可见，而局部变量的作用域有限。</p>
+<h2 id="4-3-9-Develop-algorithms-using-loops-branching"><a href="#4-3-9-Develop-algorithms-using-loops-branching" class="headerlink" title="4.3.9 Develop algorithms using loops, branching"></a>4.3.9 Develop algorithms using loops, branching</h2><p>给了一个算闰年的Java程序。</p>
+<h2 id="4-3-10-Describe-the-characteristics-and-applications-of-a-collection"><a href="#4-3-10-Describe-the-characteristics-and-applications-of-a-collection" class="headerlink" title="4.3.10 Describe the characteristics and applications of a collection"></a>4.3.10 Describe the characteristics and applications of a collection</h2><p>集合由零个或多个元素组成。允许重复元素，并且可以包含有序和无序的数据元素。集合的重要操作有添加、删除等。每种类型的集合都配备了自己特定的操作。特定集合的元素通都是相同类型并表示一个实体。</p>
+<h2 id="4-3-11-Develop-algorithms-using-the-access-methods-of-a-collection"><a href="#4-3-11-Develop-algorithms-using-the-access-methods-of-a-collection" class="headerlink" title="4.3.11 Develop algorithms using the access methods of a collection"></a>4.3.11 Develop algorithms using the access methods of a collection</h2><p>三个例子。</p>
+<h2 id="4-3-12-Discuss-the-importance-of-sub-programmes-and-collections-within-programmed-solutions"><a href="#4-3-12-Discuss-the-importance-of-sub-programmes-and-collections-within-programmed-solutions" class="headerlink" title="4.3.12 Discuss the importance of sub-programmes and collections within programmed solutions"></a>4.3.12 Discuss the importance of sub-programmes and collections within programmed solutions</h2><p>子程序是包含执行特定和预定义任务的计算机指令序列的单元。(编写函数)</p>
+<p>使用子程序的优点：</p>
+<ul>
+<li>复杂分成简单</li>
+<li>将问题分布到全世界</li>
+<li>允许代码重用</li>
+<li>隐藏实现细节，提高抽象程度</li>
+<li>提高可维护性</li>
+<li>减少代码重复</li>
+</ul>
+<p>使用集合的好处：</p>
+<ul>
+<li>集合可以直接进行操作</li>
+<li>提高性能</li>
+<li>重用更多代码</li>
+</ul>
+<h2 id="4-3-13-Construct-algorithms-using-pre-defined-sub-programmes-one-dimensional-arrays-and-or-collections"><a href="#4-3-13-Construct-algorithms-using-pre-defined-sub-programmes-one-dimensional-arrays-and-or-collections" class="headerlink" title="4.3.13 Construct algorithms using pre-defined sub-programmes, one-dimensional arrays and/or collections"></a>4.3.13 Construct algorithms using pre-defined sub-programmes, one-dimensional arrays and/or collections</h2><p>不同的高级语言使用过程、子过程、函数、例程、方法、模块等术语指代子程序。子程序包含的单元可以在各种计算机程序中使用。后跟一堆例子。</p>
+
+    </div>
+    
+    <!-- Optional: Footer of the post -->
+    <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem; font-style: italic;">
+      <p>Thanks for reading.</p>
+    </div>
+  </article>
+
+  <!-- 2. The Right-Side Menu (TOC) -->
+  <aside class="post-toc">
+    <div class="toc-wrapper">
+      <div class="toc-header">
+        On this page
+      </div>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Nature-of-programming-languages"><span class="toc-text">Nature of programming languages</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-1-State-the-fundamental-operations-of-a-computer"><span class="toc-text">4.3.1 State the fundamental operations of a computer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-2-Distingguish-between-fundamental-and-compound-operations-of-a-computer"><span class="toc-text">4.3.2 Distingguish between fundamental and compound operations of a computer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-3-Explain-the-essential-features-of-a-computer-language"><span class="toc-text">4.3.3 Explain the essential features of a computer language</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-4-Explain-the-need-for-higher-level-languages"><span class="toc-text">4.3.4 Explain the need for higher level languages</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-5-Outline-the-need-for-a-translation-process-from-a-higher-level-leanguage-to-machine-executable-code"><span class="toc-text">4.3.5 Outline the need for a translation process from a higher-level leanguage to machine-executable code</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Use-of-programming-languages"><span class="toc-text">Use of programming languages</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-6-Variable-constant-operator-object"><span class="toc-text">4.3.6 Variable, constant, operator, object</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-7-Define-various-operators"><span class="toc-text">4.3.7 Define various operators</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-8-Analyse-the-use-of-variables-constants-and-operators-in-algorithms"><span class="toc-text">4.3.8 Analyse the use of variables, constants and operators in algorithms</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Local-and-global-value"><span class="toc-text">Local and global value</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-9-Develop-algorithms-using-loops-branching"><span class="toc-text">4.3.9 Develop algorithms using loops, branching</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-10-Describe-the-characteristics-and-applications-of-a-collection"><span class="toc-text">4.3.10 Describe the characteristics and applications of a collection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-11-Develop-algorithms-using-the-access-methods-of-a-collection"><span class="toc-text">4.3.11 Develop algorithms using the access methods of a collection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-12-Discuss-the-importance-of-sub-programmes-and-collections-within-programmed-solutions"><span class="toc-text">4.3.12 Discuss the importance of sub-programmes and collections within programmed solutions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-13-Construct-algorithms-using-pre-defined-sub-programmes-one-dimensional-arrays-and-or-collections"><span class="toc-text">4.3.13 Construct algorithms using pre-defined sub-programmes, one-dimensional arrays and&#x2F;or collections</span></a></li></ol></li></ol>
+    </div>
+  </aside>
+
+</div>
+
+<!-- Improved Highlight Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tocLinks = document.querySelectorAll('.post-toc a');
+    const sections = document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4');
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: '-100px 0px -60% 0px', 
+      // This margin is key: it effectively draws a line near the top of the screen.
+      // An element only "intersects" when it crosses this line.
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          
+          // Remove active class from all
+          tocLinks.forEach(link => link.classList.remove('active'));
+          
+          // Add active class to current
+          // We must decodeURI because Hexo might encode Japanese/special chars in IDs
+          const activeLink = document.querySelector(`.post-toc a[href="#${decodeURI(id)}"]`);
+          if (activeLink) {
+            activeLink.classList.add('active');
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
+  });
+</script>
+      <footer class="footer">
+  &copy; 2026 Shoufeng Zhang. 
+  <span style="opacity:0.5">Monofolio designed based on Hexo.</span>
+</footer>
+    </main>
+  </div>
+
+</body>
+</html>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+    const lightbox = GLightbox({
+        selector: '.photo-wrapper img',
+        touchNavigation: true,
+        loop: true,
+    });
+</script>
