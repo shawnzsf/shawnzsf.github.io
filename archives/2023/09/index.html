@@ -13,61 +13,56 @@
     <aside class="sidebar">
   <div class="top-section">
     <div class="profile-intro">
+      <div class="profile-avatar">
+        <img src="/images/avatar.jpg" alt="Shoufeng Zhang" onerror="this.style.display='none'">
+      </div>
       <h1>Shoufeng Zhang</h1>
-      <!-- Japanese Transliteration or Kanji Name -->
       <span class="jp-name">張寿峰</span>
+      <div class="horizontal-deco">海濤悲湧深藍色</div>
     </div>
 
     <div class="info-block">
-      <span class="info-label">Current Status</span>
-      <p>Undergrad @ HKU</p>
-      <p>CS / Engineering</p>
+      <span class="info-label">Current</span>
+      <p>Undergraduate @ HKU</p>
+      <p>Computer Science / Engineering</p>
       <p>Beijing / Hong Kong SAR</p>
     </div>
 
     <div class="info-block">
       <span class="info-label">Interests</span>
       <p>Computing Hardware</p>
-      <p>Robotics</p>
-      <p>Systems and Security</p>
+      <p>Robotics & AI</p>
+      <p>Systems & Security</p>
     </div>
 
     <div class="info-block">
       <span class="info-label">Contact</span>
       <ul class="contact-list">
-        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal: zhangshoufng07@gmail.com</a></li>
-        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work: zhangshoufeng@connect.hku.hk</a></li>
-        <!-- <li><a href="#">Google Scholar</a></li> -->
-        <li><a target="_blank" rel="noopener" href="https://github.com/shawnzsf">GitHub</a></li>
-        <!-- <li><a href="#">Twitter/X</a></li> -->
+        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal Email</a></li>
+        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work Email</a></li>
+        <li><a href="https://github.com/shawnzsf" target="_blank" rel="noopener">GitHub</a></li>
       </ul>
     </div>
   </div>
 
-  <!-- Optional Navigation if you have blog posts later -->
   <nav class="site-nav">
     <div class="info-block">
       <span class="info-label">Menu</span>
-      <ul class="contact-list">
+      <ul class="nav-list">
         <li><a href="/">Index</a></li>
-        <li><a href="/archives">Blogs</a></li>
-        <!-- <li><a target="_blank" rel="noopener" href="https://shawnzsf.zonerama.com">Pictures</a></li> -->
+        <li><a href="/archives">Blog</a></li>
       </ul>
     </div>
   </nav>
-
-  <!-- Aesthetic Touch: Vertical Text -->
-  <div class="vertical-deco">
-    海濤悲湧深藍色
-  </div>
 </aside>
+
     
     <!-- Right Content -->
     <main class="main-content">
       <section class="archive-section">
-  <div class="section-title">
-    <h2>Blogs</h2>
-    <span class="jp">記録</span>
+  
+  <div class="section-header">
+    <h2 class="section-title">Blog <span class="jp">記録</span></h2>
   </div>
 
   
@@ -81,15 +76,16 @@
           <a href="/2023/09/20/IB-Computer-Science%EF%BC%9A%E4%BC%AA%E4%BB%A3%E7%A0%81%E3%80%81%E6%B5%81%E7%A8%8B%E5%9B%BE%E5%92%8C%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95%E5%B0%8F%E8%AE%B0/">IB Computer Science： 伪代码、流程图和简单算法小记</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Course Notes
+          <div class="role">
+            Course Notes
           </div>
         
         <p>
           
             
 伪代码编写练习可以使用网站：http://ibcomp.fis.edu/pseudocode/pcode.html
-伪代码语法循环逻辑：1234567loop i from ... to ...    TODO()end looploop...
+伪代码语法循环逻辑：1234567loop i from ... to ...    TODO()end looploop while (condition?)    TODO()end loop
+分支逻辑：1234567if (condition?) then    TODO()...
           
         </p>
       </div>
@@ -105,15 +101,17 @@
           <a href="/2023/09/04/%E5%8D%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B04%EF%BC%9A%E4%B9%98%E9%99%A4%E8%BF%90%E7%AE%97%E5%8F%8A%E6%B5%AE%E7%82%B9%E6%95%B0%E8%BF%90%E7%AE%97/">南京大学计算机系统基础课程笔记4：乘除运算及浮点数运算</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # 计算机系统
+          <div class="role">
+            计算机系统
           </div>
         
         <p>
           
             4.1 整数乘法运算通常在高级语言中两个n位整数相乘得到的结果通常也是一个n位整数（2n位乘积中的低n位）参与乘法的两个数据类型相同，如果不同会先转换。
 
-对于无符号乘法，判断高n位是否都等于0，是则不溢出；对于带符号乘法，判断高n位是否每...
+对于无符号乘法，判断高n位是否都等于0，是则不溢出；对于带符号乘法，判断高n位是否每位都等于低n位的最高位，是则不溢出。或者可以判断低n位与两个输入之间的关系，如上图所示。
+因为无符号和带符号处理不同，对应的乘法指令也不同。
+因为乘法指令所需的...
           
         </p>
       </div>
@@ -129,8 +127,8 @@
           <a href="/2023/09/01/%E5%8D%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B03%EF%BC%9A%E8%BF%90%E7%AE%97%E7%94%B5%E8%B7%AF%E5%9F%BA%E7%A1%80/">南京大学计算机系统基础课程笔记3：运算电路基础</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # 计算机系统
+          <div class="role">
+            计算机系统
           </div>
         
         <p>
@@ -141,16 +139,24 @@
 
 0和1分别表示逻辑值的假和真
 通过逻辑关系可以构建基于0和1的布尔代数运算
-最基本的逻辑运算有：与（AND）、或（OR）、非（N...
+最基本的逻辑运算有：与（AND）、或（OR）、非（NOT）
+真值表可以反映输入和输出之间的关系
+
+
+逻辑运算可以通过逻辑门电路实现：与门、或门、非门。假使我们要进行按n位逻辑运算，则需要n个逻辑门
+
+逻辑电路有以...
           
         </p>
       </div>
     </article>
   
   
-  <!-- Improved Pagination Logic -->
+  <!-- Pagination -->
+  
   
 </section>
+
       <footer class="footer">
   &copy; 2026 Shoufeng Zhang. 
   <span style="opacity:0.5">Monofolio designed based on Hexo.</span>
@@ -169,4 +175,94 @@
         touchNavigation: true,
         loop: true,
     });
+</script>
+
+<!-- Image Error Handling -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('.markdown-body img');
+    
+    images.forEach(function(img) {
+      // Handle already loaded images
+      if (img.complete) {
+        if (img.naturalWidth === 0) {
+          img.classList.add('error');
+        } else {
+          img.classList.add('loaded');
+        }
+      } else {
+        // Handle images that load successfully
+        img.addEventListener('load', function() {
+          img.classList.add('loaded');
+        });
+        
+        // Handle broken images
+        img.addEventListener('error', function() {
+          img.classList.add('error');
+        });
+      }
+    });
+  });
+</script>
+
+<!-- Page Transition Animations -->
+<script>
+  (function() {
+    // Add initial animation classes - slower, more elegant
+    document.addEventListener('DOMContentLoaded', function() {
+      const mainContent = document.querySelector('.main-content');
+      const sidebar = document.querySelector('.sidebar');
+      
+      if (mainContent) {
+        mainContent.classList.add('is-entering');
+        requestAnimationFrame(function() {
+          mainContent.classList.add('is-active');
+          setTimeout(function() {
+            mainContent.classList.remove('is-entering', 'is-active');
+          }, 800);
+        });
+      }
+      
+      if (sidebar) {
+        sidebar.classList.add('is-entering');
+        requestAnimationFrame(function() {
+          sidebar.classList.add('is-active');
+          setTimeout(function() {
+            sidebar.classList.remove('is-entering', 'is-active');
+          }, 1000);
+        });
+      }
+    });
+    
+    // Handle link clicks for transition - slower exit
+    document.addEventListener('click', function(e) {
+      const link = e.target.closest('a');
+      if (!link) return;
+      
+      // Only handle internal links
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('http') || href.startsWith('//') || href.startsWith('#') || href.startsWith('mailto:')) {
+        return;
+      }
+      
+      // Skip if modifier keys are pressed
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) {
+        return;
+      }
+      
+      e.preventDefault();
+      
+      const mainContent = document.querySelector('.main-content');
+      
+      // Exit animation - slower
+      if (mainContent) {
+        mainContent.classList.add('is-exiting');
+      }
+      
+      // Navigate after animation - longer delay for elegance
+      setTimeout(function() {
+        window.location.href = href;
+      }, 500);
+    });
+  })();
 </script>

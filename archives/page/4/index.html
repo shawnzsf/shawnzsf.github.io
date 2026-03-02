@@ -13,61 +13,56 @@
     <aside class="sidebar">
   <div class="top-section">
     <div class="profile-intro">
+      <div class="profile-avatar">
+        <img src="/images/avatar.jpg" alt="Shoufeng Zhang" onerror="this.style.display='none'">
+      </div>
       <h1>Shoufeng Zhang</h1>
-      <!-- Japanese Transliteration or Kanji Name -->
       <span class="jp-name">張寿峰</span>
+      <div class="horizontal-deco">海濤悲湧深藍色</div>
     </div>
 
     <div class="info-block">
-      <span class="info-label">Current Status</span>
-      <p>Undergrad @ HKU</p>
-      <p>CS / Engineering</p>
+      <span class="info-label">Current</span>
+      <p>Undergraduate @ HKU</p>
+      <p>Computer Science / Engineering</p>
       <p>Beijing / Hong Kong SAR</p>
     </div>
 
     <div class="info-block">
       <span class="info-label">Interests</span>
       <p>Computing Hardware</p>
-      <p>Robotics</p>
-      <p>Systems and Security</p>
+      <p>Robotics & AI</p>
+      <p>Systems & Security</p>
     </div>
 
     <div class="info-block">
       <span class="info-label">Contact</span>
       <ul class="contact-list">
-        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal: zhangshoufng07@gmail.com</a></li>
-        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work: zhangshoufeng@connect.hku.hk</a></li>
-        <!-- <li><a href="#">Google Scholar</a></li> -->
-        <li><a target="_blank" rel="noopener" href="https://github.com/shawnzsf">GitHub</a></li>
-        <!-- <li><a href="#">Twitter/X</a></li> -->
+        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal Email</a></li>
+        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work Email</a></li>
+        <li><a href="https://github.com/shawnzsf" target="_blank" rel="noopener">GitHub</a></li>
       </ul>
     </div>
   </div>
 
-  <!-- Optional Navigation if you have blog posts later -->
   <nav class="site-nav">
     <div class="info-block">
       <span class="info-label">Menu</span>
-      <ul class="contact-list">
+      <ul class="nav-list">
         <li><a href="/">Index</a></li>
-        <li><a href="/archives">Blogs</a></li>
-        <!-- <li><a target="_blank" rel="noopener" href="https://shawnzsf.zonerama.com">Pictures</a></li> -->
+        <li><a href="/archives">Blog</a></li>
       </ul>
     </div>
   </nav>
-
-  <!-- Aesthetic Touch: Vertical Text -->
-  <div class="vertical-deco">
-    海濤悲湧深藍色
-  </div>
 </aside>
+
     
     <!-- Right Content -->
     <main class="main-content">
       <section class="archive-section">
-  <div class="section-title">
-    <h2>Blogs</h2>
-    <span class="jp">記録</span>
+  
+  <div class="section-header">
+    <h2 class="section-title">Blog <span class="jp">記録</span></h2>
   </div>
 
   
@@ -81,27 +76,33 @@
           <a href="/2023/08/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E4%B8%8E%E8%AE%BE%E8%AE%A11%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%BD%E8%B1%A1%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/">计算机组成与设计1：计算机抽象及相关技术</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # 计算机组成原理
+          <div class="role">
+            计算机组成原理
           </div>
         
         <p>
           
             1.2 计算机体系结构中的8个伟大思想1. 面向摩尔定律的设计摩尔定律：单芯片上所集成的晶体管资源每18至24个月翻一番。因此计算机架构师设计芯片时要预测项目完成时的工艺水平。
-2. 使用抽象简化设计隐藏底层细节以提供给高层一个更简单的模型...
+2. 使用抽象简化设计隐藏底层细节以提供给高层一个更简单的模型。
+3. 加速经常性事件经常性事件比罕见情形更简单，性能更容易提升。
+4. 通过并行提高性能并行计算。
+5. 通过流水线提高性能并行性的一种特殊场景。
+6. 通...
           
         </p>
       </div>
     </article>
   
   
-  <!-- Improved Pagination Logic -->
+  <!-- Pagination -->
   
     <nav class="pagination">
-      <a class="extend prev" rel="prev" href="/archives/page/3/"><i class="fa fa-angle-left"></i> Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="page-number current">4</span>
+      <a class="extend prev" rel="prev" href="/archives/page/3/">← Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="page-number current">4</span>
     </nav>
   
+  
 </section>
+
       <footer class="footer">
   &copy; 2026 Shoufeng Zhang. 
   <span style="opacity:0.5">Monofolio designed based on Hexo.</span>
@@ -120,4 +121,94 @@
         touchNavigation: true,
         loop: true,
     });
+</script>
+
+<!-- Image Error Handling -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('.markdown-body img');
+    
+    images.forEach(function(img) {
+      // Handle already loaded images
+      if (img.complete) {
+        if (img.naturalWidth === 0) {
+          img.classList.add('error');
+        } else {
+          img.classList.add('loaded');
+        }
+      } else {
+        // Handle images that load successfully
+        img.addEventListener('load', function() {
+          img.classList.add('loaded');
+        });
+        
+        // Handle broken images
+        img.addEventListener('error', function() {
+          img.classList.add('error');
+        });
+      }
+    });
+  });
+</script>
+
+<!-- Page Transition Animations -->
+<script>
+  (function() {
+    // Add initial animation classes - slower, more elegant
+    document.addEventListener('DOMContentLoaded', function() {
+      const mainContent = document.querySelector('.main-content');
+      const sidebar = document.querySelector('.sidebar');
+      
+      if (mainContent) {
+        mainContent.classList.add('is-entering');
+        requestAnimationFrame(function() {
+          mainContent.classList.add('is-active');
+          setTimeout(function() {
+            mainContent.classList.remove('is-entering', 'is-active');
+          }, 800);
+        });
+      }
+      
+      if (sidebar) {
+        sidebar.classList.add('is-entering');
+        requestAnimationFrame(function() {
+          sidebar.classList.add('is-active');
+          setTimeout(function() {
+            sidebar.classList.remove('is-entering', 'is-active');
+          }, 1000);
+        });
+      }
+    });
+    
+    // Handle link clicks for transition - slower exit
+    document.addEventListener('click', function(e) {
+      const link = e.target.closest('a');
+      if (!link) return;
+      
+      // Only handle internal links
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('http') || href.startsWith('//') || href.startsWith('#') || href.startsWith('mailto:')) {
+        return;
+      }
+      
+      // Skip if modifier keys are pressed
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) {
+        return;
+      }
+      
+      e.preventDefault();
+      
+      const mainContent = document.querySelector('.main-content');
+      
+      // Exit animation - slower
+      if (mainContent) {
+        mainContent.classList.add('is-exiting');
+      }
+      
+      // Navigate after animation - longer delay for elegance
+      setTimeout(function() {
+        window.location.href = href;
+      }, 500);
+    });
+  })();
 </script>

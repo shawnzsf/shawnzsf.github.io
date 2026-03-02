@@ -13,61 +13,56 @@
     <aside class="sidebar">
   <div class="top-section">
     <div class="profile-intro">
+      <div class="profile-avatar">
+        <img src="/images/avatar.jpg" alt="Shoufeng Zhang" onerror="this.style.display='none'">
+      </div>
       <h1>Shoufeng Zhang</h1>
-      <!-- Japanese Transliteration or Kanji Name -->
       <span class="jp-name">張寿峰</span>
+      <div class="horizontal-deco">海濤悲湧深藍色</div>
     </div>
 
     <div class="info-block">
-      <span class="info-label">Current Status</span>
-      <p>Undergrad @ HKU</p>
-      <p>CS / Engineering</p>
+      <span class="info-label">Current</span>
+      <p>Undergraduate @ HKU</p>
+      <p>Computer Science / Engineering</p>
       <p>Beijing / Hong Kong SAR</p>
     </div>
 
     <div class="info-block">
       <span class="info-label">Interests</span>
       <p>Computing Hardware</p>
-      <p>Robotics</p>
-      <p>Systems and Security</p>
+      <p>Robotics & AI</p>
+      <p>Systems & Security</p>
     </div>
 
     <div class="info-block">
       <span class="info-label">Contact</span>
       <ul class="contact-list">
-        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal: zhangshoufng07@gmail.com</a></li>
-        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work: zhangshoufeng@connect.hku.hk</a></li>
-        <!-- <li><a href="#">Google Scholar</a></li> -->
-        <li><a target="_blank" rel="noopener" href="https://github.com/shawnzsf">GitHub</a></li>
-        <!-- <li><a href="#">Twitter/X</a></li> -->
+        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal Email</a></li>
+        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work Email</a></li>
+        <li><a href="https://github.com/shawnzsf" target="_blank" rel="noopener">GitHub</a></li>
       </ul>
     </div>
   </div>
 
-  <!-- Optional Navigation if you have blog posts later -->
   <nav class="site-nav">
     <div class="info-block">
       <span class="info-label">Menu</span>
-      <ul class="contact-list">
+      <ul class="nav-list">
         <li><a href="/">Index</a></li>
-        <li><a href="/archives">Blogs</a></li>
-        <!-- <li><a target="_blank" rel="noopener" href="https://shawnzsf.zonerama.com">Pictures</a></li> -->
+        <li><a href="/archives">Blog</a></li>
       </ul>
     </div>
   </nav>
-
-  <!-- Aesthetic Touch: Vertical Text -->
-  <div class="vertical-deco">
-    海濤悲湧深藍色
-  </div>
 </aside>
+
     
     <!-- Right Content -->
     <main class="main-content">
       <section class="archive-section">
-  <div class="section-title">
-    <h2>Blogs</h2>
-    <span class="jp">記録</span>
+  
+  <div class="section-header">
+    <h2 class="section-title">Blog <span class="jp">記録</span></h2>
   </div>
 
   
@@ -81,14 +76,14 @@
           <a href="/2025/11/19/Kernel-based-Virtualization-Overview-Structure-and-Sample-Code-Explanation/">Kernel-based Virtualization Overview (Structure and Sample Code Explanation)</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Wrap-up post
+          <div class="role">
+            Wrap-up post
           </div>
         
         <p>
           
             
-Virtualization is a great tool for testing/learning codes on different environment. My personal experience with virtual...
+Virtualization is a great tool for testing/learning codes on different environment. My personal experience with virtual machine started by vmware for studying linux. At that time wsl (windows sublinu...
           
         </p>
       </div>
@@ -104,13 +99,13 @@ Virtualization is a great tool for testing/learning codes on different environme
           <a href="/2023/10/16/net%EF%BC%9A%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%87%AA%E5%BB%BA%E8%8A%82%E7%82%B9%E4%B9%8B%E6%97%85/">节点搭建指南</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Wrap-up post
+          <div class="role">
+            Wrap-up post
           </div>
         
         <p>
           
-            网络通信的基本过程五层基本模型：应用层、传输层、网络层、数据链路层、物理层。数据包格式：| 源MAC | 目标MAC | 源IP | 目标IP | 源端口 | 目标端口 | 数据 |访问网址时首先在本地缓存检查是否存有域名绑定的IP地址，没...
+            网络通信的基本过程五层基本模型：应用层、传输层、网络层、数据链路层、物理层。数据包格式：| 源MAC | 目标MAC | 源IP | 目标IP | 源端口 | 目标端口 | 数据 |访问网址时首先在本地缓存检查是否存有域名绑定的IP地址，没有的话继续检查本地host文件，然后访问电脑中配置的DNS服务器（应用层协议，发送请求）。请求传到传输层，将应用层的数据封装，源端口为404，DNS默认目标端口...
           
         </p>
       </div>
@@ -126,13 +121,14 @@ Virtualization is a great tool for testing/learning codes on different environme
           <a href="/2023/08/15/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A02%EF%BC%9A%E5%9B%9E%E5%BD%92%E8%BF%9B%E9%98%B6/">线性回归2：极大似然估计</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Wrap-up post
+          <div class="role">
+            Wrap-up post
           </div>
         
         <p>
           
-            更复杂的模型上篇文章介绍了最基本的线性回归，文末的向量表示方法也允许我们进一步扩充模型的复杂度。我们现在可以使用四次方模型、八次方模型来提高复杂度。为了变得更加牛逼，我们还可以将原来公式：t = w0 + w1x + w2  x^2 + …...
+            更复杂的模型上篇文章介绍了最基本的线性回归，文末的向量表示方法也允许我们进一步扩充模型的复杂度。我们现在可以使用四次方模型、八次方模型来提高复杂度。为了变得更加牛逼，我们还可以将原来公式：t = w0 + w1x + w2  x^2 + … + wk  w^k中的x替换成函数，h(x)。函数的具体内容就可以发挥你的想象力了，指数、三角…如此原本矩阵X的内容就取决于函数h(x)了。
+但正如上篇文章中...
           
         </p>
       </div>
@@ -148,8 +144,8 @@ Virtualization is a great tool for testing/learning codes on different environme
           <a href="/2023/08/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A01%EF%BC%9A%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">线性回归1：最小二乘法</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Wrap-up post
+          <div class="role">
+            Wrap-up post
           </div>
         
         <p>
@@ -160,7 +156,8 @@ Virtualization is a great tool for testing/learning codes on different environme
 数据可以是对于人的观察(偏好、健康…)
 数据也可以是对于世界的观察(图像、声音…)
 
-通过机器学习，我们可以找到相似的对...
+通过机器学习，我们可以找到相似的对象、为对象做预测、从对象身上总结知识、为对象分组…
+算法！算法！机器学习可以被认为是一个拥有不断增长的数据集的算法。但是算法很难被应用到实际，并且在应用过程中可...
           
         </p>
       </div>
@@ -176,15 +173,17 @@ Virtualization is a great tool for testing/learning codes on different environme
           <a href="/2023/08/06/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E9%80%9F%E8%A7%88/">正则表达式速览</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Wrap-up post
+          <div class="role">
+            Wrap-up post
           </div>
         
         <p>
           
             限定符?: 表示某一个词元可以出现零次或一次，例：used?可以匹配use和used。
 *：表示某一个词元可以出现零次或多次，例：ab*c可以匹配ac, abc, abbc...
-**注：词元在这里是我生造的词汇，表示某一个具体的字母，符号...
+**注：词元在这里是我生造的词汇，表示某一个具体的字母，符号或数字。**
++：表示某一个词元必须出现一次以上。
+{...}(数字)：括号内的数字表示某一个词元必须出现的特定次数。{2}，为出现两次，{2,6}，为出现2到...
           
         </p>
       </div>
@@ -200,8 +199,8 @@ Virtualization is a great tool for testing/learning codes on different environme
           <a href="/2023/08/03/Get-deeper-in-SRAM/">Get deeper in SRAM</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Wrap-up post
+          <div class="role">
+            Wrap-up post
           </div>
         
         <p>
@@ -213,16 +212,21 @@ Virtualization is a great tool for testing/learning codes on different environme
 
 RAM又有如下两个分类：
 
-DRAM (Dynamic Random Access Memo...
+DRAM (Dynamic Random Access Memory)
+SRAM (Static Random Access Memory)
+
+DRAM由一个电容器(capacitor)和一个晶体管(transistor)构...
           
         </p>
       </div>
     </article>
   
   
-  <!-- Improved Pagination Logic -->
+  <!-- Pagination -->
+  
   
 </section>
+
       <footer class="footer">
   &copy; 2026 Shoufeng Zhang. 
   <span style="opacity:0.5">Monofolio designed based on Hexo.</span>
@@ -241,4 +245,94 @@ DRAM (Dynamic Random Access Memo...
         touchNavigation: true,
         loop: true,
     });
+</script>
+
+<!-- Image Error Handling -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('.markdown-body img');
+    
+    images.forEach(function(img) {
+      // Handle already loaded images
+      if (img.complete) {
+        if (img.naturalWidth === 0) {
+          img.classList.add('error');
+        } else {
+          img.classList.add('loaded');
+        }
+      } else {
+        // Handle images that load successfully
+        img.addEventListener('load', function() {
+          img.classList.add('loaded');
+        });
+        
+        // Handle broken images
+        img.addEventListener('error', function() {
+          img.classList.add('error');
+        });
+      }
+    });
+  });
+</script>
+
+<!-- Page Transition Animations -->
+<script>
+  (function() {
+    // Add initial animation classes - slower, more elegant
+    document.addEventListener('DOMContentLoaded', function() {
+      const mainContent = document.querySelector('.main-content');
+      const sidebar = document.querySelector('.sidebar');
+      
+      if (mainContent) {
+        mainContent.classList.add('is-entering');
+        requestAnimationFrame(function() {
+          mainContent.classList.add('is-active');
+          setTimeout(function() {
+            mainContent.classList.remove('is-entering', 'is-active');
+          }, 800);
+        });
+      }
+      
+      if (sidebar) {
+        sidebar.classList.add('is-entering');
+        requestAnimationFrame(function() {
+          sidebar.classList.add('is-active');
+          setTimeout(function() {
+            sidebar.classList.remove('is-entering', 'is-active');
+          }, 1000);
+        });
+      }
+    });
+    
+    // Handle link clicks for transition - slower exit
+    document.addEventListener('click', function(e) {
+      const link = e.target.closest('a');
+      if (!link) return;
+      
+      // Only handle internal links
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('http') || href.startsWith('//') || href.startsWith('#') || href.startsWith('mailto:')) {
+        return;
+      }
+      
+      // Skip if modifier keys are pressed
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) {
+        return;
+      }
+      
+      e.preventDefault();
+      
+      const mainContent = document.querySelector('.main-content');
+      
+      // Exit animation - slower
+      if (mainContent) {
+        mainContent.classList.add('is-exiting');
+      }
+      
+      // Navigate after animation - longer delay for elegance
+      setTimeout(function() {
+        window.location.href = href;
+      }, 500);
+    });
+  })();
 </script>

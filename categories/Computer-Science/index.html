@@ -13,61 +13,56 @@
     <aside class="sidebar">
   <div class="top-section">
     <div class="profile-intro">
+      <div class="profile-avatar">
+        <img src="/images/avatar.jpg" alt="Shoufeng Zhang" onerror="this.style.display='none'">
+      </div>
       <h1>Shoufeng Zhang</h1>
-      <!-- Japanese Transliteration or Kanji Name -->
       <span class="jp-name">張寿峰</span>
+      <div class="horizontal-deco">海濤悲湧深藍色</div>
     </div>
 
     <div class="info-block">
-      <span class="info-label">Current Status</span>
-      <p>Undergrad @ HKU</p>
-      <p>CS / Engineering</p>
+      <span class="info-label">Current</span>
+      <p>Undergraduate @ HKU</p>
+      <p>Computer Science / Engineering</p>
       <p>Beijing / Hong Kong SAR</p>
     </div>
 
     <div class="info-block">
       <span class="info-label">Interests</span>
       <p>Computing Hardware</p>
-      <p>Robotics</p>
-      <p>Systems and Security</p>
+      <p>Robotics & AI</p>
+      <p>Systems & Security</p>
     </div>
 
     <div class="info-block">
       <span class="info-label">Contact</span>
       <ul class="contact-list">
-        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal: zhangshoufng07@gmail.com</a></li>
-        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work: zhangshoufeng@connect.hku.hk</a></li>
-        <!-- <li><a href="#">Google Scholar</a></li> -->
-        <li><a target="_blank" rel="noopener" href="https://github.com/shawnzsf">GitHub</a></li>
-        <!-- <li><a href="#">Twitter/X</a></li> -->
+        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal Email</a></li>
+        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work Email</a></li>
+        <li><a href="https://github.com/shawnzsf" target="_blank" rel="noopener">GitHub</a></li>
       </ul>
     </div>
   </div>
 
-  <!-- Optional Navigation if you have blog posts later -->
   <nav class="site-nav">
     <div class="info-block">
       <span class="info-label">Menu</span>
-      <ul class="contact-list">
+      <ul class="nav-list">
         <li><a href="/">Index</a></li>
-        <li><a href="/archives">Blogs</a></li>
-        <!-- <li><a target="_blank" rel="noopener" href="https://shawnzsf.zonerama.com">Pictures</a></li> -->
+        <li><a href="/archives">Blog</a></li>
       </ul>
     </div>
   </nav>
-
-  <!-- Aesthetic Touch: Vertical Text -->
-  <div class="vertical-deco">
-    海濤悲湧深藍色
-  </div>
 </aside>
+
     
     <!-- Right Content -->
     <main class="main-content">
       <section class="archive-section">
-  <div class="section-title">
-    <h2>Blogs</h2>
-    <span class="jp">記録</span>
+  
+  <div class="section-header">
+    <h2 class="section-title">Blog <span class="jp">記録</span></h2>
   </div>
 
   
@@ -81,14 +76,14 @@
           <a href="/2025/11/19/Kernel-based-Virtualization-Overview-Structure-and-Sample-Code-Explanation/">Kernel-based Virtualization Overview (Structure and Sample Code Explanation)</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Wrap-up post
+          <div class="role">
+            Wrap-up post
           </div>
         
         <p>
           
             
-Virtualization is a great tool for testing/learning codes on different environment. My personal experience with virtual...
+Virtualization is a great tool for testing/learning codes on different environment. My personal experience with virtual machine started by vmware for studying linux. At that time wsl (windows sublinu...
           
         </p>
       </div>
@@ -104,13 +99,13 @@ Virtualization is a great tool for testing/learning codes on different environme
           <a href="/2024/07/29/CMU-15122%EF%BC%9ATransitioning-to-C/">CMU 15122：Transitioning to C</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Course Notes
+          <div class="role">
+            Course Notes
           </div>
         
         <p>
           
-            Graph RepresentationGraph InterfaceGraph是Undirected的（15122定义），也就是说对于vertex A和B，BA和AB是一条edge。我们将graph表示成一个data structure，...
+            Graph RepresentationGraph InterfaceGraph是Undirected的（15122定义），也就是说对于vertex A和B，BA和AB是一条edge。我们将graph表示成一个data structure，其中vertex定义为无符号整数。那么一个基本的graph interface可以如下所示：1234567891011121314151617181920212...
           
         </p>
       </div>
@@ -126,14 +121,18 @@ Virtualization is a great tool for testing/learning codes on different environme
           <a href="/2024/07/17/CMU-15122%EF%BC%9AData-Structures/">CMU 15122：Data Structures</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Course Notes
+          <div class="role">
+            Course Notes
           </div>
         
         <p>
           
             LibrariesOverview通过使用库（libraries），程序可以复用已经编写好的代码，包括系统代码、过去编写的简单代码以及他人编写的复杂代码。库有助于隐藏不必要的细节，使代码更易于管理，并允许透明的改进。
-Structure o...
+Structure of a library: 
+
+接口（Interface）：列出了库导出的功能及其使用方法。
+实现（Implementation）：实现接口中列出的功能的代码。
+...
           
         </p>
       </div>
@@ -149,13 +148,15 @@ Structure o...
           <a href="/2024/07/02/CMU-15122%EF%BC%9ADeliberate-Programming/">CMU 15122：Deliberate Programming</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Course Notes
+          <div class="role">
+            Course Notes
           </div>
         
         <p>
           
-            本篇总结CMU 15122第一单元Deliberate Programming的全部内容（除了Contracts部分）。这门课的整体脉络还是较为清晰的，虽然大部分东西并不陌生，但从safety和correctness的角度重新审视一遍也是不...
+            本篇总结CMU 15122第一单元Deliberate Programming的全部内容（除了Contracts部分）。这门课的整体脉络还是较为清晰的，虽然大部分东西并不陌生，但从safety和correctness的角度重新审视一遍也是不错的。
+Integers涉及进制转换的内容略过不提。
+Two’s ComplementTwo’s Complement是C0中表示数字的一种方法。C0中的整数一...
           
         </p>
       </div>
@@ -171,15 +172,15 @@ Structure o...
           <a href="/2024/06/27/CMU-15122-Contracts/">CMU 15122: Contracts</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Course Notes
+          <div class="role">
+            Course Notes
           </div>
         
         <p>
           
             CMU15122开头部分讲的内容都是关于如何编写Contracts来保证程序的正确性和安全性，以及利用Contract对程序进行验证。本文简单梳理其中引出的概念。
 Contractc0中有四种Contract：
-1234- //@requi...
+1234- //@requires exp; checked before function execution- //@ensures exp; checked function ret...
           
         </p>
       </div>
@@ -195,13 +196,13 @@ Contractc0中有四种Contract：
           <a href="/2023/10/16/net%EF%BC%9A%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%87%AA%E5%BB%BA%E8%8A%82%E7%82%B9%E4%B9%8B%E6%97%85/">节点搭建指南</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Wrap-up post
+          <div class="role">
+            Wrap-up post
           </div>
         
         <p>
           
-            网络通信的基本过程五层基本模型：应用层、传输层、网络层、数据链路层、物理层。数据包格式：| 源MAC | 目标MAC | 源IP | 目标IP | 源端口 | 目标端口 | 数据 |访问网址时首先在本地缓存检查是否存有域名绑定的IP地址，没...
+            网络通信的基本过程五层基本模型：应用层、传输层、网络层、数据链路层、物理层。数据包格式：| 源MAC | 目标MAC | 源IP | 目标IP | 源端口 | 目标端口 | 数据 |访问网址时首先在本地缓存检查是否存有域名绑定的IP地址，没有的话继续检查本地host文件，然后访问电脑中配置的DNS服务器（应用层协议，发送请求）。请求传到传输层，将应用层的数据封装，源端口为404，DNS默认目标端口...
           
         </p>
       </div>
@@ -217,15 +218,16 @@ Contractc0中有四种Contract：
           <a href="/2023/09/20/IB-Computer-Science%EF%BC%9A%E4%BC%AA%E4%BB%A3%E7%A0%81%E3%80%81%E6%B5%81%E7%A8%8B%E5%9B%BE%E5%92%8C%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95%E5%B0%8F%E8%AE%B0/">IB Computer Science： 伪代码、流程图和简单算法小记</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Course Notes
+          <div class="role">
+            Course Notes
           </div>
         
         <p>
           
             
 伪代码编写练习可以使用网站：http://ibcomp.fis.edu/pseudocode/pcode.html
-伪代码语法循环逻辑：1234567loop i from ... to ...    TODO()end looploop...
+伪代码语法循环逻辑：1234567loop i from ... to ...    TODO()end looploop while (condition?)    TODO()end loop
+分支逻辑：1234567if (condition?) then    TODO()...
           
         </p>
       </div>
@@ -241,14 +243,14 @@ Contractc0中有四种Contract：
           <a href="/2023/08/10/%E5%9F%BA%E4%BA%8ENVBoard%E5%AE%9E%E7%8E%B0%E9%94%AE%E7%9B%98%E8%BE%93%E5%85%A5/">NJU DC：基于NVBoard实现键盘输入</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Course Notes
+          <div class="role">
+            Course Notes
           </div>
         
         <p>
           
             接入NVBoard仿真第一步先为verilator接入NVBoard。NVBoard是一生一芯往届学生为学习数字电路实验开发的虚拟FPGA板。安装的具体步骤根据README里面的提示运行脚本文件并安装相关的依赖即可。
-键盘输入的具体实现在键...
+键盘输入的具体实现在键盘输入中除了基本的clk，resetn，ps2_clk，ps2_data和数码管输出之外，还定义了五个类型的变量。首先建立一个reg类型的十位buffer变量，...
           
         </p>
       </div>
@@ -264,15 +266,17 @@ Contractc0中有四种Contract：
           <a href="/2023/08/06/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E9%80%9F%E8%A7%88/">正则表达式速览</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Wrap-up post
+          <div class="role">
+            Wrap-up post
           </div>
         
         <p>
           
             限定符?: 表示某一个词元可以出现零次或一次，例：used?可以匹配use和used。
 *：表示某一个词元可以出现零次或多次，例：ab*c可以匹配ac, abc, abbc...
-**注：词元在这里是我生造的词汇，表示某一个具体的字母，符号...
+**注：词元在这里是我生造的词汇，表示某一个具体的字母，符号或数字。**
++：表示某一个词元必须出现一次以上。
+{...}(数字)：括号内的数字表示某一个词元必须出现的特定次数。{2}，为出现两次，{2,6}，为出现2到...
           
         </p>
       </div>
@@ -288,28 +292,30 @@ Contractc0中有四种Contract：
           <a href="/2023/08/04/PA1%E6%80%9D%E8%B7%AF%E6%80%BB%E7%BB%93/">NJU ICS：PA(Programming Assignment) 1 思路总结</a>
         </h3>
         
-          <div class="role" style="font-size: 0.8rem;">
-            # Course Notes
+          <div class="role">
+            Course Notes
           </div>
         
         <p>
           
             在此对PA1实验中的任务进行思路上的总结。
 框架代码理解nemu
-├── configs                    # 预先提供的一些配置文件├── include                    # 存放全局使用的头文件...
+├── configs                    # 预先提供的一些配置文件├── include                    # 存放全局使用的头文件│   ├── common.h               # 公用的头文件│   ├── config                 # 配置系统生成的头...
           
         </p>
       </div>
     </article>
   
   
-  <!-- Improved Pagination Logic -->
+  <!-- Pagination -->
   
     <nav class="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/categories/Computer-Science/page/2/">2</a><a class="extend next" rel="next" href="/categories/Computer-Science/page/2/">Next <i class="fa fa-angle-right"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/categories/Computer-Science/page/2/">2</a><a class="extend next" rel="next" href="/categories/Computer-Science/page/2/">Next →</a>
     </nav>
   
+  
 </section>
+
       <footer class="footer">
   &copy; 2026 Shoufeng Zhang. 
   <span style="opacity:0.5">Monofolio designed based on Hexo.</span>
@@ -328,4 +334,94 @@ Contractc0中有四种Contract：
         touchNavigation: true,
         loop: true,
     });
+</script>
+
+<!-- Image Error Handling -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('.markdown-body img');
+    
+    images.forEach(function(img) {
+      // Handle already loaded images
+      if (img.complete) {
+        if (img.naturalWidth === 0) {
+          img.classList.add('error');
+        } else {
+          img.classList.add('loaded');
+        }
+      } else {
+        // Handle images that load successfully
+        img.addEventListener('load', function() {
+          img.classList.add('loaded');
+        });
+        
+        // Handle broken images
+        img.addEventListener('error', function() {
+          img.classList.add('error');
+        });
+      }
+    });
+  });
+</script>
+
+<!-- Page Transition Animations -->
+<script>
+  (function() {
+    // Add initial animation classes - slower, more elegant
+    document.addEventListener('DOMContentLoaded', function() {
+      const mainContent = document.querySelector('.main-content');
+      const sidebar = document.querySelector('.sidebar');
+      
+      if (mainContent) {
+        mainContent.classList.add('is-entering');
+        requestAnimationFrame(function() {
+          mainContent.classList.add('is-active');
+          setTimeout(function() {
+            mainContent.classList.remove('is-entering', 'is-active');
+          }, 800);
+        });
+      }
+      
+      if (sidebar) {
+        sidebar.classList.add('is-entering');
+        requestAnimationFrame(function() {
+          sidebar.classList.add('is-active');
+          setTimeout(function() {
+            sidebar.classList.remove('is-entering', 'is-active');
+          }, 1000);
+        });
+      }
+    });
+    
+    // Handle link clicks for transition - slower exit
+    document.addEventListener('click', function(e) {
+      const link = e.target.closest('a');
+      if (!link) return;
+      
+      // Only handle internal links
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('http') || href.startsWith('//') || href.startsWith('#') || href.startsWith('mailto:')) {
+        return;
+      }
+      
+      // Skip if modifier keys are pressed
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) {
+        return;
+      }
+      
+      e.preventDefault();
+      
+      const mainContent = document.querySelector('.main-content');
+      
+      // Exit animation - slower
+      if (mainContent) {
+        mainContent.classList.add('is-exiting');
+      }
+      
+      // Navigate after animation - longer delay for elegance
+      setTimeout(function() {
+        window.location.href = href;
+      }, 500);
+    });
+  })();
 </script>
