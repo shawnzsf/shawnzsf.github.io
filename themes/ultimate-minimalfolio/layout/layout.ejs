@@ -31,3 +31,93 @@
         loop: true,
     });
 </script>
+
+<!-- Image Error Handling -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('.markdown-body img');
+    
+    images.forEach(function(img) {
+      // Handle already loaded images
+      if (img.complete) {
+        if (img.naturalWidth === 0) {
+          img.classList.add('error');
+        } else {
+          img.classList.add('loaded');
+        }
+      } else {
+        // Handle images that load successfully
+        img.addEventListener('load', function() {
+          img.classList.add('loaded');
+        });
+        
+        // Handle broken images
+        img.addEventListener('error', function() {
+          img.classList.add('error');
+        });
+      }
+    });
+  });
+</script>
+
+<!-- Page Transition Animations -->
+<script>
+  (function() {
+    // Add initial animation classes - slower, more elegant
+    document.addEventListener('DOMContentLoaded', function() {
+      const mainContent = document.querySelector('.main-content');
+      const sidebar = document.querySelector('.sidebar');
+      
+      if (mainContent) {
+        mainContent.classList.add('is-entering');
+        requestAnimationFrame(function() {
+          mainContent.classList.add('is-active');
+          setTimeout(function() {
+            mainContent.classList.remove('is-entering', 'is-active');
+          }, 800);
+        });
+      }
+      
+      if (sidebar) {
+        sidebar.classList.add('is-entering');
+        requestAnimationFrame(function() {
+          sidebar.classList.add('is-active');
+          setTimeout(function() {
+            sidebar.classList.remove('is-entering', 'is-active');
+          }, 1000);
+        });
+      }
+    });
+    
+    // Handle link clicks for transition - slower exit
+    document.addEventListener('click', function(e) {
+      const link = e.target.closest('a');
+      if (!link) return;
+      
+      // Only handle internal links
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('http') || href.startsWith('//') || href.startsWith('#') || href.startsWith('mailto:')) {
+        return;
+      }
+      
+      // Skip if modifier keys are pressed
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) {
+        return;
+      }
+      
+      e.preventDefault();
+      
+      const mainContent = document.querySelector('.main-content');
+      
+      // Exit animation - slower
+      if (mainContent) {
+        mainContent.classList.add('is-exiting');
+      }
+      
+      // Navigate after animation - longer delay for elegance
+      setTimeout(function() {
+        window.location.href = href;
+      }, 500);
+    });
+  })();
+</script>

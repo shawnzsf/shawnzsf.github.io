@@ -1,12 +1,12 @@
 <div class="post-container">
-  
-  <!-- 1. The Article Content -->
+
+  <!-- Article Content -->
   <article class="blog-article">
     <header class="post-header">
       <div class="post-meta">
-        <span class="jp-date"><%= date(page.date, 'YYYY/MM/DD') %></span>
+        <time datetime="<%= date_xml(page.date) %>"><%= date(page.date, 'YYYY.MM.DD') %></time>
         <% if(page.categories && page.categories.length) { %>
-           <span class="separator">/</span> 
+           <span class="separator">·</span> 
            <span class="category"><%= page.categories.data[0].name %></span>
         <% } %>
       </div>
@@ -17,35 +17,33 @@
       <%- page.content %>
     </div>
     
-    <!-- Optional: Footer of the post -->
-    <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem; font-style: italic;">
+    <!-- Post Footer -->
+    <footer class="post-footer">
       <p>Thanks for reading.</p>
-    </div>
+    </footer>
   </article>
 
-  <!-- 2. The Right-Side Menu (TOC) -->
+  <!-- Table of Contents Sidebar -->
   <aside class="post-toc">
     <div class="toc-wrapper">
-      <div class="toc-header">
-        On this page
-      </div>
+      <div class="toc-header">On this page</div>
       <%- toc(page.content, {list_number: false}) %>
     </div>
   </aside>
 
 </div>
 
-<!-- Improved Highlight Script -->
+<!-- TOC Highlight Script -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const tocLinks = document.querySelectorAll('.post-toc a');
     const sections = document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4');
     
+    if (sections.length === 0 || tocLinks.length === 0) return;
+    
     const observerOptions = {
       root: null,
-      rootMargin: '-100px 0px -60% 0px', 
-      // This margin is key: it effectively draws a line near the top of the screen.
-      // An element only "intersects" when it crosses this line.
+      rootMargin: '-80px 0px -70% 0px',
       threshold: 0
     };
 
@@ -58,8 +56,7 @@
           tocLinks.forEach(link => link.classList.remove('active'));
           
           // Add active class to current
-          // We must decodeURI because Hexo might encode Japanese/special chars in IDs
-          const activeLink = document.querySelector(`.post-toc a[href="#${decodeURI(id)}"]`);
+          const activeLink = document.querySelector(`.post-toc a[href="#${CSS.escape(id)}"]`);
           if (activeLink) {
             activeLink.classList.add('active');
           }
