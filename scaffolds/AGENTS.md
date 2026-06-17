@@ -19,7 +19,8 @@ This is a **Hexo-based static personal website and blog** for Shoufeng Zhang (�
 ├── _config.yml              # Main Hexo configuration
 ├── package.json             # Node.js dependencies and npm scripts
 ├── source/                  # Content source files
-│   └── _posts/              # Blog posts (Markdown with YAML frontmatter)
+│   ├── _posts/              # Blog posts (Markdown with YAML frontmatter)
+│   └── gallery/             # Gallery page (photo portfolio)
 ├── themes/                  # Theme files
 │   └── ultimate-minimalfolio/    # Custom active theme
 │       ├── _config.yml      # Theme-specific configuration
@@ -100,6 +101,7 @@ description: Brief description for SEO/summary
 
 - **Blog posts:** `source/_posts/*.md`
 - **Post assets (images):** Place in `source/_posts/` alongside the post or in a subfolder with the same name as the post
+- **Gallery page:** `source/gallery/index.md` - Photo portfolio with YAML frontmatter defining `photos` array
 
 ## Theme Configuration
 
@@ -107,7 +109,7 @@ The active theme is `ultimate-minimalfolio`, a custom minimalist dark theme with
 
 ### Key Theme Settings (`themes/ultimate-minimalfolio/_config.yml`)
 
-- **Navigation menu:** Home, Blog, Gallery, About links
+- **Navigation menu:** Index, Blog, Gallery links (configured in `layout/_partial/sidebar.ejs`)
 - **CV/Profile data:** Personal info, education, achievements, projects
 - **MathJax settings:** Configured for inline math with single `$` delimiter
 - **Color scheme:** Dark theme with Kachi-iro (勝色) navy and gold accents
@@ -117,7 +119,7 @@ The active theme is `ultimate-minimalfolio`, a custom minimalist dark theme with
 - **Homepage (`index.ejs`):** CV/Portfolio style with sections for Introduction, Education, Experience, and Selected Works
 - **Blog posts (`post.ejs`):** Article layout with right-side table of contents (auto-highlighting on scroll)
 - **Archive (`archive.ejs`):** Chronological listing of all blog posts
-- **Gallery (`gallery.ejs`):** Photo gallery with pagination (custom generator)
+- **Gallery (`gallery.ejs`):** Photo gallery with justified grid layout and GLightbox integration
 
 ## Deployment Configuration
 
@@ -178,8 +180,44 @@ Key npm packages (see `package.json` for full list):
 1. **MathJax Support:** LaTeX math rendering enabled on pages that need it (set `mathjax: true` in frontmatter)
 2. **Table of Contents:** Auto-generated TOC for blog posts with scroll-based active highlighting
 3. **Image Lightbox:** GLightbox integration for gallery and post images
-4. **Gallery Generator:** Custom Hexo generator (`gallery-generator.js`) for paginated photo galleries
+4. **Gallery Page:** Standalone photo gallery at `/gallery` with justified grid layout and "Load More" pagination
 5. **Wabi-sabi Design:** Subtle noise texture overlay for organic aesthetic
+
+## Gallery Page
+
+The gallery page (`/gallery`) displays a photo portfolio with the following features:
+
+### Gallery Frontmatter Format
+
+```yaml
+---
+title: Gallery
+layout: gallery
+date: 2026-03-04 22:30:15
+photos:
+  - src: /images/photo1.jpg
+    title: Photo Title
+    description: Photo description
+  - src: /images/photo2.jpg
+    title: Another Photo
+    description: Another description
+---
+```
+
+### Gallery Features
+
+- **Justified grid layout** - Photos fill the space efficiently using flexbox
+- **GLightbox integration** - Click any photo to view in full size
+- **Load more pagination** - Shows 6 photos initially, with a "View More" button
+- **Responsive design** - Adjusts for mobile and desktop viewing
+- **Dark theme styling** - Matches the site's Kachi-iro inspired aesthetic
+
+### Adding Photos to Gallery
+
+Edit `source/gallery/index.md` and add entries to the `photos` array in the YAML frontmatter. Each photo requires:
+- `src`: Path to the image file (relative to site root)
+- `title`: Display title for the photo
+- `description`: Description shown in the lightbox
 
 ## Notes for AI Agents
 
