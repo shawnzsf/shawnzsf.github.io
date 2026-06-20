@@ -1,3 +1,7 @@
 node_modules/
 .DS_Store
 *.log
+
+# Hexo deploy output (should never be committed)
+.deploy_git/
+public/
