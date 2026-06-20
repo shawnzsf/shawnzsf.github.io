@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IB Computer Science： 伪代码、流程图和简单算法小记 — 張寿峰</title>
+    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- KaTeX for math formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <!-- highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <div class="layout">
+        
+        <aside class="sidebar">
+            <div class="sidebar-inner">
+                <div class="seal-wrap">
+                    <div class="seal">張</div>
+                    <div class="seal-sub">寿峰</div>
+                </div>
+
+                <div class="identity">
+                    <h1 class="name-en">Shoufeng Zhang</h1>
+                    <p class="name-jp">張寿峰</p>
+                    <p class="name-title">Computer Science &amp; Engineering</p>
+                    <p class="name-affil">University of Hong Kong</p>
+                </div>
+
+                <div class="vertical-deco" aria-hidden="true">海濤悲湧深藍色</div>
+
+                <dl class="facts">
+                    <div class="fact">
+                        <dt>Location</dt>
+                        <dd>Beijing · Hong Kong</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Status</dt>
+                        <dd><span class="dot"></span>Open to collaboration</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Focus</dt>
+                        <dd>Hardware · ML Systems · Robotics</dd>
+                    </div>
+                </dl>
+
+                <nav class="side-nav">
+                    <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
+                    <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
+                    <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
+                    <a href="../../index.html#skills" class="side-link"><span class="side-num">伍</span>Skills</a>
+                    <a href="../../index.html#contact" class="side-link"><span class="side-num">陸</span>Contact</a>
+                    <a href="../../blog/index.html" class="side-link side-link-external"><span class="side-num">筆</span>Blog</a>
+                    <a href="gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
+                </nav>
+
+                <div class="side-contact">
+                    <a href="mailto:zhangshoufeng@connect.hku.hk" class="side-contact-link">Email</a>
+                    <a href="https://github.com/shawnzsf" target="_blank" rel="noopener" class="side-contact-link">GitHub</a>
+                    <a href="https://www.xiaohongshu.com/user/profile/600952fd00000000010080c1" target="_blank" rel="noopener" class="side-contact-link">RedNote</a>
+                </div>
+
+                <p class="side-foot">© <span id="year"></span> 張寿峰</p>
+            </div>
+        </aside>
+
+        <main class="content">
+            
+            <div class="topbar">
+                <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+
+            <div class="mobile-panel" id="mobilePanel">
+                <nav class="mobile-nav">
+                    <a href="../../index.html#about" class="mobile-link">About</a>
+                    <a href="../../index.html#education" class="mobile-link">Education</a>
+                    <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
+                    <a href="../../index.html#skills" class="mobile-link">Skills</a>
+                    <a href="../../index.html#contact" class="mobile-link">Contact</a>
+                    <a href="blog/index.html" class="mobile-link">Blog</a>
+                    <a href="gallery/index.html" class="mobile-link">Gallery</a>
+                </nav>
+            </div>
+
+            <div class="content-inner blog-content">
+                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Sep 20, 2023</time></div><h1 class="post-head-title">IB Computer Science： 伪代码、流程图和简单算法小记</h1><div class="post-head-tags"><span>Course Notes</span></div></header><div class="post-body reveal"><!-- 事先声明，我并不认同IB的垃圾计算机教学大纲和它规定的垃圾标准，将下列内容整理在博客中只是为了苟住校内成绩做出的无奈妥协。 -->
+<p>伪代码编写练习可以使用网站：<a href="http://ibcomp.fis.edu/pseudocode/pcode.html">http://ibcomp.fis.edu/pseudocode/pcode.html</a></p>
+<h2>伪代码语法</h2>
+<h3>循环逻辑：</h3>
+<pre><code>    loop i from ... to ...
+        TODO()
+    end loop
+
+    loop while (condition?)
+        TODO()
+    end loop
+</code></pre>
+<h3>分支逻辑：</h3>
+<pre><code>    if (condition?) then
+        TODO()
+    else if (condition?) then
+        TODO()
+    else
+        TODO()
+    end if
+</code></pre>
+<h3>数组管理：</h3>
+<pre><code>    arr = new array()                     // set a new array
+    arr = [..., ..., ...]                 //set values for the array
+    arr[...]                              //returns the value of a certain index
+    arr.Length()                          //returns the length of an array(for some reason this could not run on the above website)
+</code></pre>
+<h3>集合管理：</h3>
+<pre><code>    coll = new collection()               //set a new collection
+    coll.addItem(certain things)          //add something to the collection
+    coll.getNext()                        //return the next value
+    coll.resetNext()                      //go back to the start of the collection
+    coll.hasNext()                        //returns a boolean value that indicates whether it has next item or not
+    coll.isEmpty()                        //returns a boolean value that indicates whether the collection is empty or not
+</code></pre>
+<h3>栈管理：</h3>
+<pre><code>    // One thing to be remember, first in last out
+    stack = new stack()                   //set a new stack
+    stack.push(certain things)            //push an item into the stack
+    stack.pop()                           //returns the last item of the stack
+    stack.isEmpty()                       //returns a boolean value that indicates whether the stack is empty or not
+</code></pre>
+<h3>队列管理：</h3>
+<pre><code>    // Another thing to remember, first in first out
+    queue = new queue()                   //set a new queue
+    queue.enqueue(certain things)         //put an item to the end of the queue
+    queue.dequeue()                       //delete and return the front item of the queue
+    queue.isEmpty()                       //returns a boolean value that indicates whether the queue is empty or not
+</code></pre>
+<h2>流程图画法</h2>
+<p><img src="../../images/Screenshot%202023-09-20%20182101.png" alt=""></p>
+<p>Then use arrows to link the blocks.</p>
+<h2>简单代码的伪代码实现</h2>
+<p>The following codes are all based on arrays. Searching/Sorting other form of data set need to do simple modifications to the code. </p>
+<h3>Sequential Search</h3>
+<pre><code>arr = [5, 6, 3, 4, 2, 7, 8, 1]
+
+loop i from 0 to 7
+   if (arr[i] == 2) then
+      index = i
+   end if
+end loop
+
+output &quot;The index of number 2 is: &quot;, index
+</code></pre>
+<h3>Binary Search</h3>
+<pre><code>arr = [5, 6, 3, 4, 2, 7, 8, 1]
+
+loop i from 0 to 6
+   min_idx = i
+   loop j from i+1 to 7
+      if arr[j] &lt; arr[min_idx] then
+         min_idx = j
+      end if
+   end loop
+   if NOT(min_idx == i) then
+      TEMP = arr[min_idx]
+      arr[min_idx] = arr[i]
+      arr[i] = TEMP
+   end if
+end loop
+//Sort the array first since binary search is only applicable in ordered series
+
+low = 0
+high = 7
+found = -1
+loop while found = -1 AND low &lt;= high
+   mid = div(low + high, 2)
+   if (arr[mid] = 8) then
+      found = mid
+   else if (arr[mid] &lt; 8) then
+      low = mid + 1
+   else
+      high = mid - 1 
+   end if
+end loop
+
+if found &gt;= 0 then
+   output &quot;The index of number 8 is: &quot;, found
+else
+   output &quot;Number was not found&quot;
+end if
+</code></pre>
+<h3>Bubble Sort</h3>
+<pre><code>arr = [5, 6, 3, 4, 2, 7, 8, 1]
+
+loop i from 0 to 6
+   loop j from 0 to 6-i
+      if arr[j] &gt; arr[j+1] then
+         TEMP = arr[j+1]
+         arr[j+1] = arr[j]
+         arr[j] = TEMP
+      end if
+   end loop 
+end loop
+ 
+loop i from 0 to 7
+   output arr[i]
+end loop
+</code></pre>
+<h3>Selection Sort</h3>
+<pre><code>arr = [5, 6, 3, 4, 2, 7, 8, 1]
+loop i from 0 to 6
+   min_idx = i
+   loop j from i+1 to 7
+      if arr[j] &lt; arr[min_idx] then
+         min_idx = j
+      end if
+   end loop
+   if NOT(min_idx == i) then
+      TEMP = arr[min_idx]
+      arr[min_idx] = arr[i]
+      arr[i] = TEMP
+   end if
+end loop
+
+loop i from 0 to 7
+   output arr[i]
+end loop
+</code></pre>
+<h2>简单算法的流程图实现</h2>
+<h3>Sequential Search</h3>
+<p><img src="../../images/SS.jpg" alt=""></p>
+<h3>Binary Search</h3>
+<p><img src="../../images/BS.jpg" alt=""></p>
+<h3>Bubble Sort</h3>
+<p><img src="../../images/BubS.jpg" alt=""></p>
+<h3>Selection Sort</h3>
+<p><img src="../../images/SelS.jpg" alt=""></p>
+</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+            </div>
+        </main>
+    </div>
+
+    <!-- highlight.js -->
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

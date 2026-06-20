@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NJU DC：基于NVBoard实现键盘输入 — 張寿峰</title>
+    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- KaTeX for math formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <!-- highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <div class="layout">
+        
+        <aside class="sidebar">
+            <div class="sidebar-inner">
+                <div class="seal-wrap">
+                    <div class="seal">張</div>
+                    <div class="seal-sub">寿峰</div>
+                </div>
+
+                <div class="identity">
+                    <h1 class="name-en">Shoufeng Zhang</h1>
+                    <p class="name-jp">張寿峰</p>
+                    <p class="name-title">Computer Science &amp; Engineering</p>
+                    <p class="name-affil">University of Hong Kong</p>
+                </div>
+
+                <div class="vertical-deco" aria-hidden="true">海濤悲湧深藍色</div>
+
+                <dl class="facts">
+                    <div class="fact">
+                        <dt>Location</dt>
+                        <dd>Beijing · Hong Kong</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Status</dt>
+                        <dd><span class="dot"></span>Open to collaboration</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Focus</dt>
+                        <dd>Hardware · ML Systems · Robotics</dd>
+                    </div>
+                </dl>
+
+                <nav class="side-nav">
+                    <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
+                    <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
+                    <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
+                    <a href="../../index.html#skills" class="side-link"><span class="side-num">伍</span>Skills</a>
+                    <a href="../../index.html#contact" class="side-link"><span class="side-num">陸</span>Contact</a>
+                    <a href="../../blog/index.html" class="side-link side-link-external"><span class="side-num">筆</span>Blog</a>
+                    <a href="gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
+                </nav>
+
+                <div class="side-contact">
+                    <a href="mailto:zhangshoufeng@connect.hku.hk" class="side-contact-link">Email</a>
+                    <a href="https://github.com/shawnzsf" target="_blank" rel="noopener" class="side-contact-link">GitHub</a>
+                    <a href="https://www.xiaohongshu.com/user/profile/600952fd00000000010080c1" target="_blank" rel="noopener" class="side-contact-link">RedNote</a>
+                </div>
+
+                <p class="side-foot">© <span id="year"></span> 張寿峰</p>
+            </div>
+        </aside>
+
+        <main class="content">
+            
+            <div class="topbar">
+                <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+
+            <div class="mobile-panel" id="mobilePanel">
+                <nav class="mobile-nav">
+                    <a href="../../index.html#about" class="mobile-link">About</a>
+                    <a href="../../index.html#education" class="mobile-link">Education</a>
+                    <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
+                    <a href="../../index.html#skills" class="mobile-link">Skills</a>
+                    <a href="../../index.html#contact" class="mobile-link">Contact</a>
+                    <a href="blog/index.html" class="mobile-link">Blog</a>
+                    <a href="gallery/index.html" class="mobile-link">Gallery</a>
+                </nav>
+            </div>
+
+            <div class="content-inner blog-content">
+                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Aug 10, 2023</time></div><h1 class="post-head-title">NJU DC：基于NVBoard实现键盘输入</h1><div class="post-head-tags"><span>Course Notes</span></div></header><div class="post-body reveal"><h1>接入NVBoard</h1>
+<p>仿真第一步先为verilator接入NVBoard。NVBoard是一生一芯往届学生为学习数字电路实验开发的虚拟FPGA板。安装的具体步骤根据README里面的提示运行脚本文件并安装相关的依赖即可。</p>
+<h1>键盘输入的具体实现</h1>
+<p>在键盘输入中除了基本的clk，resetn，ps2_clk，ps2_data和数码管输出之外，还定义了五个类型的变量。首先建立一个reg类型的十位buffer变量，作为接受ps2_data的地方，再定义一个reg类型的四位count变量，来为ps2_data的bit计数。reg类型的三位ps2_clk_sync是用作记录PS2时钟信号的历史信息并检测时钟的下降沿。cnt是用作记录按键被按下的次数的变量。除此之外还定义了34个状态，一个输入状态和一个输出状态，默认值都是S0。</p>
+<p>在流程一开始先通过一个死循环，将ps2_clk时钟上的采样送到最低为并丢弃最高位，形成一个三位的时间队列。因为最新的采样放入的是最低位0位，所以计算ps2_clk_sync[2] &amp; ~ps2_clk_sync[1]。若为下降沿则sampling为1，上升沿为0。</p>
+<p>接下来通过时序逻辑进行具体接受信号的处理。如果接收到的resetn为0，则将count置为零。如果sampling为真(也就是处于下降沿)，则判断count是否为10，如果是的话就进一步判断首位和末位是否为0和1，并进行奇偶校验(在数据的最后添加一个校验位，使得数据位和校验位中1的个数为奇数或偶数，如果接收方收到的数据位和校验位中1的个数不是奇偶性相同，就说明传输的数据出现了错误)。如果条件都满足就进行数码管的输出。对buffer的高四位和低四位分别用case语句进行判断。然后数码管输出对应的数字(注意这里数码管是低电平有效)。判断完buffer就对cnt进行判断，判断逻辑大致相同。输出玩数码管后将count置为零。如果count不是10就将ps2_data传到buffer对应的位数中，然后count加一。在case判断中除了输出数码管还要将cnt加一，以显示按键次数的增多。同时要将输出状态切到对应的状态，在代码最后将输出状态赋值给输入状态。</p>
+<p>至此键盘输入功能全部实现。</p>
+</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+            </div>
+        </main>
+    </div>
+
+    <!-- highlight.js -->
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

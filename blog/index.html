@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog — 張寿峰</title>
+    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- KaTeX for math formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <!-- highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <div class="layout">
+        
+        <aside class="sidebar">
+            <div class="sidebar-inner">
+                <div class="seal-wrap">
+                    <div class="seal">張</div>
+                    <div class="seal-sub">寿峰</div>
+                </div>
+
+                <div class="identity">
+                    <h1 class="name-en">Shoufeng Zhang</h1>
+                    <p class="name-jp">張寿峰</p>
+                    <p class="name-title">Computer Science &amp; Engineering</p>
+                    <p class="name-affil">University of Hong Kong</p>
+                </div>
+
+                <div class="vertical-deco" aria-hidden="true">海濤悲湧深藍色</div>
+
+                <dl class="facts">
+                    <div class="fact">
+                        <dt>Location</dt>
+                        <dd>Beijing · Hong Kong</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Status</dt>
+                        <dd><span class="dot"></span>Open to collaboration</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Focus</dt>
+                        <dd>Hardware · ML Systems · Robotics</dd>
+                    </div>
+                </dl>
+
+                <nav class="side-nav">
+                    <a href="../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
+                    <a href="../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
+                    <a href="../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
+                    <a href="../index.html#skills" class="side-link"><span class="side-num">伍</span>Skills</a>
+                    <a href="../index.html#contact" class="side-link"><span class="side-num">陸</span>Contact</a>
+                    <a href="../blog/index.html" class="side-link side-link-external"><span class="side-num">筆</span>Blog</a>
+                    <a href="gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
+                </nav>
+
+                <div class="side-contact">
+                    <a href="mailto:zhangshoufeng@connect.hku.hk" class="side-contact-link">Email</a>
+                    <a href="https://github.com/shawnzsf" target="_blank" rel="noopener" class="side-contact-link">GitHub</a>
+                    <a href="https://www.xiaohongshu.com/user/profile/600952fd00000000010080c1" target="_blank" rel="noopener" class="side-contact-link">RedNote</a>
+                </div>
+
+                <p class="side-foot">© <span id="year"></span> 張寿峰</p>
+            </div>
+        </aside>
+
+        <main class="content">
+            
+            <div class="topbar">
+                <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+
+            <div class="mobile-panel" id="mobilePanel">
+                <nav class="mobile-nav">
+                    <a href="../index.html#about" class="mobile-link">About</a>
+                    <a href="../index.html#education" class="mobile-link">Education</a>
+                    <a href="../index.html#experience" class="mobile-link">Experience &amp; Works</a>
+                    <a href="../index.html#skills" class="mobile-link">Skills</a>
+                    <a href="../index.html#contact" class="mobile-link">Contact</a>
+                    <a href="blog/index.html" class="mobile-link">Blog</a>
+                    <a href="gallery/index.html" class="mobile-link">Gallery</a>
+                </nav>
+            </div>
+
+            <div class="content-inner blog-content">
+                <header class="blog-head reveal"><div class="blog-head-meta"><a href="../index.html" class="back-link">← Home</a></div><h1 class="blog-title">Blog<span class="blog-title-jp">筆記</span></h1><p class="blog-sub">Writings on hardware, systems, and machine learning.</p></header><ul class="post-list"><li class="post-item reveal"><a href="kernel-based-virtualization-overview-structure-and-sample-code-explanation/index.html" class="post-link"><div class="post-date">Nov 19, 2025</div><div class="post-body"><h2 class="post-h">Kernel-based Virtualization Overview (Structure and Sample Code Explanation)</h2><p class="post-excerpt">Virtualization is a great tool for testing/learning codes on different environment. My personal experience with virtual machine started by vmware for studying l...</p><div class="post-tags"><span>Wrap-up post</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="hardware-accelerated-quantization/index.html" class="post-link"><div class="post-date">Dec 15, 2024</div><div class="post-body"><h2 class="post-h">Hardware-Accelerated 1-Bit Quantization Using PyRTL</h2><p class="post-excerpt">Designing a 1-bit MAC unit for a Systolic Array with PyRTL, reducing area requirements and critical path length for efficient neural network design.</p><div class="post-tags"><span>PyRTL</span><span>System Design</span><span>Quantization</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="risc-v-emulator-in-c/index.html" class="post-link"><div class="post-date">Aug 22, 2024</div><div class="post-body"><h2 class="post-h">Building a Simplified RV32I Emulator in C</h2><p class="post-excerpt">Exploring computer architecture by building a simplified RV32I emulator in C — decoding instructions, implementing the execution loop, and understanding the RISC-V ISA.</p><div class="post-tags"><span>C</span><span>RISC-V</span><span>Emulation</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="linear-regression-least-squares/index.html" class="post-link"><div class="post-date">Aug 14, 2024</div><div class="post-body"><h2 class="post-h">Linear Regression — Least Squares from Scratch</h2><p class="post-excerpt">A from-scratch derivation of ordinary least squares, with vectorized NumPy code and a worked example on the Olympic 100m dataset.</p><div class="post-tags"><span>Machine Learning</span><span>Math</span><span>Python</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="cmu-15122-transitioning-to-c/index.html" class="post-link"><div class="post-date">Jul 29, 2024</div><div class="post-body"><h2 class="post-h">CMU 15122：Transitioning to C</h2><p class="post-excerpt">Content about the third part of CMU 15-122 Principle of imeprative computation</p><div class="post-tags"><span>Course Notes</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="cmu-15122-data-structures/index.html" class="post-link"><div class="post-date">Jul 17, 2024</div><div class="post-body"><h2 class="post-h">CMU 15122：Data Structures</h2><p class="post-excerpt">Content about the second part of CMU 15-122 Principle of imeprative computation</p><div class="post-tags"><span>Course Notes</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="cmu-21127-summary-sheet-of-strategy-in-chapter-3/index.html" class="post-link"><div class="post-date">Jul 17, 2024</div><div class="post-body"><h2 class="post-h">CMU 21127：Summary Sheet of Strategy in Chapter 3-6</h2><p class="post-excerpt">Very useful proof strategy summary in Chapter 3-6 of CMU 21-127 Concepts of Mathematics.</p><div class="post-tags"><span>Course Notes</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="cmu-21127-summary-sheet-of-strategy-in-chapter-1-2/index.html" class="post-link"><div class="post-date">Jul 11, 2024</div><div class="post-body"><h2 class="post-h">CMU 21127：Summary Sheet of Strategy in Chapter 1-2</h2><p class="post-excerpt">Very useful proof strategy summary in Chapter 1-2 of CMU 21-127 Concepts of Mathematics.</p><div class="post-tags"><span>Course Notes</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="cmu-21127-summary-sheet-1/index.html" class="post-link"><div class="post-date">Jul 3, 2024</div><div class="post-body"><h2 class="post-h">CMU 21127：Summary Sheet of Definitions &amp; Theorems</h2><p class="post-excerpt">Summary of definitions, theorems of CMU 21-127 Concepts of Mathematics.</p><div class="post-tags"><span>Course Notes</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="cmu-15122-deliberate-programming/index.html" class="post-link"><div class="post-date">Jul 2, 2024</div><div class="post-body"><h2 class="post-h">CMU 15122：Deliberate Programming</h2><p class="post-excerpt">Content about the first part of CMU 15-122 Principle of imeprative computation</p><div class="post-tags"><span>Course Notes</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="cmu-15122-contracts/index.html" class="post-link"><div class="post-date">Jun 27, 2024</div><div class="post-body"><h2 class="post-h">CMU 15122: Contracts</h2><p class="post-excerpt">Content about general contract design of CMU 15-122 Principle of imeprative computation</p><div class="post-tags"><span>Course Notes</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="daydreaming1/index.html" class="post-link"><div class="post-date">Jun 22, 2024</div><div class="post-body"><h2 class="post-h">6月20日飞行时产生的若干次空想</h2><p class="post-excerpt">“告白的本质就是不可能告白。如果作为创作者的‘我’在作品中出现，那么就会有一个写‘作者’的‘作者’，就不能保证表现的纯粹性，从而导致告白的形式崩塌，对‘我’来说，假面是带着皮肉的表面，带着这样皮肉的假面所作的告白，不可能是真诚的告白。人终究是无法作出真正的告白的。但是极少数的情况下，只有深深嵌入了肉体之中的假面才能做到...</p><div class="post-tags"><span>Daydream</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="ib-computer-science-topic-6-resource-management/index.html" class="post-link"><div class="post-date">Nov 2, 2023</div><div class="post-body"><h2 class="post-h">IB Computer Science topic 6: Resource Management</h2><p class="post-excerpt">System sources include computer harware, software, trained personnel and suppotring infrastructure. And Operating System is usually responsible for the resource...</p><div class="post-tags"><span>Computer Science</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="ib-computer-science-command-terms/index.html" class="post-link"><div class="post-date">Oct 29, 2023</div><div class="post-body"><h2 class="post-h">IB Computer Science Command Terms</h2><p class="post-excerpt"></p><div class="post-tags"><span>IB Computer Science</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="ib-environmental-systems-and-societies-1-1-1-3-summary/index.html" class="post-link"><div class="post-date">Oct 29, 2023</div><div class="post-body"><h2 class="post-h">IB Environmental Systems and Societies 1.1-1.3 Summary</h2><p class="post-excerpt">一门水课，所以直接整理大纲中要求学生掌握的问题的答案。</p><div class="post-tags"><span>IB Environmental Systems and Societies</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="4b4db486/index.html" class="post-link"><div class="post-date">Oct 26, 2023</div><div class="post-body"><h2 class="post-h">IB计算机组成知识小结</h2><p class="post-excerpt">CPU：Central Processing Unit, data or instructions that are processed by a computer system in the process phase of the input, proces, output and storage model ar...</p><div class="post-tags"><span>IB Computer Science</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="cb82d49a/index.html" class="post-link"><div class="post-date">Oct 16, 2023</div><div class="post-body"><h2 class="post-h">节点搭建指南</h2><p class="post-excerpt">五层基本模型：应用层、传输层、网络层、数据链路层、物理层。</p><div class="post-tags"><span>Wrap-up post</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="68e9188a/index.html" class="post-link"><div class="post-date">Sep 20, 2023</div><div class="post-body"><h2 class="post-h">IB Computer Science： 伪代码、流程图和简单算法小记</h2><p class="post-excerpt">伪代码编写练习可以使用网站：http://ibcomp.fis.edu/pseudocode/pcode.html</p><div class="post-tags"><span>Course Notes</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="10fe15d4/index.html" class="post-link"><div class="post-date">Sep 4, 2023</div><div class="post-body"><h2 class="post-h">南京大学计算机系统基础课程笔记4：乘除运算及浮点数运算</h2><p class="post-excerpt">通常在高级语言中两个n位整数相乘得到的结果通常也是一个n位整数（2n位乘积中的低n位）</p><div class="post-tags"><span>计算机系统</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="ef91a6c0/index.html" class="post-link"><div class="post-date">Sep 1, 2023</div><div class="post-body"><h2 class="post-h">南京大学计算机系统基础课程笔记3：运算电路基础</h2><p class="post-excerpt">1. 布尔代数基本定义：</p><div class="post-tags"><span>计算机系统</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="dbdd54e/index.html" class="post-link"><div class="post-date">Aug 24, 2023</div><div class="post-body"><h2 class="post-h">南京大学计算机系统基础课程笔记2：数据的表示和存储</h2><p class="post-excerpt">1. 转换的概念在数据上的表示</p><div class="post-tags"><span>计算机系统</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="b575443e/index.html" class="post-link"><div class="post-date">Aug 23, 2023</div><div class="post-body"><h2 class="post-h">南京大学计算机系统基础课程笔记1：计算机系统概述</h2><p class="post-excerpt">1946年，世界上第一台通用电子计算机ENIAC出现（Electronic Numerical Integrator And Computer）</p><div class="post-tags"><span>计算机系统</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="476bbe4b/index.html" class="post-link"><div class="post-date">Aug 21, 2023</div><div class="post-body"><h2 class="post-h">黑盒子与现实世界的桥梁：指令集</h2><p class="post-excerpt">本文对体系结构相关知识做一个简单的梳理，不进行具体技术的讲解。</p><div class="post-tags"><span>CPU设计</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="5afd1efa/index.html" class="post-link"><div class="post-date">Aug 15, 2023</div><div class="post-body"><h2 class="post-h">线性回归2：极大似然估计</h2><p class="post-excerpt">上篇文章介绍了最基本的线性回归，文末的向量表示方法也允许我们进一步扩充模型的复杂度。</p><div class="post-tags"><span>Wrap-up post</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="c7765b88/index.html" class="post-link"><div class="post-date">Aug 14, 2023</div><div class="post-body"><h2 class="post-h">线性回归1：最小二乘法</h2><p class="post-excerpt">本篇文章做一个简单的机器学习引入，并且介绍机器学习中最简单的方法——线性回归。</p><div class="post-tags"><span>Wrap-up post</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="introduction-to-programming/index.html" class="post-link"><div class="post-date">Aug 11, 2023</div><div class="post-body"><h2 class="post-h">Introduction to programming</h2><p class="post-excerpt">计算机的基本操作(包括加，比较，加载和存储)，涉及到了一些指令，但作者没有继续向下讲。</p><div class="post-tags"><span>IB Computer Science</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="432132d9/index.html" class="post-link"><div class="post-date">Aug 10, 2023</div><div class="post-body"><h2 class="post-h">NJU DC：基于NVBoard实现键盘输入</h2><p class="post-excerpt">仿真第一步先为verilator接入NVBoard。NVBoard是一生一芯往届学生为学习数字电路实验开发的虚拟FPGA板。安装的具体步骤根据README里面的提示运行脚本文件并安装相关的依赖即可。</p><div class="post-tags"><span>Course Notes</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="connecting-computational-thinking-and-program-design/index.html" class="post-link"><div class="post-date">Aug 10, 2023</div><div class="post-body"><h2 class="post-h">Connecting computational thinking and program design</h2><p class="post-excerpt">变量用于存储值，每个变量有一个名称，用于引用存储的值。变量可以在程序执行期间更改。变量可以是字符串(strings)、实数(reals)、布尔型(boolean)和整型(integers)。</p><div class="post-tags"><span>IB Computer Science</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="general-principles/index.html" class="post-link"><div class="post-date">Aug 10, 2023</div><div class="post-body"><h2 class="post-h">General Principles</h2><p class="post-excerpt">我们通常需要指定有效的方法或流程来解决某一个特定问题，而解决问题的步骤顺序十分重要。</p><div class="post-tags"><span>IB Computer Science</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="6dc30208/index.html" class="post-link"><div class="post-date">Aug 6, 2023</div><div class="post-body"><h2 class="post-h">正则表达式速览</h2><p class="post-excerpt">?: 表示某一个词元可以出现零次或一次，例：used?可以匹配use和used。</p><div class="post-tags"><span>Wrap-up post</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="2e23f8c2/index.html" class="post-link"><div class="post-date">Aug 4, 2023</div><div class="post-body"><h2 class="post-h">NJU ICS：PA(Programming Assignment) 1 思路总结</h2><p class="post-excerpt">在此对PA1实验中的任务进行思路上的总结。</p><div class="post-tags"><span>Course Notes</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="8ae5b0dd/index.html" class="post-link"><div class="post-date">Aug 4, 2023</div><div class="post-body"><h2 class="post-h">计算机组成与设计2：指令-计算机的语言</h2><p class="post-excerpt">双字：计算机中一种访问的基本单位，通常是64位一组；对应于RISC-V体系结构中寄存器的大小。每个双字代表8个字节。</p><div class="post-tags"><span>计算机组成原理</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="get-deeper-in-sram/index.html" class="post-link"><div class="post-date">Aug 3, 2023</div><div class="post-body"><h2 class="post-h">Get deeper in SRAM</h2><p class="post-excerpt">RAM(Random Access Memory)具有如下两个特点：</p><div class="post-tags"><span>Wrap-up post</span></div></div></a></li>
+                    <li class="post-item reveal"><a href="a0d2e26f/index.html" class="post-link"><div class="post-date">Aug 1, 2023</div><div class="post-body"><h2 class="post-h">计算机组成与设计1：计算机抽象及相关技术</h2><p class="post-excerpt">摩尔定律：单芯片上所集成的晶体管资源每18至24个月翻一番。因此计算机架构师设计芯片时要预测项目完成时的工艺水平。</p><div class="post-tags"><span>计算机组成原理</span></div></div></a></li></ul><div class="end-mark" aria-hidden="true">— 終 —</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- highlight.js -->
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="../js/main.js"></script>
+</body>
+</html>

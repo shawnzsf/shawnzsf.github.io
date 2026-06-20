@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kernel-based Virtualization Overview (Structure and Sample Code Explanation) — 張寿峰</title>
+    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- KaTeX for math formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <!-- highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <div class="layout">
+        
+        <aside class="sidebar">
+            <div class="sidebar-inner">
+                <div class="seal-wrap">
+                    <div class="seal">張</div>
+                    <div class="seal-sub">寿峰</div>
+                </div>
+
+                <div class="identity">
+                    <h1 class="name-en">Shoufeng Zhang</h1>
+                    <p class="name-jp">張寿峰</p>
+                    <p class="name-title">Computer Science &amp; Engineering</p>
+                    <p class="name-affil">University of Hong Kong</p>
+                </div>
+
+                <div class="vertical-deco" aria-hidden="true">海濤悲湧深藍色</div>
+
+                <dl class="facts">
+                    <div class="fact">
+                        <dt>Location</dt>
+                        <dd>Beijing · Hong Kong</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Status</dt>
+                        <dd><span class="dot"></span>Open to collaboration</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Focus</dt>
+                        <dd>Hardware · ML Systems · Robotics</dd>
+                    </div>
+                </dl>
+
+                <nav class="side-nav">
+                    <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
+                    <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
+                    <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
+                    <a href="../../index.html#skills" class="side-link"><span class="side-num">伍</span>Skills</a>
+                    <a href="../../index.html#contact" class="side-link"><span class="side-num">陸</span>Contact</a>
+                    <a href="../../blog/index.html" class="side-link side-link-external"><span class="side-num">筆</span>Blog</a>
+                    <a href="gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
+                </nav>
+
+                <div class="side-contact">
+                    <a href="mailto:zhangshoufeng@connect.hku.hk" class="side-contact-link">Email</a>
+                    <a href="https://github.com/shawnzsf" target="_blank" rel="noopener" class="side-contact-link">GitHub</a>
+                    <a href="https://www.xiaohongshu.com/user/profile/600952fd00000000010080c1" target="_blank" rel="noopener" class="side-contact-link">RedNote</a>
+                </div>
+
+                <p class="side-foot">© <span id="year"></span> 張寿峰</p>
+            </div>
+        </aside>
+
+        <main class="content">
+            
+            <div class="topbar">
+                <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+
+            <div class="mobile-panel" id="mobilePanel">
+                <nav class="mobile-nav">
+                    <a href="../../index.html#about" class="mobile-link">About</a>
+                    <a href="../../index.html#education" class="mobile-link">Education</a>
+                    <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
+                    <a href="../../index.html#skills" class="mobile-link">Skills</a>
+                    <a href="../../index.html#contact" class="mobile-link">Contact</a>
+                    <a href="blog/index.html" class="mobile-link">Blog</a>
+                    <a href="gallery/index.html" class="mobile-link">Gallery</a>
+                </nav>
+            </div>
+
+            <div class="content-inner blog-content">
+                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Nov 19, 2025</time></div><h1 class="post-head-title">Kernel-based Virtualization Overview (Structure and Sample Code Explanation)</h1><div class="post-head-tags"><span>Wrap-up post</span></div></header><div class="post-body reveal"><p><img src="../../images/IMG_9F63A7FBEE3E-1.jpeg" alt="Virtualization stack overview"></p>
+<!-- This blog's content is originally prepared for HKU octo3 club (https://dongzl-2117.github.io/octo3-club/), a reading seminar for computer systems and networking.  -->
+
+<p>Virtualization is a great tool for testing/learning codes on different environment. My personal experience with virtual machine started by vmware for studying linux. At that time wsl (windows sublinux) was not a very popular option. But my understanding about virtualization did not get deeper than that. It was not a hot topic in neither industry nor academia in the recent ten years, which caused almost every online tutorial video/blogs stops after introducing basic concepts such as hypervisor, but the technical details beneath that is definitely worth learning if you want to gain a deeper understanding on Linux kernels. This article aims to achieve a deeper overview of virtualization, focusing on KVM (Linux Kernel-Based Virtual Machine), which is more straightforward in some sense than windows virtualization technologies. The article covers the most common virtualization stack under linux, but please notice that there are also other existing combinations to achieve the same effect.</p>
+<h1>Modern VM Design Philosophies</h1>
+<p>We start from the very basic notions and philosophies of achieving virtualization. Almost every virtualization stack can be broken into three main parts: the hypervisor, the emulator and virtual machines management. </p>
+<h2>Hypervisor</h2>
+<p>A hypervisor is a piece of software which allows to run multiple virtualized operating systems, referred to as virtual machines or VMs, concurrently on a computer. The hypervisor sits between the virtual machines and the actual physical architecture, and manages system calls to the hardware. 
+Depending on the way of implementation, hypervisors can be categorized into two types:</p>
+<ul>
+<li>Type 1: Also called bare metal hypervisors, operates directly on the hardware. Every operating systems running on it will need to require access from it to use the hardware. In such a setup, the different virtual systems are running within domains (doms). The first domain (dom0) is started first by the hypervisor after boot as it is used to manage the hypervisor itself, and consequently the other domains. For this reason, dom0 is also called the management domain. (Hardware -&gt; Hypervisor -&gt; Guest OS)</li>
+<li>Type 2: Also called hosted hypervisors. It is designed to run on the host system and does not have direct control on hardware. Type 2 hypervisor will share the resources of the host system within the OS they run on top of. This is in contrasts to hypervisors of the previous type which have full control over the hardware. (Hardware -&gt; Host OS -&gt; Hypervisor -&gt; Guest OS)</li>
+</ul>
+<h2>Hardware-assisted Virtualization</h2>
+<p>During the design of the x86 platform, virtualization was not a major consideration. Due to their design, some of the sensitive instructions that could be encountered during virtualization would go undetected by x86 CPUs. To change this, people can only achieve virtualization (or emulation in this context) through emulation, which is fully implement a software-based hardware computer that can emulate every instruction performed by the guest OS. Among them the most famous emulator is QEMU (Quick Emulator), which is a OSS that has many usage besides virtualization (it will be mentioned again in KVM implementation section). However, because of the nature of emulator, which is translate the emulated binary codes of guest system to an equivalent binary format which is executed by the host machine, it slows down the operating speed. </p>
+<p>There are two types of sensitive instructions in general:</p>
+<ul>
+<li>Control-sensitive instructions: attempt to change the state of system resources (key mem r/w operations)</li>
+<li>Behavior-sensitive instructions: operate in accordance with the state of system resource (i/o)</li>
+</ul>
+<p>To address the performance challenge, Hardware-assisted virtualization is designed by adding a new CPU execution mode known as guest mode to complement the previously existing user and kernel modes. This mode would be used to execute the code of guest system. Additionally, new CPU that enable switching from and to this mode on the detection of sensitive instructions have been introduced. When a sensitive instruction is detected, the CPU notifies the hypervisor, which in turn exits the guest mode and handles this instruction in hypervisor user mode. Once the instruction handling is done, a switch back (always denote as VMRESUME instruction) will be performed and control is given back to the guest system. The hardware-based virtualization significantly improves the performance compared to traditional fully software virtualization. This is because most instructions are now directly running on the physical device without the need of translation. Hardware-assisted virtualization has been part of all Intel and AMD processors produced after 2006. On Intel CPUs it has the name Intel-VT, and AMD-V on AMD processors.
+The flow of hardware-assisted virtualization is illustrated by the first graph in picture 1.</p>
+<h1>KVM Design Top View</h1>
+<h2>KVM and QEMU</h2>
+<p>When we say KVM, we are generally pointing to the KVM kernel module in Linux. However, it cannot run a VM by itself. Simply speaking, the KVM kernel module operates more like a manager instead of executer. To achieve full virtualization, it needs to be combined with QEMU (in KVM it is treated as a user side process). Given that QEMU is a software-based emulator, it interprets and executes CPU instructions one at a time in software, which means its performance is limited. However, it is possible to improve the performance if three conditions are met:</p>
+<ol>
+<li>Target instructions can be directly executed by the CPU</li>
+<li>That instruction can be given without modification to the CPU for direct execution in VMX (virtual machine extension) non-root operation mode</li>
+<li>A target instruction that cannot be directly executed can be identified and given to QEMU for emulator processing.</li>
+</ol>
+<p>The flow of KVM is illustrated by the second graph in picture 1. It includes six steps in running a KVM:</p>
+<ol>
+<li>Step 0: a file named /dev/kvm is created by the KVM kernel module. It enables QEMU to convey a variety of requests to the KVM kernel module to execute hypervisor funtions.</li>
+<li>Step 1: When QEMU starts up to execute a guest system, it repeatedly makes ioctl() system calls specifying this file (or file descriptor). When it is time to begin executing the guest system, QEMU again calls ioctl() to instruct the KVM module to start up the guest system</li>
+<li>Step 2: The kernel module, after receiving the ioctl() call, will set up the guest system by performs VM Entry and begin executing the guest system. </li>
+<li>Step 3: During guest system operation, if a sensitive instruction is detected, a VM Exit is performed, and KVM identifies the reason for the exit. </li>
+<li>Step 4: If QEMU intervention is needed to execute an I/O task or another task, control is transferred to the QEMU executes the ask. </li>
+<li>Step 5: On execution completion. QEMU again makes an ioctl() call and requests the KVM to resume guest system processing.</li>
+</ol>
+<p>This QEMU/KVM flow is basically repeated during the emulation of a VM. QEMU and KVM thus has a relatively simple struction.</p>
+<ul>
+<li>Implementation of a KVM kernel module transforms the Linux kernel into a hypervisor.</li>
+<li>There is one QEMU process for each guest system. When multiple guest systems are running, the same number of QEMU processes are running.</li>
+<li>QEMU is a multi-thread program, and one virtual CPU of a guest system corresponds to one QEMU threads. The steps are performed in unit of threads</li>
+<li>QEMU threads are treated like ordinary user processes from the viewpoint of the Linux kernel. Scheduling for the thread corresponding to a virtual CPU of the guest system, for example, is governed by the Linux kernel scheduler in the same way as other process threads.</li>
+</ul>
+<h2>Other Components</h2>
+<h3>Virt-manager</h3>
+<p>A GUI/CUI user interface used for managing VMs; it calls VM functions using libvirt.</p>
+<h3>libvirt</h3>
+<p>A tool-and-interface library common to server virtualization software.</p>
+<p>The complete hierarchy of these four components is illustrated by the last graph in picture 1.</p>
+<h1>KVM Implementation</h1>
+<p>For this section I used a reduced version of KVM (Linux kernel source code is still too much for me, although reading the reduced version also wasn&#39;t a light read)</p>
+<h2>Key kernel functions</h2>
+<ul>
+<li>ioctl(int fd, unsigned long op, ...): system call manipulates the underlying device parameters of special files. The argument fd must be an open file descriptor. The second argument is a device-dependent operation code. The third argument is an untyped pointer to memory. It&#39;s traditionally char *argp. An ioctl() op has encoded in it whether the argument is an in parameter or out parameter, and the size of the argument argp in bytes. Macros and defines used in specifying an ioctl() op are located in the file &lt;sys/ioctl.h&gt;. Success will always return a non-negative number. In KVM context, the kvm.h file defines macro that used to encode KVM related operations, which can be used as an argument in ioctl() that performs corresponding operation to the file which achives the VM behaviour.</li>
+<li>mmap(size_t length; void addr[length], size_t length, int prot, int flags, int fd, off_t offset): mmap() creates a new mapping in the virtual address space of the calling process. The starting address for the new mapping is specified in addr. The length argument specifies the length of the mapping. If addr is NULL, then the kernel takes it as a hint about where to place the mapping; on Linux, the kernel will pick a nearby page boundary and attempt to create the mapping there. If another mapping already exists there, the kernel picks a new address that may or may not depend on the hint. The address of the new mapping is returned as the result of the call. The contents of a file mapping are initialized using length bytes starting at the offset in the file, referred to by the file descriptor.</li>
+</ul>
+<h2>Guest Code</h2>
+<p>Since this reduced virtual machine only has a cpu (which means we don&#39;t have a physical screen), the example code achieves i/o operation by writing to special i/o ports, as detailed below:</p>
+<pre><code>//guest.c
+#include &lt;stdint.h&gt; //For types like uint16_t and uint8_t
+
+static void outb(uint16_t port, uint8_t value) { 
+// This line uses assembly language to send a byte &#39;value&#39; to an I/O &#39;port&#39;.
+asm(&quot;outb %0,%1&quot; : /* empty */ : &quot;a&quot; (value), &quot;Nd&quot; (port) : &quot;memory&quot;); 7}
+</code></pre>
+<ul>
+<li><code>outb</code> stands for &quot;output byte.&quot;</li>
+<li>It takes a <code>port</code> number (where to send the data) and a <code>value</code> (the actual data to send).</li>
+<li>The <code>asm</code> keyword tells the C compiler to insert direct assembly language instructions. In this case, <code>outb</code> is a standard x86 instruction to write a byte to an I/O port.</li>
+<li>The port number <code>0xE9</code> is a convention often used in virtual environments for simple text output.</li>
+</ul>
+<p>Then we can take a look at the main program:</p>
+<pre><code>//guest.c
+void
+__attribute__((noreturn))
+__attribute__((section(.&quot;start&quot;)))
+
+_start(void){
+    const char *p;
+    //Loop through hello world and print
+    for (p = &quot;Hello, World!\n&quot;; *p; ++p) 
+        outb(0xE9, *p);
+        
+    //Write the number 42 to memory address 0x400
+    *(long*) 0x400 = 42;
+    
+    //Infinite loop that halts the CPU
+    for(;;) asm(&quot;hlt&quot;: : &quot;a&quot;(42): &quot;memory&quot;)
+}
+</code></pre>
+<p>Finally, we can look at the Makefile</p>
+<pre><code>#Compile guest.c for a 64-bit virtual CPU
+guest64.o: guest.c
+    $(CC) $(CFLAGS) -m64 -ffreestanding -fno-pic -c -o $@ $^
+
+#Link the compiled guest code into a raw binary image
+guest64.img: guest64.o
+    $(LD) -T guest.ld $^ -o $@
+
+# Embed the raw binary image into an object file for the host program
+%.img.o: %.img
+    $(LD) -b binary -r $^ -o $@
+
+# Combine all guest images (16bit, 32bit, 64bit) into a single payload object
+payload.o: payload.ld guest16.o guest32.img.o guest64.img.o
+    $(LD) -T <!-- MAIN -->lt; -o $@
+</code></pre>
+<p>guest.c is compiled into an object file. The options like -m64 tell the compiler to create 64-bit code, and -ffreestanding means it won&#39;t link against a standard C library. Next, the object file is linked into a raw binary image. This image is just the pure machine code, without any extra operating system headers or structure. Finally the raw guest64.img is treated as a block of data and embedded directly into an object file. This allows the main program to include this guest code as if it were a regular c array. The payload.o then aggregates these different guest code versions.</p>
+<h2>Creating VM</h2>
+<h3>Opening KVM Device</h3>
+<pre><code>// kvm-hello-world.c 
+#include &lt;fcntl.h&gt; // For open() 
+#include &lt;stdio.h&gt; // For perror() 
+#include &lt;stdlib.h&gt; // For exit() 
+ 
+struct vm { 
+ int sys_fd; // File descriptor for /dev/kvm 
+ int fd; // File descriptor for the specific VM 
+ char *mem; // Pointer to the VM&#39;s memory 
+}; 
+ 
+void vm_init(struct vm *vm, size_t mem_size) 
+{ 
+ // Open the KVM device file to access the KVM subsystem 
+ vm-&gt;sys_fd = open(&quot;/dev/kvm&quot;, O_RDWR); 
+ if (vm-&gt;sys_fd &lt; 0) { 
+ perror(&quot;open /dev/kvm&quot;); // Print error if opening fails 
+ exit(1); 
+ } 
+ // ... more setup code will go here ... 
+} 
+</code></pre>
+<ul>
+<li><code>open(&quot;/dev/kvm&quot;, O_RDWR)</code>: This line opens the KVM device file. It&#39;s like asking the Linux kernel, &quot;Hey KVM, I want to use your virtualization powers!&quot; The <code>vm-&gt;sys_fd</code> variable will hold a number that represents this open connection.</li>
+</ul>
+<h3>Instantiate KVM</h3>
+<pre><code>// kvm-hello-world.c (inside vm_init function) 
+// ... (previous code) ... 
+#include &lt;sys/ioctl.h&gt; // For ioctl() 
+#include &lt;linux/kvm.h&gt; // For KVM_CREATE_VM 
+ 
+void vm_init(struct vm *vm, size_t mem_size) 
+{ 
+ // ... (code to open /dev/kvm and check API version) ... 
+ 
+ // Ask KVM to create a new Virtual Machine 
+ vm-&gt;fd = ioctl(vm-&gt;sys_fd, KVM_CREATE_VM, 0); 
+ if (vm-&gt;fd &lt; 0) { 
+ perror(&quot;KVM_CREATE_VM&quot;); // Print error if VM creation fails 
+ exit(1); 
+ } 
+ // ... more setup code will go here ... 
+} 
+</code></pre>
+<ul>
+<li><code>ioctl(vm-&gt;sys_fd, KVM_CREATE_VM, 0)</code>: This is a system call (Input/Output Control) that sends a command to the KVM device. <code>KVM_CREATE_VM</code> is the command to create a new VM. If successful, <code>vm-&gt;fd</code> will get another number, specifically for <em>this new VM instance</em>. This is like getting the keys to your new sandbox!</li>
+</ul>
+<h3>Giving Memory to VM</h3>
+<pre><code>// kvm-hello-world.c (inside vm_init function) 
+// ... (previous code) ... 
+#include &lt;sys/mman.h&gt; // For mmap() 
+ 
+void vm_init(struct vm *vm, size_t mem_size) 
+{ 
+ // ... (code to create the VM) ... 
+ 
+ // Allocate a block of memory on the Host for the VM to use 
+ vm-&gt;mem = mmap(NULL, mem_size, PROT_READ | PROT_WRITE, 
+ MAP_PRIVATE | MAP_ANONYMOUS | MAP_NORESERVE, -1, 0); 
+ if (vm-&gt;mem == MAP_FAILED) { 
+ perror(&quot;mmap mem&quot;); 
+ exit(1); 
+ } 
+ 
+ // Tell KVM about this memory region for the VM 
+ struct kvm_userspace_memory_region memreg = { 
+ .slot = 0, // Memory slot ID (can have multiple) 
+ .flags = 0, // No special flags 
+ .guest_phys_addr = 0, // Where this memory appears in the VM (starts at 0)  
+ .memory_size = mem_size, // How much memory 
+ .userspace_addr = (unsigned long)vm-&gt;mem, // Address in Host&#39;s memory 
+ }; 
+ if (ioctl(vm-&gt;fd, KVM_SET_USER_MEMORY_REGION, &amp;memreg) &lt; 0) { 
+ perror(&quot;KVM_SET_USER_MEMORY_REGION&quot;);
+ exit(1); 
+ } 
+}
+</code></pre>
+<ul>
+<li><code>mmap(NULL, mem_size, ...)</code>: This is how the Host application asks the Linux kernel for a large block of its own memory. <code>mem_size</code> determines how big the VM&#39;s RAM will be (e.g., 2 MB in our example). <code>vm-&gt;mem</code> will point to the start of this memory in the Host&#39;s address space.</li>
+<li><code>KVM_SET_USER_MEMORY_REGION</code>: This <code>ioctl</code> command tells KVM, &quot;Hey, this block of memory that <em>I</em> (the Host) just allocated? That&#39;s for the VM. When the VM tries to access memory at its own address <code>0x0</code>, it should be directed to <em>my</em> memory at <code>vm-&gt;mem</code>.&quot;</li>
+</ul>
+<h2>VCPU</h2>
+<h3>Key Registers</h3>
+<ul>
+<li><strong><code>rip</code> (Instruction Pointer)</strong>: This register holds the memory address of the <em>next</em> instruction the VCPU should execute. It&#39;s like a bookmark in the guest code, telling the VCPU where it is in the program.</li>
+<li><strong><code>rsp</code> (Stack Pointer)</strong>: This register points to the current top of the &quot;stack&quot; in memory. The stack is used for temporary storage, like remembering where to return after calling a function, or storing local variables.</li>
+<li><strong><code>rflags</code> (Flags Register)</strong>: This register holds various &quot;flags&quot; (single bits) that describe the current state of the CPU, such as whether a previous arithmetic operation resulted in a zero, or whether interrupts are enabled.</li>
+<li><strong>Control Registers (<code>cr0</code>, <code>cr3</code>, <code>cr4</code>) and EFER</strong>: These are special registers that control how the CPU operates, such as enabling protected mode, paging, or long mode (64-bit operation).</li>
+</ul>
+<h3>Instantiate VCPU</h3>
+<pre><code>// kvm-hello-world.c (inside vcpu_init function) 
+#include &lt;sys/ioctl.h&gt; // For ioctl() 
+#include &lt;linux/kvm.h&gt; // For KVM_CREATE_VCPU 
+ 
+struct vcpu { 
+ int fd; // File descriptor for this specific VCPU 
+ struct kvm_run *kvm_run; // Shared memory for VCPU execution 
+}; 
+ 
+10void vcpu_init(struct vm *vm, struct vcpu *vcpu) 
+{ 
+ // Ask KVM to create a new Virtual CPU within the VM 
+ vcpu-&gt;fd = ioctl(vm-&gt;fd, KVM_CREATE_VCPU, 0); 
+ if (vcpu-&gt;fd &lt; 0) { 
+ perror(&quot;KVM_CREATE_VCPU&quot;); // Print error if VCPU creation fails 
+ exit(1); 
+ } 
+ // ... more setup code will go here ... 
+} 
+</code></pre>
+<ul>
+<li><code>ioctl(vm-&gt;fd, KVM_CREATE_VCPU, 0)</code>: This command tells KVM to create a VCPU tied to our <code>vm-&gt;fd</code> (the VM&#39;s file descriptor). If successful, <code>vcpu-&gt;fd</code> will get a new number, representing this specific VCPU. It&#39;s like getting the key to the robot&#39;s brain.</li>
+</ul>
+<h3>Mapping kvm_run Structure</h3>
+<p>For the host and VCPU to talk to each other efficiently, KVM provides a special shared memory region. The host maps this memory into its own address space. This region is called <code>kvm_run</code>and it&#39;s where KVM reports what the VCPU is doing (e.g., why it stopped, like an I/O operation or a halt instruction).</p>
+<pre><code>// kvm-hello-world.c (inside vcpu_init function) 
+// ... (previous code for KVM_CREATE_VCPU) ... 
+#include &lt;sys/mman.h&gt; // For mmap() 
+ 
+void vcpu_init(struct vm *vm, struct vcpu *vcpu) 
+{ 
+ // ... (code to create the VCPU) ... 
+ 
+ // Get the required size for the kvm_run structure 
+ int vcpu_mmap_size = ioctl(vm-&gt;sys_fd, KVM_GET_VCPU_MMAP_SIZE, 0); 
+ if (vcpu_mmap_size &lt;= 0) { 
+ perror(&quot;KVM_GET_VCPU_MMAP_SIZE&quot;); 
+ exit(1); 
+ } 
+ 
+ // Map the shared kvm_run memory into our host application&#39;s address space 
+ vcpu-&gt;kvm_run = mmap(NULL, vcpu_mmap_size, PROT_READ | PROT_WRITE, 
+ MAP_SHARED, vcpu-&gt;fd, 0); 
+ if (vcpu-&gt;kvm_run == MAP_FAILED) { 
+ perror(&quot;mmap kvm_run&quot;); 
+ exit(1); 
+ } 
+} 
+</code></pre>
+<ul>
+<li><code>KVM_GET_VCPU_MMAP_SIZE</code>: This <code>ioctl</code> asks KVM how big the <code>kvm_run</code> structure needs to be.</li>
+<li><code>mmap(NULL, vcpu_mmap_size, ..., vcpu-&gt;fd, 0)</code>: This <code>mmap</code> call is similar to how we mapped the VM&#39;s memory, but this time, it maps a region associated with the <code>vcpu-&gt;fd</code>. <code>vcpu-&gt;kvm_run</code> will then point to this shared memory. This is the direct communication channel with the VCPU.</li>
+</ul>
+<h3>Setting the VCPU&#39;s Initial State (Registers)</h3>
+<p>The <code>kvm-hello-world</code> program supports different CPU modes (like real mode, protected mode, 64-bit long mode). For our <code>guest.c</code> (which is compiled for 64-bit operation), we need to set up the VCPU for <strong>long mode</strong>. This configuration is part of functions like <code>run_long_mode</code>and <code>setup_long_mode</code>.</p>
+<p>Let&#39;s look at a simplified version of setting the registers for 64-bit mode:</p>
+<pre><code>1// kvm-hello-world.c (simplified from run_long_mode and setup_long_mode) 
+2#include &lt;linux/kvm.h&gt; // For kvm_sregs and kvm_regs structures 
+3 
+4void configure_vcpu_for_long_mode(struct vm *vm, struct vcpu *vcpu) { 
+5 // 1. Get the VCPU&#39;s &quot;special&quot; registers (segment registers, control registers) 
+6 struct kvm_sregs sregs; 
+7 if (ioctl(vcpu-&gt;fd, KVM_GET_SREGS, &amp;sregs) &lt; 0) { 
+8 perror(&quot;KVM_GET_SREGS&quot;); exit(1); 
+9 } 
+10 
+11 // 2. Configure control flags for 64-bit mode 
+12 // These specific flags enable features like protected mode and paging. 
+13 // (We&#39;ll cover these CPU modes in detail in Chapter 6) 
+14 sregs.cr0 = CR0_PE | CR0_PG; // Enable Protected Mode and Paging 
+15 sregs.cr4 = CR4_PAE; // Enable Physical Address Extension 
+16 sregs.efer = EFER_LME | EFER_LMA; // Enable Long Mode Extensions and Long Mode Active 
+17 
+18 // 3. Configure a basic 64-bit code segment (simplified) 
+19 // This tells the CPU how to interpret code addresses. 
+20 // (Details about segments will be in Chapter 6) 
+21 sregs.cs.base = 0; sregs.cs.limit = 0xffffffff; sregs.cs.selector = 0x8; 
+22 sregs.cs.type = 11; sregs.cs.present = 1; sregs.cs.dpl = 0; 
+23 sregs.cs.db = 0; sregs.cs.s = 1; sregs.cs.l = 1; sregs.cs.g = 1; 
+24 
+25 // 4. Set the updated special registers back into the VCPU 
+26 if (ioctl(vcpu-&gt;fd, KVM_SET_SREGS, &amp;sregs) &lt; 0) { 
+27 perror(&quot;KVM_SET_SREGS&quot;); exit(1); 
+28 } 
+29 
+30 // 5. Get the VCPU&#39;s general purpose registers 
+31 struct kvm_regs regs; 
+32 if (ioctl(vcpu-&gt;fd, KVM_GET_REGS, &amp;regs) &lt; 0) { 
+33 perror(&quot;KVM_GET_REGS&quot;); exit(1); 
+34 } 
+35 
+36 // 6. Configure initial general purpose registers 
+37 regs.rflags = 2; // Basic initial flags (bit 1 is always set) 38 regs.rip = 0; // Instruction Pointer: Start executing guest code from virtual address 0 
+39 regs.rsp = 2 &lt;&lt; 20; // Stack Pointer: Set up a stack at the end of our 2MB VM memory 
+40 
+41 // 7. Set the updated general purpose registers back into the VCPU 
+42 if (ioctl(vcpu-&gt;fd, KVM_SET_REGS, &amp;regs) &lt; 0) { 
+43 perror(&quot;KVM_SET_REGS&quot;); exit(1); 
+44 } 
+45}
+</code></pre>
+<ul>
+<li><code>KVM_GET_SREGS</code> and <code>KVM_SET_SREGS</code>: These <code>ioctl</code> calls are used to get and set &quot;special&quot; registers (like segment registers and control registers) that define the VCPU&#39;s operational mode.</li>
+<li><code>KVM_GET_REGS</code> and <code>KVM_SET_REGS</code>: These <code>ioctl</code> calls are used to get and set the VCPU&#39;s general-purpose registers (like <code>rip</code>, <code>rsp</code>, <code>rax</code>, <code>rbx</code>, etc.).</li>
+<li><strong><code>regs.rip = 0;</code></strong>: This is crucial! It tells the VCPU that when it starts, its first instruction is located at memory address <code>0</code> within the VM&#39;s memory. This is exactly where our <code>guest.c</code>code is loaded.</li>
+<li><strong><code>regs.rsp = 2 &lt;&lt; 20;</code></strong>: This sets up the stack pointer. Our VM has 2MB of memory (0x200000 bytes). Setting <code>rsp</code> to <code>2 &lt;&lt; 20</code> (which is <code>0x200000</code>) means the stack will start at the very top of the VM&#39;s memory and grow downwards.</li>
+<li><strong><code>sregs.cr0 = CR0_PE | CR0_PG;</code></strong>, etc.: These lines set various control flags in special registers. They are essential for transitioning the VCPU into a 64-bit operating mode.</li>
+</ul>
+<h2>KVM Host Application</h2>
+<h3>High-Level Overview</h3>
+<pre><code>1// kvm-hello-world.c 
+2int main(int argc, char **argv) 
+3{ 
+4 struct vm vm; 
+5 struct vcpu vcpu; 
+6 // ... (code to select CPU mode, e.g., real mode, long mode) ... 7 
+8 // 1. Initialize the Virtual Machine (VM) 
+9 vm_init(&amp;vm, 0x200000); // Create VM and give it 2MB of memory 10 
+11 // 2. Initialize the Virtual CPU (VCPU) for that VM 
+12 vcpu_init(&amp;vm, &amp;vcpu); // Create VCPU and set up communication 13 
+14 // 3. Select and run the appropriate guest code based on mode 15 switch (mode) { 
+16 // ... other modes ... 
+17 case LONG_MODE: // For our 64-bit &quot;Hello, world!&quot; guest 
+18 return !run_long_mode(&amp;vm, &amp;vcpu); 
+19 } 
+20 
+21 return 1; 
+22}
+</code></pre>
+<ul>
+<li>The <code>main</code> function is the entry point of our host application.</li>
+<li><code>vm_init(&amp;vm, 0x200000)</code>: This function handles opening <code>/dev/kvm</code>, creating the VM instance, and allocating 2MB of memory for it.</li>
+<li><code>vcpu_init(&amp;vm, &amp;vcpu)</code>: This function creates the VCPU and sets up the shared <code>kvm_run</code> structure for communication.</li>
+<li><code>run_long_mode(&amp;vm, &amp;vcpu)</code>: This is where the core action happens for our 64-bit guest. It prepares the VCPU for long mode, loads the guest code, and then enters the main execution loop.</li>
+</ul>
+<h3>Loading the Guest Code</h3>
+<pre><code>1// kvm-hello-world.c (simplified from run_long_mode) 
+2extern const unsigned char guest64[], guest64_end[]; // Declares our guest code 
+3 
+4int run_long_mode(struct vm *vm, struct vcpu *vcpu) 
+5{ 
+6 // ... (code to configure VCPU for 64-bit mode) ... 
+7 
+8 // Copy the guest&#39;s machine code into the VM&#39;s memory 
+9 // &#39;vm-&gt;mem&#39; points to the start of the VM&#39;s memory (virtual address 0) 
+10 memcpy(vm-&gt;mem, guest64, guest64_end-guest64); // Copy &#39;guest64&#39; to &#39;vm-&gt;mem&#39; 
+11 
+12 // ... (then call run_vm to start execution) ... 
+13 return run_vm(vm, vcpu, 8); 
+14}
+</code></pre>
+<ul>
+<li><code>extern const unsigned char guest64[], guest64_end[];</code> ) make our compiled <code>guest.c</code>binary available as a C array (<code>guest64</code>) in the host application. <code>guest64_end</code> marks the end of this array.</li>
+<li><code>memcpy(vm-&gt;mem, guest64, guest64_end-guest64);</code>: This is a standard C function that copies the bytes of our <code>guest64</code> program into the memory region that <code>vm-&gt;mem</code> points to. Since <code>vm-&gt;mem</code> corresponds to the VM&#39;s physical address <code>0</code>, this means our guest code is now residing at the very beginning of the VM&#39;s memory, ready to be executed.</li>
+</ul>
+<h3>Running the VCPU and Handling VM Exits</h3>
+<pre><code>1// kvm-hello-world.c (simplified from run_vm) 
+2#include &lt;linux/kvm.h&gt; // For KVM_EXIT_HLT, KVM_EXIT_IO 
+3 
+4int run_vm(struct vm *vm, struct vcpu *vcpu, size_t sz) 
+5{ 
+6 for (;;) { // An infinite loop to keep running the VM 
+7 // Tell KVM to run the VCPU. It will execute guest code 
+8 // until a VM exit occurs. 
+9 if (ioctl(vcpu-&gt;fd, KVM_RUN, 0) &lt; 0) { 
+10 perror(&quot;KVM_RUN&quot;); // Handle error 
+11 exit(1); 
+12 } 
+13 
+14 // Check why the VCPU stopped (the &#39;exit_reason&#39;) 
+15 switch (vcpu-&gt;kvm_run-&gt;exit_reason) { 
+16 case KVM_EXIT_HLT: // The guest executed &#39;hlt&#39; instruction 
+17 printf(&quot;Guest halted!\n&quot;); 
+18 goto check; // Exit the loop and check results 
+19 
+20 case KVM_EXIT_IO: // The guest performed an I/O operation 
+21 // Check if it&#39;s our specific port 0xE9 for printing 
+22 if (vcpu-&gt;kvm_run-&gt;io.direction == KVM_EXIT_IO_OUT 
+23 &amp;&amp; vcpu-&gt;kvm_run-&gt;io.port == 0xE9) { 
+24 char *p = (char *)vcpu-&gt;kvm_run; // Pointer to shared data 
+25 // Print the character from guest to host console 
+26 fwrite(p + vcpu-&gt;kvm_run-&gt;io.data_offset, 
+27 vcpu-&gt;kvm_run-&gt;io.size, 1, stdout); 
+28 fflush(stdout); 
+29 continue; // Resume guest execution 
+30 } 
+31 // If it&#39;s another I/O, fall through to default error 
+32 default: // Any other unexpected VM exit 
+33 fprintf(stderr, &quot;Got unexpected exit_reason %d\n&quot;, 
+34 vcpu-&gt;kvm_run-&gt;exit_reason); 
+35 exit(1); 
+36 } 
+37 } 
+38 
+39 check: // Label for when guest halts 
+40 // ... (code to check guest results will go here) ... 
+41 return 1; // Success 
+42}
+</code></pre>
+<ul>
+<li><code>ioctl(vcpu-&gt;fd, KVM_RUN, 0)</code>: This is the magical call that passes control to the KVM kernel module. KVM then makes your physical CPU execute the guest&#39;s instructions in a virtualized mode. The host application <em>pauses</em> here until the VCPU causes a VM exit.</li>
+<li><code>vcpu-&gt;kvm_run-&gt;exit_reason</code>: After <code>KVM_RUN</code> returns, this field in the shared <code>kvm_run</code>structure tells the host <em>why</em> the VCPU stopped.</li>
+<li><strong><code>KVM_EXIT_HLT</code></strong>: This means the guest executed the <code>hlt</code> instruction. The host application then knows the guest has finished its primary task.</li>
+<li><strong><code>KVM_EXIT_IO</code></strong>: This means the guest tried to perform an I/O operation, like our <code>outb(0xE9, character)</code>.<ul>
+<li>The host then checks if it&#39;s <code>port 0xE9</code> (our virtual console port).</li>
+<li>If it is, it retrieves the character from the <code>kvm_run</code> structure (which holds the data the guest tried to <code>outb</code>) and prints it to the <em>host&#39;s</em> console (<code>stdout</code>).</li>
+<li><code>continue;</code>: After handling the I/O, the loop continues, calling <code>KVM_RUN</code> again to resume the guest from where it left off.</li>
+</ul>
+</li>
+<li>This loop continues, letting the guest run, handling VM exits, and resuming, until the guest finally halts.</li>
+</ul>
+<h3>Checking Guest Results</h3>
+<pre><code>1// kvm-hello-world.c (simplified from run_vm, after &#39;check&#39; label) 
+2int run_vm(struct vm *vm, struct vcpu *vcpu, size_t sz) 
+3{ 
+4 // ... (execution loop and exit handling) ... 
+5 
+6 check: // Guest has halted, now verify results 
+7 struct kvm_regs regs; // Structure to hold VCPU&#39;s general registers 
+8 uint64_t memval = 0; // Variable to hold value from VM memory 
+9 
+10 // Get the VCPU&#39;s current register values 
+11 if (ioctl(vcpu-&gt;fd, KVM_GET_REGS, &amp;regs) &lt; 0) { 
+12 perror(&quot;KVM_GET_REGS&quot;); exit(1); 
+13 } 
+14 
+15 // Check if the RAX register contains the expected value (42) 16 if (regs.rax != 42) { 
+17 printf(&quot;Wrong result: RAX is %lld\n&quot;, regs.rax); 
+18 return 0; // Failure 
+19 } 
+20 
+21 // Copy the value from virtual memory address 0x400 into memval 22 memcpy(&amp;memval, &amp;vm-&gt;mem[0x400], sz); // sz is 8 for 64-bit guest 
+23 // Check if the memory at 0x400 contains the expected value (42) 
+24 if (memval != 42) { 
+25 printf(&quot;Wrong result: memory at 0x400 is %lld\n&quot;, 
+26 (unsigned long long)memval); 
+27 return 0; // Failure 
+28 } 
+29 
+30 printf(&quot;Guest executed successfully!\n&quot;); 
+31 return 1; // Success 
+32}
+</code></pre>
+<ul>
+<li><code>KVM_GET_REGS</code>: This <code>ioctl</code> retrieves the current values of the VCPU&#39;s general-purpose registers (like <code>rax</code>) after it has halted.</li>
+<li><code>regs.rax != 42</code>: Our guest code was designed to put <code>42</code> into the <code>rax</code> register before halting. The host checks this.</li>
+<li><code>memcpy(&amp;memval, &amp;vm-&gt;mem[0x400], sz);</code>: Our guest code also wrote <code>42</code> to virtual memory address <code>0x400</code>. The host directly accesses <code>vm-&gt;mem</code> (which is its pointer to the VM&#39;s memory) at an offset of <code>0x400</code> to read this value.</li>
+<li>If both checks pass, the host application confirms that the guest program ran successfully.</li>
+</ul>
+</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+            </div>
+        </main>
+    </div>
+
+    <!-- highlight.js -->
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

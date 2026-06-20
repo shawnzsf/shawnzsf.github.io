@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMU 15122：Deliberate Programming — 張寿峰</title>
+    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- KaTeX for math formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <!-- highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <div class="layout">
+        
+        <aside class="sidebar">
+            <div class="sidebar-inner">
+                <div class="seal-wrap">
+                    <div class="seal">張</div>
+                    <div class="seal-sub">寿峰</div>
+                </div>
+
+                <div class="identity">
+                    <h1 class="name-en">Shoufeng Zhang</h1>
+                    <p class="name-jp">張寿峰</p>
+                    <p class="name-title">Computer Science &amp; Engineering</p>
+                    <p class="name-affil">University of Hong Kong</p>
+                </div>
+
+                <div class="vertical-deco" aria-hidden="true">海濤悲湧深藍色</div>
+
+                <dl class="facts">
+                    <div class="fact">
+                        <dt>Location</dt>
+                        <dd>Beijing · Hong Kong</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Status</dt>
+                        <dd><span class="dot"></span>Open to collaboration</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Focus</dt>
+                        <dd>Hardware · ML Systems · Robotics</dd>
+                    </div>
+                </dl>
+
+                <nav class="side-nav">
+                    <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
+                    <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
+                    <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
+                    <a href="../../index.html#skills" class="side-link"><span class="side-num">伍</span>Skills</a>
+                    <a href="../../index.html#contact" class="side-link"><span class="side-num">陸</span>Contact</a>
+                    <a href="../../blog/index.html" class="side-link side-link-external"><span class="side-num">筆</span>Blog</a>
+                    <a href="gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
+                </nav>
+
+                <div class="side-contact">
+                    <a href="mailto:zhangshoufeng@connect.hku.hk" class="side-contact-link">Email</a>
+                    <a href="https://github.com/shawnzsf" target="_blank" rel="noopener" class="side-contact-link">GitHub</a>
+                    <a href="https://www.xiaohongshu.com/user/profile/600952fd00000000010080c1" target="_blank" rel="noopener" class="side-contact-link">RedNote</a>
+                </div>
+
+                <p class="side-foot">© <span id="year"></span> 張寿峰</p>
+            </div>
+        </aside>
+
+        <main class="content">
+            
+            <div class="topbar">
+                <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+
+            <div class="mobile-panel" id="mobilePanel">
+                <nav class="mobile-nav">
+                    <a href="../../index.html#about" class="mobile-link">About</a>
+                    <a href="../../index.html#education" class="mobile-link">Education</a>
+                    <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
+                    <a href="../../index.html#skills" class="mobile-link">Skills</a>
+                    <a href="../../index.html#contact" class="mobile-link">Contact</a>
+                    <a href="blog/index.html" class="mobile-link">Blog</a>
+                    <a href="gallery/index.html" class="mobile-link">Gallery</a>
+                </nav>
+            </div>
+
+            <div class="content-inner blog-content">
+                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Jul 2, 2024</time></div><h1 class="post-head-title">CMU 15122：Deliberate Programming</h1><div class="post-head-tags"><span>Course Notes</span></div></header><div class="post-body reveal"><p>本篇总结CMU 15122第一单元Deliberate Programming的全部内容（除了Contracts部分）。这门课的整体脉络还是较为清晰的，虽然大部分东西并不陌生，但从safety和correctness的角度重新审视一遍也是不错的。</p>
+<h1>Integers</h1>
+<p>涉及进制转换的内容略过不提。</p>
+<h2>Two&#39;s Complement</h2>
+<p>Two&#39;s Complement是C0中表示数字的一种方法。C0中的整数一共占据32个比特位，其中最高的比特位是该比特位代表的负的2的31次方，也就是说，C0中的最大正整数可以用0x7FFFFFFF表示，正数的范围是0x00000000-0x7FFFFFFF($0~2^{31}-1$)。当最大正整数int_max()再继续做加法的时候整数就会溢出到负数的范围内，也就是0x80000000-0xFFFFFFFF。其中0x80000000是int_min()，其顺序与正数表示相反。由此，c0能够表示的整个整数范围是$[-2^{31}, 2^{31})$。</p>
+<p>对于int的操作类型有：Addition, multiplication, division, subtraction, comparisons, mod;</p>
+<p>对于Tow&#39;s complement表示方法来说，有以下成立：</p>
+<ul>
+<li>-x = ~x + 1</li>
+<li>int_min() = -int_min()</li>
+</ul>
+<p>对于以下操作会产生runtime error：</p>
+<ul>
+<li>int_min() (/ or %) - 1</li>
+<li>x / 0</li>
+</ul>
+<h2>Bit Pattern</h2>
+<p>Int不是数字，是0和1组成的字符串。因此，bitwise operation可以通过对每一比特位进行操作来改变数字大小。其中包括是掩码以及各种比特位操作。&amp; 0xFF000000 可以将另外一个32位数的后24位全部置为零，这就是为什么其被称作mask（掩码）。另外我们可以通过| 0xFF000000 将32位数的前8位全部置为1。左移&lt;&lt;就是将比特数左移多少位，右边补零。右移&gt;&gt;会根据最高位进行补齐。</p>
+<h1>Arrays</h1>
+<p>数组是相同类型数据的集合，例如 int[] 表示整型数组。数组可以包含任何类型的元素，包括其他数组。</p>
+<p>局部变量存储在局部内存中，函数的变量在各自的帧（frame）中。函数调用时，每个被调用的函数都有自己的帧，且只能操作自己帧中的变量。函数返回后，其帧被撤销。</p>
+<p>使用 alloc_array(type, n) 创建数组，返回一个类型为 type[] 的数组，包含 n 个元素。数组的元素存储在分配的内存中，而数组变量本身存储在局部内存中，包含指向分配内存的地址。通过 A[i] 访问数组 A 的第 i 个元素，索引从0开始。分配的内存使用默认值初始化，对于整型数组，默认值为0。越界访问（out-of-bound access）是不允许的，有效索引是0到数组长度减一。数组操作需要满足前提条件（preconditions），例如 alloc_array(type, n) 需要 n ≥ 0。</p>
+<p>C0中Aarray变量名存储的是数列的地址，因此，假如int[] B = A，A是某个已经存在的数列，B只会复制A的地址。后续对B的操作也实际上是对于A的操作。一旦某个数列没有指针指向它，C0的Garbage Collector就会消除掉该数列。整数与整数之间不涉及到地址的问题。C0无法返回某个数组的长度，但是用Contract中的\length()可以。</p>
+<h1>Searching and Sorting</h1>
+<p>In-place: allocates constant amount of memory.
+Stable: relative position of duplicates is preserved.</p>
+<h2>Linear Search</h2>
+<p>Linear Search本身没什么可以探讨的，主要是关于contracts方面的问题。</p>
+<h3>Implementation</h3>
+<pre><code>bool is_in(int x, int[] A, int lo, int hi)
+//@requires 0 &lt;= lo &amp;&amp; lo &lt;= hi &amp;&amp; hi &lt;= \length(A);
+//Check whether x is in array segment A, [lo, hi)
+
+int linearSearch(int x, int[] A, int n)
+//@requires n == \length(A);
+/*@ensures (-1 == \result &amp;&amp; !is_in(x, A, 0, n)) ||
+           ((0 &lt;= \result &amp;&amp; \result &lt; n) &amp;&amp; A[\result] == x);
+{
+  for (int i = 0; i &lt; n; i++)
+  //@loop_invariant 0 &lt;= i &amp;&amp; i &lt;= n;
+  //@loop_invariant !is_in(x, A, 0, n);
+  {
+    if (A[i] == x) return i;
+  }
+  //@assert !is_in(x, A, 0, n);
+  return -1;
+}
+</code></pre>
+<h3>Safety and Correctness</h3>
+<p>确保搜索过程中数组索引 i 在有效范围内，即 0 &lt;= i &lt; n，其中 n 是数组 A 的长度。使用contract来定义函数的前提条件（@requires）和后置条件（@ensures）。前提条件：确保传入的数组长度 n 与数组 A 的实际长度相匹配。后置条件：如果找到元素 x，则返回其索引；否则返回 -1。</p>
+<ul>
+<li>数组段表示数组中的一部分，用 A[lo, hi) 表示，包含从索引 lo（包含）到索引 hi（不包含）的元素。</li>
+<li>定义 is_in(x, A, lo, hi) 函数，用于检查元素 x 是否在数组段 A[lo, hi) 中。</li>
+</ul>
+<h3>Contract Exploits</h3>
+<p>即使函数满足Contract，也可能不满足预期的行为。例如，一个函数可以满足Contract但在逻辑上是错误的。</p>
+<h2>Binary Search</h2>
+<h3>Implementation</h3>
+<pre><code>int binarySearch(int x, int[] A, int n)
+//@requires n == \length(A);
+//@requires is_sorted(A,0,n);
+/*@ensures (-1 == \result &amp;&amp; !is_in(x, A,0,n))
+        || ((0 &lt;= \result &amp;&amp; \result &lt; n) &amp;&amp; A[\result] == x);
+  @*/
+{
+  for (int i = 0; i &lt; n; i++)
+  //@loop_invariant 0 &lt;= i &amp;&amp; i &lt;= n;
+  //@loop_invariant gt_seg(x, A,0,i);       // implies !is_in(x, A,0,i)
+  //@loop_invariant !is_in(x, A,0,i);
+  //@loop_invariant le_segs(A,0,i, A,i,n);  // because is_sorted(A,0,n)
+  {
+    if (A[i] == x) return i;
+    if (A[i] &gt; x) {
+      //@assert lt_seg(x, A,i,n);           // implies !is_in(x, A,i,n)
+      //@assert !is_in(x, A,i,n);
+      return -1;
+    }
+    //@assert A[i] &lt; x;                     // implies gt_seg(x, A,0,i+1);
+    //@assert gt_seg(x, A,0,i+1);
+  }
+  //@assert !is_in(x, A,0,n);
+  return -1;
+}
+</code></pre>
+<p>使用循环，维护两个指针lo（low）和hi（high），分别代表搜索区间的下限和上限。
+计算中间索引mid，并与目标值x进行比较。</p>
+<ul>
+<li>如果A[mid]等于x，则返回mid。</li>
+<li>如果x小于A[mid]，则更新hi为mid。</li>
+<li>如果x大于A[mid]，则更新lo为mid + 1。</li>
+</ul>
+<p>当lo和hi相遇时，搜索结束，返回-1表示未找到。</p>
+<h3>Loop Invariant</h3>
+<ul>
+<li>0 ≤ lo</li>
+<li>lo ≤ hi</li>
+<li>hi ≤ n</li>
+<li>A[0, lo) &lt; x</li>
+<li>x &lt; A[hi, n)</li>
+</ul>
+<p>应确保mid的计算不会超出整数范围，避免溢出错误。循环不变式在算法的初始化（INIT）、保持（PRES）和终止（TERMINATE）阶段都是可以被证明有效的。</p>
+<h2>Mergesort</h2>
+<h3>Implementation</h3>
+<pre><code>void merge(int[] A, int lo, int mid, int hi)
+//@requires 0 &lt;= lo &amp;&amp; lo &lt;= mid &amp;&amp; mid &lt;= hi &amp;&amp; hi &lt;= \length(A);
+//@requires is_sorted(A, lo, mid) &amp;&amp; is_sorted(A, mid, hi);
+//@ensures is_sorted(A, lo, hi);
+{
+  int[] B = alloc_array(int, hi-lo);
+  int i = lo;
+  int j = mid;
+  int k = 0;
+
+  while (i &lt; mid &amp;&amp; j &lt; hi)
+  //@loop_invariant lo &lt;= i &amp;&amp; i &lt;= mid;
+  //@loop_invariant mid &lt;= j &amp;&amp; j &lt;= hi;
+  //@loop_invariant k == (i - lo) + (j - mid);
+  {
+    if (A[i] &lt;= A[j]) {
+      B[k] = A[i];
+      i++;
+    } else { //@assert A[i] &gt; A[j];
+      B[k] = A[j];
+      j++;
+    }
+    k++;
+  }
+
+  //@assert i == mid || j == hi;
+  // Exercise: write the omitted invariants for these loops
+  while (i &lt; mid) { B[k] = A[i]; i++; k++; }
+  while (j &lt; hi)  { B[k] = A[j]; j++; k++; }
+
+  // Copy sorted array back into A
+  for (k = 0; k &lt; hi-lo; k++)
+    A[lo+k] = B[k];
+}
+
+
+// mergesort
+void sort(int[] A, int lo, int hi)
+//@requires 0 &lt;= lo &amp;&amp; lo &lt;= hi &amp;&amp; hi &lt;= \length(A);
+//@ensures is_sorted(A, lo, hi);
+{
+  if (hi - lo &lt;= 1)            //@assert is_sorted(A, lo, hi);
+    return;
+
+  int mid = lo + (hi - lo)/2;  //@assert lo &lt; mid &amp;&amp; mid &lt; hi;
+  sort(A, lo, mid);            //@assert is_sorted(A, lo, mid);
+  sort(A, mid, hi);            //@assert is_sorted(A, mid, hi);
+  merge(A, lo, mid, hi);       //@assert is_sorted(A, lo, hi);
+}
+</code></pre>
+<h3>Explanation</h3>
+<ol>
+<li>递归地将数组分成两半，直到分出的数组长度为1或者为0;</li>
+<li>递归地将数组两两合并，合并的时候做具体的比较运算使得合并出来的数组都是有序的;</li>
+<li>Merge Halves -&gt; O(n) cost.</li>
+<li>Levels of Merging -&gt; O(logn) cost.</li>
+<li>O(nlogn) cost.</li>
+</ol>
+<h2>Quicksort</h2>
+<h3>Implementation</h3>
+<pre><code>int partition(int[] A, int lo, int hi)
+//@requires 0 &lt;= lo &amp;&amp; lo &lt; hi &amp;&amp; hi &lt;= \length(A);
+//@ensures lo &lt;= \result &amp;&amp; \result &lt; hi;
+//@ensures ge_seg(A[\result], A, lo, \result);
+//@ensures le_seg(A[\result], A, \result+1, hi);
+{
+  int pi = lo + (hi - lo)/2;
+  int pivot = A[pi];
+  swap(A, pi, lo);
+  int left = lo + 1;
+  int right = hi;
+
+  while (left &lt; right)
+  //@loop_invariant lo+1 &lt;= left &amp;&amp; left &lt;= right &amp;&amp; right &lt;= hi;
+  //@loop_invariant ge_seg(pivot, A, lo, left);
+  //@loop_invariant le_seg(pivot, A, right, hi);
+  //@loop_invariant pivot == A[lo];
+  {
+    if (A[left] &lt;= pivot) {
+      left++;
+    } else {
+      //@assert A[left] &gt; pivot;
+      swap(A, left, right-1);
+      right--;
+    }
+  }
+
+  //@assert left == right;
+  swap(A, lo, left-1);
+  return left-1;
+}
+
+
+// quicksort
+void sort(int[] A, int lo, int hi)
+//@requires 0 &lt;= lo &amp;&amp; lo &lt;= hi &amp;&amp; hi &lt;= \length(A);
+//@ensures is_sorted(A, lo, hi);
+{
+  if (hi - lo &lt;= 1)               //@assert is_sorted(A, lo, hi);
+    return;
+
+  int p = partition(A, lo, hi);   //@assert lo &lt;= p &amp;&amp; p &lt; hi;
+  //@assert ge_seg(A[p], A,lo,p) &amp;&amp; le_seg(A[p], A,p+1,hi);
+  sort(A, lo, p);                 //@assert is_sorted(A, lo, p);
+  sort(A, p+1, hi);               //@assert is_sorted(A, p+1, hi);
+  //@assert is_sorted(A, lo, hi);
+}
+</code></pre>
+<h3>Explanation</h3>
+<ol>
+<li>随机挑一个轴;</li>
+<li>遍历整个数组，把每个数和轴比较，然后放到轴的左右边;</li>
+<li>递归地向下分，分到长度为1或者0时表示整个数组排序完毕;</li>
+<li>Quicksort 和 Mergesort本质上很像，只不过一个在分的过程中做比较运算，一个是分完之后在合并的过程中做比较运算。</li>
+<li>Unlucky: Pick smallest element as pivot O(n^2), just selection sort;</li>
+<li>Average: Pick middle element -&gt; O(nlogn);</li>
+</ol>
+<h1>Complexity</h1>
+<p>O(g(n))是一组函数，其中f(n)∈O(g(n))。当且仅当：</p>
+<ul>
+<li>有c∈R+</li>
+<li>有n0∈N
+使对于所有n≥n0，f(n)≤cg(n)。</li>
+</ul>
+<p>O(1) ⊂ O(log n) ⊂ O(n) ⊂ O(n log n) ⊂ O(n2) ⊂ O(2n) ⊂ O(n!)</p>
+<p>做复杂度分析是可以直接抛掉常数，取变量最坏的情况。保留不同变量间的运算。log的底因为可以通过换底公式换成常数乘以以某数为底因此不重要。</p>
+<p>Linear search: O(1) best case, O(n) worst case.
+Binary search: O(1) best case, O(logn) worst case.
+Selection sort: O(n^2)
+Merge sort: O(nlogn)
+Quick sort: O(nlogn) best case, O(nlogn) avg case, O(n^2) worst case.</p>
+<h1>Structs and pointers</h1>
+<h2>Local Memory and Allocated Memory</h2>
+<ul>
+<li>Local memory: Literals (int, bool, string, any direct value);<ul>
+<li>Born when: declared in its scope</li>
+<li>Vanishes when: exit its scope</li>
+</ul>
+</li>
+<li>Allocated memory: (contents of) pointers, arrays, tructs;<ul>
+<li>Born when: we allocate them;</li>
+<li>Vanishes when: we can no longer access them -&gt; garbage collector;</li>
+</ul>
+</li>
+</ul>
+<h2>Pointers</h2>
+<p>多重指针，指针修改，内存图绘制，不做赘述</p>
+<p>Default values:</p>
+<ul>
+<li>int: 0</li>
+<li>char: &#39;\0&#39;</li>
+<li>string: &quot;&quot;</li>
+<li>bool: false</li>
+<li>pointer: NULL</li>
+<li>array: empty array</li>
+</ul>
+<h2>Structs</h2>
+<p>统一管理多种类数据的方便手段。内存图绘制同样不做赘述。</p>
+<pre><code>struct goose_header{
+  string name;
+  string bowtie_color;
+  image* img;
+};
+
+struct goose_header* silly = alloc(struct goose_header); //Using pointer to access struct fields
+typedef struct goose_header goose;
+goose* silly = alloc(goose);
+
+(*silly).bowtie_color = &quot;pink&quot;;
+//Otherwise, also recommended
+silly-&gt;bowtie_color = &quot;pink&quot;;
+
+//valid data structure
+
+bool is_goose(goose* g){
+  return g != NULL &amp;&amp; g-&gt;img != NULL;
+}
+//specification function used to check if goose valid
+
+//safe pointer accesses:
+//requires g != NULL
+//requires is_goose(g), valid goose input
+//ensures is_goose(g), our function doesn&#39;t make the goose invalid
+</code></pre>
+<h1>Interfaces vs. Implementation</h1>
+<p>我们可以通过typedef给数据起别名，这样可以增加程序的抽象程度，方便调用。调用interface进行开发的方面也不需要深入程序细节，使用提供的函数接口和数据别名就可以完成开发。因此通常情况下client使用的只是interface提供的指针，不对具体数据进行操作。specification function属于implementation contracts部分，确保程序正确性，因此client不会调用它们。因为client知道他们调用的是指针，因此为了防止指针被设置成NULL，interface中都会有NULL check，作为另一种监督程序正确性的手段。</p>
+</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+            </div>
+        </main>
+    </div>
+
+    <!-- highlight.js -->
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

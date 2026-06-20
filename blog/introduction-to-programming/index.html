@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to programming — 張寿峰</title>
+    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- KaTeX for math formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <!-- highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <div class="layout">
+        
+        <aside class="sidebar">
+            <div class="sidebar-inner">
+                <div class="seal-wrap">
+                    <div class="seal">張</div>
+                    <div class="seal-sub">寿峰</div>
+                </div>
+
+                <div class="identity">
+                    <h1 class="name-en">Shoufeng Zhang</h1>
+                    <p class="name-jp">張寿峰</p>
+                    <p class="name-title">Computer Science &amp; Engineering</p>
+                    <p class="name-affil">University of Hong Kong</p>
+                </div>
+
+                <div class="vertical-deco" aria-hidden="true">海濤悲湧深藍色</div>
+
+                <dl class="facts">
+                    <div class="fact">
+                        <dt>Location</dt>
+                        <dd>Beijing · Hong Kong</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Status</dt>
+                        <dd><span class="dot"></span>Open to collaboration</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Focus</dt>
+                        <dd>Hardware · ML Systems · Robotics</dd>
+                    </div>
+                </dl>
+
+                <nav class="side-nav">
+                    <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
+                    <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
+                    <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
+                    <a href="../../index.html#skills" class="side-link"><span class="side-num">伍</span>Skills</a>
+                    <a href="../../index.html#contact" class="side-link"><span class="side-num">陸</span>Contact</a>
+                    <a href="../../blog/index.html" class="side-link side-link-external"><span class="side-num">筆</span>Blog</a>
+                    <a href="gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
+                </nav>
+
+                <div class="side-contact">
+                    <a href="mailto:zhangshoufeng@connect.hku.hk" class="side-contact-link">Email</a>
+                    <a href="https://github.com/shawnzsf" target="_blank" rel="noopener" class="side-contact-link">GitHub</a>
+                    <a href="https://www.xiaohongshu.com/user/profile/600952fd00000000010080c1" target="_blank" rel="noopener" class="side-contact-link">RedNote</a>
+                </div>
+
+                <p class="side-foot">© <span id="year"></span> 張寿峰</p>
+            </div>
+        </aside>
+
+        <main class="content">
+            
+            <div class="topbar">
+                <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+
+            <div class="mobile-panel" id="mobilePanel">
+                <nav class="mobile-nav">
+                    <a href="../../index.html#about" class="mobile-link">About</a>
+                    <a href="../../index.html#education" class="mobile-link">Education</a>
+                    <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
+                    <a href="../../index.html#skills" class="mobile-link">Skills</a>
+                    <a href="../../index.html#contact" class="mobile-link">Contact</a>
+                    <a href="blog/index.html" class="mobile-link">Blog</a>
+                    <a href="gallery/index.html" class="mobile-link">Gallery</a>
+                </nav>
+            </div>
+
+            <div class="content-inner blog-content">
+                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Aug 11, 2023</time></div><h1 class="post-head-title">Introduction to programming</h1><div class="post-head-tags"><span>IB Computer Science</span></div></header><div class="post-body reveal"><h1>Nature of programming languages</h1>
+<h2>4.3.1 State the fundamental operations of a computer</h2>
+<p>计算机的基本操作(包括加，比较，加载和存储)，涉及到了一些指令，但作者没有继续向下讲。</p>
+<h2>4.3.2 Distingguish between fundamental and compound operations of a computer</h2>
+<p>写了运用上述操作找最大值的一个算法示例。</p>
+<h2>4.3.3 Explain the essential features of a computer language</h2>
+<p>一门编程语言被描述为它的语义(semantics)的结合，语义指的是语言中可能的每一个结构的含义，而语法则与它的结构有关。语法(grammar)是一种元语言，用于定义语言的语法(syntax)，语句构造的规则称为语法(syntax)。每种高级语言都有独特的语法和特定的关键字。</p>
+<h2>4.3.4 Explain the need for higher level languages</h2>
+<p>因为计算机只能处理0和1组成的机器语言，所以后续人们开发了助记符(汇编语言)进行编程。因为汇编语言仍然会因为计算机的不同而不同，抽象程度不高，所以人们开发了高级语言。高级语言是一种使用自然语言元素的编程语言，易于使用，通过隐藏计算系统的重要区域来进行抽象，是程序开发更加简单。</p>
+<h2>4.3.5 Outline the need for a translation process from a higher-level leanguage to machine-executable code</h2>
+<p>现如今使用高级语言实现的程序要想运行在计算机上需要编译(compilation)或者解释(interpretation)。</p>
+<ul>
+<li><p>Compilation: 编译器(compiler)是只执行一次翻译过程(translation)的翻译器(translator)。通常把整个源程序翻译成目标程序，下次使用目标程序是不需要再重新编译。编译器会对发现的所有语法错误发出错误信息，并在检查整个程序后将所有错误传达给程序员。编译器要比解释器快很多(喜)。</p>
+</li>
+<li><p>Interpretation: 解释亲(interpreter)是一个翻译器，解释是指读取源程序的每一行(指令)，对其进行分析，将其翻译成目标程序的相应行，并执行该行的过程。对于每条被解释的指令，语法错误都会被告知程序员。</p>
+</li>
+<li><p>JAVA: JAVA将编译和解释结合起来。首先将源代码编译成JAVA虚拟机字节码。也就是将.java文件转换为.class文件。这个JAVA虚拟机字节码可以被JAVA虚拟机解释器解释。JAVA这样的编译和解释过程允许代码在安装了JAVA虚拟机解释器的任何机器上运行。JAVA代码在特定硬件平台上运行的所有细节都由JAVA虚拟机(JVM)处理。</p>
+</li>
+</ul>
+<h1>Use of programming languages</h1>
+<h2>4.3.6 Variable, constant, operator, object</h2>
+<ul>
+<li><p>变量(variable)：用于存储程序的数据元素。存储的值可以在程序执行期间更改。变量有名称(或标识符)和类型。变量名不应与语言的保留关键字和字面值冲突。变量的类型可以是整数、双精度、字符串等。在大多数编程语言中，变量只能存储特定类型的数据元素。</p>
+</li>
+<li><p>常数(constant)：常数代表不变的事物和数量。它们可以被视为不可修改的变量。存储在常量中的数据元素不能在程序执行期间被修改。</p>
+</li>
+<li><p>操作符(operator)：操作符用于操作操作数。操作数可以是变量、文字、布尔值、数值等。运算符可以是算术、关系和逻辑等。</p>
+</li>
+<li><p>对象(object)：对象是由数据和操作组成的。动作是指对象可以执行的操作。对象数据可以包括许多数据成员，而操作也可以成为方法。数据成员用于存储对象的当前状态，方法用于更改或访问这些数据成员。</p>
+</li>
+</ul>
+<h2>4.3.7 Define various operators</h2>
+<p>=: 等于; !=: 不等于;</p>
+<blockquote>
+<p>: 大于; &gt;=: 大于等于; &lt;: 小于; &lt;=: 小于等于;
+div: 取整; mod: 取余；</p>
+</blockquote>
+<h2>4.3.8 Analyse the use of variables, constants and operators in algorithms</h2>
+<h3>Local and global value</h3>
+<p>全局变量对程序的所有部分可见，而局部变量的作用域有限。</p>
+<h2>4.3.9 Develop algorithms using loops, branching</h2>
+<p>给了一个算闰年的Java程序。</p>
+<h2>4.3.10 Describe the characteristics and applications of a collection</h2>
+<p>集合由零个或多个元素组成。允许重复元素，并且可以包含有序和无序的数据元素。集合的重要操作有添加、删除等。每种类型的集合都配备了自己特定的操作。特定集合的元素通都是相同类型并表示一个实体。</p>
+<h2>4.3.11 Develop algorithms using the access methods of a collection</h2>
+<p>三个例子。</p>
+<h2>4.3.12 Discuss the importance of sub-programmes and collections within programmed solutions</h2>
+<p>子程序是包含执行特定和预定义任务的计算机指令序列的单元。(编写函数)</p>
+<p>使用子程序的优点：</p>
+<ul>
+<li>复杂分成简单</li>
+<li>将问题分布到全世界</li>
+<li>允许代码重用</li>
+<li>隐藏实现细节，提高抽象程度</li>
+<li>提高可维护性</li>
+<li>减少代码重复</li>
+</ul>
+<p>使用集合的好处：</p>
+<ul>
+<li>集合可以直接进行操作</li>
+<li>提高性能</li>
+<li>重用更多代码</li>
+</ul>
+<h2>4.3.13 Construct algorithms using pre-defined sub-programmes, one-dimensional arrays and/or collections</h2>
+<p>不同的高级语言使用过程、子过程、函数、例程、方法、模块等术语指代子程序。子程序包含的单元可以在各种计算机程序中使用。后跟一堆例子。</p>
+</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+            </div>
+        </main>
+    </div>
+
+    <!-- highlight.js -->
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardware-Accelerated 1-Bit Quantization Using PyRTL — 張寿峰</title>
+    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- KaTeX for math formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <!-- highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <div class="layout">
+        
+        <aside class="sidebar">
+            <div class="sidebar-inner">
+                <div class="seal-wrap">
+                    <div class="seal">張</div>
+                    <div class="seal-sub">寿峰</div>
+                </div>
+
+                <div class="identity">
+                    <h1 class="name-en">Shoufeng Zhang</h1>
+                    <p class="name-jp">張寿峰</p>
+                    <p class="name-title">Computer Science &amp; Engineering</p>
+                    <p class="name-affil">University of Hong Kong</p>
+                </div>
+
+                <div class="vertical-deco" aria-hidden="true">海濤悲湧深藍色</div>
+
+                <dl class="facts">
+                    <div class="fact">
+                        <dt>Location</dt>
+                        <dd>Beijing · Hong Kong</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Status</dt>
+                        <dd><span class="dot"></span>Open to collaboration</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Focus</dt>
+                        <dd>Hardware · ML Systems · Robotics</dd>
+                    </div>
+                </dl>
+
+                <nav class="side-nav">
+                    <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
+                    <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
+                    <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
+                    <a href="../../index.html#skills" class="side-link"><span class="side-num">伍</span>Skills</a>
+                    <a href="../../index.html#contact" class="side-link"><span class="side-num">陸</span>Contact</a>
+                    <a href="../../blog/index.html" class="side-link side-link-external"><span class="side-num">筆</span>Blog</a>
+                    <a href="gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
+                </nav>
+
+                <div class="side-contact">
+                    <a href="mailto:zhangshoufeng@connect.hku.hk" class="side-contact-link">Email</a>
+                    <a href="https://github.com/shawnzsf" target="_blank" rel="noopener" class="side-contact-link">GitHub</a>
+                    <a href="https://www.xiaohongshu.com/user/profile/600952fd00000000010080c1" target="_blank" rel="noopener" class="side-contact-link">RedNote</a>
+                </div>
+
+                <p class="side-foot">© <span id="year"></span> 張寿峰</p>
+            </div>
+        </aside>
+
+        <main class="content">
+            
+            <div class="topbar">
+                <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+
+            <div class="mobile-panel" id="mobilePanel">
+                <nav class="mobile-nav">
+                    <a href="../../index.html#about" class="mobile-link">About</a>
+                    <a href="../../index.html#education" class="mobile-link">Education</a>
+                    <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
+                    <a href="../../index.html#skills" class="mobile-link">Skills</a>
+                    <a href="../../index.html#contact" class="mobile-link">Contact</a>
+                    <a href="blog/index.html" class="mobile-link">Blog</a>
+                    <a href="gallery/index.html" class="mobile-link">Gallery</a>
+                </nav>
+            </div>
+
+            <div class="content-inner blog-content">
+                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Dec 15, 2024</time></div><h1 class="post-head-title">Hardware-Accelerated 1-Bit Quantization Using PyRTL</h1><div class="post-head-tags"><span>PyRTL</span><span>System Design</span><span>Quantization</span></div></header><div class="post-body reveal"><h2>Background</h2>
+<p>Neural network quantization reduces the precision of weights and activations to lower memory footprint and accelerate inference. While 8-bit quantization is now standard, pushing to <strong>1-bit</strong> (binary) quantization offers dramatic area and energy savings — at the cost of accuracy.</p>
+<p>This project explores the hardware side: how do we build a MAC (Multiply-Accumulate) unit that operates on 1-bit values efficiently?</p>
+<h2>Design Overview</h2>
+<p>The core of the design is a <strong>Systolic Array</strong> — a grid of processing elements (PEs) that flow data horizontally and vertically. Each PE performs a 1-bit multiplication (effectively an XNOR) and accumulates the result.</p>
+<pre><code>+-----+   +-----+   +-----+
+| PE  |--&gt;| PE  |--&gt;| PE  |
++-----+   +-----+   +-----+
+  |         |         |
+  v         v         v
++-----+   +-----+   +-----+
+| PE  |--&gt;| PE  |--&gt;| PE  |
++-----+   +-----+   +-----+
+</code></pre>
+<h3>Key Components</h3>
+<ol>
+<li><strong>XNOR gate</strong> — replaces the multiplier (1-bit × 1-bit = XNOR)</li>
+<li><strong>Popcount accumulator</strong> — counts the number of 1s in the result</li>
+<li><strong>BatchNorm folding</strong> — integrates batch normalization into the threshold</li>
+</ol>
+<h2>PyRTL Implementation</h2>
+<p>PyRTL allows us to describe hardware at the register-transfer level in Python:</p>
+<pre><code class="language-python">import pyrtl
+
+def one_bit_mac(a, b, acc):
+    &quot;&quot;&quot;1-bit multiply-accumulate: acc += a XNOR b&quot;&quot;&quot;
+    product = ~(a ^ b)  # XNOR
+    return acc + pyrtl.mux(product, 0, 1)
+</code></pre>
+<p>The advantage of PyRTL over raw Verilog is the ability to simulate, test, and synthesize from a single Python codebase.</p>
+<h2>Results</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>8-bit MAC</th>
+<th>1-bit MAC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Area (relative)</td>
+<td>1.0</td>
+<td>0.12</td>
+</tr>
+<tr>
+<td>Critical path</td>
+<td>1.0</td>
+<td>0.31</td>
+</tr>
+<tr>
+<td>Power (relative)</td>
+<td>1.0</td>
+<td>0.18</td>
+</tr>
+</tbody></table>
+<p>The 1-bit design achieves an <strong>8.3× area reduction</strong> and <strong>3.2× speedup</strong> in critical path — at the cost of ~5-8% accuracy drop on CIFAR-10.</p>
+<h2>Takeaways</h2>
+<ul>
+<li>Binary quantization trades accuracy for massive hardware efficiency</li>
+<li>PyRTL is a powerful tool for rapid hardware prototyping</li>
+<li>The systolic array architecture maps naturally to quantized workloads</li>
+</ul>
+<blockquote>
+<p>Next step: exploring ternary (2-bit) quantization as a middle ground.</p>
+</blockquote>
+</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+            </div>
+        </main>
+    </div>
+
+    <!-- highlight.js -->
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

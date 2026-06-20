@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get deeper in SRAM — 張寿峰</title>
+    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- KaTeX for math formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <!-- highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <div class="layout">
+        
+        <aside class="sidebar">
+            <div class="sidebar-inner">
+                <div class="seal-wrap">
+                    <div class="seal">張</div>
+                    <div class="seal-sub">寿峰</div>
+                </div>
+
+                <div class="identity">
+                    <h1 class="name-en">Shoufeng Zhang</h1>
+                    <p class="name-jp">張寿峰</p>
+                    <p class="name-title">Computer Science &amp; Engineering</p>
+                    <p class="name-affil">University of Hong Kong</p>
+                </div>
+
+                <div class="vertical-deco" aria-hidden="true">海濤悲湧深藍色</div>
+
+                <dl class="facts">
+                    <div class="fact">
+                        <dt>Location</dt>
+                        <dd>Beijing · Hong Kong</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Status</dt>
+                        <dd><span class="dot"></span>Open to collaboration</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Focus</dt>
+                        <dd>Hardware · ML Systems · Robotics</dd>
+                    </div>
+                </dl>
+
+                <nav class="side-nav">
+                    <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
+                    <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
+                    <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
+                    <a href="../../index.html#skills" class="side-link"><span class="side-num">伍</span>Skills</a>
+                    <a href="../../index.html#contact" class="side-link"><span class="side-num">陸</span>Contact</a>
+                    <a href="../../blog/index.html" class="side-link side-link-external"><span class="side-num">筆</span>Blog</a>
+                    <a href="gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
+                </nav>
+
+                <div class="side-contact">
+                    <a href="mailto:zhangshoufeng@connect.hku.hk" class="side-contact-link">Email</a>
+                    <a href="https://github.com/shawnzsf" target="_blank" rel="noopener" class="side-contact-link">GitHub</a>
+                    <a href="https://www.xiaohongshu.com/user/profile/600952fd00000000010080c1" target="_blank" rel="noopener" class="side-contact-link">RedNote</a>
+                </div>
+
+                <p class="side-foot">© <span id="year"></span> 張寿峰</p>
+            </div>
+        </aside>
+
+        <main class="content">
+            
+            <div class="topbar">
+                <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+
+            <div class="mobile-panel" id="mobilePanel">
+                <nav class="mobile-nav">
+                    <a href="../../index.html#about" class="mobile-link">About</a>
+                    <a href="../../index.html#education" class="mobile-link">Education</a>
+                    <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
+                    <a href="../../index.html#skills" class="mobile-link">Skills</a>
+                    <a href="../../index.html#contact" class="mobile-link">Contact</a>
+                    <a href="blog/index.html" class="mobile-link">Blog</a>
+                    <a href="gallery/index.html" class="mobile-link">Gallery</a>
+                </nav>
+            </div>
+
+            <div class="content-inner blog-content">
+                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Aug 3, 2023</time></div><h1 class="post-head-title">Get deeper in SRAM</h1><div class="post-head-tags"><span>Wrap-up post</span></div></header><div class="post-body reveal"><h2>Theory</h2>
+<p>RAM(Random Access Memory)具有如下两个特点：</p>
+<ul>
+<li>易变，断电时易失数据。</li>
+<li>读写行为快，速度与数据存储位置无关。</li>
+</ul>
+<p>RAM又有如下两个分类：</p>
+<ul>
+<li>DRAM (Dynamic Random Access Memory)</li>
+<li>SRAM (Static Random Access Memory)</li>
+</ul>
+<p>DRAM由一个电容器(capacitor)和一个晶体管(transistor)构成。因为电容器的缺陷，DRAM经常需要被刷新，因此DRAM要远比SRAM慢。</p>
+<p>因此SRAM经常被用作缓存(cache)，而DRAM因为相对便宜且密度大主要作为处理器内存。</p>
+<p>一个SRAM中有六个晶体管，可以存储一个bit的数据，每个bit存储在四个晶体管上，因此有两个重合部分。</p>
+<p>SRAM小结：</p>
+<ul>
+<li>最快的存储器</li>
+<li>由6个晶体管构成</li>
+<li>不需要被刷新</li>
+<li>密度更低，平方面积存储能力更差，因为一个单元上的电路更多</li>
+</ul>
+<p>文章主要讨论异步(asynchronous) SRAM。</p>
+<h2>Hands On</h2>
+<p>Cmod A7 开发板集成了SRAM，其特点如下：</p>
+<ul>
+<li>512KB</li>
+<li>19个地址信号</li>
+<li>8个双向数据信号</li>
+<li>3个控制信号<ul>
+<li>三个控制信号分别是CE，OE和WE，活跃度都很低</li>
+<li>ce_n (chip enable)：控制芯片是否被启用</li>
+<li>we_n (write enable): 控制写入操作</li>
+<li>oe_n (output enable): 控制读出操作</li>
+</ul>
+</li>
+<li>访问时间10ns</li>
+<li>数据总线(data bus)为8 bit宽</li>
+</ul>
+<p>开发板的读操作涉及到11个时间参数，其中的6个如下：</p>
+<ul>
+<li>trc：读周期时间(read cycle time)，两个读操作的最短间隔，几乎与tAA相等。</li>
+<li>tAA：地址访问时间(address access time)，地址变化后获取稳定数据的时间。</li>
+<li>tOHA：输出保持时间(output hold time)，地址变化后输出数据仍然有效的时间。</li>
+<li>tDOE：输出使能访问时间(output enable access time)，激活oen后获取有效数据所需的时间。</li>
+<li>tHZOE：输出使能到high-Z时间(output enable to high-Z time)，oe_n去激活后三态缓冲器进入高阻抗状态的时间。</li>
+<li>tLZOE：输出使能到low-Z时间(output enable to low-Z time)，oe_n被激活后三态缓冲器离开高阻抗状态的时间。请注意，即使输出不再处于高阻抗状态，数据仍然无效。</li>
+</ul>
+<p>开发板的写操作涉及到的时间参数如下：</p>
+<ul>
+<li>twc：写周期时间(write cycle time)，两个写操作的最短间隔。</li>
+<li>tSA：地址建立时间(address setup time)，在we_n被激活之前，地址必须稳定的最短时间。</li>
+<li>tHA：地址保持时间(address hold time)，去激活we_n后地址必须稳定的最短时间。</li>
+<li>tPWE1：写使能脉冲宽度(we_n pulse width)，we_n必须断言的最小时间。</li>
+<li>tso：数据建立时间(data setup time)，在锁存沿(we_n从0移动到1的上升沿)之前，数据必须保持稳定的最短时间。</li>
+<li>tHD：数据保持时间，数据在锁存沿后必须保持稳定的最短时间。</li>
+</ul>
+<h2>Controller</h2>
+<p>为了成功执行一个读或写操作，断言地址、数据和控制信号的顺序是很重要的，并且需要确定他们保持一段时间的稳定。为了实现这些并且接入SRAM，我们用一个存储控制器(Memory Controller)。</p>
+<h3>Controller using Verilog</h3>
+<p>一个非常简单和基本的SRAM控制器的代码如下:</p>
+<pre><code>    module basic_sram_controller(
+
+      input wire clk,                        //  Clock signal
+
+      input wire rw,                         //  With this signal, we select reading or writing operation
+      input wire [18:0] addr,                //  Address bus
+      input wire [7:0] data_f2s,             //  Data to be writteb in the SRAM
+  
+      output reg [7:0] data_s2f_r,           //  It is the 8-bit registered data retrieved from the SRAM (the -s2f suffix stands for SRAM to FPGA)
+      output wire [18:0] ad,                 //  Address bus
+      output wire we_n,                      //  Write enable (active-low)
+      output wire oe_n,                      //  Output enable (active-low)
+
+      inout wire [7:0] dio_a,                //  Data bus
+      output wire ce_a_n                     //  Chip enable (active-low). Disables or enables the chip.
+      );
+
+      assign ce_a_n = 1&#39;b0;
+      assign oe_n = 1&#39;b0;
+      assign we_n = rw;
+      assign ad = addr;
+  
+      assign dio_a = (rw == 1&#39;b1)? 8&#39;hZZ : data_f2s;
+  
+      always @(posedge clk) begin
+        if (rw == 1&#39;b1)
+          data_s2f_r &lt;= dio_a;
+      end
+    endmodule
+</code></pre>
+<p>这种设计提供了较大的时间裕度，并且不施加任何严格的时间限制。它已在Cmod A7 FPGA板上进行了测试，该板具有12 MHz时钟输入，即周期为83.333纳秒。</p>
+<p>ce_n(芯片使能信号)和oe_n(输出使能信号)一直处于激活状态。</p>
+<p>我们对三态缓冲区使用三元运算符。注意，dio是一个双向总线。</p>
+<p>下面是一个非常简单的仿真模型：</p>
+<pre><code>    specify					
+        specparam 
+        Twp = 8,	
+        Tdw = 6,				
+        Tdh = 0;				
+        $width (negedge we_n, Twp);			
+        $setup (data, posedge we_n, Tdw);	
+        $hold (posedge we_n, data, Tdh);	
+    endspecify
+    reg [7:0] sram [0:1024];
+    always@(posedge we_n)
+        if (ce_n == 1&#39;b0)  
+        sram[addr] &lt;= data;
+    assign #10 data = (~ce_n &amp; ~oe_n) ? sram[addr] :  8&#39;bz; 
+</code></pre>
+<p>接下来要构建一个可综合的设计来测试SRAM。对于测试SRAM的HDL设计，我们必须能够在任何特定地址中写入和读取任何数据。因此，重要的是要有一个终端来选择我们想要进行的操作，并输入任何所需的数据。要做到这一点，设计将需要以下模块:</p>
+<ul>
+<li>UART：向FPGA/PC发送或接受数据。</li>
+<li>Debouncer：debounce reset button。</li>
+<li>FSM: 控制设计中所有的信号和状态。</li>
+<li>SRAM控制器</li>
+</ul>
+<p>原文章：<a href="https://www.hackster.io/salvador-canas/a-practical-introduction-to-sram-memories-using-an-fpga-i-3f3992">https://www.hackster.io/salvador-canas/a-practical-introduction-to-sram-memories-using-an-fpga-i-3f3992</a></p>
+</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+            </div>
+        </main>
+    </div>
+
+    <!-- highlight.js -->
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

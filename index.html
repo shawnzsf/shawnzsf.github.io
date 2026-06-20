@@ -1,199 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Shoufeng&#39;s Personal Website</title>
-  <link rel="stylesheet" href="/css/style.css">
-<meta name="generator" content="Hexo 8.1.1"></head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>張寿峰 — Shoufeng Zhang</title>
+    <meta name="description" content="Personal website of Shoufeng Zhang — Computer Science & Engineering, University of Hong Kong.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
 <body>
-  
-  <div class="container">
-    <!-- Left Sidebar -->
-    <aside class="sidebar">
-  <div class="top-section">
-    <div class="profile-intro">
-      <h1>Shoufeng Zhang</h1>
-      <!-- Japanese Transliteration or Kanji Name -->
-      <span class="jp-name">張寿峰</span>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <div class="layout">
+        
+        <aside class="sidebar">
+            <div class="sidebar-inner">
+                <div class="seal-wrap">
+                    <div class="seal">張</div>
+                    <div class="seal-sub">寿峰</div>
+                </div>
+
+                <div class="identity">
+                    <h1 class="name-en">Shoufeng Zhang</h1>
+                    <p class="name-jp">張寿峰</p>
+                    <p class="name-title">Computer Science &amp; Engineering</p>
+                    <p class="name-affil">University of Hong Kong</p>
+                </div>
+
+                <div class="vertical-deco" aria-hidden="true">海濤悲湧深藍色</div>
+
+                <dl class="facts">
+                    <div class="fact">
+                        <dt>Location</dt>
+                        <dd>Beijing · Hong Kong</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Status</dt>
+                        <dd><span class="dot"></span>Open to collaboration</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>Focus</dt>
+                        <dd>Hardware · ML Systems · Robotics</dd>
+                    </div>
+                </dl>
+
+                <nav class="side-nav">
+                    <a href="#about" class="side-link"><span class="side-num">壹</span>About</a>
+                    <a href="#education" class="side-link"><span class="side-num">貳</span>Education</a>
+                    <a href="#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
+                    <a href="#skills" class="side-link"><span class="side-num">伍</span>Skills</a>
+                    <a href="#contact" class="side-link"><span class="side-num">陸</span>Contact</a>
+                    <a href="blog/index.html" class="side-link side-link-external"><span class="side-num">筆</span>Blog</a>
+                    <a href="gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
+                </nav>
+
+                <div class="side-contact">
+                    <a href="mailto:zhangshoufeng@connect.hku.hk" class="side-contact-link">Email</a>
+                    <a href="https://github.com/shawnzsf" target="_blank" rel="noopener" class="side-contact-link">GitHub</a>
+                    <a href="https://www.xiaohongshu.com/user/profile/600952fd00000000010080c1" target="_blank" rel="noopener" class="side-contact-link">RedNote</a>
+                </div>
+
+                <p class="side-foot">© <span id="year"></span> 張寿峰</p>
+            </div>
+        </aside>
+
+        <main class="content">
+            
+            <div class="topbar">
+                <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+
+            <div class="mobile-panel" id="mobilePanel">
+                <nav class="mobile-nav">
+                    <a href="#about" class="mobile-link">About</a>
+                    <a href="#education" class="mobile-link">Education</a>
+                    <a href="#experience" class="mobile-link">Experience &amp; Works</a>
+                    <a href="#skills" class="mobile-link">Skills</a>
+                    <a href="#contact" class="mobile-link">Contact</a>
+                    <a href="blog/index.html" class="mobile-link">Blog</a>
+                    <a href="gallery/index.html" class="mobile-link">Gallery</a>
+                </nav>
+            </div>
+
+            <div class="content-inner">
+                
+            <section class="sec" id="about">
+                <div class="sec-head reveal">
+                    <h2><span class="sec-num">壹</span>About</h2>
+                    <span class="sec-rule"></span>
+                </div>
+                <div class="about-cols"><div class="about-text reveal"><p>I&#39;m an incoming second-year student at the <strong>University of Hong Kong</strong>, under the Faculty of Engineering. Prior to university, I studied at Beijing 101 High School
+I am currently working on autonomous robotics and security. My broader interests span hardware-software co-design, edge deployment of intelligent systems, and the system-level questions that arise when autonomous systems leave controlled environments and meet the real world. I am drawn to research at the intersection of perception, planning, and the hardware constraints that make both hard.</p>
+<p class="quote"><span class="quote-mark">「</span>莫聽穿林打葉聲，何妨吟嘯且徐行。竹杖芒鞋輕勝馬，誰怕？一蓑煙雨任平生。<span class="quote-mark">」</span></p></div><aside class="about-side reveal"><div class="mini-card"><span class="mini-label">Interests</span><ul>
+<li>Computing Hardware</li>
+<li>Robotics &amp; AI</li>
+<li>Systems &amp; Security</li>
+</ul></div><div class="mini-card"><span class="mini-label">Beyond Academics</span>I am interested in Photography (especially streets). Some of the works are published through Visual China Group and so, some of them are available on RedNote. I will try migrate more of them into gallery here in the future.</div></aside></div>
+            </section>
+            <section class="sec sec-alt" id="education">
+                <div class="sec-head reveal">
+                    <h2><span class="sec-num">貳</span>Education</h2>
+                    <span class="sec-rule"></span>
+                </div>
+                <ul class="entries"><li><div class="entry-date">2025.9 – Present</div><div class="entry-body"><strong>The University of Hong Kong</strong><span class="entry-role">B.Eng., Elite Engineering Programme</span><ul class="entry-notes"><li>CGPA: 3.96/4.3. (Major CGPA: 4.15/4.3)</li><li>2025-26 The University of Hong Kong Entrance Scholarship</li><li>Core Courses: Multivariable Calculus and Linear Algebra, C++ &amp; Python Programming, Electricity and Electronics, Fundamental Mechanics, etc.</li></ul></div></li><li><div class="entry-date">2024.7</div><div class="entry-body"><strong>Carnegie Mellon University</strong><span class="entry-role">Summer Session</span><ul class="entry-notes"><li>QPA: 4.0 / 4.0</li><li>Core Courses: Principles of Imperative Computation (C Programming, Basic data structure and algorithms), Concepts of Mathematics (Discrete Math)</li></ul></div></li><li><div class="entry-date">2022.9 – 2025.7</div><div class="entry-body"><strong>Beijing 101 High School</strong><span class="entry-role">AP &amp; IB Diploma Programme</span></div></li></ul>
+            </section>
+            <section class="sec" id="experience">
+                <div class="sec-head reveal">
+                    <h2><span class="sec-num">叁</span>Experience &amp; Works</h2>
+                    <span class="sec-rule"></span>
+                </div>
+                <div class="works"><article class="work reveal"><div class="work-no">01</div><div class="work-main"><div class="work-meta"><span>2025.12 – Present</span> · <span>Research Assistant</span></div><h3>HKU Innovation Academy Research Assistant</h3><ul class="work-notes"><li>Developed the full sensor integration and autonomy stack for a museum guide robot. Resolved severe odometry drift caused by the corridor effect in featureless hallways and dynamic crowd occlusion by integrating FAST-LIO (LiDAR-inertial odometry); implemented localization via ICP and navigation via Nav2.</li></ul><div class="tags"><span>Robotics</span></div></div></article><article class="work reveal"><div class="work-no">02</div><div class="work-main"><div class="work-meta"><span>2025.12 – 2026.5</span> · <span>Research Assistant</span></div><h3>HKU JC STEM Lab of Intelligent Cybersecurity Research Assistant</h3><ul class="work-notes"><li>Co-developed <strong>RE-Agent</strong>: an automated reverse-engineering pipeline built on Ghidra and DeepSeek that mimics the cognitive strategies of human reverse engineers for vulnerability analysis of stripped binaries.</li><li>Replaced naive LLM prompting with progressive context enrichment using BFS exploration of caller/callee graphs and iterative hypothesis testing, achieving a <strong>9 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> increase</strong> in semantic function name-recovery accuracy.</li><li>Contributed to validation of AI-generated exploit reports;</li></ul><div class="tags"><span>Security</span></div></div></article><article class="work reveal"><div class="work-no">03</div><div class="work-main"><div class="work-meta"><span>2024</span> · <span>Project Leader</span></div><h3>Hardware-Accelerated 1-Bit Quantization Using PyRTL</h3><ul class="work-notes"><li>Designed a 1-bit MAC unit for a Systolic Array with PyRTL, reducing area requirements and critical path length for efficient neural network design.</li></ul><div class="tags"><span>PyRTL</span><span>System Design</span><span>Quantization</span></div></div></article><article class="work reveal"><div class="work-no">04</div><div class="work-main"><div class="work-meta"><span>2024</span> · <span>Participant</span></div><h3>Yishengyizhen Program, Chinese Academy of Sciences</h3><ul class="work-notes"><li>Explored computer architecture and systems. Designed circuits with Verilog/Vivado for RV32 instructions and built a simplified RV32I emulator in C.</li></ul><div class="tags"><span>Verilog</span><span>Vivado</span><span>C</span><span>RISC-V</span></div></div></article></div>
+            </section>
+            <section class="sec sec-alt" id="skills">
+                <div class="sec-head reveal">
+                    <h2><span class="sec-num">伍</span>Skills</h2>
+                    <span class="sec-rule"></span>
+                </div>
+                <div class="skills"><div class="skill-col reveal"><h3>Hardware &amp; Systems</h3><ul><li>Verilog / SystemVerilog</li><li>Vivado / FPGA Prototyping</li><li>PyRTL</li><li>RISC-V ISA</li><li>Computer Architecture</li></ul></div><div class="skill-col reveal"><h3>Software &amp; ML</h3><ul><li>C / C++</li><li>Python</li><li>Machine Learning</li><li>Quantization / NN Accelerators</li><li>Data Analysis (LDA, LDAvis)</li></ul></div><div class="skill-col reveal"><h3>Exploring</h3><ul><li>Robotics Learning</li><li>AI for Security</li><li>Operating Systems</li><li>Compilers</li><li>ML Hardware Accelerators</li></ul></div></div>
+            </section>
+            <section class="sec" id="contact">
+                <div class="sec-head reveal">
+                    <h2><span class="sec-num">陸</span>Contact</h2>
+                    <span class="sec-rule"></span>
+                </div>
+                <div class="contact reveal"><p class="contact-lead">Feel free to reach out.
+</p><div class="contact-grid"><a href="mailto:zhangshoufeng@connect.hku.hk" class="contact-item"><span class="contact-k">Email</span><span class="contact-v">zhangshoufeng@connect.hku.hk</span></a><a href="https://github.com/shawnzsf" target="_blank" rel="noopener" class="contact-item"><span class="contact-k">GitHub</span><span class="contact-v">@shawnzsf</span></a><a href="https://www.xiaohongshu.com/user/profile/600952fd00000000010080c1" target="_blank" rel="noopener" class="contact-item"><span class="contact-k">RedNote</span><span class="contact-v">Photography &amp; more</span></a></div></div><div class="end-mark" aria-hidden="true">— 終 —</div>
+            </section>
+            </div>
+        </main>
     </div>
 
-    <div class="info-block">
-      <span class="info-label">Current Status</span>
-      <p>Undergrad @ HKU</p>
-      <p>CS / Engineering</p>
-      <p>Beijing / Hong Kong SAR</p>
-    </div>
-
-    <div class="info-block">
-      <span class="info-label">Interests</span>
-      <p>Computing Hardware</p>
-      <p>Robotics</p>
-      <p>Systems and Security</p>
-    </div>
-
-    <div class="info-block">
-      <span class="info-label">Contact</span>
-      <ul class="contact-list">
-        <li><a href="mailto:zhangshoufeng07@gmail.com">Personal: zhangshoufng07@gmail.com</a></li>
-        <li><a href="mailto:zhangshoufeng@connect.hku.hk">Work: zhangshoufeng@connect.hku.hk</a></li>
-        <!-- <li><a href="#">Google Scholar</a></li> -->
-        <li><a target="_blank" rel="noopener" href="https://github.com/shawnzsf">GitHub</a></li>
-        <!-- <li><a href="#">Twitter/X</a></li> -->
-      </ul>
-    </div>
-  </div>
-
-  <!-- Optional Navigation if you have blog posts later -->
-  <nav class="site-nav">
-    <div class="info-block">
-      <span class="info-label">Menu</span>
-      <ul class="contact-list">
-        <li><a href="/">Index</a></li>
-        <li><a href="/archives">Blogs</a></li>
-        <!-- <li><a target="_blank" rel="noopener" href="https://shawnzsf.zonerama.com">Pictures</a></li> -->
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Aesthetic Touch: Vertical Text -->
-  <div class="vertical-deco">
-    海濤悲湧深藍色
-  </div>
-</aside>
-    
-    <!-- Right Content -->
-    <main class="main-content">
-      <section class="cv-section">
-  
-  <!-- About Me Segment -->
-  <div class="section-title">
-    <h2>Introduction</h2>
-    <!-- <span class="jp">自己紹介</span> -->
-  </div>
-  
-  <div class="cv-item">
-    <div class="cv-date">Currently</div>
-    <div class="cv-content">
-      <p>Hi! Welcome to my personal website. I am currently a freshman at the University of Hong Kong. </p>
-      <p>My academic interests lie at the intersection of hardware architecture, digital system design, and machine learning systems. 
-         In recent years, I have explored areas such as RISC-V-based CPU design, FPGA system prototyping, low-bit quantized neural network accelerators, 
-         and hardware-aware machine learning optimization.</p>
-      <p>For my future exploration, I am particularly interested in AI/ML system co-design, including how emerging hardware can shape the next generation 
-         of ML algorithms, and how system-level optimization can unlock efficiency for real-world AI workloads. I am also currently studying robotics learning / and AI for 
-         security. Fields like operating systems, compilers, and ML-specific hardware accelerators are also on my roadmap.</p>
-      <p>I am always open to conversations, collaboration opportunities, and creative projects —</p>
-      <p> <b>feel free to reach out if you share similar passions!</b><p>
-    </div>
-  </div>
-
-  <!-- Education Segment -->
-  <div class="section-title">
-    <h2>Education</h2>
-    <!-- <span class="jp">学歴</span> -->
-  </div>
-
-  <!-- Example Item 1 -->
-  <div class="cv-item">
-    <div class="cv-date">2025.9 - Pres.</div>
-    <div class="cv-content">
-      <h3>The University of Hong Kong</h3>
-      <div class="role">Bachelor of Engineering Elite Programme</div>
-      <p>The University of Hong Kong Entrance Scholarship</p>
-    </div>
-  </div>
-
-  <!-- Example Item 2 -->
-  <div class="cv-item">
-    <div class="cv-date">2024.7</div>
-    <div class="cv-content">
-      <h3>Carnegie Mellon University</h3>
-      <div class="role">Summer Session Student</div>
-      <p>Completed two undergraduate courses (15-122 and 21-127). QPA: 4.0/4.0</p>
-    </div>
-  </div>
-
-  <div class="cv-item">
-    <div class="cv-date">2022.9 - 2025.7</div>
-    <div class="cv-content">
-      <h3>Beijing 101 High School</h3>
-      <div class="role">High School Student</div>
-      <p>AP & International Baccalaureate Diploma Programme</p>
-    </div>
-  </div>
-  <!-- Experience Segment -->
-  <div class="section-title">
-    <h2>Experience</h2>
-    <!-- <span class="jp">職歴</span> -->
-  </div>
-
-  <div class="cv-item">
-    <div class="cv-date">2025.12 - Pres</div>
-    <div class="cv-content">
-      <h3>The University of Hong Kong</h3>
-      <div class="role">Research Assistant</div>
-    </div>
-  </div>
-
-  <!-- Publications / Projects (High Density List) -->
-  <div class="section-title">
-    <h2>Selected Works</h2>
-    <!-- <span class="jp">作品</span> -->
-  </div>
-
-  <div class="cv-item">
-    <div class="cv-date">2024</div>
-    <div class="cv-content">
-      <h3>Hardware-Accelerated 1-Bit Quantization Using PyRTL for Efficient Neural Network Design</h3>
-      <div class="role">Project Leader</div>
-      <p>Designed a 1-bit MAC unit for a Systolic Array with PyRTL, reducing area requirements and critical path length.</p>
-    </div>
-  </div>
-
-  <div class="cv-item">
-    <div class="cv-date">2024</div>
-    <div class="cv-content">
-      <h3>Yishengyizhen Program by Chinese Academy of Sciences</h3>
-      <div class="role">Participant</div>
-      <p>Explored computer architecture and systems. Designed circuits with Verilog/Vivado for RV32 instructions and built a simplified RV32I emulator in C.</p>
-    </div>
-  </div>
-
-  <div class="cv-item">
-    <div class="cv-date">2023</div>
-    <div class="cv-content">
-      <h3>A Comprehensive Analysis of AI Research Topics Using LDA and LDAvis: Insights from arXiv Data</h3>
-      <div class="role">Project Leader</div>
-      <p>Project under Talent Program, China Association for Science and Technology. Applied LDA and LDAvis to analyze trendings in AI researches using arXiv data.</p>
-    </div>
-  </div>
-
-  <div class="section-title">
-    <h2>More</h2>
-    <!-- <span class="jp">職歴</span> -->
-  </div>
-  <div class="cv-content">
-  <p>Outside of academics, I am passionate about photography. I am a contracted contributor at iStock by Getty Images and 500px China. 
-    Some of my works have been published on Visual China Group and 500px. I am still develeoping the online gallery part for this website, ensuring image quality and loading speed at the same time
-    was not easy. Stay tuned for further updates. </p>
-  </div>
-</section>
-      <footer class="footer">
-  &copy; 2026 Shoufeng Zhang. 
-  <span style="opacity:0.5">Monofolio designed based on Hexo.</span>
-</footer>
-    </main>
-  </div>
-
+    <script src="js/main.js"></script>
 </body>
 </html>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
-<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
-<script>
-    const lightbox = GLightbox({
-        selector: '.photo-wrapper img',
-        touchNavigation: true,
-        loop: true,
-    });
-</script>
