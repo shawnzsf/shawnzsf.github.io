@@ -29,7 +29,7 @@
                 <div class="identity">
                     <h1 class="name-en">Shoufeng Zhang</h1>
                     <p class="name-jp">張寿峰</p>
-                    <p class="name-title">Computer Science &amp; Engineering</p>
+                    <p class="name-title">Electrical &amp; Computer Engineering</p>
                     <p class="name-affil">University of Hong Kong</p>
                 </div>
 
@@ -57,7 +57,7 @@
                     <a href="../../index.html#skills" class="side-link"><span class="side-num">伍</span>Skills</a>
                     <a href="../../index.html#contact" class="side-link"><span class="side-num">陸</span>Contact</a>
                     <a href="../../blog/index.html" class="side-link side-link-external"><span class="side-num">筆</span>Blog</a>
-                    <a href="gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
+                    <a href="../../gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
                 </nav>
 
                 <div class="side-contact">
@@ -86,13 +86,13 @@
                     <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
                     <a href="../../index.html#skills" class="mobile-link">Skills</a>
                     <a href="../../index.html#contact" class="mobile-link">Contact</a>
-                    <a href="blog/index.html" class="mobile-link">Blog</a>
-                    <a href="gallery/index.html" class="mobile-link">Gallery</a>
+                    <a href="../../blog/index.html" class="mobile-link">Blog</a>
+                    <a href="../../gallery/index.html" class="mobile-link">Gallery</a>
                 </nav>
             </div>
 
             <div class="content-inner blog-content">
-                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Aug 21, 2023</time></div><h1 class="post-head-title">黑盒子与现实世界的桥梁：指令集</h1><div class="post-head-tags"><span>CPU设计</span></div></header><div class="post-body reveal"><p>本文对体系结构相关知识做一个简单的梳理，不进行具体技术的讲解。</p>
+                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Aug 21, 2023</time></div><h1 class="post-head-title">黑盒子与现实世界的桥梁：指令集</h1><div class="post-head-tags"><span>CPU设计</span></div></header><div class="post-body"><p>本文对体系结构相关知识做一个简单的梳理，不进行具体技术的讲解。</p>
 <h1>前言</h1>
 <p>今天，计算机正在以惊人的速度发展着。如果运输行业能够和自从20世纪40年代末诞生的计算机行业保持同样的发展速度，那么如今我们花一分钱就可以在一秒钟内从纽约赶到伦敦 (David A. Patterson，计算机组成与设计)。但是如今人们并没有时间去深入了解飞速发展期间的每一门技术，这就导致大部分人将所需的技术视为一个黑盒，之把时间花在学习其表面上，而并没有探索到其本质，仅仅接触表象同样导致很多人对计算机感到乏味。计算机结构的底层是晶体管，其顶层是计算机显示器上呈现的信息。尽管现代计算机的内部结构不断推陈出新，但其本质上仍然是一些常见且简洁的操作集合。受限于字数限制，本文不会对计算机最底层的组成细节和抽象层次较高的软件进行详细解释，而是将精力主要集中软件和硬件的接口——指令集。希望可以作为一个引子激发起更多人对于计算机的关注，当你掌握了计算机的本质，计算机就会变得越来越有趣。</p>
 <h1>程序表象之下</h1>

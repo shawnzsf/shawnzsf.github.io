@@ -29,7 +29,7 @@
                 <div class="identity">
                     <h1 class="name-en">Shoufeng Zhang</h1>
                     <p class="name-jp">張寿峰</p>
-                    <p class="name-title">Computer Science &amp; Engineering</p>
+                    <p class="name-title">Electrical &amp; Computer Engineering</p>
                     <p class="name-affil">University of Hong Kong</p>
                 </div>
 
@@ -57,7 +57,7 @@
                     <a href="../../index.html#skills" class="side-link"><span class="side-num">伍</span>Skills</a>
                     <a href="../../index.html#contact" class="side-link"><span class="side-num">陸</span>Contact</a>
                     <a href="../../blog/index.html" class="side-link side-link-external"><span class="side-num">筆</span>Blog</a>
-                    <a href="gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
+                    <a href="../../gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
                 </nav>
 
                 <div class="side-contact">
@@ -86,13 +86,13 @@
                     <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
                     <a href="../../index.html#skills" class="mobile-link">Skills</a>
                     <a href="../../index.html#contact" class="mobile-link">Contact</a>
-                    <a href="blog/index.html" class="mobile-link">Blog</a>
-                    <a href="gallery/index.html" class="mobile-link">Gallery</a>
+                    <a href="../../blog/index.html" class="mobile-link">Blog</a>
+                    <a href="../../gallery/index.html" class="mobile-link">Gallery</a>
                 </nav>
             </div>
 
             <div class="content-inner blog-content">
-                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Aug 10, 2023</time></div><h1 class="post-head-title">NJU DC：基于NVBoard实现键盘输入</h1><div class="post-head-tags"><span>Course Notes</span></div></header><div class="post-body reveal"><h1>接入NVBoard</h1>
+                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Aug 10, 2023</time></div><h1 class="post-head-title">NJU DC：基于NVBoard实现键盘输入</h1><div class="post-head-tags"><span>Course Notes</span></div></header><div class="post-body"><h1>接入NVBoard</h1>
 <p>仿真第一步先为verilator接入NVBoard。NVBoard是一生一芯往届学生为学习数字电路实验开发的虚拟FPGA板。安装的具体步骤根据README里面的提示运行脚本文件并安装相关的依赖即可。</p>
 <h1>键盘输入的具体实现</h1>
 <p>在键盘输入中除了基本的clk，resetn，ps2_clk，ps2_data和数码管输出之外，还定义了五个类型的变量。首先建立一个reg类型的十位buffer变量，作为接受ps2_data的地方，再定义一个reg类型的四位count变量，来为ps2_data的bit计数。reg类型的三位ps2_clk_sync是用作记录PS2时钟信号的历史信息并检测时钟的下降沿。cnt是用作记录按键被按下的次数的变量。除此之外还定义了34个状态，一个输入状态和一个输出状态，默认值都是S0。</p>

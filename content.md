@@ -6,7 +6,7 @@
 # Identity
 name_en: "Shoufeng Zhang"
 name_jp: "張寿峰"
-title: "Computer Science & Engineering"
+title: "Electrical & Computer Engineering"
 affiliation: "University of Hong Kong"
 
 # Sidebar quick facts
@@ -42,7 +42,7 @@ nav:
 
 ## About
 
-I'm an incoming second-year student at the **University of Hong Kong**, under the Faculty of Engineering. Prior to university, I studied at Beijing 101 High School
+I'm an incoming second-year student at the **University of Hong Kong**, under the Faculty of Engineering. Prior to university, I studied at Beijing 101 High School.
 I am currently working on autonomous robotics and security. My broader interests span hardware-software co-design, edge deployment of intelligent systems, and the system-level questions that arise when autonomous systems leave controlled environments and meet the real world. I am drawn to research at the intersection of perception, planning, and the hardware constraints that make both hard.
 
 > **Interests**

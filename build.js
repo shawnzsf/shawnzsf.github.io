@@ -502,7 +502,8 @@ function adjustTemplateForDepth(tpl, depth) {
     tpl = tpl.replace('href="../css/style.css"', 'href="' + prefix + 'css/style.css"');
     tpl = tpl.replace('src="../js/main.js"', 'src="' + prefix + 'js/main.js"');
     tpl = tpl.replace(/href="#([a-z]+)"/g, 'href="' + prefix + 'index.html#$1"');
-    tpl = tpl.replace('href="blog/index.html"', 'href="' + prefix + 'blog/index.html"');
+    tpl = tpl.replace(/href="blog\/index\.html"/g, 'href="' + prefix + 'blog/index.html"');
+    tpl = tpl.replace(/href="gallery\/index\.html"/g, 'href="' + prefix + 'gallery/index.html"');
     return tpl;
 }
 
@@ -561,7 +562,7 @@ if (posts.length === 0) {
                     '<h1 class="post-head-title">' + esc(p.title) + '</h1>' +
                     '<div class="post-head-tags">' + tagSpans + '</div>' +
                 '</header>' +
-                '<div class="post-body reveal">' + bodyHtml + '</div>' +
+                '<div class="post-body">' + bodyHtml + '</div>' +
                 '<footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer>' +
             '</article>';
 
