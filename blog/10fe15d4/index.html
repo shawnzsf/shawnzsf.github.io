@@ -4,25 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>南京大学计算机系统基础课程笔记4：乘除运算及浮点数运算 — 張寿峰</title>
-    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <meta name="description" content="通常在高级语言中两个n位整数相乘得到的结果通常也是一个n位整数（2n位乘积中的低n位）">
+    <meta name="theme-color" content="#0e0d0b">
+
+    <!-- OpenGraph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="南京大学计算机系统基础课程笔记4：乘除运算及浮点数运算 — 張寿峰">
+    <meta property="og:description" content="通常在高级语言中两个n位整数相乘得到的结果通常也是一个n位整数（2n位乘积中的低n位）">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="南京大学计算机系统基础课程笔记4：乘除运算及浮点数运算 — 張寿峰">
+    <meta name="twitter:description" content="通常在高级语言中两个n位整数相乘得到的结果通常也是一个n位整数（2n位乘积中的低n位）">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
     <!-- KaTeX for math formulas -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    
     <!-- highlight.js for code syntax highlighting -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="spotlight" aria-hidden="true"></div>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
     <div class="layout">
         
-        <aside class="sidebar">
+        <aside class="sidebar" aria-label="Personal profile and navigation">
             <div class="sidebar-inner">
                 <div class="seal-wrap">
-                    <div class="seal">張</div>
+                    <div class="seal" title="張寿峰">張</div>
                     <div class="seal-sub">寿峰</div>
                 </div>
 
@@ -50,7 +64,7 @@
                     </div>
                 </dl>
 
-                <nav class="side-nav">
+                <nav class="side-nav" aria-label="Main Navigation">
                     <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
                     <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
                     <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
@@ -70,17 +84,17 @@
             </div>
         </aside>
 
-        <main class="content">
+        <main class="content" id="mainContent">
             
             <div class="topbar">
                 <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
-                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Toggle navigation menu">
                     <span></span><span></span><span></span>
                 </button>
             </div>
 
             <div class="mobile-panel" id="mobilePanel">
-                <nav class="mobile-nav">
+                <nav class="mobile-nav" aria-label="Mobile Navigation">
                     <a href="../../index.html#about" class="mobile-link">About</a>
                     <a href="../../index.html#education" class="mobile-link">Education</a>
                     <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
@@ -92,7 +106,20 @@
             </div>
 
             <div class="content-inner blog-content">
-                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Sep 4, 2023</time></div><h1 class="post-head-title">南京大学计算机系统基础课程笔记4：乘除运算及浮点数运算</h1><div class="post-head-tags"><span>计算机系统</span></div></header><div class="post-body"><h1>4.1 整数乘法运算</h1>
+                
+            <article class="post-article">
+                <header class="post-head reveal">
+                    <div class="post-head-meta">
+                        <a href="../index.html" class="back-link">← Blog</a>
+                        <div style="display:flex; gap:16px; align-items:center;">
+                            <span class="reading-time">3 min read</span>
+                            <time class="post-head-date">Sep 4, 2023</time>
+                        </div>
+                    </div>
+                    <h1 class="post-head-title">南京大学计算机系统基础课程笔记4：乘除运算及浮点数运算</h1>
+                    <div class="post-head-tags"><span>计算机系统</span></div>
+                </header>
+                <div class="post-body"><h1>4.1 整数乘法运算</h1>
 <p>通常在高级语言中两个n位整数相乘得到的结果通常也是一个n位整数（2n位乘积中的低n位）
 参与乘法的两个数据类型相同，如果不同会先转换。</p>
 <p><img src="../../images/Screenshot%202023-09-04%20063140.png" alt="Alt text"></p>
@@ -117,14 +144,25 @@
 <p><img src="../../images/Screenshot%202023-09-05%20063920.png" alt="Alt text"></p>
 <p><img src="../../images/Screenshot%202023-09-05%20064346.png" alt="Alt text"></p>
 <p><img src="../../images/Screenshot%202023-09-05%20064711.png" alt="Alt text"></p>
-</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+</div>
+                <nav class="post-nav"><a href="../ef91a6c0/index.html" class="post-nav-item prev">
+                    <span class="post-nav-label">← Previous</span>
+                    <span class="post-nav-title">南京大学计算机系统基础课程笔记3：运算电路基础</span>
+                </a><a href="../68e9188a/index.html" class="post-nav-item next">
+                    <span class="post-nav-label">Next →</span>
+                    <span class="post-nav-title">IB Computer Science： 伪代码、流程图和简单算法小记</span>
+                </a></nav>
+                <footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer>
+            </article>
             </div>
         </main>
     </div>
 
+    <button class="back-to-top" id="backToTop" aria-label="Scroll to top">上</button>
+
     <!-- highlight.js -->
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-    <script src="../../js/main.js"></script>
+    <script src="../../js/main.js" defer></script>
 </body>
 </html>

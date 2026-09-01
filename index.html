@@ -4,21 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>張寿峰 — Shoufeng Zhang</title>
-    <meta name="description" content="Personal website of Shoufeng Zhang — Computer Science & Engineering, University of Hong Kong.">
+    <meta name="description" content="Personal website and research portfolio of Shoufeng Zhang — Computer Science & Engineering, University of Hong Kong.">
+    <meta name="theme-color" content="#0e0d0b">
+    
+    <!-- OpenGraph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="張寿峰 — Shoufeng Zhang">
+    <meta property="og:description" content="Personal website and research portfolio of Shoufeng Zhang — Computer Science & Engineering, University of Hong Kong.">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="張寿峰 — Shoufeng Zhang">
+    <meta name="twitter:description" content="Personal website and research portfolio of Shoufeng Zhang — Computer Science & Engineering, University of Hong Kong.">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="spotlight" aria-hidden="true"></div>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
     <div class="layout">
         
-        <aside class="sidebar">
+        <aside class="sidebar" aria-label="Personal profile and navigation">
             <div class="sidebar-inner">
                 <div class="seal-wrap">
-                    <div class="seal">張</div>
+                    <div class="seal" title="張寿峰">張</div>
                     <div class="seal-sub">寿峰</div>
                 </div>
 
@@ -46,7 +58,7 @@
                     </div>
                 </dl>
 
-                <nav class="side-nav">
+                <nav class="side-nav" aria-label="Main Navigation">
                     <a href="#about" class="side-link"><span class="side-num">壹</span>About</a>
                     <a href="#education" class="side-link"><span class="side-num">貳</span>Education</a>
                     <a href="#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
@@ -66,17 +78,17 @@
             </div>
         </aside>
 
-        <main class="content">
+        <main class="content" id="mainContent">
             
             <div class="topbar">
                 <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
-                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Toggle navigation menu">
                     <span></span><span></span><span></span>
                 </button>
             </div>
 
             <div class="mobile-panel" id="mobilePanel">
-                <nav class="mobile-nav">
+                <nav class="mobile-nav" aria-label="Mobile Navigation">
                     <a href="#about" class="mobile-link">About</a>
                     <a href="#education" class="mobile-link">Education</a>
                     <a href="#experience" class="mobile-link">Experience &amp; Works</a>
@@ -135,6 +147,7 @@ I am currently working on autonomous robotics and security. My broader interests
         </main>
     </div>
 
-    <script src="js/main.js"></script>
+    <button class="back-to-top" id="backToTop" aria-label="Scroll to top">上</button>
+    <script src="js/main.js" defer></script>
 </body>
 </html>

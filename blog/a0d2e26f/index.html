@@ -4,25 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>计算机组成与设计1：计算机抽象及相关技术 — 張寿峰</title>
-    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <meta name="description" content="摩尔定律：单芯片上所集成的晶体管资源每18至24个月翻一番。因此计算机架构师设计芯片时要预测项目完成时的工艺水平。">
+    <meta name="theme-color" content="#0e0d0b">
+
+    <!-- OpenGraph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="计算机组成与设计1：计算机抽象及相关技术 — 張寿峰">
+    <meta property="og:description" content="摩尔定律：单芯片上所集成的晶体管资源每18至24个月翻一番。因此计算机架构师设计芯片时要预测项目完成时的工艺水平。">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="计算机组成与设计1：计算机抽象及相关技术 — 張寿峰">
+    <meta name="twitter:description" content="摩尔定律：单芯片上所集成的晶体管资源每18至24个月翻一番。因此计算机架构师设计芯片时要预测项目完成时的工艺水平。">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
     <!-- KaTeX for math formulas -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    
     <!-- highlight.js for code syntax highlighting -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="spotlight" aria-hidden="true"></div>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
     <div class="layout">
         
-        <aside class="sidebar">
+        <aside class="sidebar" aria-label="Personal profile and navigation">
             <div class="sidebar-inner">
                 <div class="seal-wrap">
-                    <div class="seal">張</div>
+                    <div class="seal" title="張寿峰">張</div>
                     <div class="seal-sub">寿峰</div>
                 </div>
 
@@ -50,7 +64,7 @@
                     </div>
                 </dl>
 
-                <nav class="side-nav">
+                <nav class="side-nav" aria-label="Main Navigation">
                     <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
                     <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
                     <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
@@ -70,17 +84,17 @@
             </div>
         </aside>
 
-        <main class="content">
+        <main class="content" id="mainContent">
             
             <div class="topbar">
                 <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
-                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Toggle navigation menu">
                     <span></span><span></span><span></span>
                 </button>
             </div>
 
             <div class="mobile-panel" id="mobilePanel">
-                <nav class="mobile-nav">
+                <nav class="mobile-nav" aria-label="Mobile Navigation">
                     <a href="../../index.html#about" class="mobile-link">About</a>
                     <a href="../../index.html#education" class="mobile-link">Education</a>
                     <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
@@ -92,7 +106,20 @@
             </div>
 
             <div class="content-inner blog-content">
-                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Aug 1, 2023</time></div><h1 class="post-head-title">计算机组成与设计1：计算机抽象及相关技术</h1><div class="post-head-tags"><span>计算机组成原理</span></div></header><div class="post-body"><h1>1.2 计算机体系结构中的8个伟大思想</h1>
+                
+            <article class="post-article">
+                <header class="post-head reveal">
+                    <div class="post-head-meta">
+                        <a href="../index.html" class="back-link">← Blog</a>
+                        <div style="display:flex; gap:16px; align-items:center;">
+                            <span class="reading-time">13 min read</span>
+                            <time class="post-head-date">Aug 1, 2023</time>
+                        </div>
+                    </div>
+                    <h1 class="post-head-title">计算机组成与设计1：计算机抽象及相关技术</h1>
+                    <div class="post-head-tags"><span>计算机组成原理</span></div>
+                </header>
+                <div class="post-body"><h1>1.2 计算机体系结构中的8个伟大思想</h1>
 <h3>1. 面向摩尔定律的设计</h3>
 <p>摩尔定律：单芯片上所集成的晶体管资源每18至24个月翻一番。因此计算机架构师设计芯片时要预测项目完成时的工艺水平。</p>
 <h3>2. 使用抽象简化设计</h3>
@@ -113,73 +140,163 @@
 <h2>系统软件</h2>
 <p>从复杂的应用程序到简单原始的指令需要若干软件层次来将高层次操作解释或翻译成简单的计算机指令。外层是应用软件，中心是硬件，系统软件(systems softwar)位于两者之间。系统软件中的操作系统和编译器对现代计算机来说是必须的。</p>
 <h3>1. 操作系统：</h3>
-<pre><code>是用户程序和硬件之间的接口，为用户提供服务和监控功能。
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>是用户程序和硬件之间的接口，为用户提供服务和监控功能。
 1. 处理基本输入输出
 2. 分配外存和内存
 3. 为多个应用程序提供共享计算机资源的服务
 </code></pre>
-<h3>2. 编译器：</h3>
-<pre><code>把高级语言（C、Java、etc.）编写的程序翻译成硬件能执行的指令。
+
+    </div><h3>2. 编译器：</h3>
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>把高级语言（C、Java、etc.）编写的程序翻译成硬件能执行的指令。
 </code></pre>
-<h2>从高级语言到硬件语言</h2>
-<pre><code>电信号：通和断，0和1。
+
+    </div><h2>从高级语言到硬件语言</h2>
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>电信号：通和断，0和1。
 指令：能被计算机识别并执行的位串。
 汇编语言：以助记符形式表示的机器指令。
 机器语言：以二进制形式表示的机器指令。
 高级编程语言：C, Java, C++, etc. 有单词和代数符号组成，可移植。
 编译器将高级编程语言编译成汇编语言，汇编器将汇编语言会变为机器语言，即二进制指令。
 </code></pre>
-<h1>1.4 箱盖后的硬件</h1>
+
+    </div><h1>1.4 箱盖后的硬件</h1>
 <h2>计算机体系结构</h2>
 <p>任何一台计算机的组成部件都由输入、输出、存储器、数据通路（运算器）和控制器组成，后两个部件可以统称为处理器。
 <strong>输入设备：</strong> 为计算机提供信息。
 <strong>输出设备：</strong> 将计算结果输出给用户。
 经典流程：处理器从存储器中读出指令和数据，输入部件将数据写入存储器，输出部件从存储器中读出数据，控制器向数据通路、存储器、输入和输出设备发出命令信号。</p>
 <h3>1. 显示器</h3>
-<pre><code>液晶显示（Liquid Crystal Display, LCD）是作为输出设备的图形显示器。LCD并非光源，而是通过控制光的传输来显示图像。图像由像素矩阵构成，可以表示成二进制位的矩阵称为**位图**。
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>液晶显示（Liquid Crystal Display, LCD）是作为输出设备的图形显示器。LCD并非光源，而是通过控制光的传输来显示图像。图像由像素矩阵构成，可以表示成二进制位的矩阵称为**位图**。
 </code></pre>
-<h3>2. 集成电路</h3>
-<pre><code>也叫芯片，集成了几十个甚至上亿个晶体管的设备。
+
+    </div><h3>2. 集成电路</h3>
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>也叫芯片，集成了几十个甚至上亿个晶体管的设备。
 </code></pre>
-<h3>3. 中央处理单元</h3>
-<pre><code>处理器，处理器包括数据通路和控制器，能完成数据相加，数据测试，按结果发出控制信号时I/O设备做出动作。
+
+    </div><h3>3. 中央处理单元</h3>
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>处理器，处理器包括数据通路和控制器，能完成数据相加，数据测试，按结果发出控制信号时I/O设备做出动作。
 </code></pre>
-<h3>4. 数据通路</h3>
-<pre><code>处理器中执行算术操作的部分。
+
+    </div><h3>4. 数据通路</h3>
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>处理器中执行算术操作的部分。
 </code></pre>
-<h3>5. 控制器</h3>
-<pre><code>根据程序的指令指挥数据通路、存储器和I/O设备。
+
+    </div><h3>5. 控制器</h3>
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>根据程序的指令指挥数据通路、存储器和I/O设备。
 </code></pre>
-<h3>6. 内存</h3>
-<pre><code>由DRAM芯片组成。是程序运行时的存储空间，同时还存储程序运行时所需的数据。
+
+    </div><h3>6. 内存</h3>
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>由DRAM芯片组成。是程序运行时的存储空间，同时还存储程序运行时所需的数据。
 </code></pre>
-<h3>7. DRAM</h3>
-<pre><code>动态随机访问存储器(Dynamic Random Access Memory)，集成电路形式的存储器，可随机访问任何地址的内存，且所需的时间基本相同。
+
+    </div><h3>7. DRAM</h3>
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>动态随机访问存储器(Dynamic Random Access Memory)，集成电路形式的存储器，可随机访问任何地址的内存，且所需的时间基本相同。
 </code></pre>
-<h3>8. 高速存储</h3>
-<pre><code>Cache memory，隐藏事物的安全地方，小而快，采用SRAM技术。
+
+    </div><h3>8. 高速存储</h3>
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>Cache memory，隐藏事物的安全地方，小而快，采用SRAM技术。
 &quot;You&#39;re like cache.&quot;
 &quot;Do you mean that I&#39;m small and fast?&quot;
 &quot;No, every time I visit my memory because of missing you.&quot;
 </code></pre>
-<h3>9. SRAM</h3>
-<pre><code>静态随机访问存储器(Static Random Access Memory)，另一种集成电路形式的存储器，速度快，集成度更低，价格更贵。
+
+    </div><h3>9. SRAM</h3>
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>静态随机访问存储器(Static Random Access Memory)，另一种集成电路形式的存储器，速度快，集成度更低，价格更贵。
 </code></pre>
-<h3>10. 指令系统体系结构</h3>
-<pre><code>也叫体系结构，是计算机硬件和底层软件之间的抽象接口，包含了需要编写正确运行的机器语言程序所需要的指令、寄存器、存储器访问和I/O等。提供给程序员的基本指令系统和操作系统接口合称为应用二进制接口(Application Binary Interface, ABI)。
+
+    </div><h3>10. 指令系统体系结构</h3>
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>也叫体系结构，是计算机硬件和底层软件之间的抽象接口，包含了需要编写正确运行的机器语言程序所需要的指令、寄存器、存储器访问和I/O等。提供给程序员的基本指令系统和操作系统接口合称为应用二进制接口(Application Binary Interface, ABI)。
 </code></pre>
-<h2>数据安全</h2>
-<pre><code>易失性存储：主存储，类似DRAM的存储器，仅在加电时保存数据。
+
+    </div><h2>数据安全</h2>
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>易失性存储：主存储，类似DRAM的存储器，仅在加电时保存数据。
 非易失性存储：辅助存储，在掉电时仍可保持数据的存储器，用于存储需运行的程序。
 主存储：保持运行中的程序。
 辅助存储：保存两次运行之间的程序和数据，在个人设备中由闪存构成，在服务器设备中由磁盘(硬盘)构成。闪存速度比DRAM慢，单位价格高于磁盘，但在体积、电容、可靠性和能耗方面都优于磁盘。但与磁盘和DRAM不同，在写入100000-1000000次后会产生老化或损坏。
 </code></pre>
-<h2>与其他计算机通信</h2>
-<pre><code>1. 以太网：一种普遍的网络类型，传输距离可达1公里，传输速率可达到40Gbps。
+
+    </div><h2>与其他计算机通信</h2>
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>1. 以太网：一种普遍的网络类型，传输距离可达1公里，传输速率可达到40Gbps。
 2. 局域网(Local Area Network, LAN)：用于在一定地理区域（同一栋大楼）内传输数据的网络。
 3. 广域网：可跨越大陆，是因特网的骨干构成部分，可支持万维网。
 </code></pre>
-<h1>1.5 处理器和存储制造内容</h1>
+
+    </div><h1>1.5 处理器和存储制造内容</h1>
 <p>晶体管：由电信号控制的简单开关。
 集成电路：由成千上万个晶体管组成的芯片。
 超大规模集成电路(Very Large-Scale Integrated Circuit, VLSI)：由数十万到数百万晶体管组成的电路。</p>
@@ -240,14 +357,22 @@ CPU时间 = 指令数 * CPI * 时钟周期长度 = 指令数 * CPI / 时钟频�
 <li><p>陷阱：用性能公式的一个子集去度量性能。</p>
 </li>
 </ol>
-</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+</div>
+                <nav class="post-nav"><div></div><a href="../get-deeper-in-sram/index.html" class="post-nav-item next">
+                    <span class="post-nav-label">Next →</span>
+                    <span class="post-nav-title">Get deeper in SRAM</span>
+                </a></nav>
+                <footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer>
+            </article>
             </div>
         </main>
     </div>
 
+    <button class="back-to-top" id="backToTop" aria-label="Scroll to top">上</button>
+
     <!-- highlight.js -->
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-    <script src="../../js/main.js"></script>
+    <script src="../../js/main.js" defer></script>
 </body>
 </html>

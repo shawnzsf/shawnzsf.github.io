@@ -4,25 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CMU 15122：Deliberate Programming — 張寿峰</title>
-    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <meta name="description" content="Content about the first part of CMU 15-122 Principle of imeprative computation">
+    <meta name="theme-color" content="#0e0d0b">
+
+    <!-- OpenGraph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="CMU 15122：Deliberate Programming — 張寿峰">
+    <meta property="og:description" content="Content about the first part of CMU 15-122 Principle of imeprative computation">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CMU 15122：Deliberate Programming — 張寿峰">
+    <meta name="twitter:description" content="Content about the first part of CMU 15-122 Principle of imeprative computation">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
     <!-- KaTeX for math formulas -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    
     <!-- highlight.js for code syntax highlighting -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="spotlight" aria-hidden="true"></div>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
     <div class="layout">
         
-        <aside class="sidebar">
+        <aside class="sidebar" aria-label="Personal profile and navigation">
             <div class="sidebar-inner">
                 <div class="seal-wrap">
-                    <div class="seal">張</div>
+                    <div class="seal" title="張寿峰">張</div>
                     <div class="seal-sub">寿峰</div>
                 </div>
 
@@ -50,7 +64,7 @@
                     </div>
                 </dl>
 
-                <nav class="side-nav">
+                <nav class="side-nav" aria-label="Main Navigation">
                     <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
                     <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
                     <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
@@ -70,17 +84,17 @@
             </div>
         </aside>
 
-        <main class="content">
+        <main class="content" id="mainContent">
             
             <div class="topbar">
                 <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
-                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Toggle navigation menu">
                     <span></span><span></span><span></span>
                 </button>
             </div>
 
             <div class="mobile-panel" id="mobilePanel">
-                <nav class="mobile-nav">
+                <nav class="mobile-nav" aria-label="Mobile Navigation">
                     <a href="../../index.html#about" class="mobile-link">About</a>
                     <a href="../../index.html#education" class="mobile-link">Education</a>
                     <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
@@ -92,7 +106,20 @@
             </div>
 
             <div class="content-inner blog-content">
-                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Jul 2, 2024</time></div><h1 class="post-head-title">CMU 15122：Deliberate Programming</h1><div class="post-head-tags"><span>Course Notes</span></div></header><div class="post-body"><p>本篇总结CMU 15122第一单元Deliberate Programming的全部内容（除了Contracts部分）。这门课的整体脉络还是较为清晰的，虽然大部分东西并不陌生，但从safety和correctness的角度重新审视一遍也是不错的。</p>
+                
+            <article class="post-article">
+                <header class="post-head reveal">
+                    <div class="post-head-meta">
+                        <a href="../index.html" class="back-link">← Blog</a>
+                        <div style="display:flex; gap:16px; align-items:center;">
+                            <span class="reading-time">12 min read</span>
+                            <time class="post-head-date">Jul 2, 2024</time>
+                        </div>
+                    </div>
+                    <h1 class="post-head-title">CMU 15122：Deliberate Programming</h1>
+                    <div class="post-head-tags"><span>Course Notes</span></div>
+                </header>
+                <div class="post-body"><p>本篇总结CMU 15122第一单元Deliberate Programming的全部内容（除了Contracts部分）。这门课的整体脉络还是较为清晰的，虽然大部分东西并不陌生，但从safety和correctness的角度重新审视一遍也是不错的。</p>
 <h1>Integers</h1>
 <p>涉及进制转换的内容略过不提。</p>
 <h2>Two&#39;s Complement</h2>
@@ -121,7 +148,12 @@ Stable: relative position of duplicates is preserved.</p>
 <h2>Linear Search</h2>
 <p>Linear Search本身没什么可以探讨的，主要是关于contracts方面的问题。</p>
 <h3>Implementation</h3>
-<pre><code>bool is_in(int x, int[] A, int lo, int hi)
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>bool is_in(int x, int[] A, int lo, int hi)
 //@requires 0 &lt;= lo &amp;&amp; lo &lt;= hi &amp;&amp; hi &lt;= \length(A);
 //Check whether x is in array segment A, [lo, hi)
 
@@ -140,7 +172,8 @@ int linearSearch(int x, int[] A, int n)
   return -1;
 }
 </code></pre>
-<h3>Safety and Correctness</h3>
+
+    </div><h3>Safety and Correctness</h3>
 <p>确保搜索过程中数组索引 i 在有效范围内，即 0 &lt;= i &lt; n，其中 n 是数组 A 的长度。使用contract来定义函数的前提条件（@requires）和后置条件（@ensures）。前提条件：确保传入的数组长度 n 与数组 A 的实际长度相匹配。后置条件：如果找到元素 x，则返回其索引；否则返回 -1。</p>
 <ul>
 <li>数组段表示数组中的一部分，用 A[lo, hi) 表示，包含从索引 lo（包含）到索引 hi（不包含）的元素。</li>
@@ -150,7 +183,12 @@ int linearSearch(int x, int[] A, int n)
 <p>即使函数满足Contract，也可能不满足预期的行为。例如，一个函数可以满足Contract但在逻辑上是错误的。</p>
 <h2>Binary Search</h2>
 <h3>Implementation</h3>
-<pre><code>int binarySearch(int x, int[] A, int n)
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>int binarySearch(int x, int[] A, int n)
 //@requires n == \length(A);
 //@requires is_sorted(A,0,n);
 /*@ensures (-1 == \result &amp;&amp; !is_in(x, A,0,n))
@@ -176,7 +214,8 @@ int linearSearch(int x, int[] A, int n)
   return -1;
 }
 </code></pre>
-<p>使用循环，维护两个指针lo（low）和hi（high），分别代表搜索区间的下限和上限。
+
+    </div><p>使用循环，维护两个指针lo（low）和hi（high），分别代表搜索区间的下限和上限。
 计算中间索引mid，并与目标值x进行比较。</p>
 <ul>
 <li>如果A[mid]等于x，则返回mid。</li>
@@ -195,7 +234,12 @@ int linearSearch(int x, int[] A, int n)
 <p>应确保mid的计算不会超出整数范围，避免溢出错误。循环不变式在算法的初始化（INIT）、保持（PRES）和终止（TERMINATE）阶段都是可以被证明有效的。</p>
 <h2>Mergesort</h2>
 <h3>Implementation</h3>
-<pre><code>void merge(int[] A, int lo, int mid, int hi)
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>void merge(int[] A, int lo, int mid, int hi)
 //@requires 0 &lt;= lo &amp;&amp; lo &lt;= mid &amp;&amp; mid &lt;= hi &amp;&amp; hi &lt;= \length(A);
 //@requires is_sorted(A, lo, mid) &amp;&amp; is_sorted(A, mid, hi);
 //@ensures is_sorted(A, lo, hi);
@@ -245,7 +289,8 @@ void sort(int[] A, int lo, int hi)
   merge(A, lo, mid, hi);       //@assert is_sorted(A, lo, hi);
 }
 </code></pre>
-<h3>Explanation</h3>
+
+    </div><h3>Explanation</h3>
 <ol>
 <li>递归地将数组分成两半，直到分出的数组长度为1或者为0;</li>
 <li>递归地将数组两两合并，合并的时候做具体的比较运算使得合并出来的数组都是有序的;</li>
@@ -255,7 +300,12 @@ void sort(int[] A, int lo, int hi)
 </ol>
 <h2>Quicksort</h2>
 <h3>Implementation</h3>
-<pre><code>int partition(int[] A, int lo, int hi)
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>int partition(int[] A, int lo, int hi)
 //@requires 0 &lt;= lo &amp;&amp; lo &lt; hi &amp;&amp; hi &lt;= \length(A);
 //@ensures lo &lt;= \result &amp;&amp; \result &lt; hi;
 //@ensures ge_seg(A[\result], A, lo, \result);
@@ -303,7 +353,8 @@ void sort(int[] A, int lo, int hi)
   //@assert is_sorted(A, lo, hi);
 }
 </code></pre>
-<h3>Explanation</h3>
+
+    </div><h3>Explanation</h3>
 <ol>
 <li>随机挑一个轴;</li>
 <li>遍历整个数组，把每个数和轴比较，然后放到轴的左右边;</li>
@@ -353,7 +404,12 @@ Quick sort: O(nlogn) best case, O(nlogn) avg case, O(n^2) worst case.</p>
 </ul>
 <h2>Structs</h2>
 <p>统一管理多种类数据的方便手段。内存图绘制同样不做赘述。</p>
-<pre><code>struct goose_header{
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>struct goose_header{
   string name;
   string bowtie_color;
   image* img;
@@ -379,16 +435,28 @@ bool is_goose(goose* g){
 //requires is_goose(g), valid goose input
 //ensures is_goose(g), our function doesn&#39;t make the goose invalid
 </code></pre>
-<h1>Interfaces vs. Implementation</h1>
+
+    </div><h1>Interfaces vs. Implementation</h1>
 <p>我们可以通过typedef给数据起别名，这样可以增加程序的抽象程度，方便调用。调用interface进行开发的方面也不需要深入程序细节，使用提供的函数接口和数据别名就可以完成开发。因此通常情况下client使用的只是interface提供的指针，不对具体数据进行操作。specification function属于implementation contracts部分，确保程序正确性，因此client不会调用它们。因为client知道他们调用的是指针，因此为了防止指针被设置成NULL，interface中都会有NULL check，作为另一种监督程序正确性的手段。</p>
-</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+</div>
+                <nav class="post-nav"><a href="../cmu-15122-contracts/index.html" class="post-nav-item prev">
+                    <span class="post-nav-label">← Previous</span>
+                    <span class="post-nav-title">CMU 15122: Contracts</span>
+                </a><a href="../cmu-21127-summary-sheet-1/index.html" class="post-nav-item next">
+                    <span class="post-nav-label">Next →</span>
+                    <span class="post-nav-title">CMU 21127：Summary Sheet of Definitions &amp; Theorems</span>
+                </a></nav>
+                <footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer>
+            </article>
             </div>
         </main>
     </div>
 
+    <button class="back-to-top" id="backToTop" aria-label="Scroll to top">上</button>
+
     <!-- highlight.js -->
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-    <script src="../../js/main.js"></script>
+    <script src="../../js/main.js" defer></script>
 </body>
 </html>

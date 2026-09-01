@@ -5,3 +5,5 @@ node_modules/
 # Hexo deploy output (should never be committed)
 .deploy_git/
 public/
+
+.agents/

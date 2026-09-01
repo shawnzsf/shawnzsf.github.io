@@ -4,25 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get deeper in SRAM — 張寿峰</title>
-    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <meta name="description" content="RAM(Random Access Memory)具有如下两个特点：">
+    <meta name="theme-color" content="#0e0d0b">
+
+    <!-- OpenGraph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Get deeper in SRAM — 張寿峰">
+    <meta property="og:description" content="RAM(Random Access Memory)具有如下两个特点：">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Get deeper in SRAM — 張寿峰">
+    <meta name="twitter:description" content="RAM(Random Access Memory)具有如下两个特点：">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
     <!-- KaTeX for math formulas -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    
     <!-- highlight.js for code syntax highlighting -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="spotlight" aria-hidden="true"></div>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
     <div class="layout">
         
-        <aside class="sidebar">
+        <aside class="sidebar" aria-label="Personal profile and navigation">
             <div class="sidebar-inner">
                 <div class="seal-wrap">
-                    <div class="seal">張</div>
+                    <div class="seal" title="張寿峰">張</div>
                     <div class="seal-sub">寿峰</div>
                 </div>
 
@@ -50,7 +64,7 @@
                     </div>
                 </dl>
 
-                <nav class="side-nav">
+                <nav class="side-nav" aria-label="Main Navigation">
                     <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
                     <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
                     <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
@@ -70,17 +84,17 @@
             </div>
         </aside>
 
-        <main class="content">
+        <main class="content" id="mainContent">
             
             <div class="topbar">
                 <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
-                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Toggle navigation menu">
                     <span></span><span></span><span></span>
                 </button>
             </div>
 
             <div class="mobile-panel" id="mobilePanel">
-                <nav class="mobile-nav">
+                <nav class="mobile-nav" aria-label="Mobile Navigation">
                     <a href="../../index.html#about" class="mobile-link">About</a>
                     <a href="../../index.html#education" class="mobile-link">Education</a>
                     <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
@@ -92,7 +106,20 @@
             </div>
 
             <div class="content-inner blog-content">
-                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Aug 3, 2023</time></div><h1 class="post-head-title">Get deeper in SRAM</h1><div class="post-head-tags"><span>Wrap-up post</span></div></header><div class="post-body"><h2>Theory</h2>
+                
+            <article class="post-article">
+                <header class="post-head reveal">
+                    <div class="post-head-meta">
+                        <a href="../index.html" class="back-link">← Blog</a>
+                        <div style="display:flex; gap:16px; align-items:center;">
+                            <span class="reading-time">6 min read</span>
+                            <time class="post-head-date">Aug 3, 2023</time>
+                        </div>
+                    </div>
+                    <h1 class="post-head-title">Get deeper in SRAM</h1>
+                    <div class="post-head-tags"><span>Wrap-up post</span></div>
+                </header>
+                <div class="post-body"><h2>Theory</h2>
 <p>RAM(Random Access Memory)具有如下两个特点：</p>
 <ul>
 <li>易变，断电时易失数据。</li>
@@ -152,7 +179,12 @@
 <p>为了成功执行一个读或写操作，断言地址、数据和控制信号的顺序是很重要的，并且需要确定他们保持一段时间的稳定。为了实现这些并且接入SRAM，我们用一个存储控制器(Memory Controller)。</p>
 <h3>Controller using Verilog</h3>
 <p>一个非常简单和基本的SRAM控制器的代码如下:</p>
-<pre><code>    module basic_sram_controller(
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>    module basic_sram_controller(
 
       input wire clk,                        //  Clock signal
 
@@ -182,11 +214,17 @@
       end
     endmodule
 </code></pre>
-<p>这种设计提供了较大的时间裕度，并且不施加任何严格的时间限制。它已在Cmod A7 FPGA板上进行了测试，该板具有12 MHz时钟输入，即周期为83.333纳秒。</p>
+
+    </div><p>这种设计提供了较大的时间裕度，并且不施加任何严格的时间限制。它已在Cmod A7 FPGA板上进行了测试，该板具有12 MHz时钟输入，即周期为83.333纳秒。</p>
 <p>ce_n(芯片使能信号)和oe_n(输出使能信号)一直处于激活状态。</p>
 <p>我们对三态缓冲区使用三元运算符。注意，dio是一个双向总线。</p>
 <p>下面是一个非常简单的仿真模型：</p>
-<pre><code>    specify					
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>    specify					
         specparam 
         Twp = 8,	
         Tdw = 6,				
@@ -201,7 +239,8 @@
         sram[addr] &lt;= data;
     assign #10 data = (~ce_n &amp; ~oe_n) ? sram[addr] :  8&#39;bz; 
 </code></pre>
-<p>接下来要构建一个可综合的设计来测试SRAM。对于测试SRAM的HDL设计，我们必须能够在任何特定地址中写入和读取任何数据。因此，重要的是要有一个终端来选择我们想要进行的操作，并输入任何所需的数据。要做到这一点，设计将需要以下模块:</p>
+
+    </div><p>接下来要构建一个可综合的设计来测试SRAM。对于测试SRAM的HDL设计，我们必须能够在任何特定地址中写入和读取任何数据。因此，重要的是要有一个终端来选择我们想要进行的操作，并输入任何所需的数据。要做到这一点，设计将需要以下模块:</p>
 <ul>
 <li>UART：向FPGA/PC发送或接受数据。</li>
 <li>Debouncer：debounce reset button。</li>
@@ -209,14 +248,25 @@
 <li>SRAM控制器</li>
 </ul>
 <p>原文章：<a href="https://www.hackster.io/salvador-canas/a-practical-introduction-to-sram-memories-using-an-fpga-i-3f3992">https://www.hackster.io/salvador-canas/a-practical-introduction-to-sram-memories-using-an-fpga-i-3f3992</a></p>
-</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+</div>
+                <nav class="post-nav"><a href="../a0d2e26f/index.html" class="post-nav-item prev">
+                    <span class="post-nav-label">← Previous</span>
+                    <span class="post-nav-title">计算机组成与设计1：计算机抽象及相关技术</span>
+                </a><a href="../8ae5b0dd/index.html" class="post-nav-item next">
+                    <span class="post-nav-label">Next →</span>
+                    <span class="post-nav-title">计算机组成与设计2：指令-计算机的语言</span>
+                </a></nav>
+                <footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer>
+            </article>
             </div>
         </main>
     </div>
 
+    <button class="back-to-top" id="backToTop" aria-label="Scroll to top">上</button>
+
     <!-- highlight.js -->
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-    <script src="../../js/main.js"></script>
+    <script src="../../js/main.js" defer></script>
 </body>
 </html>

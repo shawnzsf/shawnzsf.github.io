@@ -4,25 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CMU 21127：Summary Sheet of Strategy in Chapter 3-6 — 張寿峰</title>
-    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <meta name="description" content="Very useful proof strategy summary in Chapter 3-6 of CMU 21-127 Concepts of Mathematics.">
+    <meta name="theme-color" content="#0e0d0b">
+
+    <!-- OpenGraph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="CMU 21127：Summary Sheet of Strategy in Chapter 3-6 — 張寿峰">
+    <meta property="og:description" content="Very useful proof strategy summary in Chapter 3-6 of CMU 21-127 Concepts of Mathematics.">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CMU 21127：Summary Sheet of Strategy in Chapter 3-6 — 張寿峰">
+    <meta name="twitter:description" content="Very useful proof strategy summary in Chapter 3-6 of CMU 21-127 Concepts of Mathematics.">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
     <!-- KaTeX for math formulas -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    
     <!-- highlight.js for code syntax highlighting -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="spotlight" aria-hidden="true"></div>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
     <div class="layout">
         
-        <aside class="sidebar">
+        <aside class="sidebar" aria-label="Personal profile and navigation">
             <div class="sidebar-inner">
                 <div class="seal-wrap">
-                    <div class="seal">張</div>
+                    <div class="seal" title="張寿峰">張</div>
                     <div class="seal-sub">寿峰</div>
                 </div>
 
@@ -50,7 +64,7 @@
                     </div>
                 </dl>
 
-                <nav class="side-nav">
+                <nav class="side-nav" aria-label="Main Navigation">
                     <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
                     <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
                     <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
@@ -70,17 +84,17 @@
             </div>
         </aside>
 
-        <main class="content">
+        <main class="content" id="mainContent">
             
             <div class="topbar">
                 <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
-                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Toggle navigation menu">
                     <span></span><span></span><span></span>
                 </button>
             </div>
 
             <div class="mobile-panel" id="mobilePanel">
-                <nav class="mobile-nav">
+                <nav class="mobile-nav" aria-label="Mobile Navigation">
                     <a href="../../index.html#about" class="mobile-link">About</a>
                     <a href="../../index.html#education" class="mobile-link">Education</a>
                     <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
@@ -92,7 +106,20 @@
             </div>
 
             <div class="content-inner blog-content">
-                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Jul 17, 2024</time></div><h1 class="post-head-title">CMU 21127：Summary Sheet of Strategy in Chapter 3-6</h1><div class="post-head-tags"><span>Course Notes</span></div></header><div class="post-body"><ol>
+                
+            <article class="post-article">
+                <header class="post-head reveal">
+                    <div class="post-head-meta">
+                        <a href="../index.html" class="back-link">← Blog</a>
+                        <div style="display:flex; gap:16px; align-items:center;">
+                            <span class="reading-time">4 min read</span>
+                            <time class="post-head-date">Jul 17, 2024</time>
+                        </div>
+                    </div>
+                    <h1 class="post-head-title">CMU 21127：Summary Sheet of Strategy in Chapter 3-6</h1>
+                    <div class="post-head-tags"><span>Course Notes</span></div>
+                </header>
+                <div class="post-body"><ol>
 <li><p>Strategy 3.1.5 (Proving two functions are equal)
 Given functions <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0785em;">X</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.2222em;">Y</span></span></span></span> with the same domain and codomain, in order to prove that <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span></span></span></span>, it suffices to prove that <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span></span></span></span> for all <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0785em;">X</span></span></span></span>.</p>
 </li>
@@ -169,14 +196,25 @@ Let <span class="katex"><span class="katex-html" aria-hidden="true"><span class=
 $m = sup(A) \leftrightarrow \forall \epsilon \in \mathbb{R}, \epsilon &gt; 0 \rightarrow[\exists a \in A, a &gt; m - \epsilon ]$</p>
 </li>
 </ol>
-</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+</div>
+                <nav class="post-nav"><a href="../cmu-21127-summary-sheet-of-strategy-in-chapter-1-2/index.html" class="post-nav-item prev">
+                    <span class="post-nav-label">← Previous</span>
+                    <span class="post-nav-title">CMU 21127：Summary Sheet of Strategy in Chapter 1-2</span>
+                </a><a href="../cmu-15122-data-structures/index.html" class="post-nav-item next">
+                    <span class="post-nav-label">Next →</span>
+                    <span class="post-nav-title">CMU 15122：Data Structures</span>
+                </a></nav>
+                <footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer>
+            </article>
             </div>
         </main>
     </div>
 
+    <button class="back-to-top" id="backToTop" aria-label="Scroll to top">上</button>
+
     <!-- highlight.js -->
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-    <script src="../../js/main.js"></script>
+    <script src="../../js/main.js" defer></script>
 </body>
 </html>

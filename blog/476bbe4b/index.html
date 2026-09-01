@@ -4,25 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>黑盒子与现实世界的桥梁：指令集 — 張寿峰</title>
-    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <meta name="description" content="本文对体系结构相关知识做一个简单的梳理，不进行具体技术的讲解。">
+    <meta name="theme-color" content="#0e0d0b">
+
+    <!-- OpenGraph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="黑盒子与现实世界的桥梁：指令集 — 張寿峰">
+    <meta property="og:description" content="本文对体系结构相关知识做一个简单的梳理，不进行具体技术的讲解。">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="黑盒子与现实世界的桥梁：指令集 — 張寿峰">
+    <meta name="twitter:description" content="本文对体系结构相关知识做一个简单的梳理，不进行具体技术的讲解。">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
     <!-- KaTeX for math formulas -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    
     <!-- highlight.js for code syntax highlighting -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="spotlight" aria-hidden="true"></div>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
     <div class="layout">
         
-        <aside class="sidebar">
+        <aside class="sidebar" aria-label="Personal profile and navigation">
             <div class="sidebar-inner">
                 <div class="seal-wrap">
-                    <div class="seal">張</div>
+                    <div class="seal" title="張寿峰">張</div>
                     <div class="seal-sub">寿峰</div>
                 </div>
 
@@ -50,7 +64,7 @@
                     </div>
                 </dl>
 
-                <nav class="side-nav">
+                <nav class="side-nav" aria-label="Main Navigation">
                     <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
                     <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
                     <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
@@ -70,17 +84,17 @@
             </div>
         </aside>
 
-        <main class="content">
+        <main class="content" id="mainContent">
             
             <div class="topbar">
                 <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
-                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Toggle navigation menu">
                     <span></span><span></span><span></span>
                 </button>
             </div>
 
             <div class="mobile-panel" id="mobilePanel">
-                <nav class="mobile-nav">
+                <nav class="mobile-nav" aria-label="Mobile Navigation">
                     <a href="../../index.html#about" class="mobile-link">About</a>
                     <a href="../../index.html#education" class="mobile-link">Education</a>
                     <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
@@ -92,7 +106,20 @@
             </div>
 
             <div class="content-inner blog-content">
-                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Aug 21, 2023</time></div><h1 class="post-head-title">黑盒子与现实世界的桥梁：指令集</h1><div class="post-head-tags"><span>CPU设计</span></div></header><div class="post-body"><p>本文对体系结构相关知识做一个简单的梳理，不进行具体技术的讲解。</p>
+                
+            <article class="post-article">
+                <header class="post-head reveal">
+                    <div class="post-head-meta">
+                        <a href="../index.html" class="back-link">← Blog</a>
+                        <div style="display:flex; gap:16px; align-items:center;">
+                            <span class="reading-time">19 min read</span>
+                            <time class="post-head-date">Aug 21, 2023</time>
+                        </div>
+                    </div>
+                    <h1 class="post-head-title">黑盒子与现实世界的桥梁：指令集</h1>
+                    <div class="post-head-tags"><span>CPU设计</span></div>
+                </header>
+                <div class="post-body"><p>本文对体系结构相关知识做一个简单的梳理，不进行具体技术的讲解。</p>
 <h1>前言</h1>
 <p>今天，计算机正在以惊人的速度发展着。如果运输行业能够和自从20世纪40年代末诞生的计算机行业保持同样的发展速度，那么如今我们花一分钱就可以在一秒钟内从纽约赶到伦敦 (David A. Patterson，计算机组成与设计)。但是如今人们并没有时间去深入了解飞速发展期间的每一门技术，这就导致大部分人将所需的技术视为一个黑盒，之把时间花在学习其表面上，而并没有探索到其本质，仅仅接触表象同样导致很多人对计算机感到乏味。计算机结构的底层是晶体管，其顶层是计算机显示器上呈现的信息。尽管现代计算机的内部结构不断推陈出新，但其本质上仍然是一些常见且简洁的操作集合。受限于字数限制，本文不会对计算机最底层的组成细节和抽象层次较高的软件进行详细解释，而是将精力主要集中软件和硬件的接口——指令集。希望可以作为一个引子激发起更多人对于计算机的关注，当你掌握了计算机的本质，计算机就会变得越来越有趣。</p>
 <h1>程序表象之下</h1>
@@ -132,14 +159,25 @@
 《计算机组成与设计：软硬件接口（RISCV版）》
 《CPU通识课》
 《计算机是怎样跑起来的》</p>
-</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+</div>
+                <nav class="post-nav"><a href="../5afd1efa/index.html" class="post-nav-item prev">
+                    <span class="post-nav-label">← Previous</span>
+                    <span class="post-nav-title">线性回归2：极大似然估计</span>
+                </a><a href="../b575443e/index.html" class="post-nav-item next">
+                    <span class="post-nav-label">Next →</span>
+                    <span class="post-nav-title">南京大学计算机系统基础课程笔记1：计算机系统概述</span>
+                </a></nav>
+                <footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer>
+            </article>
             </div>
         </main>
     </div>
 
+    <button class="back-to-top" id="backToTop" aria-label="Scroll to top">上</button>
+
     <!-- highlight.js -->
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-    <script src="../../js/main.js"></script>
+    <script src="../../js/main.js" defer></script>
 </body>
 </html>

@@ -4,25 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CMU 15122: Contracts — 張寿峰</title>
-    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <meta name="description" content="Content about general contract design of CMU 15-122 Principle of imeprative computation">
+    <meta name="theme-color" content="#0e0d0b">
+
+    <!-- OpenGraph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="CMU 15122: Contracts — 張寿峰">
+    <meta property="og:description" content="Content about general contract design of CMU 15-122 Principle of imeprative computation">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CMU 15122: Contracts — 張寿峰">
+    <meta name="twitter:description" content="Content about general contract design of CMU 15-122 Principle of imeprative computation">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
     <!-- KaTeX for math formulas -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    
     <!-- highlight.js for code syntax highlighting -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="spotlight" aria-hidden="true"></div>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
     <div class="layout">
         
-        <aside class="sidebar">
+        <aside class="sidebar" aria-label="Personal profile and navigation">
             <div class="sidebar-inner">
                 <div class="seal-wrap">
-                    <div class="seal">張</div>
+                    <div class="seal" title="張寿峰">張</div>
                     <div class="seal-sub">寿峰</div>
                 </div>
 
@@ -50,7 +64,7 @@
                     </div>
                 </dl>
 
-                <nav class="side-nav">
+                <nav class="side-nav" aria-label="Main Navigation">
                     <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
                     <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
                     <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
@@ -70,17 +84,17 @@
             </div>
         </aside>
 
-        <main class="content">
+        <main class="content" id="mainContent">
             
             <div class="topbar">
                 <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
-                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Toggle navigation menu">
                     <span></span><span></span><span></span>
                 </button>
             </div>
 
             <div class="mobile-panel" id="mobilePanel">
-                <nav class="mobile-nav">
+                <nav class="mobile-nav" aria-label="Mobile Navigation">
                     <a href="../../index.html#about" class="mobile-link">About</a>
                     <a href="../../index.html#education" class="mobile-link">Education</a>
                     <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
@@ -92,15 +106,34 @@
             </div>
 
             <div class="content-inner blog-content">
-                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Jun 27, 2024</time></div><h1 class="post-head-title">CMU 15122: Contracts</h1><div class="post-head-tags"><span>Course Notes</span></div></header><div class="post-body"><p>CMU15122开头部分讲的内容都是关于如何编写Contracts来保证程序的正确性和安全性，以及利用Contract对程序进行验证。本文简单梳理其中引出的概念。</p>
+                
+            <article class="post-article">
+                <header class="post-head reveal">
+                    <div class="post-head-meta">
+                        <a href="../index.html" class="back-link">← Blog</a>
+                        <div style="display:flex; gap:16px; align-items:center;">
+                            <span class="reading-time">3 min read</span>
+                            <time class="post-head-date">Jun 27, 2024</time>
+                        </div>
+                    </div>
+                    <h1 class="post-head-title">CMU 15122: Contracts</h1>
+                    <div class="post-head-tags"><span>Course Notes</span></div>
+                </header>
+                <div class="post-body"><p>CMU15122开头部分讲的内容都是关于如何编写Contracts来保证程序的正确性和安全性，以及利用Contract对程序进行验证。本文简单梳理其中引出的概念。</p>
 <h2>Contract</h2>
 <p>c0中有四种Contract：</p>
-<pre><code>- //@requires exp; checked before function execution
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>- //@requires exp; checked before function execution
 - //@ensures exp; checked function returns
 - //@assert exp; checked wherever it is
 - //@loop_invariant exp; checked before the loop guard
 </code></pre>
-<p>其中@requires旨在检查函数的precondition是否满足，@ensures旨在检查postcondition是否满足。其中@ensures中可以使用\result来表示函数返回值。@loop_invariant通常检查的是循环中几个变量构成的常量表达式，其在每轮iteration检查循环条件是否满足时被检查，并且只能在循环开头写。@assert即在程序任意位置检查附上表达式的真假。</p>
+
+    </div><p>其中@requires旨在检查函数的precondition是否满足，@ensures旨在检查postcondition是否满足。其中@ensures中可以使用\result来表示函数返回值。@loop_invariant通常检查的是循环中几个变量构成的常量表达式，其在每轮iteration检查循环条件是否满足时被检查，并且只能在循环开头写。@assert即在程序任意位置检查附上表达式的真假。</p>
 <h2>Proving Function Correctness</h2>
 <ul>
 <li><p>INITialization：证明loop invariant在进入循环之前满足条件。允许使用循环前的代码以及preconditions进行证明。</p>
@@ -146,14 +179,25 @@
 </li>
 <li>Value of variables right after an assignment</li>
 </ul>
-</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+</div>
+                <nav class="post-nav"><a href="../daydreaming1/index.html" class="post-nav-item prev">
+                    <span class="post-nav-label">← Previous</span>
+                    <span class="post-nav-title">6月20日飞行时产生的若干次空想</span>
+                </a><a href="../cmu-15122-deliberate-programming/index.html" class="post-nav-item next">
+                    <span class="post-nav-label">Next →</span>
+                    <span class="post-nav-title">CMU 15122：Deliberate Programming</span>
+                </a></nav>
+                <footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer>
+            </article>
             </div>
         </main>
     </div>
 
+    <button class="back-to-top" id="backToTop" aria-label="Scroll to top">上</button>
+
     <!-- highlight.js -->
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-    <script src="../../js/main.js"></script>
+    <script src="../../js/main.js" defer></script>
 </body>
 </html>

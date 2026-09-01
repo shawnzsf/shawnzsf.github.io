@@ -4,25 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CMU 15122：Data Structures — 張寿峰</title>
-    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <meta name="description" content="Content about the second part of CMU 15-122 Principle of imeprative computation">
+    <meta name="theme-color" content="#0e0d0b">
+
+    <!-- OpenGraph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="CMU 15122：Data Structures — 張寿峰">
+    <meta property="og:description" content="Content about the second part of CMU 15-122 Principle of imeprative computation">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CMU 15122：Data Structures — 張寿峰">
+    <meta name="twitter:description" content="Content about the second part of CMU 15-122 Principle of imeprative computation">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
     <!-- KaTeX for math formulas -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    
     <!-- highlight.js for code syntax highlighting -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="spotlight" aria-hidden="true"></div>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
     <div class="layout">
         
-        <aside class="sidebar">
+        <aside class="sidebar" aria-label="Personal profile and navigation">
             <div class="sidebar-inner">
                 <div class="seal-wrap">
-                    <div class="seal">張</div>
+                    <div class="seal" title="張寿峰">張</div>
                     <div class="seal-sub">寿峰</div>
                 </div>
 
@@ -50,7 +64,7 @@
                     </div>
                 </dl>
 
-                <nav class="side-nav">
+                <nav class="side-nav" aria-label="Main Navigation">
                     <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
                     <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
                     <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
@@ -70,17 +84,17 @@
             </div>
         </aside>
 
-        <main class="content">
+        <main class="content" id="mainContent">
             
             <div class="topbar">
                 <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
-                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Toggle navigation menu">
                     <span></span><span></span><span></span>
                 </button>
             </div>
 
             <div class="mobile-panel" id="mobilePanel">
-                <nav class="mobile-nav">
+                <nav class="mobile-nav" aria-label="Mobile Navigation">
                     <a href="../../index.html#about" class="mobile-link">About</a>
                     <a href="../../index.html#education" class="mobile-link">Education</a>
                     <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
@@ -92,7 +106,20 @@
             </div>
 
             <div class="content-inner blog-content">
-                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Jul 17, 2024</time></div><h1 class="post-head-title">CMU 15122：Data Structures</h1><div class="post-head-tags"><span>Course Notes</span></div></header><div class="post-body"><h1>Libraries</h1>
+                
+            <article class="post-article">
+                <header class="post-head reveal">
+                    <div class="post-head-meta">
+                        <a href="../index.html" class="back-link">← Blog</a>
+                        <div style="display:flex; gap:16px; align-items:center;">
+                            <span class="reading-time">39 min read</span>
+                            <time class="post-head-date">Jul 17, 2024</time>
+                        </div>
+                    </div>
+                    <h1 class="post-head-title">CMU 15122：Data Structures</h1>
+                    <div class="post-head-tags"><span>Course Notes</span></div>
+                </header>
+                <div class="post-body"><h1>Libraries</h1>
 <h2>Overview</h2>
 <p>通过使用库（libraries），程序可以复用已经编写好的代码，包括系统代码、过去编写的简单代码以及他人编写的复杂代码。库有助于隐藏不必要的细节，使代码更易于管理，并允许透明的改进。</p>
 <p>Structure of a library: </p>
@@ -164,7 +191,12 @@
 <li><strong>实现</strong>：通过 <code>pop</code> 操作计数元素，然后将它们压回栈中以恢复原始顺序。</li>
 </ul>
 <h3>Sample implementation</h3>
-<pre><code>#use &lt;conio&gt;
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>#use &lt;conio&gt;
 
 /************************************************************************/
 /************************* BEGIN IMPLEMENTATION *************************/
@@ -311,7 +343,8 @@ string pop(stack_t S)             /* O(1) */
 void stack_print(stack_t S)       /* O(n) */
 /*@requires S != NULL; @*/ ;
 </code></pre>
-<h2>Queues</h2>
+
+    </div><h2>Queues</h2>
 <ul>
 <li><strong>队列</strong>是一种工作列表，其中检索的是最早插入的元素。</li>
 <li><strong>操作</strong>：<ul>
@@ -336,7 +369,12 @@ void stack_print(stack_t S)       /* O(n) */
 <li><strong>复制队列</strong>：编写一个客户端函数，返回队列的深拷贝，即一个新队列，包含与原队列相同顺序的元素。</li>
 </ul>
 <h3>Sample implementation</h3>
-<pre><code>#use &lt;conio&gt;
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>#use &lt;conio&gt;
 
 /************************************************************************/
 /************************* BEGIN IMPLEMENTATION *************************/
@@ -502,7 +540,8 @@ string deq(queue_t Q)             /* O(1) */
 void queue_print(queue_t Q)       /* O(n) */
 /*@requires Q != NULL; @*/ ;
 </code></pre>
-<h1>Linked lists</h1>
+
+    </div><h1>Linked lists</h1>
 <p>链表是一种使用指针连接元素的数据结构，每个元素包含数据和指向下一个元素的指针。节点（Node）是链表的基本单元，包含数据和指向下一个节点的指针。</p>
 <p>链表的递归类型：struct list_node { int data; list* next; }。链表的头指针指向链表的第一个节点。：
 在链表头部插入：时间复杂度 O(1)。在链表尾部插入：时间复杂度 O(n)，需要遍历整个链表。
@@ -532,7 +571,12 @@ void queue_print(queue_t Q)       /* O(n) */
 <p>数据结构：使用一个结构体uba_header来表示无界数组，包含数组的长度（size）、容量（limit）和数据（data）。
 扩容策略：当数组满时，通过创建一个更大的数组并将元素复制过去来实现扩容。</p>
 <h3>Sample Implementation</h3>
-<pre><code>#use &lt;util&gt;
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>#use &lt;util&gt;
 #use &lt;string&gt;
 #use &lt;conio&gt;
 
@@ -720,7 +764,8 @@ string uba_rem(uba_t A)
 void uba_print(uba_t A)
 /*@requires A != NULL;      @*/ ;
 </code></pre>
-<h2>Amortized Analysis</h2>
+
+    </div><h2>Amortized Analysis</h2>
 <p>我们做Amortized Analysis的动机是估计不同函数/算法的runtime。之前的Worst-case analysis提供了runtime的上界。但其假定了每次对于函数的调用都有一样的runtime，并且有可能很大程度的夸张了资源耗费。Amortized Analysis将worst-case cost分配到整个操作序列上，使得其在分析一个操作序列中某一个操作序列的cost时很有用。 也用于分析那些在最坏情况下成本较高，但通过一系列操作可以摊销到较低平均成本的操作。例如，动态数组的扩容、链表的插入和删除等。</p>
 <p>我们有两种进行Amortized Analysis的方法。
 一个比较方便的表示方法是使用token来表示操作的耗费（e.g. 1 token for push, 1 token for pop），在实际数据结构分析时判断每个操作本身所需的token和其隐含的token，这样就可以给每个操作得到固定的token值，再做平均。在对于多个操作组成的序列(e.g. push and pop from a stack)做分析时比较有用。</p>
@@ -781,7 +826,12 @@ void uba_print(uba_t A)
 <p>客户端需要提供键的哈希值、键的比较函数等信息给库。客户端需要在接口中定义获取条目键、计算键的哈希值和比较两个键是否相同的函数。</p>
 <p>哈希字典的每个链表节点包含数据和指向下一个节点的指针。字典头部包含字典的大小、容量和指向链表节点数组的指针。表示不变式确保字典的内部结构满足特定的条件，如链表无环、条目不为空等。</p>
 <h3>Implementation</h3>
-<pre><code>#use &lt;util&gt;
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>#use &lt;util&gt;
 #use &lt;conio&gt;
 
 /************************************************************************/
@@ -935,7 +985,8 @@ void hdict_insert(hdict_t H, entry x)
 /*@requires H != NULL &amp;&amp; x != NULL; @*/
 /*@ensures hdict_lookup(H, entry_key(x)) == x; @*/ ;
 </code></pre>
-<h2>Generic Hash Dictionary</h2>
+
+    </div><h2>Generic Hash Dictionary</h2>
 <p>泛型数据结构如哈希字典，其操作对数据类型是不可知的，可以用于任何类型的键和条目。泛型库允许客户端选择数据类型,可以在同一个应用程序中使用不同数据类型的多个实例。</p>
 <p>哈希字典的泛型实现通过将键和条目类型定义为 <code>void*</code> 来实现泛型。客户端需要提供 <code>entry_key</code>, <code>key_hash</code>, 和 <code>key_equiv</code> 函数来处理键和条目的具体类型。客户端必须定义自己的 <code>entry</code> 和 <code>key</code> 类型，并提供相应的函数来满足库的接口。为了避免在客户端代码中重复定义相同的函数名，可以通过为客户端函数提供不同的名称（如 <code>key_hash_produce</code>）来解决。</p>
 <p>通过将哈希字典库升级为使用 <code>void*</code> 类型，简化了客户端的使用，允许在同一个应用程序中使用不同的数据类型。哈希函数和等价函数需要和谐，即具有相同哈希值的键应该是等价的。</p>
@@ -968,7 +1019,12 @@ void hdict_insert(hdict_t H, entry x)
 <li><strong>is_ordered</strong>：检查树中的节点是否满足二叉搜索树的顺序约束。</li>
 </ul>
 <h2>Implementation</h2>
-<pre><code>/************************************************************************/
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>/************************************************************************/
 /**************************** Client Interface **************************/
 
 // typedef ______* entry;        // Supplied by client
@@ -1141,7 +1197,8 @@ void dict_insert(dict_t D, entry e)
 entry dict_min(dict_t D)
 /*@requires D != NULL; @*/ ;
 </code></pre>
-<h1>AVL Tree</h1>
+
+    </div><h1>AVL Tree</h1>
 <p>AVL 树是一种自平衡的二叉搜索树，保证了树的高度始终保持在 O(log n) 的范围内，其中 n 是树中节点的数量。目标是开发一种数据结构，确保查找（lookup）、插入（insert）和查找最小元素（find_min）的最坏情况复杂度都是 O(log n)。</p>
 <p>在 AVL 树中，查找、插入和 find_min这些操作的最坏情况复杂度为 O(log n)。普通的二叉搜索树在某些情况下（如插入序列是有序的）可能会退化成链表，导致操作复杂度变为 O(n)。</p>
 <p>平衡树的高度在 O(log n) 范围内。自平衡树在插入新节点后，树能够自动保持平衡。</p>
@@ -1150,7 +1207,12 @@ entry dict_min(dict_t D)
 <p>AVL 树的插入策略像在 BST 中一样插入新节点，修复任何高度不变性违规，从最低违规开始修复。在 AVL 树中插入一个节点，如果导致高度违规，则通过旋转修复，修复后的树高度保持不变或只增加 1。单旋转或双旋转都可以在 O(1) 的时间内完成，确保插入操作的整体复杂度为 O(log n)。</p>
 <p>AVL 字典接口与 BST 字典接口相同，但内部实现使用 AVL 树。AVL 字典实现在 BST 实现的基础上进行修改，增加高度不变性的维护。AVL 树的表示不变性确保 AVL 树的每个节点都满足顺序不变性和高度不变性。</p>
 <h3>Implementation</h3>
-<pre><code>/************************************************************************/
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>/************************************************************************/
 /**************************** Client Interface **************************/
 
 // typedef ______* entry;        // Supplied by client
@@ -1458,14 +1520,26 @@ void dict_insert(dict_t D, entry e)
 entry dict_min(dict_t D)
 /*@requires D != NULL; @*/ ;
 </code></pre>
-</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+
+    </div></div>
+                <nav class="post-nav"><a href="../cmu-21127-summary-sheet-of-strategy-in-chapter-3/index.html" class="post-nav-item prev">
+                    <span class="post-nav-label">← Previous</span>
+                    <span class="post-nav-title">CMU 21127：Summary Sheet of Strategy in Chapter 3-6</span>
+                </a><a href="../cmu-15122-transitioning-to-c/index.html" class="post-nav-item next">
+                    <span class="post-nav-label">Next →</span>
+                    <span class="post-nav-title">CMU 15122：Transitioning to C</span>
+                </a></nav>
+                <footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer>
+            </article>
             </div>
         </main>
     </div>
 
+    <button class="back-to-top" id="backToTop" aria-label="Scroll to top">上</button>
+
     <!-- highlight.js -->
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-    <script src="../../js/main.js"></script>
+    <script src="../../js/main.js" defer></script>
 </body>
 </html>

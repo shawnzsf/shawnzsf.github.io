@@ -4,25 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>线性回归1：最小二乘法 — 張寿峰</title>
-    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <meta name="description" content="本篇文章做一个简单的机器学习引入，并且介绍机器学习中最简单的方法——线性回归。">
+    <meta name="theme-color" content="#0e0d0b">
+
+    <!-- OpenGraph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="线性回归1：最小二乘法 — 張寿峰">
+    <meta property="og:description" content="本篇文章做一个简单的机器学习引入，并且介绍机器学习中最简单的方法——线性回归。">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="线性回归1：最小二乘法 — 張寿峰">
+    <meta name="twitter:description" content="本篇文章做一个简单的机器学习引入，并且介绍机器学习中最简单的方法——线性回归。">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
     <!-- KaTeX for math formulas -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    
     <!-- highlight.js for code syntax highlighting -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="spotlight" aria-hidden="true"></div>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
     <div class="layout">
         
-        <aside class="sidebar">
+        <aside class="sidebar" aria-label="Personal profile and navigation">
             <div class="sidebar-inner">
                 <div class="seal-wrap">
-                    <div class="seal">張</div>
+                    <div class="seal" title="張寿峰">張</div>
                     <div class="seal-sub">寿峰</div>
                 </div>
 
@@ -50,7 +64,7 @@
                     </div>
                 </dl>
 
-                <nav class="side-nav">
+                <nav class="side-nav" aria-label="Main Navigation">
                     <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
                     <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
                     <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
@@ -70,17 +84,17 @@
             </div>
         </aside>
 
-        <main class="content">
+        <main class="content" id="mainContent">
             
             <div class="topbar">
                 <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
-                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Toggle navigation menu">
                     <span></span><span></span><span></span>
                 </button>
             </div>
 
             <div class="mobile-panel" id="mobilePanel">
-                <nav class="mobile-nav">
+                <nav class="mobile-nav" aria-label="Mobile Navigation">
                     <a href="../../index.html#about" class="mobile-link">About</a>
                     <a href="../../index.html#education" class="mobile-link">Education</a>
                     <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
@@ -92,7 +106,20 @@
             </div>
 
             <div class="content-inner blog-content">
-                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Aug 14, 2023</time></div><h1 class="post-head-title">线性回归1：最小二乘法</h1><div class="post-head-tags"><span>Wrap-up post</span></div></header><div class="post-body"><p>本篇文章做一个简单的机器学习引入，并且介绍机器学习中最简单的方法——线性回归。</p>
+                
+            <article class="post-article">
+                <header class="post-head reveal">
+                    <div class="post-head-meta">
+                        <a href="../index.html" class="back-link">← Blog</a>
+                        <div style="display:flex; gap:16px; align-items:center;">
+                            <span class="reading-time">10 min read</span>
+                            <time class="post-head-date">Aug 14, 2023</time>
+                        </div>
+                    </div>
+                    <h1 class="post-head-title">线性回归1：最小二乘法</h1>
+                    <div class="post-head-tags"><span>Wrap-up post</span></div>
+                </header>
+                <div class="post-body"><p>本篇文章做一个简单的机器学习引入，并且介绍机器学习中最简单的方法——线性回归。</p>
 <h2>什么是机器学习?</h2>
 <p>机器学习从数据开始：</p>
 <ul>
@@ -156,7 +183,12 @@ w0和w1是线性模型的两个参数。
 w0 = t_bar - w1*x_bar</p>
 <p>如此我们便得到了质量最高的线性回归模型。
 以下为c++的代码实现(太简单了所以没放github)：</p>
-<pre><code>#include &lt;iostream&gt;
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>#include &lt;iostream&gt;
 #include &lt;cmath&gt;
 #include &lt;cstring&gt;
 
@@ -208,7 +240,8 @@ int main(){
     return 0;
 }
 </code></pre>
-<h2>向量表示方法</h2>
+
+    </div><h2>向量表示方法</h2>
 <p>到这里一个简单的线性回归程序已经编写好了，但是我们还需要进一步的完善。
 我们可以发现在上面定义的模型实际上只是一条直线，为了提高模型能力，我们可以增加参数的次数。
 增加函数的次数可以让函数的拟合能力变强，因为整个函数会变得十分灵活，模型越复杂(次数越高)则模型的Loss越低。但是这里要注意一点，损失的减少并不意味着模型泛化(generalization, predictive ability)能力一定提高，要找到合适的模型复杂度，一味提高次数会导致过拟合(over-fitting, decreasing the loss)。</p>
@@ -233,14 +266,25 @@ int main(){
 <p>对于损失函数的偏微分计算同样略去不表，这里给出最后参数的公式：
     <strong>w</strong> = (<strong>X</strong> ^ T * <strong>X</strong>)^-1 * <strong>X</strong> ^ T * <strong>t</strong></p>
 <p>本篇文章到此结束。</p>
-</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+</div>
+                <nav class="post-nav"><a href="../introduction-to-programming/index.html" class="post-nav-item prev">
+                    <span class="post-nav-label">← Previous</span>
+                    <span class="post-nav-title">Introduction to programming</span>
+                </a><a href="../5afd1efa/index.html" class="post-nav-item next">
+                    <span class="post-nav-label">Next →</span>
+                    <span class="post-nav-title">线性回归2：极大似然估计</span>
+                </a></nav>
+                <footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer>
+            </article>
             </div>
         </main>
     </div>
 
+    <button class="back-to-top" id="backToTop" aria-label="Scroll to top">上</button>
+
     <!-- highlight.js -->
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-    <script src="../../js/main.js"></script>
+    <script src="../../js/main.js" defer></script>
 </body>
 </html>

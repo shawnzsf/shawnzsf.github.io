@@ -4,25 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CMU 15122：Transitioning to C — 張寿峰</title>
-    <meta name="description" content="Blog of Shoufeng Zhang — writings on hardware, systems, and machine learning.">
+    <meta name="description" content="Content about the third part of CMU 15-122 Principle of imeprative computation">
+    <meta name="theme-color" content="#0e0d0b">
+
+    <!-- OpenGraph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="CMU 15122：Transitioning to C — 張寿峰">
+    <meta property="og:description" content="Content about the third part of CMU 15-122 Principle of imeprative computation">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CMU 15122：Transitioning to C — 張寿峰">
+    <meta name="twitter:description" content="Content about the third part of CMU 15-122 Principle of imeprative computation">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
     <!-- KaTeX for math formulas -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    
     <!-- highlight.js for code syntax highlighting -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="spotlight" aria-hidden="true"></div>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
     <div class="layout">
         
-        <aside class="sidebar">
+        <aside class="sidebar" aria-label="Personal profile and navigation">
             <div class="sidebar-inner">
                 <div class="seal-wrap">
-                    <div class="seal">張</div>
+                    <div class="seal" title="張寿峰">張</div>
                     <div class="seal-sub">寿峰</div>
                 </div>
 
@@ -50,7 +64,7 @@
                     </div>
                 </dl>
 
-                <nav class="side-nav">
+                <nav class="side-nav" aria-label="Main Navigation">
                     <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
                     <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
                     <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
@@ -70,17 +84,17 @@
             </div>
         </aside>
 
-        <main class="content">
+        <main class="content" id="mainContent">
             
             <div class="topbar">
                 <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
-                <button class="topbar-toggle" id="topbarToggle" aria-label="Menu">
+                <button class="topbar-toggle" id="topbarToggle" aria-label="Toggle navigation menu">
                     <span></span><span></span><span></span>
                 </button>
             </div>
 
             <div class="mobile-panel" id="mobilePanel">
-                <nav class="mobile-nav">
+                <nav class="mobile-nav" aria-label="Mobile Navigation">
                     <a href="../../index.html#about" class="mobile-link">About</a>
                     <a href="../../index.html#education" class="mobile-link">Education</a>
                     <a href="../../index.html#experience" class="mobile-link">Experience &amp; Works</a>
@@ -92,10 +106,28 @@
             </div>
 
             <div class="content-inner blog-content">
-                <article class="post-article"><header class="post-head reveal"><div class="post-head-meta"><a href="../index.html" class="back-link">← Blog</a><time class="post-head-date">Jul 29, 2024</time></div><h1 class="post-head-title">CMU 15122：Transitioning to C</h1><div class="post-head-tags"><span>Course Notes</span></div></header><div class="post-body"><h1>Graph Representation</h1>
+                
+            <article class="post-article">
+                <header class="post-head reveal">
+                    <div class="post-head-meta">
+                        <a href="../index.html" class="back-link">← Blog</a>
+                        <div style="display:flex; gap:16px; align-items:center;">
+                            <span class="reading-time">5 min read</span>
+                            <time class="post-head-date">Jul 29, 2024</time>
+                        </div>
+                    </div>
+                    <h1 class="post-head-title">CMU 15122：Transitioning to C</h1>
+                    <div class="post-head-tags"><span>Course Notes</span></div>
+                </header>
+                <div class="post-body"><h1>Graph Representation</h1>
 <h2>Graph Interface</h2>
 <p>Graph是Undirected的（15122定义），也就是说对于vertex A和B，BA和AB是一条edge。我们将graph表示成一个data structure，其中vertex定义为无符号整数。那么一个基本的graph interface可以如下所示：</p>
-<pre><code>typedef unsigned int vertex;
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>typedef unsigned int vertex;
 typedef struct graph_header *graph_t;
 
 graph_t graph_new(unsigned int numvert);
@@ -132,7 +164,8 @@ vertex graph_next_neighbor(neighbors_t nbors);
 void graph_free_neighbors(neighbors_t nbors);
 //@requires nbors != NULL;
 </code></pre>
-<p>我们通过graph_hasmore_neighbors和graph_next_neighbors来检查或者获取某个vertex的相邻vertex。我们可以通过多种数据结构实现上面的interface，一个有e条边的graph可以被链表或者edge的数组来表示。在链表实现中，添加一个edge的时间复杂度是O(1)，因为可以直接在链表前面接上。但是检查某一个edge是否存在需要O(e)的复杂度因为要遍历整个graph。获取某个节点的相邻节点同样需要O(e)的复杂度(Worst case)。使用哈希表和自平衡二分树也可以实现graph，但是这里只涉及到使用adjacency matrices和adjacency lists的graph实现。</p>
+
+    </div><p>我们通过graph_hasmore_neighbors和graph_next_neighbors来检查或者获取某个vertex的相邻vertex。我们可以通过多种数据结构实现上面的interface，一个有e条边的graph可以被链表或者edge的数组来表示。在链表实现中，添加一个edge的时间复杂度是O(1)，因为可以直接在链表前面接上。但是检查某一个edge是否存在需要O(e)的复杂度因为要遍历整个graph。获取某个节点的相邻节点同样需要O(e)的复杂度(Worst case)。使用哈希表和自平衡二分树也可以实现graph，但是这里只涉及到使用adjacency matrices和adjacency lists的graph实现。</p>
 <h2>Adjacency Matrices</h2>
 <p>我们可以使用一个二维数组储存两个节点之间是否存在edge，这样的表示方法在这里被称为Adjacency Matrices。假设我们有节点B(=1)和节点D(=3)，我们检查两个节点之间是否存在edge的方法就是看二维数组的row 1，column 3。在一个不区分方向的图中，数组的右上半边是左下的镜像。因为edge的关系是对称的。因为我们不允许一个node使用edge链接自己，所以这个matrix的对角线是空的。</p>
 <p>Adjacency Matrices的实现需要很多空间。对于一个有v个节点的graph我们需要$O(v^2)$的复杂度来分配内存。但是，使用改方法的好处是添加edge和检查edge的操作都是O(1)复杂度。</p>
@@ -141,7 +174,12 @@ void graph_free_neighbors(neighbors_t nbors);
 <p>我们将dense graph的对立称作sparse graph。Adjacency lists适合作为sparse graph的实现。在这个实现当中，我们有一个类似于哈希表的一维数组，每一个vertex都在数组中有一个位置，并且数组中的每一个元素包含所有其他和该vertex相连的链表。</p>
 <p>这个实现需要O(v + e)的空间来存储有v个vertex和e个edge的graph。也可以被写作O(max(v, e))。添加一个edge需要的时间是constant，但是lookup某一个edge需要的时间是O(min(v, e))，因为min(v-1, e)是每一个adjacency list的最大长度。在adjacency list实现里面寻找一个neighbor的时间是O(1)。</p>
 <h3>Implementation</h3>
-<pre><code>typedef struct adjlist_node adjlist
+<div class="code-block-wrap">
+        <div class="code-block-header">
+            <span class="code-lang">CODE</span>
+            <button class="code-copy-btn" aria-label="Copy code">Copy</button>
+        </div>
+        <pre><code>typedef struct adjlist_node adjlist
 struct adjlist_node{
   vertex vert;
   adjlist *next;
@@ -247,14 +285,26 @@ void graph_free_neighbors(neighbors *nbors){
 }
 
 </code></pre>
-</div><footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer></article>
+
+    </div></div>
+                <nav class="post-nav"><a href="../cmu-15122-data-structures/index.html" class="post-nav-item prev">
+                    <span class="post-nav-label">← Previous</span>
+                    <span class="post-nav-title">CMU 15122：Data Structures</span>
+                </a><a href="../kernel-based-virtualization-overview-structure-and-sample-code-explanation/index.html" class="post-nav-item next">
+                    <span class="post-nav-label">Next →</span>
+                    <span class="post-nav-title">Kernel-based Virtualization Overview (Structure and Sample Code Explanation)</span>
+                </a></nav>
+                <footer class="post-foot"><a href="../index.html" class="back-link">← Back to Blog</a></footer>
+            </article>
             </div>
         </main>
     </div>
 
+    <button class="back-to-top" id="backToTop" aria-label="Scroll to top">上</button>
+
     <!-- highlight.js -->
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-    <script src="../../js/main.js"></script>
+    <script src="../../js/main.js" defer></script>
 </body>
 </html>

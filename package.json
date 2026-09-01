@@ -5,7 +5,8 @@
   "description": "Markdown-driven personal website with a classic Japanese dark aesthetic",
   "scripts": {
     "build": "node build.js",
-    "dev": "node build.js && open index.html"
+    "dev": "node build.js && open index.html",
+    "serve": "npx -y serve ."
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
