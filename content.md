@@ -12,7 +12,7 @@ affiliation: "University of Hong Kong"
 # Sidebar quick facts
 location: "Beijing · Hong Kong"
 status: "Open to collaboration"
-focus: "Hardware · ML Systems · Robotics"
+focus: "Robotics · Hardware · ML Systems"
 
 # Vertical decoration text (Japanese)
 vertical_deco: "海濤悲湧深藍色"
@@ -32,8 +32,8 @@ nav:
   - { id: about,      num: "壹", label: "About" }
   - { id: education,  num: "貳", label: "Education" }
   - { id: experience, num: "叁", label: "Experience & Works" }
-  - { id: skills,     num: "伍", label: "Skills" }
-  - { id: contact,    num: "陸", label: "Contact" }
+  - { id: skills,     num: "肆", label: "Skills" }
+  - { id: contact,    num: "伍", label: "Contact" }
 ---
 
 <!-- ============================================================
@@ -42,12 +42,13 @@ nav:
 
 ## About
 
-I'm an incoming second-year student at the **University of Hong Kong**, under the Faculty of Engineering. Prior to university, I studied at Beijing 101 High School.
-I am currently working on autonomous robotics and security. My broader interests span hardware-software co-design, edge deployment of intelligent systems, and the system-level questions that arise when autonomous systems leave controlled environments and meet the real world. I am drawn to research at the intersection of perception, planning, and the hardware constraints that make both hard.
+I'm an incoming second-year student at the **University of Hong Kong**, under the Faculty of Engineering Elite Programme, majoring in Electronic Engineering with a minor in Computer Science. Prior to university, I studied at Beijing 101 High School.
+
+I currently work on autonomous robotics. My broader interests span hardware-software co-design, edge deployment of intelligent systems, and the system-level questions that arise when autonomous systems leave controlled environments and meet the real world. I am drawn to research at the intersection of perception, planning, and the hardware constraints that make both hard.
 
 > **Interests**
+> - Robotics & Embodied AI
 > - Computing Hardware
-> - Robotics & AI
 > - Systems & Security
 
 > **Beyond Academics**
@@ -61,9 +62,10 @@ I am currently working on autonomous robotics and security. My broader interests
 ## Education
 
 ### 2025.9 – Present · The University of Hong Kong
-- **Role:** B.Eng., Elite Engineering Programme
-- CGPA: 3.96/4.3. (Major CGPA: 4.15/4.3)
+- **Role:** B.Eng., Engineering Elite Programme, Electronic Engineering (Minor: Computer Science)
+- CGPA: 3.96/4.3 (Major CGPA: 4.15/4.3)
 - 2025-26 The University of Hong Kong Entrance Scholarship
+- 2025-26 Martin Scholarship, St. Johns College, The University of Hong Kong
 - Core Courses: Multivariable Calculus and Linear Algebra, C++ & Python Programming, Electricity and Electronics, Fundamental Mechanics, etc.
 
 ### 2024.7 · Carnegie Mellon University
@@ -79,25 +81,30 @@ I am currently working on autonomous robotics and security. My broader interests
      ============================================================ -->
 
 ## Experience
+<!-- 
+### 2026.7 – Present · MaRS Lab, HKU — Embodied Navigation Research Assistant
+- **Role:** Research Assistant (Supervisor: Prof. Fu Zhang; Mentor: Siqi Liang)
+- **Tags:** Robotics, Embodied AI
+- Onboarding on **SparseVideoNav**, a video/world-action-model-based navigation framework (paper under review), with focus on deployment and validation on Unitree Go2 and humanoid platforms. Building foundational competence in embodied language models and video-action-model-based navigation ahead of planned follow-up research. -->
 
-### 2025.12 – Present · HKU Innovation Academy Research Assistant
+### 2025.12 – Present · HKU Innovation Wing Research Assistant
 - **Role:** Research Assistant
 - **Tags:** Robotics
-- Developed the full sensor integration and autonomy stack for a museum guide robot. Resolved severe odometry drift caused by the corridor effect in featureless hallways and dynamic crowd occlusion by integrating FAST-LIO (LiDAR-inertial odometry); implemented localization via ICP and navigation via Nav2.
+- **MTR Station Inspection Robot** (2026.6 – Present) [GitHub](https://github.com/shawnzsf/inspection_grounding): Developing the object grounding module of a full autonomous inspection system built on the CMU exploration planner stack with FAST-LIO state estimation. Implemented LiDAR-camera fusion via frustum projection, mapping open-vocabulary 2D detections onto 3D point clouds with per-track accumulation and outlier-rejection/clustering for robust 3D object localization. 
+- **Tour Guide Robot** (2025.12 – 2026.5): Built the full autonomy stack for a museum guide robot. Resolved severe odometry drift caused by the corridor effect in featureless hallways and dynamic crowd occlusion by integrating FAST-LIO (LiDAR-inertial odometry); deployed localization via ICP and navigation via Nav2.
 
 ### 2025.12 – 2026.5 · HKU JC STEM Lab of Intelligent Cybersecurity Research Assistant
 - **Role:** Research Assistant
 - **Tags:** Security
-- Co-developed **RE-Agent**: an automated reverse-engineering pipeline built on Ghidra and DeepSeek that mimics the cognitive strategies of human reverse engineers for vulnerability analysis of stripped binaries.
-- Replaced naive LLM prompting with progressive context enrichment using BFS exploration of caller/callee graphs and iterative hypothesis testing, achieving a **9 $\times$ increase** in semantic function name-recovery accuracy.
-- Contributed to validation of AI-generated exploit reports;
+- Co-developed **RE-Agent** [GitHub](https://github.com/shawnzsf/Reverse-Engineering-Agent): an automated reverse-engineering pipeline built on Ghidra and DeepSeek that mimics the cognitive strategies of human reverse engineers for vulnerability analysis of stripped binaries. Replaced naive LLM prompting with progressive context enrichment using BFS exploration of caller/callee graphs and iterative hypothesis testing, achieving a **9$\times$ increase** in semantic function name-recovery accuracy compared to naive prompting on raw Ghidra decompiler output.
+- Co-authored **INFRASCOPE** ([arXiv:2605.20051](https://arxiv.org/abs/2605.20051), preprint under review): a reference-driven multi-agent framework for detecting vulnerability variants across AI infrastructure repositories; contributed to experiments and validation testing.
 
 ### 2024 · Hardware-Accelerated 1-Bit Quantization Using PyRTL
 - **Role:** Project Leader
 - **Tags:** PyRTL, System Design, Quantization
-- Designed a 1-bit MAC unit for a Systolic Array with PyRTL, reducing area requirements and critical path length for efficient neural network design.
+- Designed a 1-bit MAC unit for a Systolic Array with PyRTL for ternary-weight XNOR-Net inference, achieving 95% area reduction and 76% critical path reduction compared to a standard full-precision matrix multiplication MAC unit.
 
-### 2024 · Yishengyizhen Program, Chinese Academy of Sciences
+### 2024 · Yishengyixin Program, Chinese Academy of Sciences
 - **Role:** Participant
 - **Tags:** Verilog, Vivado, C, RISC-V
 - Explored computer architecture and systems. Designed circuits with Verilog/Vivado for RV32 instructions and built a simplified RV32I emulator in C.
@@ -120,19 +127,25 @@ I am currently working on autonomous robotics and security. My broader interests
 - RISC-V ISA
 - Computer Architecture
 
+### Robotics & Perception
+- ROS2
+- FAST-LIO / LiDAR-Inertial Odometry
+- LiDAR-Camera Sensor Fusion
+- Point Cloud Processing & 3D Object Grounding
+- SLAM & State Estimation
+
 ### Software & ML
 - C / C++
 - Python
 - Machine Learning
 - Quantization / NN Accelerators
+- Reverse Engineering (Ghidra) & LLM Agents
 - Data Analysis (LDA, LDAvis)
 
 ### Exploring
-- Robotics Learning
-- AI for Security
-- Operating Systems
-- Compilers
-- ML Hardware Accelerators
+- Embodied AI / World Models
+- Vision-Language-Action (VLA) Models
+- Robotics and Computer Systems in general
 
 <!-- ============================================================
      CONTACT

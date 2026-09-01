@@ -60,7 +60,7 @@
                     </div>
                     <div class="fact">
                         <dt>Focus</dt>
-                        <dd>Hardware · ML Systems · Robotics</dd>
+                        <dd>Robotics · Hardware · ML Systems</dd>
                     </div>
                 </dl>
 
@@ -68,8 +68,8 @@
                     <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
                     <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
                     <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
-                    <a href="../../index.html#skills" class="side-link"><span class="side-num">伍</span>Skills</a>
-                    <a href="../../index.html#contact" class="side-link"><span class="side-num">陸</span>Contact</a>
+                    <a href="../../index.html#skills" class="side-link"><span class="side-num">肆</span>Skills</a>
+                    <a href="../../index.html#contact" class="side-link"><span class="side-num">伍</span>Contact</a>
                     <a href="../../blog/index.html" class="side-link side-link-external"><span class="side-num">筆</span>Blog</a>
                     <a href="../../gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
                 </nav>
@@ -127,10 +127,10 @@
 <p>接下来通过时序逻辑进行具体接受信号的处理。如果接收到的resetn为0，则将count置为零。如果sampling为真(也就是处于下降沿)，则判断count是否为10，如果是的话就进一步判断首位和末位是否为0和1，并进行奇偶校验(在数据的最后添加一个校验位，使得数据位和校验位中1的个数为奇数或偶数，如果接收方收到的数据位和校验位中1的个数不是奇偶性相同，就说明传输的数据出现了错误)。如果条件都满足就进行数码管的输出。对buffer的高四位和低四位分别用case语句进行判断。然后数码管输出对应的数字(注意这里数码管是低电平有效)。判断完buffer就对cnt进行判断，判断逻辑大致相同。输出玩数码管后将count置为零。如果count不是10就将ps2_data传到buffer对应的位数中，然后count加一。在case判断中除了输出数码管还要将cnt加一，以显示按键次数的增多。同时要将输出状态切到对应的状态，在代码最后将输出状态赋值给输入状态。</p>
 <p>至此键盘输入功能全部实现。</p>
 </div>
-                <nav class="post-nav"><a href="../connecting-computational-thinking-and-program-design/index.html" class="post-nav-item prev">
+                <nav class="post-nav"><a href="/blog/connecting-computational-thinking-and-program-design/" class="post-nav-item prev">
                     <span class="post-nav-label">← Previous</span>
                     <span class="post-nav-title">Connecting computational thinking and program design</span>
-                </a><a href="../introduction-to-programming/index.html" class="post-nav-item next">
+                </a><a href="/blog/introduction-to-programming/" class="post-nav-item next">
                     <span class="post-nav-label">Next →</span>
                     <span class="post-nav-title">Introduction to programming</span>
                 </a></nav>

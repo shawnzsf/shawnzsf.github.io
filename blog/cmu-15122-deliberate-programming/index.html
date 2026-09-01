@@ -60,7 +60,7 @@
                     </div>
                     <div class="fact">
                         <dt>Focus</dt>
-                        <dd>Hardware · ML Systems · Robotics</dd>
+                        <dd>Robotics · Hardware · ML Systems</dd>
                     </div>
                 </dl>
 
@@ -68,8 +68,8 @@
                     <a href="../../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
                     <a href="../../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
                     <a href="../../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
-                    <a href="../../index.html#skills" class="side-link"><span class="side-num">伍</span>Skills</a>
-                    <a href="../../index.html#contact" class="side-link"><span class="side-num">陸</span>Contact</a>
+                    <a href="../../index.html#skills" class="side-link"><span class="side-num">肆</span>Skills</a>
+                    <a href="../../index.html#contact" class="side-link"><span class="side-num">伍</span>Contact</a>
                     <a href="../../blog/index.html" class="side-link side-link-external"><span class="side-num">筆</span>Blog</a>
                     <a href="../../gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
                 </nav>
@@ -439,10 +439,10 @@ bool is_goose(goose* g){
     </div><h1>Interfaces vs. Implementation</h1>
 <p>我们可以通过typedef给数据起别名，这样可以增加程序的抽象程度，方便调用。调用interface进行开发的方面也不需要深入程序细节，使用提供的函数接口和数据别名就可以完成开发。因此通常情况下client使用的只是interface提供的指针，不对具体数据进行操作。specification function属于implementation contracts部分，确保程序正确性，因此client不会调用它们。因为client知道他们调用的是指针，因此为了防止指针被设置成NULL，interface中都会有NULL check，作为另一种监督程序正确性的手段。</p>
 </div>
-                <nav class="post-nav"><a href="../cmu-15122-contracts/index.html" class="post-nav-item prev">
+                <nav class="post-nav"><a href="/blog/cmu-15122-contracts/" class="post-nav-item prev">
                     <span class="post-nav-label">← Previous</span>
                     <span class="post-nav-title">CMU 15122: Contracts</span>
-                </a><a href="../cmu-21127-summary-sheet-1/index.html" class="post-nav-item next">
+                </a><a href="/blog/cmu-21127-summary-sheet-1/" class="post-nav-item next">
                     <span class="post-nav-label">Next →</span>
                     <span class="post-nav-title">CMU 21127：Summary Sheet of Definitions &amp; Theorems</span>
                 </a></nav>

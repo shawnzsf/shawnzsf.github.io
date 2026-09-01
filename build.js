@@ -166,7 +166,7 @@ function renderAbout(md) {
 
 function renderEntries(md) {
     const tokens = marked.lexer(md);
-    let html = '<ul class="entries">';
+    let html = '<div class="edu-timeline">';
 
     for (let i = 0; i < tokens.length; i++) {
         const tok = tokens[i];
@@ -175,13 +175,10 @@ function renderEntries(md) {
             const date = parts[0] || '';
             const title = parts[1] || tok.text;
 
-            html += '<li>';
-            html += `<div class="entry-date">${esc(date)}</div>`;
-            html += '<div class="entry-body">';
-            html += `<strong>${esc(title)}</strong>`;
-
             let role = '';
-            let notes = [];
+            let gpa = '';
+            let awards = [];
+            let courses = [];
             for (let j = i + 1; j < tokens.length; j++) {
                 const next = tokens[j];
                 if (next.type === 'heading') break;
@@ -189,29 +186,85 @@ function renderEntries(md) {
                     for (const item of next.items) {
                         const text = item.text;
                         const roleM = text.match(/\*\*Role:\*\*\s*(.+)/);
+                        const gpaM = text.match(/^(CGPA|QPA|GPA)[\s:]*(.+)/i);
+                        const courseM = text.match(/^Core Courses?[\s:]*(.+)/i);
                         if (roleM) {
                             role = roleM[1].trim();
+                        } else if (gpaM) {
+                            gpa = text;
+                        } else if (courseM) {
+                            // Split on commas, but not commas inside parentheses
+                            const raw = courseM[1];
+                            const parts = [];
+                            let depth = 0, start = 0;
+                            for (let k = 0; k < raw.length; k++) {
+                                if (raw[k] === '(') depth++;
+                                else if (raw[k] === ')') depth--;
+                                else if (raw[k] === ',' && depth === 0) {
+                                    parts.push(raw.slice(start, k).trim());
+                                    start = k + 1;
+                                }
+                            }
+                            parts.push(raw.slice(start).trim());
+                            courses = parts.filter(Boolean);
                         } else {
-                            notes.push(text);
+                            awards.push(text);
                         }
                     }
                 }
             }
 
-            if (role) html += `<span class="entry-role">${esc(role)}</span>`;
-            if (notes.length) {
-                html += '<ul class="entry-notes">';
-                notes.forEach((n) => {
-                    html += `<li>${marked.parseInline(n)}</li>`;
-                });
-                html += '</ul>';
+            html += `<article class="edu-card reveal">`;
+            html += `<div class="edu-accent" aria-hidden="true"></div>`;
+            html += `<div class="edu-header">`;
+            html += `<div class="edu-title-row">`;
+            html += `<h3 class="edu-school">${esc(title)}</h3>`;
+            html += `<span class="edu-date">${esc(date)}</span>`;
+            html += `</div>`;
+            if (role) html += `<p class="edu-role">${esc(role)}</p>`;
+            html += `</div>`;
+
+            const hasDetails = gpa || awards.length || courses.length;
+            if (hasDetails) {
+                html += `<div class="edu-details">`;
+
+                if (gpa) {
+                    html += `<div class="edu-stat">`;
+                    html += `<span class="edu-stat-label">GPA</span>`;
+                    html += `<span class="edu-stat-value">${marked.parseInline(gpa)}</span>`;
+                    html += `</div>`;
+                }
+
+                if (awards.length) {
+                    html += `<div class="edu-awards">`;
+                    html += `<span class="edu-detail-label">Awards</span>`;
+                    html += `<ul>`;
+                    awards.forEach((a) => {
+                        html += `<li>${marked.parseInline(a)}</li>`;
+                    });
+                    html += `</ul></div>`;
+                }
+
+                if (courses.length) {
+                    html += `<div class="edu-courses">`;
+                    html += `<span class="edu-detail-label">Courses</span>`;
+                    html += `<div class="edu-course-pills">`;
+                    courses.forEach((c) => {
+                        html += `<span class="edu-pill">${esc(c)}</span>`;
+                    });
+                    html += `</div></div>`;
+                }
+
+                html += `</div>`;
             }
-            html += '</div></li>';
+
+            html += `</article>`;
         }
     }
-    html += '</ul>';
+    html += '</div>';
     return html;
 }
+
 
 function renderWorks(md) {
     const tokens = marked.lexer(md);
@@ -504,7 +557,7 @@ if (posts.length > 0) {
             const tagSpans = p.tags.map((t) => `<span>${esc(t)}</span>`).join('');
             const tagsAttr = p.tags.map((t) => esc(t)).join(',');
             return `<li class="post-item reveal" data-tags="${tagsAttr}">
-                <a href="${p.slug}/index.html" class="post-link">
+                <a href="/blog/${p.slug}/" class="post-link">
                     <div class="post-meta-col">
                         <span class="post-date">${formatDate(p.date)}</span>
                         <span class="post-reading-pill">${esc(p.readingTime)}</span>
@@ -555,7 +608,7 @@ if (posts.length > 0) {
         if (prevPost || nextPost) {
             postNavHtml = '<nav class="post-nav">';
             if (prevPost) {
-                postNavHtml += `<a href="../${prevPost.slug}/index.html" class="post-nav-item prev">
+                postNavHtml += `<a href="/blog/${prevPost.slug}/" class="post-nav-item prev">
                     <span class="post-nav-label">← Previous</span>
                     <span class="post-nav-title">${esc(prevPost.title)}</span>
                 </a>`;
@@ -563,7 +616,7 @@ if (posts.length > 0) {
                 postNavHtml += '<div></div>';
             }
             if (nextPost) {
-                postNavHtml += `<a href="../${nextPost.slug}/index.html" class="post-nav-item next">
+                postNavHtml += `<a href="/blog/${nextPost.slug}/" class="post-nav-item next">
                     <span class="post-nav-label">Next →</span>
                     <span class="post-nav-title">${esc(nextPost.title)}</span>
                 </a>`;

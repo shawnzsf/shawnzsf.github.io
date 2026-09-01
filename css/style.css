@@ -488,72 +488,219 @@ a { color: inherit; text-decoration: none; }
 .mini-card li { padding: 2px 0; }
 
 /* ------------------------------------------------------------------ */
-/* Entries (Education / Experience)                                   */
+/* Education Cards                                                    */
 /* ------------------------------------------------------------------ */
-.entries {
-    list-style: none;
+.edu-timeline {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 24px;
+    position: relative;
+    padding-left: 20px;
 }
-.entries li {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 32px;
-    padding: 24px 0;
-    border-bottom: 1px dashed var(--line);
-    transition: padding-left 0.3s;
+/* Vertical timeline line */
+.edu-timeline::before {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--vermillion) 0%, var(--line) 30%, var(--line) 70%, transparent 100%);
 }
-.entries li:last-child { border-bottom: none; }
-.entries li:hover { padding-left: 8px; }
 
-.entry-date {
-    font-family: var(--mono);
-    font-size: 14px;
-    color: var(--ink-mute);
-    padding-top: 2px;
+.edu-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 28px 28px 24px;
+    transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s var(--ease-out-expo);
 }
-.entry-body {
+.edu-card:hover {
+    border-color: var(--line-gold);
+    box-shadow: 0 6px 32px rgba(0, 0, 0, 0.25), inset 0 1px 0 var(--line-gold);
+    transform: translateY(-2px);
+}
+
+/* Timeline dot */
+.edu-card::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 34px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--vermillion);
+    box-shadow: 0 0 0 3px var(--bg), 0 0 8px var(--vermillion-glow);
+}
+
+/* Vermillion left accent bar */
+.edu-accent {
+    position: absolute;
+    left: 0;
+    top: 16px;
+    bottom: 16px;
+    width: 3px;
+    border-radius: 2px;
+    background: linear-gradient(to bottom, var(--vermillion), var(--vermillion-deep));
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+.edu-card:hover .edu-accent {
+    opacity: 1;
+}
+
+/* Header row — school name + date */
+.edu-header {
+    margin-bottom: 16px;
+}
+.edu-title-row {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
 }
-.entry-body strong {
-    font-size: 18px;
-    font-weight: 500;
+.edu-school {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 600;
     color: var(--ink);
+    margin: 0;
+    line-height: 1.3;
 }
-.entry-role {
-    font-size: 15px;
-    color: var(--indigo);
-    font-style: italic;
-}
-.entry-note {
-    font-size: 14px;
-    color: var(--ink-mute);
+.edu-date {
     font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-mute);
+    white-space: nowrap;
+    flex-shrink: 0;
 }
-.entry-notes {
+.edu-role {
+    font-size: 14px;
+    color: var(--indigo);
+    margin: 4px 0 0;
+    line-height: 1.5;
+}
+
+/* Details grid — GPA | Awards | Courses */
+.edu-details {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line);
+}
+
+/* GPA stat badge */
+.edu-stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.edu-stat-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    background: rgba(196, 160, 112, 0.08);
+    padding: 3px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(196, 160, 112, 0.15);
+    flex-shrink: 0;
+}
+.edu-stat-value {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+}
+
+/* Awards section */
+.edu-awards {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.edu-detail-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-mute);
+    margin-bottom: 2px;
+}
+.edu-awards ul {
     list-style: none;
-    margin-top: 6px;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
-.entry-notes li {
+.edu-awards li {
     font-size: 14px;
-    color: var(--ink-mute);
+    color: var(--ink-soft);
     line-height: 1.6;
-    padding-left: 14px;
+    padding-left: 20px;
     position: relative;
 }
-.entry-notes li::before {
-    content: "·";
+.edu-awards li::before {
+    content: '◆';
     position: absolute;
-    left: 4px;
-    color: var(--vermillion);
+    left: 2px;
+    font-size: 8px;
+    color: var(--gold);
+    top: 5px;
 }
 
+/* Courses pills */
+.edu-courses {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.edu-course-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.edu-pill {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    padding: 4px 12px;
+    border-radius: 100px;
+    transition: border-color 0.25s, color 0.25s;
+    white-space: nowrap;
+}
+.edu-pill:hover {
+    border-color: var(--indigo-soft);
+    color: var(--ink);
+}
+
+/* Responsive: stack title row on small screens */
+@media (max-width: 600px) {
+    .edu-timeline {
+        padding-left: 16px;
+    }
+    .edu-card {
+        padding: 20px 18px 18px;
+    }
+    .edu-title-row {
+        flex-direction: column;
+        gap: 4px;
+    }
+    .edu-stat {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+}
 
 
 /* ------------------------------------------------------------------ */
