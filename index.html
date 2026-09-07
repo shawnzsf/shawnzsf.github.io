@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>張寿峰 — Shoufeng Zhang</title>
     <meta name="description" content="Personal website and research portfolio of Shoufeng Zhang — Computer Science & Engineering, University of Hong Kong.">
-    <meta name="theme-color" content="#0e0d0b">
+    <meta name="theme-color" content="#FAF6EE">
     
     <!-- OpenGraph / Social -->
     <meta property="og:type" content="website">
@@ -21,131 +21,279 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <div class="spotlight" aria-hidden="true"></div>
+<body class="is-loaded">
+    <!-- Tactile rough paper grain texture overlay & SVG filter -->
+    <div class="paper-grain" id="paperGrain" aria-hidden="true"></div>
+    <svg class="paper-grain-defs" aria-hidden="true" style="position:fixed;top:0;left:0;width:0;height:0;pointer-events:none;z-index:-1;opacity:0;">
+        <defs>
+            <filter id="paper-grain" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" stitchTiles="stitch" result="noise" />
+                <feColorMatrix type="matrix" values="
+                    0.25 0 0 0 0.12
+                    0 0.25 0 0 0.09
+                    0 0 0.25 0 0.06
+                    0 0 0 0.45 0" result="coloredNoise" />
+                <feTurbulence type="fractalNoise" baseFrequency="0.025 0.5" numOctaves="3" stitchTiles="stitch" result="fibers" />
+                <feColorMatrix type="matrix" values="
+                    0 0 0 0 0.16
+                    0 0 0 0 0.11
+                    0 0 0 0 0.07
+                    0 0 0 0.35 0" result="coloredFibers" />
+                <feBlend mode="multiply" in="coloredNoise" in2="coloredFibers" result="paperSurface" />
+            </filter>
+        </defs>
+    </svg>
+
+    <div class="editorial-bar" id="editorialBar">
+        <div class="editorial-bar-inner">
+            <div class="editorial-coords">
+                <span class="coord-crosshair">⌖</span>
+                <span class="coord-val">HKG 22.3058° N, 114.1734° E</span>
+                <span class="coord-edition">EDITION NO. 0026 / 1000</span>
+            </div>
+            <a href="blog/kernel-based-virtualization-overview-structure-and-sample-code-explanation/index.html" class="editorial-ticker">
+                <span class="ticker-label">DISPATCH</span>
+                <span class="ticker-pulse"></span>
+                <span class="ticker-title">Virtualization &amp; Architecture →</span>
+            </a>
+        </div>
+    </div>
     <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
-    <div class="layout">
-        
-        <aside class="sidebar" aria-label="Personal profile and navigation">
-            <div class="sidebar-inner">
-                <div class="seal-wrap">
-                    <div class="seal" title="張寿峰">張</div>
-                    <div class="seal-sub">寿峰</div>
+    <!-- RETRACTABLE / FLOATING NAVIGATION DOCK -->
+    
+    <nav class="nav-dock" id="navDock" aria-label="Quick Navigation">
+        <div class="nav-dock-inner">
+            <a href="#hero" class="nav-dock-brand" title="Return to Top">
+                <span class="dock-seal">張</span>
+                <span class="dock-name">張寿峰</span>
+                <span class="dock-collapsed-cue" aria-hidden="true">
+                    <span class="dock-cue-bullet">·</span>
+                    <span class="dock-cue-txt">導覽</span>
+                </span>
+            </a>
+            <div class="nav-dock-divider" aria-hidden="true"></div>
+            <div class="nav-dock-links" id="dockLinks">
+                <div class="dock-mobile-header" aria-hidden="true">
+                    <span class="dock-m-title">FOLIO DIRECTORY / 導覽目錄</span>
+                    <span class="dock-m-badge">VOL. MMXXVI</span>
                 </div>
-
-                <div class="identity">
-                    <h1 class="name-en">Shoufeng Zhang</h1>
-                    <p class="name-jp">張寿峰</p>
-                    <p class="name-title">Electrical &amp; Computer Engineering</p>
-                    <p class="name-affil">University of Hong Kong</p>
+                <a href="#about" class="dock-link" data-sec="about"><span class="dock-num">壹</span><span class="dock-txt">About</span><span class="dock-arrow" aria-hidden="true">→</span></a>
+                <a href="#education" class="dock-link" data-sec="education"><span class="dock-num">貳</span><span class="dock-txt">Education</span><span class="dock-arrow" aria-hidden="true">→</span></a>
+                <a href="#experience" class="dock-link" data-sec="experience"><span class="dock-num">叁</span><span class="dock-txt">Works</span><span class="dock-arrow" aria-hidden="true">→</span></a>
+                <a href="#skills" class="dock-link" data-sec="skills"><span class="dock-num">肆</span><span class="dock-txt">Skills</span><span class="dock-arrow" aria-hidden="true">→</span></a>
+                <a href="#contact" class="dock-link" data-sec="contact"><span class="dock-num">伍</span><span class="dock-txt">Contact</span><span class="dock-arrow" aria-hidden="true">→</span></a>
+                <span class="dock-sep" aria-hidden="true">·</span>
+                <div class="dock-mobile-sep" aria-hidden="true">
+                    <span class="dock-sep-text">PUBLICATIONS & ART / 筆記與影像</span>
                 </div>
-
-                <div class="vertical-deco" aria-hidden="true">海濤悲湧深藍色</div>
-
-                <dl class="facts">
-                    <div class="fact">
-                        <dt>Location</dt>
-                        <dd>Beijing · Hong Kong</dd>
-                    </div>
-                    <div class="fact">
-                        <dt>Status</dt>
-                        <dd><span class="dot"></span>Open to collaboration</dd>
-                    </div>
-                    <div class="fact">
-                        <dt>Focus</dt>
-                        <dd>Robotics · Hardware · ML Systems</dd>
-                    </div>
-                </dl>
-
-                <nav class="side-nav" aria-label="Main Navigation">
-                    <a href="#about" class="side-link"><span class="side-num">壹</span>About</a>
-                    <a href="#education" class="side-link"><span class="side-num">貳</span>Education</a>
-                    <a href="#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
-                    <a href="#skills" class="side-link"><span class="side-num">肆</span>Skills</a>
-                    <a href="#contact" class="side-link"><span class="side-num">伍</span>Contact</a>
-                    <a href="blog/index.html" class="side-link side-link-external"><span class="side-num">筆</span>Blog</a>
-                    <a href="gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
-                </nav>
-
-                <div class="side-contact">
-                    <a href="mailto:zhangshoufeng@connect.hku.hk" class="side-contact-link">Email</a>
-                    <a href="https://github.com/shawnzsf" target="_blank" rel="noopener" class="side-contact-link">GitHub</a>
-                    <a href="https://www.xiaohongshu.com/user/profile/600952fd00000000010080c1" target="_blank" rel="noopener" class="side-contact-link">RedNote</a>
-                </div>
-
-                <p class="side-foot">© <span id="year"></span> 張寿峰</p>
+                <a href="blog/index.html" class="dock-link dock-link-ext"><span class="dock-num">筆</span><span class="dock-txt">Blog</span><span class="dock-arrow" aria-hidden="true">↗</span></a>
+                <a href="gallery/index.html" class="dock-link dock-link-ext"><span class="dock-num">影</span><span class="dock-txt">Gallery</span><span class="dock-arrow" aria-hidden="true">↗</span></a>
             </div>
-        </aside>
+            <button class="nav-dock-toggle" id="dockToggle" aria-label="Toggle Navigation Dock">
+                <span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    <div class="nav-dock-backdrop" id="dockBackdrop" aria-hidden="true"></div>
 
-        <main class="content" id="mainContent">
+    <!-- FULLSCREEN HERO LANDING -->
+    
+    <section class="hero-landing" id="hero">
+        <canvas class="sand-canvas" id="sandCanvas" aria-label="3D Sand Field Simulation"></canvas>
+        <div class="hero-content">
+            <div class="hero-masthead reveal">
+                <div class="hero-seal-badge">
+                    <span class="seal" title="張寿峰">張</span>
+                    <span class="hero-name-kanji">張寿峰</span>
+                    <span class="hero-sep">/</span>
+                    <span class="hero-name-en">Shoufeng Zhang</span>
+                </div>
+                <div class="hero-folio-tag">
+                    <span class="hero-coord">ARCHIVE SPECIMEN · VOL. MMXXVI</span>
+                    <span class="hero-tag-bullet">·</span>
+                    <span class="hero-edition">EDITION NO. 0026 / 1000</span>
+                </div>
+            </div>
+
+            <div class="hero-centerpiece reveal">
+                <div class="hero-kicker">SYSTEMS · STREETS · STORIES</div>
+                <h1 class="hero-title">Building along the way</h1>
+                <p class="hero-thesis">
+                    I am drawn to beauty, spare elegance, the way a few symbols can hold an entire slice of reality. I am equally drawn to complexity, the patience of decomposing systems to their atoms, then the triumph of construcitng something whole from first principles. Beyond, I observe. Photographing, reading, letting the inner lives of others resonate against my own.
+                </p>
+            </div>
+
+            <div class="hero-foot reveal">
+                <div class="hero-status-pill">
+                    <span class="dot"></span>
+                    <span class="hero-status-txt">Open to collaboration</span>
+                    <span class="status-sep">·</span>
+                    <span class="hero-affil-txt">University of Hong Kong</span>
+                </div>
+                <a href="#about" class="hero-scroll-cue" aria-label="Scroll to read folio">
+                    <span class="scroll-cue-txt">EXPLORE FOLIO</span>
+                    <span class="scroll-cue-arrow">↓</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ORGANIC EDITORIAL MAIN CONTENT -->
+    <main class="folio-content" id="mainContent">
+        <div class="folio-inner">
             
-            <div class="topbar">
-                <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
-                <button class="topbar-toggle" id="topbarToggle" aria-label="Toggle navigation menu">
-                    <span></span><span></span><span></span>
-                </button>
-            </div>
-
-            <div class="mobile-panel" id="mobilePanel">
-                <nav class="mobile-nav" aria-label="Mobile Navigation">
-                    <a href="#about" class="mobile-link">About</a>
-                    <a href="#education" class="mobile-link">Education</a>
-                    <a href="#experience" class="mobile-link">Experience &amp; Works</a>
-                    <a href="#skills" class="mobile-link">Skills</a>
-                    <a href="#contact" class="mobile-link">Contact</a>
-                    <a href="blog/index.html" class="mobile-link">Blog</a>
-                    <a href="gallery/index.html" class="mobile-link">Gallery</a>
-                </nav>
-            </div>
-
-            <div class="content-inner">
-                
-            <section class="sec" id="about">
-                <div class="sec-head reveal">
-                    <h2><span class="sec-num">壹</span>About</h2>
-                    <span class="sec-rule"></span>
+            <section class="folio-sec" id="about" data-section-num="壹">
+                <div class="folio-sec-head reveal">
+                    <div class="folio-sec-tag">
+                        <span class="sec-kanji-num">壹</span>
+                        <span class="sec-label-text">About</span>
+                    </div>
+                    <div class="sec-ornament" aria-hidden="true">
+                        <span class="sec-ornament-line"></span>
+                        <span class="sec-crosshair">⌖</span>
+                    </div>
                 </div>
-                <div class="about-cols"><div class="about-text reveal"><p>I&#39;m an incoming second-year student at the <strong>University of Hong Kong</strong>, under the Faculty of Engineering Elite Programme, majoring in Electronic Engineering with a minor in Computer Science. Prior to university, I studied at Beijing 101 High School.</p>
+                <div class="folio-sec-body">
+                    <div class="about-cols"><div class="about-text reveal"><div class="bracket-lead">
+        <div class="bracket-meta">
+            <span class="reg-target">⌖</span>
+            <span>RESEARCH PROFILE // OVERVIEW</span>
+            <span style="opacity:0.6;">· HKG 22.3°N</span>
+        </div>
+        <div class="bracket-body">
+            <p>I&#39;m an incoming second-year student at the <strong>University of Hong Kong</strong>, under the Faculty of Engineering Elite Programme, majoring in Electronic Engineering with a minor in Computer Science. Prior to university, I studied at Beijing 101 High School.</p>
 <p>I currently work on autonomous robotics. My broader interests span hardware-software co-design, edge deployment of intelligent systems, and the system-level questions that arise when autonomous systems leave controlled environments and meet the real world. I am drawn to research at the intersection of perception, planning, and the hardware constraints that make both hard.</p>
-<p class="quote"><span class="quote-mark">「</span>莫聽穿林打葉聲，何妨吟嘯且徐行。竹杖芒鞋輕勝馬，誰怕？一蓑煙雨任平生。<span class="quote-mark">」</span></p></div><aside class="about-side reveal"><div class="mini-card"><span class="mini-label">Interests</span><ul>
+
+        </div>
+    </div><p class="quote"><span class="quote-mark">「</span>莫聽穿林打葉聲，何妨吟嘯且徐行。竹杖芒鞋輕勝馬，誰怕？一蓑煙雨任平生。<span class="quote-mark">」</span></p></div><aside class="about-side reveal"><div class="mini-card"><span class="mini-label">Interests</span><ul>
 <li>Robotics &amp; Embodied AI</li>
 <li>Computing Hardware</li>
 <li>Systems &amp; Security</li>
 </ul></div><div class="mini-card"><span class="mini-label">Beyond Academics</span>I am interested in Photography (especially streets). Some of the works are published through Visual China Group and so, some of them are available on RedNote. I will try migrate more of them into gallery here in the future.</div></aside></div>
-            </section>
-            <section class="sec sec-alt" id="education">
-                <div class="sec-head reveal">
-                    <h2><span class="sec-num">貳</span>Education</h2>
-                    <span class="sec-rule"></span>
                 </div>
-                <div class="edu-timeline"><article class="edu-card reveal"><div class="edu-accent" aria-hidden="true"></div><div class="edu-header"><div class="edu-title-row"><h3 class="edu-school">The University of Hong Kong</h3><span class="edu-date">2025.9 – Present</span></div><p class="edu-role">B.Eng., Engineering Elite Programme, Electronic Engineering (Minor: Computer Science)</p></div><div class="edu-details"><div class="edu-stat"><span class="edu-stat-label">GPA</span><span class="edu-stat-value">CGPA: 3.96/4.3 (Major CGPA: 4.15/4.3)</span></div><div class="edu-awards"><span class="edu-detail-label">Awards</span><ul><li>2025-26 The University of Hong Kong Entrance Scholarship</li><li>2025-26 Martin Scholarship, St. Johns College, The University of Hong Kong</li></ul></div><div class="edu-courses"><span class="edu-detail-label">Courses</span><div class="edu-course-pills"><span class="edu-pill">Multivariable Calculus and Linear Algebra</span><span class="edu-pill">C++ &amp; Python Programming</span><span class="edu-pill">Electricity and Electronics</span><span class="edu-pill">Fundamental Mechanics</span><span class="edu-pill">etc.</span></div></div></div></article><article class="edu-card reveal"><div class="edu-accent" aria-hidden="true"></div><div class="edu-header"><div class="edu-title-row"><h3 class="edu-school">Carnegie Mellon University</h3><span class="edu-date">2024.7</span></div><p class="edu-role">Summer Session</p></div><div class="edu-details"><div class="edu-stat"><span class="edu-stat-label">GPA</span><span class="edu-stat-value">QPA: 4.0 / 4.0</span></div><div class="edu-courses"><span class="edu-detail-label">Courses</span><div class="edu-course-pills"><span class="edu-pill">Principles of Imperative Computation (C Programming, Basic data structure and algorithms)</span><span class="edu-pill">Concepts of Mathematics (Discrete Math)</span></div></div></div></article><article class="edu-card reveal"><div class="edu-accent" aria-hidden="true"></div><div class="edu-header"><div class="edu-title-row"><h3 class="edu-school">Beijing 101 High School</h3><span class="edu-date">2022.9 – 2025.7</span></div><p class="edu-role">AP &amp; IB Diploma Programme</p></div></article></div>
             </section>
-            <section class="sec" id="experience">
-                <div class="sec-head reveal">
-                    <h2><span class="sec-num">叁</span>Experience &amp; Works</h2>
-                    <span class="sec-rule"></span>
+            <section class="folio-sec" id="education" data-section-num="貳">
+                <div class="folio-sec-head reveal">
+                    <div class="folio-sec-tag">
+                        <span class="sec-kanji-num">貳</span>
+                        <span class="sec-label-text">Education</span>
+                    </div>
+                    <div class="sec-ornament" aria-hidden="true">
+                        <span class="sec-ornament-line"></span>
+                        <span class="sec-crosshair">⌖</span>
+                    </div>
                 </div>
-                <div class="works"><article class="work reveal"><div class="work-no">01</div><div class="work-main"><div class="work-meta"><span>2025.12 – Present</span> · <span>Research Assistant</span></div><h3>HKU Innovation Wing Research Assistant</h3><ul class="work-notes"><li><strong>MTR Station Inspection Robot</strong> (2026.6 – Present) <a href="https://github.com/shawnzsf/inspection_grounding">GitHub</a>: Developing the object grounding module of a full autonomous inspection system built on the CMU exploration planner stack with FAST-LIO state estimation. Implemented LiDAR-camera fusion via frustum projection, mapping open-vocabulary 2D detections onto 3D point clouds with per-track accumulation and outlier-rejection/clustering for robust 3D object localization. </li><li><strong>Tour Guide Robot</strong> (2025.12 – 2026.5): Built the full autonomy stack for a museum guide robot. Resolved severe odometry drift caused by the corridor effect in featureless hallways and dynamic crowd occlusion by integrating FAST-LIO (LiDAR-inertial odometry); deployed localization via ICP and navigation via Nav2.</li></ul><div class="tags"><span>Robotics</span></div></div></article><article class="work reveal"><div class="work-no">02</div><div class="work-main"><div class="work-meta"><span>2025.12 – 2026.5</span> · <span>Research Assistant</span></div><h3>HKU JC STEM Lab of Intelligent Cybersecurity Research Assistant</h3><ul class="work-notes"><li>Co-developed <strong>RE-Agent</strong> <a href="https://github.com/shawnzsf/Reverse-Engineering-Agent">GitHub</a>: an automated reverse-engineering pipeline built on Ghidra and DeepSeek that mimics the cognitive strategies of human reverse engineers for vulnerability analysis of stripped binaries. Replaced naive LLM prompting with progressive context enrichment using BFS exploration of caller/callee graphs and iterative hypothesis testing, achieving a <strong>9<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> increase</strong> in semantic function name-recovery accuracy compared to naive prompting on raw Ghidra decompiler output.</li><li>Co-authored <strong>INFRASCOPE</strong> (<a href="https://arxiv.org/abs/2605.20051">arXiv:2605.20051</a>, preprint under review): a reference-driven multi-agent framework for detecting vulnerability variants across AI infrastructure repositories; contributed to experiments and validation testing.</li></ul><div class="tags"><span>Security</span></div></div></article><article class="work reveal"><div class="work-no">03</div><div class="work-main"><div class="work-meta"><span>2024</span> · <span>Project Leader</span></div><h3>Hardware-Accelerated 1-Bit Quantization Using PyRTL</h3><ul class="work-notes"><li>Designed a 1-bit MAC unit for a Systolic Array with PyRTL for ternary-weight XNOR-Net inference, achieving 95% area reduction and 76% critical path reduction compared to a standard full-precision matrix multiplication MAC unit.</li></ul><div class="tags"><span>PyRTL</span><span>System Design</span><span>Quantization</span></div></div></article><article class="work reveal"><div class="work-no">04</div><div class="work-main"><div class="work-meta"><span>2024</span> · <span>Participant</span></div><h3>Yishengyixin Program, Chinese Academy of Sciences</h3><ul class="work-notes"><li>Explored computer architecture and systems. Designed circuits with Verilog/Vivado for RV32 instructions and built a simplified RV32I emulator in C.</li></ul><div class="tags"><span>Verilog</span><span>Vivado</span><span>C</span><span>RISC-V</span></div></div></article></div>
+                <div class="folio-sec-body">
+                    <div class="edu-timeline"><article class="edu-card reveal"><div class="edu-accent" aria-hidden="true"></div><div class="edu-header"><div class="edu-title-row"><h3 class="edu-school">The University of Hong Kong</h3><span class="edu-date">2025.9 – Present</span></div><p class="edu-role">B.Eng., Engineering Elite Programme, Electronic Engineering (Minor: Computer Science)</p></div><div class="edu-details"><div class="edu-stat"><span class="edu-stat-label">GPA</span><span class="edu-stat-value">CGPA: 3.96/4.3 (Major CGPA: 4.15/4.3)</span></div><div class="edu-awards"><span class="edu-detail-label">Awards</span><ul><li>2025-26 The University of Hong Kong Entrance Scholarship</li><li>2025-26 Martin Scholarship, St. Johns College, The University of Hong Kong</li></ul></div><div class="edu-courses"><span class="edu-detail-label">Courses</span><div class="edu-course-pills"><span class="edu-pill">Multivariable Calculus and Linear Algebra</span><span class="edu-pill">C++ &amp; Python Programming</span><span class="edu-pill">Electricity and Electronics</span><span class="edu-pill">Fundamental Mechanics</span><span class="edu-pill">etc.</span></div></div></div></article><article class="edu-card reveal"><div class="edu-accent" aria-hidden="true"></div><div class="edu-header"><div class="edu-title-row"><h3 class="edu-school">Carnegie Mellon University</h3><span class="edu-date">2024.7</span></div><p class="edu-role">Summer Session</p></div><div class="edu-details"><div class="edu-stat"><span class="edu-stat-label">GPA</span><span class="edu-stat-value">QPA: 4.0 / 4.0</span></div><div class="edu-courses"><span class="edu-detail-label">Courses</span><div class="edu-course-pills"><span class="edu-pill">Principles of Imperative Computation (C Programming, Basic data structure and algorithms)</span><span class="edu-pill">Concepts of Mathematics (Discrete Math)</span></div></div></div></article><article class="edu-card reveal"><div class="edu-accent" aria-hidden="true"></div><div class="edu-header"><div class="edu-title-row"><h3 class="edu-school">Beijing 101 High School</h3><span class="edu-date">2022.9 – 2025.7</span></div><p class="edu-role">AP &amp; IB Diploma Programme</p></div></article></div>
+                </div>
             </section>
-            <section class="sec sec-alt" id="skills">
-                <div class="sec-head reveal">
-                    <h2><span class="sec-num">肆</span>Skills</h2>
-                    <span class="sec-rule"></span>
+            <section class="folio-sec" id="experience" data-section-num="叁">
+                <div class="folio-sec-head reveal">
+                    <div class="folio-sec-tag">
+                        <span class="sec-kanji-num">叁</span>
+                        <span class="sec-label-text">Experience &amp; Works</span>
+                    </div>
+                    <div class="sec-ornament" aria-hidden="true">
+                        <span class="sec-ornament-line"></span>
+                        <span class="sec-crosshair">⌖</span>
+                    </div>
                 </div>
-                <div class="skills"><div class="skill-col reveal"><h3>Hardware &amp; Systems</h3><ul><li>Verilog / SystemVerilog</li><li>Vivado / FPGA Prototyping</li><li>PyRTL</li><li>RISC-V ISA</li><li>Computer Architecture</li></ul></div><div class="skill-col reveal"><h3>Robotics &amp; Perception</h3><ul><li>ROS2</li><li>FAST-LIO / LiDAR-Inertial Odometry</li><li>LiDAR-Camera Sensor Fusion</li><li>Point Cloud Processing &amp; 3D Object Grounding</li><li>SLAM &amp; State Estimation</li></ul></div><div class="skill-col reveal"><h3>Software &amp; ML</h3><ul><li>C / C++</li><li>Python</li><li>Machine Learning</li><li>Quantization / NN Accelerators</li><li>Reverse Engineering (Ghidra) &amp; LLM Agents</li><li>Data Analysis (LDA, LDAvis)</li></ul></div><div class="skill-col reveal"><h3>Exploring</h3><ul><li>Embodied AI / World Models</li><li>Vision-Language-Action (VLA) Models</li><li>Robotics and Computer Systems in general</li></ul></div></div>
+                <div class="folio-sec-body">
+                    <div class="works"><article class="work reveal"><div class="work-no">01</div><div class="work-main"><div class="work-meta"><span>2025.12 – Present</span> · <span>Research Assistant</span></div><h3>HKU Innovation Wing Research Assistant</h3><ul class="work-notes"><li><strong>MTR Station Inspection Robot</strong> (2026.6 – Present) <a href="https://github.com/shawnzsf/inspection_grounding">GitHub</a>: Developing the object grounding module of a full autonomous inspection system built on the CMU exploration planner stack with FAST-LIO state estimation. Implemented LiDAR-camera fusion via frustum projection, mapping open-vocabulary 2D detections onto 3D point clouds with per-track accumulation and outlier-rejection/clustering for robust 3D object localization. </li><li><strong>Tour Guide Robot</strong> (2025.12 – 2026.5): Built the full autonomy stack for a museum guide robot. Resolved severe odometry drift caused by the corridor effect in featureless hallways and dynamic crowd occlusion by integrating FAST-LIO (LiDAR-inertial odometry); deployed localization via ICP and navigation via Nav2.</li></ul><div class="tags"><span>Robotics</span></div></div></article><article class="work reveal"><div class="work-no">02</div><div class="work-main"><div class="work-meta"><span>2025.12 – 2026.5</span> · <span>Research Assistant</span></div><h3>HKU JC STEM Lab of Intelligent Cybersecurity Research Assistant</h3><ul class="work-notes"><li>Co-developed <strong>RE-Agent</strong> <a href="https://github.com/shawnzsf/Reverse-Engineering-Agent">GitHub</a>: an automated reverse-engineering pipeline built on Ghidra and DeepSeek that mimics the cognitive strategies of human reverse engineers for vulnerability analysis of stripped binaries. Replaced naive LLM prompting with progressive context enrichment using BFS exploration of caller/callee graphs and iterative hypothesis testing, achieving a <strong>9<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> increase</strong> in semantic function name-recovery accuracy compared to naive prompting on raw Ghidra decompiler output.</li><li>Co-authored <strong>INFRASCOPE</strong> (<a href="https://arxiv.org/abs/2605.20051">arXiv:2605.20051</a>, preprint under review): a reference-driven multi-agent framework for detecting vulnerability variants across AI infrastructure repositories; contributed to experiments and validation testing.</li></ul><div class="tags"><span>Security</span></div></div></article><article class="work reveal"><div class="work-no">03</div><div class="work-main"><div class="work-meta"><span>2024</span> · <span>Project Leader</span></div><h3>Hardware-Accelerated 1-Bit Quantization Using PyRTL</h3><ul class="work-notes"><li>Designed a 1-bit MAC unit for a Systolic Array with PyRTL for ternary-weight XNOR-Net inference, achieving 95% area reduction and 76% critical path reduction compared to a standard full-precision matrix multiplication MAC unit.</li></ul><div class="tags"><span>PyRTL</span><span>System Design</span><span>Quantization</span></div></div></article><article class="work reveal"><div class="work-no">04</div><div class="work-main"><div class="work-meta"><span>2024</span> · <span>Participant</span></div><h3>Yishengyixin Program, Chinese Academy of Sciences</h3><ul class="work-notes"><li>Explored computer architecture and systems. Designed circuits with Verilog/Vivado for RV32 instructions and built a simplified RV32I emulator in C.</li></ul><div class="tags"><span>Verilog</span><span>Vivado</span><span>C</span><span>RISC-V</span></div></div></article></div>
+                </div>
             </section>
-            <section class="sec" id="contact">
-                <div class="sec-head reveal">
-                    <h2><span class="sec-num">伍</span>Contact</h2>
-                    <span class="sec-rule"></span>
+            <section class="folio-sec" id="skills" data-section-num="肆">
+                <div class="folio-sec-head reveal">
+                    <div class="folio-sec-tag">
+                        <span class="sec-kanji-num">肆</span>
+                        <span class="sec-label-text">Skills</span>
+                    </div>
+                    <div class="sec-ornament" aria-hidden="true">
+                        <span class="sec-ornament-line"></span>
+                        <span class="sec-crosshair">⌖</span>
+                    </div>
                 </div>
-                <div class="contact reveal"><p class="contact-lead">Feel free to reach out.
+                <div class="folio-sec-body">
+                    <div class="skills"><div class="skill-col reveal"><h3>Hardware &amp; Systems</h3><ul><li>Verilog / SystemVerilog</li><li>Vivado / FPGA Prototyping</li><li>PyRTL</li><li>RISC-V ISA</li><li>Computer Architecture</li></ul></div><div class="skill-col reveal"><h3>Robotics &amp; Perception</h3><ul><li>ROS2</li><li>FAST-LIO / LiDAR-Inertial Odometry</li><li>LiDAR-Camera Sensor Fusion</li><li>Point Cloud Processing &amp; 3D Object Grounding</li><li>SLAM &amp; State Estimation</li></ul></div><div class="skill-col reveal"><h3>Software &amp; ML</h3><ul><li>C / C++</li><li>Python</li><li>Machine Learning</li><li>Quantization / NN Accelerators</li><li>Reverse Engineering (Ghidra) &amp; LLM Agents</li><li>Data Analysis (LDA, LDAvis)</li></ul></div><div class="skill-col reveal"><h3>Exploring</h3><ul><li>Embodied AI / World Models</li><li>Vision-Language-Action (VLA) Models</li><li>Robotics and Computer Systems in general</li></ul></div></div>
+                </div>
+            </section>
+            <section class="folio-sec" id="contact" data-section-num="伍">
+                <div class="folio-sec-head reveal">
+                    <div class="folio-sec-tag">
+                        <span class="sec-kanji-num">伍</span>
+                        <span class="sec-label-text">Contact</span>
+                    </div>
+                    <div class="sec-ornament" aria-hidden="true">
+                        <span class="sec-ornament-line"></span>
+                        <span class="sec-crosshair">⌖</span>
+                    </div>
+                </div>
+                <div class="folio-sec-body">
+                    <div class="contact reveal"><p class="contact-lead">Feel free to reach out.
 </p><div class="contact-grid"><a href="mailto:zhangshoufeng@connect.hku.hk" class="contact-item"><span class="contact-k">Email</span><span class="contact-v">zhangshoufeng@connect.hku.hk</span></a><a href="https://github.com/shawnzsf" target="_blank" rel="noopener" class="contact-item"><span class="contact-k">GitHub</span><span class="contact-v">@shawnzsf</span></a><a href="https://www.xiaohongshu.com/user/profile/600952fd00000000010080c1" target="_blank" rel="noopener" class="contact-item"><span class="contact-k">RedNote</span><span class="contact-v">Photography &amp; more</span></a></div></div><div class="end-mark" aria-hidden="true">— 終 —</div>
+                </div>
             </section>
+        </div>
+    </main>
+
+    <!-- ARCHIVAL COLOPHON & DIRECTORY -->
+    
+    <footer class="archival-colophon" id="colophon">
+        <div class="colophon-inner">
+            <div class="colophon-grid">
+                <div class="colophon-identity">
+                    <div class="seal-wrap">
+                        <div class="seal" title="張寿峰">張</div>
+                        <div class="seal-sub">寿峰</div>
+                    </div>
+                    <h3 class="colophon-name-en">Shoufeng Zhang</h3>
+                    <p class="colophon-name-jp">張寿峰</p>
+                    <p class="colophon-sub">Electrical &amp; Computer Engineering</p>
+                    <p class="colophon-affil">University of Hong Kong</p>
+                    <p class="colophon-vertical-deco" aria-hidden="true">海濤悲湧深藍色</p>
+                </div>
+
+                <div class="colophon-facts">
+                    <h4 class="colophon-heading">REGISTRATION &amp; DOSSIER</h4>
+                    <dl class="colophon-dl">
+                        <div><dt>LOCATION</dt><dd>Beijing · Hong Kong</dd></div>
+                        <div><dt>COORDINATES</dt><dd>22.3058° N, 114.1734° E</dd></div>
+                        <div><dt>STATUS</dt><dd><span class="dot"></span>Open to collaboration</dd></div>
+                        <div><dt>RESEARCH</dt><dd>Robotics · Hardware · ML Systems</dd></div>
+                    </dl>
+                </div>
+
+                <div class="colophon-directory">
+                    <h4 class="colophon-heading">FOLIO DIRECTORY</h4>
+                    <nav class="colophon-nav">
+                        <a href="#about"><span class="colophon-num">壹</span>About</a>
+                        <a href="#education"><span class="colophon-num">貳</span>Education</a>
+                        <a href="#experience"><span class="colophon-num">叁</span>Experience &amp; Works</a>
+                        <a href="#skills"><span class="colophon-num">肆</span>Skills</a>
+                        <a href="#contact"><span class="colophon-num">伍</span>Contact</a>
+                        <a href="blog/index.html"><span class="colophon-num">筆</span>Writing &amp; Blog</a>
+                        <a href="gallery/index.html"><span class="colophon-num">影</span>Photography Gallery</a>
+                    </nav>
+                </div>
+
+                <div class="colophon-dispatch">
+                    <h4 class="colophon-heading">TRANSMISSION</h4>
+                    <p class="colophon-lead">Open to research discussions, hardware collaborations, and robotics inquiry.</p>
+                    <div class="colophon-links">
+                        <a href="mailto:zhangshoufeng@connect.hku.hk" class="colophon-btn"><span class="btn-k">Email</span> <span class="btn-v">zhangshoufeng@connect.hku.hk</span></a>
+                        <a href="https://github.com/shawnzsf" target="_blank" rel="noopener" class="colophon-btn"><span class="btn-k">GitHub</span> <span class="btn-v">@shawnzsf</span></a>
+                        <a href="https://www.xiaohongshu.com/user/profile/600952fd00000000010080c1" target="_blank" rel="noopener" class="colophon-btn"><span class="btn-k">RedNote</span> <span class="btn-v">Photography &amp; more</span></a>
+                    </div>
+                </div>
             </div>
-        </main>
-    </div>
+
+            <div class="colophon-bottom">
+                <span class="colophon-edition">ARCHIVAL FOLIO · NO. 0026 / 1000 · RISOGRAPH MONOCHROME</span>
+                <span class="colophon-copy">© 2026 張寿峰 · ALL RIGHTS RESERVED</span>
+            </div>
+        </div>
+    </footer>
 
     <button class="back-to-top" id="backToTop" aria-label="Scroll to top">上</button>
     <script src="js/main.js" defer></script>

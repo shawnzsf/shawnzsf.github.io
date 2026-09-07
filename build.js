@@ -135,15 +135,27 @@ function renderAbout(md) {
     const tokens = marked.lexer(md);
     let html = '<div class="about-cols"><div class="about-text reveal">';
     const sideCards = [];
+    let leadParagraphs = '';
 
     for (const tok of tokens) {
         if (tok.type === 'paragraph') {
-            html += marked.parse(tok.raw);
+            leadParagraphs += marked.parse(tok.raw);
         } else if (tok.type === 'blockquote') {
             const inner = marked.parse(tok.text).replace(/<\/?p>/g, '');
             sideCards.push(inner);
         }
     }
+
+    html += `<div class="bracket-lead">
+        <div class="bracket-meta">
+            <span class="reg-target">⌖</span>
+            <span>RESEARCH PROFILE // OVERVIEW</span>
+            <span style="opacity:0.6;">· HKG 22.3°N</span>
+        </div>
+        <div class="bracket-body">
+            ${leadParagraphs}
+        </div>
+    </div>`;
 
     if (cfg.quote) {
         html += `<p class="quote"><span class="quote-mark">「</span>${esc(cfg.quote)}<span class="quote-mark">」</span></p>`;
@@ -193,7 +205,6 @@ function renderEntries(md) {
                         } else if (gpaM) {
                             gpa = text;
                         } else if (courseM) {
-                            // Split on commas, but not commas inside parentheses
                             const raw = courseM[1];
                             const parts = [];
                             let depth = 0, start = 0;
@@ -264,7 +275,6 @@ function renderEntries(md) {
     html += '</div>';
     return html;
 }
-
 
 function renderWorks(md) {
     const tokens = marked.lexer(md);
@@ -374,15 +384,22 @@ function renderContact(md) {
     return html;
 }
 
-function buildSection(navItem, contentHtml, alt) {
-    const cls = alt ? 'sec sec-alt' : 'sec';
+function buildSection(navItem, contentHtml) {
     return `
-            <section class="${cls}" id="${navItem.id}">
-                <div class="sec-head reveal">
-                    <h2><span class="sec-num">${navItem.num}</span>${esc(navItem.label)}</h2>
-                    <span class="sec-rule"></span>
+            <section class="folio-sec" id="${navItem.id}" data-section-num="${navItem.num}">
+                <div class="folio-sec-head reveal">
+                    <div class="folio-sec-tag">
+                        <span class="sec-kanji-num">${navItem.num}</span>
+                        <span class="sec-label-text">${esc(navItem.label)}</span>
+                    </div>
+                    <div class="sec-ornament" aria-hidden="true">
+                        <span class="sec-ornament-line"></span>
+                        <span class="sec-crosshair">⌖</span>
+                    </div>
                 </div>
-                ${contentHtml}
+                <div class="folio-sec-body">
+                    ${contentHtml}
+                </div>
             </section>`;
 }
 
@@ -397,7 +414,7 @@ sections.forEach((s) => {
 });
 
 let mainHtml = '';
-cfg.nav.forEach((navItem, idx) => {
+cfg.nav.forEach((navItem) => {
     const sec = sectionMap[navItem.id];
     if (!sec) return;
     let content = '';
@@ -419,87 +436,156 @@ cfg.nav.forEach((navItem, idx) => {
             content = renderContact(sec.body);
             break;
     }
-    mainHtml += buildSection(navItem, content, idx % 2 === 1);
+    mainHtml += buildSection(navItem, content);
 });
 
-/* Sidebar */
-const sidebarHtml = `
-        <aside class="sidebar" aria-label="Personal profile and navigation">
-            <div class="sidebar-inner">
-                <div class="seal-wrap">
-                    <div class="seal" title="${esc(cfg.name_jp)}">${esc(cfg.name_jp.charAt(0))}</div>
-                    <div class="seal-sub">${esc(cfg.name_jp.slice(1))}</div>
+/* Hero Landing Section */
+const heroKicker = cfg.hero_kicker || "SYSTEMS HARDWARE · LENS & STREET · QUIET CURIOSITY";
+const heroTitle = cfg.hero_title || "Grounded in physical reality, guided by quiet curiosity.";
+const heroThesis = cfg.hero_thesis || "I work at the junction where digital intelligence meets physical matter—designing autonomous systems that confront friction, gravity, and open-world uncertainty. Beyond engineering, I walk city streets with a camera, capturing the unscripted poetry of ordinary life. Guided by craftsmanship and quiet resolve: building things that endure reality, and walking steadily through the rain.";
+
+const heroHtml = `
+    <section class="hero-landing" id="hero">
+        <canvas class="sand-canvas" id="sandCanvas" aria-label="3D Sand Field Simulation"></canvas>
+        <div class="hero-content">
+            <div class="hero-masthead reveal">
+                <div class="hero-seal-badge">
+                    <span class="seal" title="${esc(cfg.name_jp)}">${esc(cfg.name_jp.charAt(0))}</span>
+                    <span class="hero-name-kanji">${esc(cfg.name_jp)}</span>
+                    <span class="hero-sep">/</span>
+                    <span class="hero-name-en">${esc(cfg.name_en)}</span>
                 </div>
-
-                <div class="identity">
-                    <h1 class="name-en">${esc(cfg.name_en)}</h1>
-                    <p class="name-jp">${esc(cfg.name_jp)}</p>
-                    <p class="name-title">${esc(cfg.title)}</p>
-                    <p class="name-affil">${esc(cfg.affiliation)}</p>
+                <div class="hero-folio-tag">
+                    <span class="hero-coord">ARCHIVE SPECIMEN · VOL. MMXXVI</span>
+                    <span class="hero-tag-bullet">·</span>
+                    <span class="hero-edition">EDITION NO. 0026 / 1000</span>
                 </div>
-
-                <div class="vertical-deco" aria-hidden="true">${esc(cfg.vertical_deco)}</div>
-
-                <dl class="facts">
-                    <div class="fact">
-                        <dt>Location</dt>
-                        <dd>${esc(cfg.location)}</dd>
-                    </div>
-                    <div class="fact">
-                        <dt>Status</dt>
-                        <dd><span class="dot"></span>${esc(cfg.status)}</dd>
-                    </div>
-                    <div class="fact">
-                        <dt>Focus</dt>
-                        <dd>${esc(cfg.focus)}</dd>
-                    </div>
-                </dl>
-
-                <nav class="side-nav" aria-label="Main Navigation">
-                    ${cfg.nav
-                        .map(
-                            (n) =>
-                                `<a href="#${n.id}" class="side-link"><span class="side-num">${n.num}</span>${esc(n.label)}</a>`
-                        )
-                        .join('\n                    ')}
-                    <a href="blog/index.html" class="side-link side-link-external"><span class="side-num">筆</span>Blog</a>
-                    <a href="gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
-                </nav>
-
-                <div class="side-contact">
-                    <a href="mailto:${esc(cfg.email)}" class="side-contact-link">Email</a>
-                    <a href="${esc(cfg.github)}" target="_blank" rel="noopener" class="side-contact-link">GitHub</a>
-                    <a href="${esc(cfg.rednote)}" target="_blank" rel="noopener" class="side-contact-link">RedNote</a>
-                </div>
-
-                <p class="side-foot">© <span id="year"></span> ${esc(cfg.name_jp)}</p>
-            </div>
-        </aside>`;
-
-/* Mobile header & menu drawer */
-const mobileHtml = `
-            <div class="topbar">
-                <span class="topbar-name">${esc(cfg.name_jp)} · ${esc(cfg.name_en)}</span>
-                <button class="topbar-toggle" id="topbarToggle" aria-label="Toggle navigation menu">
-                    <span></span><span></span><span></span>
-                </button>
             </div>
 
-            <div class="mobile-panel" id="mobilePanel">
-                <nav class="mobile-nav" aria-label="Mobile Navigation">
-                    ${cfg.nav
-                        .map((n) => `<a href="#${n.id}" class="mobile-link">${esc(n.label)}</a>`)
-                        .join('\n                    ')}
-                    <a href="blog/index.html" class="mobile-link">Blog</a>
-                    <a href="gallery/index.html" class="mobile-link">Gallery</a>
-                </nav>
-            </div>`;
+            <div class="hero-centerpiece reveal">
+                <div class="hero-kicker">${esc(heroKicker)}</div>
+                <h1 class="hero-title">${esc(heroTitle)}</h1>
+                <p class="hero-thesis">
+                    ${esc(heroThesis)}
+                </p>
+            </div>
+
+            <div class="hero-foot reveal">
+                <div class="hero-status-pill">
+                    <span class="dot"></span>
+                    <span class="hero-status-txt">${esc(cfg.status)}</span>
+                    <span class="status-sep">·</span>
+                    <span class="hero-affil-txt">${esc(cfg.affiliation)}</span>
+                </div>
+                <a href="#about" class="hero-scroll-cue" aria-label="Scroll to read folio">
+                    <span class="scroll-cue-txt">EXPLORE FOLIO</span>
+                    <span class="scroll-cue-arrow">↓</span>
+                </a>
+            </div>
+        </div>
+    </section>`;
+
+/* Floating Retractable Navigation Dock */
+const navDockHtml = `
+    <nav class="nav-dock" id="navDock" aria-label="Quick Navigation">
+        <div class="nav-dock-inner">
+            <a href="#hero" class="nav-dock-brand" title="Return to Top">
+                <span class="dock-seal">${esc(cfg.name_jp.charAt(0))}</span>
+                <span class="dock-name">${esc(cfg.name_jp)}</span>
+                <span class="dock-collapsed-cue" aria-hidden="true">
+                    <span class="dock-cue-bullet">·</span>
+                    <span class="dock-cue-txt">導覽</span>
+                </span>
+            </a>
+            <div class="nav-dock-divider" aria-hidden="true"></div>
+            <div class="nav-dock-links" id="dockLinks">
+                <div class="dock-mobile-header" aria-hidden="true">
+                    <span class="dock-m-title">FOLIO DIRECTORY / 導覽目錄</span>
+                    <span class="dock-m-badge">VOL. MMXXVI</span>
+                </div>
+                <a href="#about" class="dock-link" data-sec="about"><span class="dock-num">壹</span><span class="dock-txt">About</span><span class="dock-arrow" aria-hidden="true">→</span></a>
+                <a href="#education" class="dock-link" data-sec="education"><span class="dock-num">貳</span><span class="dock-txt">Education</span><span class="dock-arrow" aria-hidden="true">→</span></a>
+                <a href="#experience" class="dock-link" data-sec="experience"><span class="dock-num">叁</span><span class="dock-txt">Works</span><span class="dock-arrow" aria-hidden="true">→</span></a>
+                <a href="#skills" class="dock-link" data-sec="skills"><span class="dock-num">肆</span><span class="dock-txt">Skills</span><span class="dock-arrow" aria-hidden="true">→</span></a>
+                <a href="#contact" class="dock-link" data-sec="contact"><span class="dock-num">伍</span><span class="dock-txt">Contact</span><span class="dock-arrow" aria-hidden="true">→</span></a>
+                <span class="dock-sep" aria-hidden="true">·</span>
+                <div class="dock-mobile-sep" aria-hidden="true">
+                    <span class="dock-sep-text">PUBLICATIONS & ART / 筆記與影像</span>
+                </div>
+                <a href="blog/index.html" class="dock-link dock-link-ext"><span class="dock-num">筆</span><span class="dock-txt">Blog</span><span class="dock-arrow" aria-hidden="true">↗</span></a>
+                <a href="gallery/index.html" class="dock-link dock-link-ext"><span class="dock-num">影</span><span class="dock-txt">Gallery</span><span class="dock-arrow" aria-hidden="true">↗</span></a>
+            </div>
+            <button class="nav-dock-toggle" id="dockToggle" aria-label="Toggle Navigation Dock">
+                <span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    <div class="nav-dock-backdrop" id="dockBackdrop" aria-hidden="true"></div>`;
+
+/* Archival Colophon */
+const colophonHtml = `
+    <footer class="archival-colophon" id="colophon">
+        <div class="colophon-inner">
+            <div class="colophon-grid">
+                <div class="colophon-identity">
+                    <div class="seal-wrap">
+                        <div class="seal" title="${esc(cfg.name_jp)}">${esc(cfg.name_jp.charAt(0))}</div>
+                        <div class="seal-sub">${esc(cfg.name_jp.slice(1))}</div>
+                    </div>
+                    <h3 class="colophon-name-en">${esc(cfg.name_en)}</h3>
+                    <p class="colophon-name-jp">${esc(cfg.name_jp)}</p>
+                    <p class="colophon-sub">${esc(cfg.title)}</p>
+                    <p class="colophon-affil">${esc(cfg.affiliation)}</p>
+                    <p class="colophon-vertical-deco" aria-hidden="true">${esc(cfg.vertical_deco)}</p>
+                </div>
+
+                <div class="colophon-facts">
+                    <h4 class="colophon-heading">REGISTRATION &amp; DOSSIER</h4>
+                    <dl class="colophon-dl">
+                        <div><dt>LOCATION</dt><dd>${esc(cfg.location)}</dd></div>
+                        <div><dt>COORDINATES</dt><dd>22.3058° N, 114.1734° E</dd></div>
+                        <div><dt>STATUS</dt><dd><span class="dot"></span>${esc(cfg.status)}</dd></div>
+                        <div><dt>RESEARCH</dt><dd>${esc(cfg.focus)}</dd></div>
+                    </dl>
+                </div>
+
+                <div class="colophon-directory">
+                    <h4 class="colophon-heading">FOLIO DIRECTORY</h4>
+                    <nav class="colophon-nav">
+                        <a href="#about"><span class="colophon-num">壹</span>About</a>
+                        <a href="#education"><span class="colophon-num">貳</span>Education</a>
+                        <a href="#experience"><span class="colophon-num">叁</span>Experience &amp; Works</a>
+                        <a href="#skills"><span class="colophon-num">肆</span>Skills</a>
+                        <a href="#contact"><span class="colophon-num">伍</span>Contact</a>
+                        <a href="blog/index.html"><span class="colophon-num">筆</span>Writing &amp; Blog</a>
+                        <a href="gallery/index.html"><span class="colophon-num">影</span>Photography Gallery</a>
+                    </nav>
+                </div>
+
+                <div class="colophon-dispatch">
+                    <h4 class="colophon-heading">TRANSMISSION</h4>
+                    <p class="colophon-lead">Open to research discussions, hardware collaborations, and robotics inquiry.</p>
+                    <div class="colophon-links">
+                        <a href="mailto:${esc(cfg.email)}" class="colophon-btn"><span class="btn-k">Email</span> <span class="btn-v">${esc(cfg.email)}</span></a>
+                        <a href="${esc(cfg.github)}" target="_blank" rel="noopener" class="colophon-btn"><span class="btn-k">GitHub</span> <span class="btn-v">${esc(cfg.github_handle)}</span></a>
+                        <a href="${esc(cfg.rednote)}" target="_blank" rel="noopener" class="colophon-btn"><span class="btn-k">RedNote</span> <span class="btn-v">${esc(cfg.rednote_label)}</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="colophon-bottom">
+                <span class="colophon-edition">ARCHIVAL FOLIO · NO. 0026 / 1000 · RISOGRAPH MONOCHROME</span>
+                <span class="colophon-copy">© 2026 ${esc(cfg.name_jp)} · ALL RIGHTS RESERVED</span>
+            </div>
+        </div>
+    </footer>`;
 
 /* Compile & Write index.html */
 let template = fs.readFileSync(TEMPLATE_PATH, 'utf8');
-template = template.replace('<!-- SIDEBAR -->', sidebarHtml);
-template = template.replace('<!-- MOBILE -->', mobileHtml);
+template = template.replace('<!-- NAV_DOCK -->', navDockHtml);
+template = template.replace('<!-- HERO -->', heroHtml);
 template = template.replace('<!-- MAIN -->', mainHtml);
+template = template.replace('<!-- COLOPHON -->', colophonHtml);
 fs.writeFileSync(OUT_PATH, template, 'utf8');
 console.log('✓ Built index.html from content.md');
 
@@ -529,9 +615,10 @@ function adjustTemplateForDepth(tpl, depth) {
     const prefix = '../'.repeat(depth);
     tpl = tpl.replace(/href="\.\.\/css\/style\.css"/g, `href="${prefix}css/style.css"`);
     tpl = tpl.replace(/src="\.\.\/js\/main\.js"/g, `src="${prefix}js/main.js"`);
-    tpl = tpl.replace(/href="#([a-z]+)"/g, `href="${prefix}index.html#$1"`);
+    tpl = tpl.replace(/href="#([a-z0-9\-]+)"/g, `href="${prefix}index.html#$1"`);
     tpl = tpl.replace(/href="blog\/index\.html"/g, `href="${prefix}blog/index.html"`);
     tpl = tpl.replace(/href="gallery\/index\.html"/g, `href="${prefix}gallery/index.html"`);
+    tpl = tpl.replace(/href="\.\.\/index\.html"/g, `href="${prefix}index.html"`);
     return tpl;
 }
 
@@ -539,33 +626,34 @@ if (posts.length > 0) {
     ensureDir(BLOG_OUT_DIR);
 
     /* Blog Index */
-
-    // Collect unique tags for filter bar
     const allTags = new Set();
     posts.forEach((p) => p.tags.forEach((t) => allTags.add(t)));
     const uniqueTags = Array.from(allTags).sort();
 
     const blogFilterBar = uniqueTags.length > 1
         ? `<div class="blog-filters reveal">
-            <button class="blog-filter is-active" data-filter="all">All</button>
-            ${uniqueTags.map((t) => `<button class="blog-filter" data-filter="${esc(t)}">${esc(t)}</button>`).join('')}
+            <button class="blog-filter is-active" data-tag="all">All</button>
+            ${uniqueTags.map((t) => `<button class="blog-filter" data-tag="${esc(t)}">${esc(t)}</button>`).join('')}
         </div>`
         : '';
 
     const postItems = posts
         .map((p) => {
             const tagSpans = p.tags.map((t) => `<span>${esc(t)}</span>`).join('');
-            const tagsAttr = p.tags.map((t) => esc(t)).join(',');
-            return `<li class="post-item reveal" data-tags="${tagsAttr}">
-                <a href="/blog/${p.slug}/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">${formatDate(p.date)}</span>
-                        <span class="post-reading-pill">${esc(p.readingTime)}</span>
+            const dataTags = p.tags.join(' ');
+            return `<li class="reveal" data-tags="${esc(dataTags)}">
+                <a href="/blog/${p.slug}/" class="post-link" data-slug="${p.slug}">
+                    <div class="post-item-top">
+                        <span class="post-title">${esc(p.title)}</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">${esc(p.readingTime)}</span>
+                            <time class="post-date">${formatDate(p.date)}</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">${esc(p.title)}</h2>
-                        <p class="post-excerpt">${esc(p.excerpt)}</p>
+                    ${p.excerpt ? `<p class="post-excerpt">${esc(p.excerpt)}</p>` : ''}
+                    <div class="post-item-foot">
                         <div class="post-tags">${tagSpans}</div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>`;
@@ -585,9 +673,9 @@ if (posts.length > 0) {
     let blogTemplate = fs.readFileSync(BLOG_TEMPLATE_PATH, 'utf8');
     blogTemplate = blogTemplate.replace(/<!-- TITLE -->/g, 'Blog');
     blogTemplate = blogTemplate.replace(/<!-- DESCRIPTION -->/g, 'Writings on hardware, systems, and machine learning by Shoufeng Zhang.');
-    blogTemplate = blogTemplate.replace('<!-- SIDEBAR -->', sidebarHtml);
-    blogTemplate = blogTemplate.replace('<!-- MOBILE -->', mobileHtml);
+    blogTemplate = blogTemplate.replace('<!-- NAV_DOCK -->', navDockHtml);
     blogTemplate = blogTemplate.replace('<!-- MAIN -->', blogIndexMain);
+    blogTemplate = blogTemplate.replace('<!-- COLOPHON -->', colophonHtml);
     blogTemplate = adjustTemplateForDepth(blogTemplate, 1);
 
     fs.writeFileSync(path.join(BLOG_OUT_DIR, 'index.html'), blogTemplate, 'utf8');
@@ -601,7 +689,6 @@ if (posts.length > 0) {
         const bodyHtml = marked.parse(p.content);
         const tagSpans = p.tags.map((t) => `<span>${esc(t)}</span>`).join('');
 
-        // Prev/Next navigation
         const prevPost = idx < posts.length - 1 ? posts[idx + 1] : null;
         const nextPost = idx > 0 ? posts[idx - 1] : null;
         let postNavHtml = '';
@@ -628,7 +715,7 @@ if (posts.length > 0) {
 
         const postMain = `
             <article class="post-article">
-                <header class="post-head reveal">
+                <header class="post-head">
                     <div class="post-head-meta">
                         <a href="../index.html" class="back-link">← Blog</a>
                         <div style="display:flex; gap:16px; align-items:center;">
@@ -647,9 +734,9 @@ if (posts.length > 0) {
         let postTemplate = fs.readFileSync(BLOG_TEMPLATE_PATH, 'utf8');
         postTemplate = postTemplate.replace(/<!-- TITLE -->/g, esc(p.title));
         postTemplate = postTemplate.replace(/<!-- DESCRIPTION -->/g, esc(p.excerpt || p.title));
-        postTemplate = postTemplate.replace('<!-- SIDEBAR -->', sidebarHtml);
-        postTemplate = postTemplate.replace('<!-- MOBILE -->', mobileHtml);
+        postTemplate = postTemplate.replace('<!-- NAV_DOCK -->', navDockHtml);
         postTemplate = postTemplate.replace('<!-- MAIN -->', postMain);
+        postTemplate = postTemplate.replace('<!-- COLOPHON -->', colophonHtml);
         postTemplate = adjustTemplateForDepth(postTemplate, 2);
 
         fs.writeFileSync(path.join(postDir, 'index.html'), postTemplate, 'utf8');
@@ -682,13 +769,20 @@ if (fs.existsSync(GALLERY_DATA_PATH)) {
     const photoCards = galleryData.photos
         .map((p, idx) => {
             const cat = (p.category || 'other').toLowerCase();
+            const plateNo = String(idx + 1).padStart(2, '0');
             return `<figure class="gallery-item reveal" data-category="${esc(cat)}" style="transition-delay:${idx * 40}ms">
-                <img src="${esc(p.src)}" alt="${esc(p.title)}" loading="lazy">
+                <span class="washi-tape washi-tape-tl" aria-hidden="true"></span>
+                <span class="washi-tape washi-tape-tr" aria-hidden="true"></span>
+                <img src="${esc(p.src)}" alt="${esc(p.title)}">
                 <figcaption>
                     <span class="gallery-item-cat">${esc(p.category || '')}</span>
                     <h3 class="gallery-item-title">${esc(p.title)}</h3>
                     <p class="gallery-item-desc">${esc(p.description || '')}</p>
                 </figcaption>
+                <div class="gallery-item-plate-meta">
+                    <span class="gallery-item-plate-num">Pl. ${plateNo}</span>
+                    <span class="gallery-item-plate-tech">35mm · Hong Kong</span>
+                </div>
             </figure>`;
         })
         .join('\n                    ');
@@ -724,9 +818,9 @@ if (fs.existsSync(GALLERY_DATA_PATH)) {
     let galleryTemplate = fs.readFileSync(BLOG_TEMPLATE_PATH, 'utf8');
     galleryTemplate = galleryTemplate.replace(/<!-- TITLE -->/g, esc(galleryData.title || 'Gallery'));
     galleryTemplate = galleryTemplate.replace(/<!-- DESCRIPTION -->/g, esc(galleryData.description || 'Photography Gallery'));
-    galleryTemplate = galleryTemplate.replace('<!-- SIDEBAR -->', sidebarHtml);
-    galleryTemplate = galleryTemplate.replace('<!-- MOBILE -->', mobileHtml);
+    galleryTemplate = galleryTemplate.replace('<!-- NAV_DOCK -->', navDockHtml);
     galleryTemplate = galleryTemplate.replace('<!-- MAIN -->', galleryMain);
+    galleryTemplate = galleryTemplate.replace('<!-- COLOPHON -->', colophonHtml);
     galleryTemplate = adjustTemplateForDepth(galleryTemplate, 1);
 
     fs.writeFileSync(path.join(GALLERY_OUT_DIR, 'index.html'), galleryTemplate, 'utf8');

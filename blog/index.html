@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog — 張寿峰</title>
     <meta name="description" content="Writings on hardware, systems, and machine learning by Shoufeng Zhang.">
-    <meta name="theme-color" content="#0e0d0b">
+    <meta name="theme-color" content="#FAF6EE">
 
     <!-- OpenGraph / Social -->
     <meta property="og:type" content="article">
@@ -27,502 +27,651 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
-    <div class="spotlight" aria-hidden="true"></div>
+<body class="is-loaded">
+    <!-- Tactile rough paper grain texture overlay & SVG filter -->
+    <div class="paper-grain" id="paperGrain" aria-hidden="true"></div>
+    <svg class="paper-grain-defs" aria-hidden="true" style="position:fixed;top:0;left:0;width:0;height:0;pointer-events:none;z-index:-1;opacity:0;">
+        <defs>
+            <filter id="paper-grain" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" stitchTiles="stitch" result="noise" />
+                <feColorMatrix type="matrix" values="
+                    0.25 0 0 0 0.12
+                    0 0.25 0 0 0.09
+                    0 0 0.25 0 0.06
+                    0 0 0 0.45 0" result="coloredNoise" />
+                <feTurbulence type="fractalNoise" baseFrequency="0.025 0.5" numOctaves="3" stitchTiles="stitch" result="fibers" />
+                <feColorMatrix type="matrix" values="
+                    0 0 0 0 0.16
+                    0 0 0 0 0.11
+                    0 0 0 0 0.07
+                    0 0 0 0.35 0" result="coloredFibers" />
+                <feBlend mode="multiply" in="coloredNoise" in2="coloredFibers" result="paperSurface" />
+            </filter>
+        </defs>
+    </svg>
+
+    <div class="editorial-bar" id="editorialBar">
+        <div class="editorial-bar-inner">
+            <div class="editorial-coords">
+                <span class="coord-crosshair">⌖</span>
+                <span class="coord-val">HKG 22.3058° N, 114.1734° E</span>
+                <span class="coord-edition">EDITION NO. 0026 / 1000</span>
+            </div>
+            <a href="../index.html" class="editorial-ticker">
+                <span class="ticker-label">PORTFOLIO</span>
+                <span class="ticker-pulse"></span>
+                <span class="ticker-title">Shoufeng Zhang Home →</span>
+            </a>
+        </div>
+    </div>
     <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
-    <div class="layout">
-        
-        <aside class="sidebar" aria-label="Personal profile and navigation">
-            <div class="sidebar-inner">
-                <div class="seal-wrap">
-                    <div class="seal" title="張寿峰">張</div>
-                    <div class="seal-sub">寿峰</div>
+    <!-- RETRACTABLE / FLOATING NAVIGATION DOCK -->
+    
+    <nav class="nav-dock" id="navDock" aria-label="Quick Navigation">
+        <div class="nav-dock-inner">
+            <a href="../index.html#hero" class="nav-dock-brand" title="Return to Top">
+                <span class="dock-seal">張</span>
+                <span class="dock-name">張寿峰</span>
+                <span class="dock-collapsed-cue" aria-hidden="true">
+                    <span class="dock-cue-bullet">·</span>
+                    <span class="dock-cue-txt">導覽</span>
+                </span>
+            </a>
+            <div class="nav-dock-divider" aria-hidden="true"></div>
+            <div class="nav-dock-links" id="dockLinks">
+                <div class="dock-mobile-header" aria-hidden="true">
+                    <span class="dock-m-title">FOLIO DIRECTORY / 導覽目錄</span>
+                    <span class="dock-m-badge">VOL. MMXXVI</span>
                 </div>
-
-                <div class="identity">
-                    <h1 class="name-en">Shoufeng Zhang</h1>
-                    <p class="name-jp">張寿峰</p>
-                    <p class="name-title">Electrical &amp; Computer Engineering</p>
-                    <p class="name-affil">University of Hong Kong</p>
+                <a href="../index.html#about" class="dock-link" data-sec="about"><span class="dock-num">壹</span><span class="dock-txt">About</span><span class="dock-arrow" aria-hidden="true">→</span></a>
+                <a href="../index.html#education" class="dock-link" data-sec="education"><span class="dock-num">貳</span><span class="dock-txt">Education</span><span class="dock-arrow" aria-hidden="true">→</span></a>
+                <a href="../index.html#experience" class="dock-link" data-sec="experience"><span class="dock-num">叁</span><span class="dock-txt">Works</span><span class="dock-arrow" aria-hidden="true">→</span></a>
+                <a href="../index.html#skills" class="dock-link" data-sec="skills"><span class="dock-num">肆</span><span class="dock-txt">Skills</span><span class="dock-arrow" aria-hidden="true">→</span></a>
+                <a href="../index.html#contact" class="dock-link" data-sec="contact"><span class="dock-num">伍</span><span class="dock-txt">Contact</span><span class="dock-arrow" aria-hidden="true">→</span></a>
+                <span class="dock-sep" aria-hidden="true">·</span>
+                <div class="dock-mobile-sep" aria-hidden="true">
+                    <span class="dock-sep-text">PUBLICATIONS & ART / 筆記與影像</span>
                 </div>
-
-                <div class="vertical-deco" aria-hidden="true">海濤悲湧深藍色</div>
-
-                <dl class="facts">
-                    <div class="fact">
-                        <dt>Location</dt>
-                        <dd>Beijing · Hong Kong</dd>
-                    </div>
-                    <div class="fact">
-                        <dt>Status</dt>
-                        <dd><span class="dot"></span>Open to collaboration</dd>
-                    </div>
-                    <div class="fact">
-                        <dt>Focus</dt>
-                        <dd>Robotics · Hardware · ML Systems</dd>
-                    </div>
-                </dl>
-
-                <nav class="side-nav" aria-label="Main Navigation">
-                    <a href="../index.html#about" class="side-link"><span class="side-num">壹</span>About</a>
-                    <a href="../index.html#education" class="side-link"><span class="side-num">貳</span>Education</a>
-                    <a href="../index.html#experience" class="side-link"><span class="side-num">叁</span>Experience &amp; Works</a>
-                    <a href="../index.html#skills" class="side-link"><span class="side-num">肆</span>Skills</a>
-                    <a href="../index.html#contact" class="side-link"><span class="side-num">伍</span>Contact</a>
-                    <a href="../blog/index.html" class="side-link side-link-external"><span class="side-num">筆</span>Blog</a>
-                    <a href="../gallery/index.html" class="side-link side-link-external"><span class="side-num">影</span>Gallery</a>
-                </nav>
-
-                <div class="side-contact">
-                    <a href="mailto:zhangshoufeng@connect.hku.hk" class="side-contact-link">Email</a>
-                    <a href="https://github.com/shawnzsf" target="_blank" rel="noopener" class="side-contact-link">GitHub</a>
-                    <a href="https://www.xiaohongshu.com/user/profile/600952fd00000000010080c1" target="_blank" rel="noopener" class="side-contact-link">RedNote</a>
-                </div>
-
-                <p class="side-foot">© <span id="year"></span> 張寿峰</p>
+                <a href="../blog/index.html" class="dock-link dock-link-ext"><span class="dock-num">筆</span><span class="dock-txt">Blog</span><span class="dock-arrow" aria-hidden="true">↗</span></a>
+                <a href="../gallery/index.html" class="dock-link dock-link-ext"><span class="dock-num">影</span><span class="dock-txt">Gallery</span><span class="dock-arrow" aria-hidden="true">↗</span></a>
             </div>
-        </aside>
+            <button class="nav-dock-toggle" id="dockToggle" aria-label="Toggle Navigation Dock">
+                <span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    <div class="nav-dock-backdrop" id="dockBackdrop" aria-hidden="true"></div>
 
-        <main class="content" id="mainContent">
+    <main class="folio-content blog-page" id="mainContent">
+        <div class="folio-inner blog-content">
             
-            <div class="topbar">
-                <span class="topbar-name">張寿峰 · Shoufeng Zhang</span>
-                <button class="topbar-toggle" id="topbarToggle" aria-label="Toggle navigation menu">
-                    <span></span><span></span><span></span>
-                </button>
-            </div>
-
-            <div class="mobile-panel" id="mobilePanel">
-                <nav class="mobile-nav" aria-label="Mobile Navigation">
-                    <a href="../index.html#about" class="mobile-link">About</a>
-                    <a href="../index.html#education" class="mobile-link">Education</a>
-                    <a href="../index.html#experience" class="mobile-link">Experience &amp; Works</a>
-                    <a href="../index.html#skills" class="mobile-link">Skills</a>
-                    <a href="../index.html#contact" class="mobile-link">Contact</a>
-                    <a href="../blog/index.html" class="mobile-link">Blog</a>
-                    <a href="../gallery/index.html" class="mobile-link">Gallery</a>
-                </nav>
-            </div>
-
-            <div class="content-inner blog-content">
-                
         <header class="blog-head reveal">
             <div class="blog-head-meta"><a href="../index.html" class="back-link">← Home</a></div>
             <h1 class="blog-title">Blog<span class="blog-title-jp">筆記</span></h1>
             <p class="blog-sub">Writings on hardware, computer systems, and machine learning.</p>
         </header>
         <div class="blog-filters reveal">
-            <button class="blog-filter is-active" data-filter="all">All</button>
-            <button class="blog-filter" data-filter="CPU设计">CPU设计</button><button class="blog-filter" data-filter="Computer Science">Computer Science</button><button class="blog-filter" data-filter="Course Notes">Course Notes</button><button class="blog-filter" data-filter="Daydream">Daydream</button><button class="blog-filter" data-filter="IB Computer Science">IB Computer Science</button><button class="blog-filter" data-filter="IB Environmental Systems and Societies">IB Environmental Systems and Societies</button><button class="blog-filter" data-filter="Wrap-up post">Wrap-up post</button><button class="blog-filter" data-filter="计算机系统">计算机系统</button><button class="blog-filter" data-filter="计算机组成原理">计算机组成原理</button>
+            <button class="blog-filter is-active" data-tag="all">All</button>
+            <button class="blog-filter" data-tag="CPU设计">CPU设计</button><button class="blog-filter" data-tag="Computer Science">Computer Science</button><button class="blog-filter" data-tag="Course Notes">Course Notes</button><button class="blog-filter" data-tag="Daydream">Daydream</button><button class="blog-filter" data-tag="IB Computer Science">IB Computer Science</button><button class="blog-filter" data-tag="IB Environmental Systems and Societies">IB Environmental Systems and Societies</button><button class="blog-filter" data-tag="Wrap-up post">Wrap-up post</button><button class="blog-filter" data-tag="计算机系统">计算机系统</button><button class="blog-filter" data-tag="计算机组成原理">计算机组成原理</button>
         </div>
-        <ul class="post-list"><li class="post-item reveal" data-tags="Wrap-up post">
-                <a href="/blog/kernel-based-virtualization-overview-structure-and-sample-code-explanation/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Nov 19, 2025</span>
-                        <span class="post-reading-pill">22 min read</span>
+        <ul class="post-list"><li class="reveal" data-tags="Wrap-up post">
+                <a href="/blog/kernel-based-virtualization-overview-structure-and-sample-code-explanation/" class="post-link" data-slug="kernel-based-virtualization-overview-structure-and-sample-code-explanation">
+                    <div class="post-item-top">
+                        <span class="post-title">Kernel-based Virtualization Overview (Structure and Sample Code Explanation)</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">22 min read</span>
+                            <time class="post-date">Nov 19, 2025</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">Kernel-based Virtualization Overview (Structure and Sample Code Explanation)</h2>
-                        <p class="post-excerpt">Virtualization is a great tool for testing/learning codes on different environment. My personal experience with virtual machine started by vmware for studying l...</p>
+                    <p class="post-excerpt">Virtualization is a great tool for testing/learning codes on different environment. My personal experience with virtual machine started by vmware for studying l...</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Wrap-up post</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Course Notes">
-                <a href="/blog/cmu-15122-transitioning-to-c/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Jul 29, 2024</span>
-                        <span class="post-reading-pill">5 min read</span>
+                    <li class="reveal" data-tags="Course Notes">
+                <a href="/blog/cmu-15122-transitioning-to-c/" class="post-link" data-slug="cmu-15122-transitioning-to-c">
+                    <div class="post-item-top">
+                        <span class="post-title">CMU 15122：Transitioning to C</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">5 min read</span>
+                            <time class="post-date">Jul 29, 2024</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">CMU 15122：Transitioning to C</h2>
-                        <p class="post-excerpt">Content about the third part of CMU 15-122 Principle of imeprative computation</p>
+                    <p class="post-excerpt">Content about the third part of CMU 15-122 Principle of imeprative computation</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Course Notes</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Course Notes">
-                <a href="/blog/cmu-15122-data-structures/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Jul 17, 2024</span>
-                        <span class="post-reading-pill">39 min read</span>
+                    <li class="reveal" data-tags="Course Notes">
+                <a href="/blog/cmu-15122-data-structures/" class="post-link" data-slug="cmu-15122-data-structures">
+                    <div class="post-item-top">
+                        <span class="post-title">CMU 15122：Data Structures</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">39 min read</span>
+                            <time class="post-date">Jul 17, 2024</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">CMU 15122：Data Structures</h2>
-                        <p class="post-excerpt">Content about the second part of CMU 15-122 Principle of imeprative computation</p>
+                    <p class="post-excerpt">Content about the second part of CMU 15-122 Principle of imeprative computation</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Course Notes</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Course Notes">
-                <a href="/blog/cmu-21127-summary-sheet-of-strategy-in-chapter-3/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Jul 17, 2024</span>
-                        <span class="post-reading-pill">4 min read</span>
+                    <li class="reveal" data-tags="Course Notes">
+                <a href="/blog/cmu-21127-summary-sheet-of-strategy-in-chapter-3/" class="post-link" data-slug="cmu-21127-summary-sheet-of-strategy-in-chapter-3">
+                    <div class="post-item-top">
+                        <span class="post-title">CMU 21127：Summary Sheet of Strategy in Chapter 3-6</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">4 min read</span>
+                            <time class="post-date">Jul 17, 2024</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">CMU 21127：Summary Sheet of Strategy in Chapter 3-6</h2>
-                        <p class="post-excerpt">Very useful proof strategy summary in Chapter 3-6 of CMU 21-127 Concepts of Mathematics.</p>
+                    <p class="post-excerpt">Very useful proof strategy summary in Chapter 3-6 of CMU 21-127 Concepts of Mathematics.</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Course Notes</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Course Notes">
-                <a href="/blog/cmu-21127-summary-sheet-of-strategy-in-chapter-1-2/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Jul 11, 2024</span>
-                        <span class="post-reading-pill">6 min read</span>
+                    <li class="reveal" data-tags="Course Notes">
+                <a href="/blog/cmu-21127-summary-sheet-of-strategy-in-chapter-1-2/" class="post-link" data-slug="cmu-21127-summary-sheet-of-strategy-in-chapter-1-2">
+                    <div class="post-item-top">
+                        <span class="post-title">CMU 21127：Summary Sheet of Strategy in Chapter 1-2</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">6 min read</span>
+                            <time class="post-date">Jul 11, 2024</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">CMU 21127：Summary Sheet of Strategy in Chapter 1-2</h2>
-                        <p class="post-excerpt">Very useful proof strategy summary in Chapter 1-2 of CMU 21-127 Concepts of Mathematics.</p>
+                    <p class="post-excerpt">Very useful proof strategy summary in Chapter 1-2 of CMU 21-127 Concepts of Mathematics.</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Course Notes</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Course Notes">
-                <a href="/blog/cmu-21127-summary-sheet-1/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Jul 3, 2024</span>
-                        <span class="post-reading-pill">9 min read</span>
+                    <li class="reveal" data-tags="Course Notes">
+                <a href="/blog/cmu-21127-summary-sheet-1/" class="post-link" data-slug="cmu-21127-summary-sheet-1">
+                    <div class="post-item-top">
+                        <span class="post-title">CMU 21127：Summary Sheet of Definitions &amp; Theorems</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">9 min read</span>
+                            <time class="post-date">Jul 3, 2024</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">CMU 21127：Summary Sheet of Definitions &amp; Theorems</h2>
-                        <p class="post-excerpt">Summary of definitions, theorems of CMU 21-127 Concepts of Mathematics.</p>
+                    <p class="post-excerpt">Summary of definitions, theorems of CMU 21-127 Concepts of Mathematics.</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Course Notes</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Course Notes">
-                <a href="/blog/cmu-15122-deliberate-programming/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Jul 2, 2024</span>
-                        <span class="post-reading-pill">12 min read</span>
+                    <li class="reveal" data-tags="Course Notes">
+                <a href="/blog/cmu-15122-deliberate-programming/" class="post-link" data-slug="cmu-15122-deliberate-programming">
+                    <div class="post-item-top">
+                        <span class="post-title">CMU 15122：Deliberate Programming</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">12 min read</span>
+                            <time class="post-date">Jul 2, 2024</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">CMU 15122：Deliberate Programming</h2>
-                        <p class="post-excerpt">Content about the first part of CMU 15-122 Principle of imeprative computation</p>
+                    <p class="post-excerpt">Content about the first part of CMU 15-122 Principle of imeprative computation</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Course Notes</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Course Notes">
-                <a href="/blog/cmu-15122-contracts/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Jun 27, 2024</span>
-                        <span class="post-reading-pill">3 min read</span>
+                    <li class="reveal" data-tags="Course Notes">
+                <a href="/blog/cmu-15122-contracts/" class="post-link" data-slug="cmu-15122-contracts">
+                    <div class="post-item-top">
+                        <span class="post-title">CMU 15122: Contracts</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">3 min read</span>
+                            <time class="post-date">Jun 27, 2024</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">CMU 15122: Contracts</h2>
-                        <p class="post-excerpt">Content about general contract design of CMU 15-122 Principle of imeprative computation</p>
+                    <p class="post-excerpt">Content about general contract design of CMU 15-122 Principle of imeprative computation</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Course Notes</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Daydream">
-                <a href="/blog/daydreaming1/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Jun 22, 2024</span>
-                        <span class="post-reading-pill">14 min read</span>
+                    <li class="reveal" data-tags="Daydream">
+                <a href="/blog/daydreaming1/" class="post-link" data-slug="daydreaming1">
+                    <div class="post-item-top">
+                        <span class="post-title">6月20日飞行时产生的若干次空想</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">14 min read</span>
+                            <time class="post-date">Jun 22, 2024</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">6月20日飞行时产生的若干次空想</h2>
-                        <p class="post-excerpt">“告白的本质就是不可能告白。如果作为创作者的‘我’在作品中出现，那么就会有一个写‘作者’的‘作者’，就不能保证表现的纯粹性，从而导致告白的形式崩塌，对‘我’来说，假面是带着皮肉的表面，带着这样皮肉的假面所作的告白，不可能是真诚的告白。人终究是无法作出真正的告白的。但是极少数的情况下，只有深深嵌入了肉体之中的假面才能做到...</p>
+                    <p class="post-excerpt">“告白的本质就是不可能告白。如果作为创作者的‘我’在作品中出现，那么就会有一个写‘作者’的‘作者’，就不能保证表现的纯粹性，从而导致告白的形式崩塌，对‘我’来说，假面是带着皮肉的表面，带着这样皮肉的假面所作的告白，不可能是真诚的告白。人终究是无法作出真正的告白的。但是极少数的情况下，只有深深嵌入了肉体之中的假面才能做到...</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Daydream</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Computer Science">
-                <a href="/blog/ib-computer-science-topic-6-resource-management/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Nov 2, 2023</span>
-                        <span class="post-reading-pill">5 min read</span>
+                    <li class="reveal" data-tags="Computer Science">
+                <a href="/blog/ib-computer-science-topic-6-resource-management/" class="post-link" data-slug="ib-computer-science-topic-6-resource-management">
+                    <div class="post-item-top">
+                        <span class="post-title">IB Computer Science topic 6: Resource Management</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">5 min read</span>
+                            <time class="post-date">Nov 2, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">IB Computer Science topic 6: Resource Management</h2>
-                        <p class="post-excerpt">System sources include computer harware, software, trained personnel and suppotring infrastructure. And Operating System is usually responsible for the resource...</p>
+                    <p class="post-excerpt">System sources include computer harware, software, trained personnel and suppotring infrastructure. And Operating System is usually responsible for the resource...</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Computer Science</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="IB Computer Science">
-                <a href="/blog/ib-computer-science-command-terms/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Oct 29, 2023</span>
-                        <span class="post-reading-pill">3 min read</span>
+                    <li class="reveal" data-tags="IB Computer Science">
+                <a href="/blog/ib-computer-science-command-terms/" class="post-link" data-slug="ib-computer-science-command-terms">
+                    <div class="post-item-top">
+                        <span class="post-title">IB Computer Science Command Terms</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">3 min read</span>
+                            <time class="post-date">Oct 29, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">IB Computer Science Command Terms</h2>
-                        <p class="post-excerpt"></p>
+                    
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>IB Computer Science</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="IB Environmental Systems and Societies">
-                <a href="/blog/ib-environmental-systems-and-societies-1-1-1-3-summary/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Oct 29, 2023</span>
-                        <span class="post-reading-pill">5 min read</span>
+                    <li class="reveal" data-tags="IB Environmental Systems and Societies">
+                <a href="/blog/ib-environmental-systems-and-societies-1-1-1-3-summary/" class="post-link" data-slug="ib-environmental-systems-and-societies-1-1-1-3-summary">
+                    <div class="post-item-top">
+                        <span class="post-title">IB Environmental Systems and Societies 1.1-1.3 Summary</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">5 min read</span>
+                            <time class="post-date">Oct 29, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">IB Environmental Systems and Societies 1.1-1.3 Summary</h2>
-                        <p class="post-excerpt">一门水课，所以直接整理大纲中要求学生掌握的问题的答案。</p>
+                    <p class="post-excerpt">一门水课，所以直接整理大纲中要求学生掌握的问题的答案。</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>IB Environmental Systems and Societies</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="IB Computer Science">
-                <a href="/blog/4b4db486/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Oct 26, 2023</span>
-                        <span class="post-reading-pill">6 min read</span>
+                    <li class="reveal" data-tags="IB Computer Science">
+                <a href="/blog/4b4db486/" class="post-link" data-slug="4b4db486">
+                    <div class="post-item-top">
+                        <span class="post-title">IB计算机组成知识小结</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">6 min read</span>
+                            <time class="post-date">Oct 26, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">IB计算机组成知识小结</h2>
-                        <p class="post-excerpt">CPU：Central Processing Unit, data or instructions that are processed by a computer system in the process phase of the input, proces, output and storage model ar...</p>
+                    <p class="post-excerpt">CPU：Central Processing Unit, data or instructions that are processed by a computer system in the process phase of the input, proces, output and storage model ar...</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>IB Computer Science</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Wrap-up post">
-                <a href="/blog/cb82d49a/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Oct 16, 2023</span>
-                        <span class="post-reading-pill">10 min read</span>
+                    <li class="reveal" data-tags="Wrap-up post">
+                <a href="/blog/cb82d49a/" class="post-link" data-slug="cb82d49a">
+                    <div class="post-item-top">
+                        <span class="post-title">节点搭建指南</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">10 min read</span>
+                            <time class="post-date">Oct 16, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">节点搭建指南</h2>
-                        <p class="post-excerpt">五层基本模型：应用层、传输层、网络层、数据链路层、物理层。</p>
+                    <p class="post-excerpt">五层基本模型：应用层、传输层、网络层、数据链路层、物理层。</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Wrap-up post</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Course Notes">
-                <a href="/blog/68e9188a/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Sep 20, 2023</span>
-                        <span class="post-reading-pill">4 min read</span>
+                    <li class="reveal" data-tags="Course Notes">
+                <a href="/blog/68e9188a/" class="post-link" data-slug="68e9188a">
+                    <div class="post-item-top">
+                        <span class="post-title">IB Computer Science： 伪代码、流程图和简单算法小记</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">4 min read</span>
+                            <time class="post-date">Sep 20, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">IB Computer Science： 伪代码、流程图和简单算法小记</h2>
-                        <p class="post-excerpt">伪代码编写练习可以使用网站：http://ibcomp.fis.edu/pseudocode/pcode.html</p>
+                    <p class="post-excerpt">伪代码编写练习可以使用网站：http://ibcomp.fis.edu/pseudocode/pcode.html</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Course Notes</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="计算机系统">
-                <a href="/blog/10fe15d4/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Sep 4, 2023</span>
-                        <span class="post-reading-pill">3 min read</span>
+                    <li class="reveal" data-tags="计算机系统">
+                <a href="/blog/10fe15d4/" class="post-link" data-slug="10fe15d4">
+                    <div class="post-item-top">
+                        <span class="post-title">南京大学计算机系统基础课程笔记4：乘除运算及浮点数运算</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">3 min read</span>
+                            <time class="post-date">Sep 4, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">南京大学计算机系统基础课程笔记4：乘除运算及浮点数运算</h2>
-                        <p class="post-excerpt">通常在高级语言中两个n位整数相乘得到的结果通常也是一个n位整数（2n位乘积中的低n位）</p>
+                    <p class="post-excerpt">通常在高级语言中两个n位整数相乘得到的结果通常也是一个n位整数（2n位乘积中的低n位）</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>计算机系统</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="计算机系统">
-                <a href="/blog/ef91a6c0/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Sep 1, 2023</span>
-                        <span class="post-reading-pill">7 min read</span>
+                    <li class="reveal" data-tags="计算机系统">
+                <a href="/blog/ef91a6c0/" class="post-link" data-slug="ef91a6c0">
+                    <div class="post-item-top">
+                        <span class="post-title">南京大学计算机系统基础课程笔记3：运算电路基础</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">7 min read</span>
+                            <time class="post-date">Sep 1, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">南京大学计算机系统基础课程笔记3：运算电路基础</h2>
-                        <p class="post-excerpt">1. 布尔代数基本定义：</p>
+                    <p class="post-excerpt">1. 布尔代数基本定义：</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>计算机系统</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="计算机系统">
-                <a href="/blog/dbdd54e/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Aug 24, 2023</span>
-                        <span class="post-reading-pill">11 min read</span>
+                    <li class="reveal" data-tags="计算机系统">
+                <a href="/blog/dbdd54e/" class="post-link" data-slug="dbdd54e">
+                    <div class="post-item-top">
+                        <span class="post-title">南京大学计算机系统基础课程笔记2：数据的表示和存储</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">11 min read</span>
+                            <time class="post-date">Aug 24, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">南京大学计算机系统基础课程笔记2：数据的表示和存储</h2>
-                        <p class="post-excerpt">1. 转换的概念在数据上的表示</p>
+                    <p class="post-excerpt">1. 转换的概念在数据上的表示</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>计算机系统</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="计算机系统">
-                <a href="/blog/b575443e/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Aug 23, 2023</span>
-                        <span class="post-reading-pill">10 min read</span>
+                    <li class="reveal" data-tags="计算机系统">
+                <a href="/blog/b575443e/" class="post-link" data-slug="b575443e">
+                    <div class="post-item-top">
+                        <span class="post-title">南京大学计算机系统基础课程笔记1：计算机系统概述</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">10 min read</span>
+                            <time class="post-date">Aug 23, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">南京大学计算机系统基础课程笔记1：计算机系统概述</h2>
-                        <p class="post-excerpt">1946年，世界上第一台通用电子计算机ENIAC出现（Electronic Numerical Integrator And Computer）</p>
+                    <p class="post-excerpt">1946年，世界上第一台通用电子计算机ENIAC出现（Electronic Numerical Integrator And Computer）</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>计算机系统</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="CPU设计">
-                <a href="/blog/476bbe4b/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Aug 21, 2023</span>
-                        <span class="post-reading-pill">19 min read</span>
+                    <li class="reveal" data-tags="CPU设计">
+                <a href="/blog/476bbe4b/" class="post-link" data-slug="476bbe4b">
+                    <div class="post-item-top">
+                        <span class="post-title">黑盒子与现实世界的桥梁：指令集</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">19 min read</span>
+                            <time class="post-date">Aug 21, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">黑盒子与现实世界的桥梁：指令集</h2>
-                        <p class="post-excerpt">本文对体系结构相关知识做一个简单的梳理，不进行具体技术的讲解。</p>
+                    <p class="post-excerpt">本文对体系结构相关知识做一个简单的梳理，不进行具体技术的讲解。</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>CPU设计</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Wrap-up post">
-                <a href="/blog/5afd1efa/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Aug 15, 2023</span>
-                        <span class="post-reading-pill">13 min read</span>
+                    <li class="reveal" data-tags="Wrap-up post">
+                <a href="/blog/5afd1efa/" class="post-link" data-slug="5afd1efa">
+                    <div class="post-item-top">
+                        <span class="post-title">线性回归2：极大似然估计</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">13 min read</span>
+                            <time class="post-date">Aug 15, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">线性回归2：极大似然估计</h2>
-                        <p class="post-excerpt">上篇文章介绍了最基本的线性回归，文末的向量表示方法也允许我们进一步扩充模型的复杂度。</p>
+                    <p class="post-excerpt">上篇文章介绍了最基本的线性回归，文末的向量表示方法也允许我们进一步扩充模型的复杂度。</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Wrap-up post</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Wrap-up post">
-                <a href="/blog/c7765b88/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Aug 14, 2023</span>
-                        <span class="post-reading-pill">10 min read</span>
+                    <li class="reveal" data-tags="Wrap-up post">
+                <a href="/blog/c7765b88/" class="post-link" data-slug="c7765b88">
+                    <div class="post-item-top">
+                        <span class="post-title">线性回归1：最小二乘法</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">10 min read</span>
+                            <time class="post-date">Aug 14, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">线性回归1：最小二乘法</h2>
-                        <p class="post-excerpt">本篇文章做一个简单的机器学习引入，并且介绍机器学习中最简单的方法——线性回归。</p>
+                    <p class="post-excerpt">本篇文章做一个简单的机器学习引入，并且介绍机器学习中最简单的方法——线性回归。</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Wrap-up post</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="IB Computer Science">
-                <a href="/blog/introduction-to-programming/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Aug 11, 2023</span>
-                        <span class="post-reading-pill">7 min read</span>
+                    <li class="reveal" data-tags="IB Computer Science">
+                <a href="/blog/introduction-to-programming/" class="post-link" data-slug="introduction-to-programming">
+                    <div class="post-item-top">
+                        <span class="post-title">Introduction to programming</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">7 min read</span>
+                            <time class="post-date">Aug 11, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">Introduction to programming</h2>
-                        <p class="post-excerpt">计算机的基本操作(包括加，比较，加载和存储)，涉及到了一些指令，但作者没有继续向下讲。</p>
+                    <p class="post-excerpt">计算机的基本操作(包括加，比较，加载和存储)，涉及到了一些指令，但作者没有继续向下讲。</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>IB Computer Science</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Course Notes">
-                <a href="/blog/432132d9/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Aug 10, 2023</span>
-                        <span class="post-reading-pill">3 min read</span>
+                    <li class="reveal" data-tags="Course Notes">
+                <a href="/blog/432132d9/" class="post-link" data-slug="432132d9">
+                    <div class="post-item-top">
+                        <span class="post-title">NJU DC：基于NVBoard实现键盘输入</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">3 min read</span>
+                            <time class="post-date">Aug 10, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">NJU DC：基于NVBoard实现键盘输入</h2>
-                        <p class="post-excerpt">仿真第一步先为verilator接入NVBoard。NVBoard是一生一芯往届学生为学习数字电路实验开发的虚拟FPGA板。安装的具体步骤根据README里面的提示运行脚本文件并安装相关的依赖即可。</p>
+                    <p class="post-excerpt">仿真第一步先为verilator接入NVBoard。NVBoard是一生一芯往届学生为学习数字电路实验开发的虚拟FPGA板。安装的具体步骤根据README里面的提示运行脚本文件并安装相关的依赖即可。</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Course Notes</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="IB Computer Science">
-                <a href="/blog/connecting-computational-thinking-and-program-design/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Aug 10, 2023</span>
-                        <span class="post-reading-pill">6 min read</span>
+                    <li class="reveal" data-tags="IB Computer Science">
+                <a href="/blog/connecting-computational-thinking-and-program-design/" class="post-link" data-slug="connecting-computational-thinking-and-program-design">
+                    <div class="post-item-top">
+                        <span class="post-title">Connecting computational thinking and program design</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">6 min read</span>
+                            <time class="post-date">Aug 10, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">Connecting computational thinking and program design</h2>
-                        <p class="post-excerpt">变量用于存储值，每个变量有一个名称，用于引用存储的值。变量可以在程序执行期间更改。变量可以是字符串(strings)、实数(reals)、布尔型(boolean)和整型(integers)。</p>
+                    <p class="post-excerpt">变量用于存储值，每个变量有一个名称，用于引用存储的值。变量可以在程序执行期间更改。变量可以是字符串(strings)、实数(reals)、布尔型(boolean)和整型(integers)。</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>IB Computer Science</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="IB Computer Science">
-                <a href="/blog/general-principles/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Aug 10, 2023</span>
-                        <span class="post-reading-pill">7 min read</span>
+                    <li class="reveal" data-tags="IB Computer Science">
+                <a href="/blog/general-principles/" class="post-link" data-slug="general-principles">
+                    <div class="post-item-top">
+                        <span class="post-title">General Principles</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">7 min read</span>
+                            <time class="post-date">Aug 10, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">General Principles</h2>
-                        <p class="post-excerpt">我们通常需要指定有效的方法或流程来解决某一个特定问题，而解决问题的步骤顺序十分重要。</p>
+                    <p class="post-excerpt">我们通常需要指定有效的方法或流程来解决某一个特定问题，而解决问题的步骤顺序十分重要。</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>IB Computer Science</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Wrap-up post">
-                <a href="/blog/6dc30208/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Aug 6, 2023</span>
-                        <span class="post-reading-pill">2 min read</span>
+                    <li class="reveal" data-tags="Wrap-up post">
+                <a href="/blog/6dc30208/" class="post-link" data-slug="6dc30208">
+                    <div class="post-item-top">
+                        <span class="post-title">正则表达式速览</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">2 min read</span>
+                            <time class="post-date">Aug 6, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">正则表达式速览</h2>
-                        <p class="post-excerpt">?: 表示某一个词元可以出现零次或一次，例：used?可以匹配use和used。</p>
+                    <p class="post-excerpt">?: 表示某一个词元可以出现零次或一次，例：used?可以匹配use和used。</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Wrap-up post</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Course Notes">
-                <a href="/blog/2e23f8c2/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Aug 4, 2023</span>
-                        <span class="post-reading-pill">18 min read</span>
+                    <li class="reveal" data-tags="Course Notes">
+                <a href="/blog/2e23f8c2/" class="post-link" data-slug="2e23f8c2">
+                    <div class="post-item-top">
+                        <span class="post-title">NJU ICS：PA(Programming Assignment) 1 思路总结</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">18 min read</span>
+                            <time class="post-date">Aug 4, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">NJU ICS：PA(Programming Assignment) 1 思路总结</h2>
-                        <p class="post-excerpt">在此对PA1实验中的任务进行思路上的总结。</p>
+                    <p class="post-excerpt">在此对PA1实验中的任务进行思路上的总结。</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Course Notes</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="计算机组成原理">
-                <a href="/blog/8ae5b0dd/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Aug 4, 2023</span>
-                        <span class="post-reading-pill">3 min read</span>
+                    <li class="reveal" data-tags="计算机组成原理">
+                <a href="/blog/8ae5b0dd/" class="post-link" data-slug="8ae5b0dd">
+                    <div class="post-item-top">
+                        <span class="post-title">计算机组成与设计2：指令-计算机的语言</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">3 min read</span>
+                            <time class="post-date">Aug 4, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">计算机组成与设计2：指令-计算机的语言</h2>
-                        <p class="post-excerpt">双字：计算机中一种访问的基本单位，通常是64位一组；对应于RISC-V体系结构中寄存器的大小。每个双字代表8个字节。</p>
+                    <p class="post-excerpt">双字：计算机中一种访问的基本单位，通常是64位一组；对应于RISC-V体系结构中寄存器的大小。每个双字代表8个字节。</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>计算机组成原理</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="Wrap-up post">
-                <a href="/blog/get-deeper-in-sram/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Aug 3, 2023</span>
-                        <span class="post-reading-pill">6 min read</span>
+                    <li class="reveal" data-tags="Wrap-up post">
+                <a href="/blog/get-deeper-in-sram/" class="post-link" data-slug="get-deeper-in-sram">
+                    <div class="post-item-top">
+                        <span class="post-title">Get deeper in SRAM</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">6 min read</span>
+                            <time class="post-date">Aug 3, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">Get deeper in SRAM</h2>
-                        <p class="post-excerpt">RAM(Random Access Memory)具有如下两个特点：</p>
+                    <p class="post-excerpt">RAM(Random Access Memory)具有如下两个特点：</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>Wrap-up post</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li>
-                    <li class="post-item reveal" data-tags="计算机组成原理">
-                <a href="/blog/a0d2e26f/" class="post-link">
-                    <div class="post-meta-col">
-                        <span class="post-date">Aug 1, 2023</span>
-                        <span class="post-reading-pill">13 min read</span>
+                    <li class="reveal" data-tags="计算机组成原理">
+                <a href="/blog/a0d2e26f/" class="post-link" data-slug="a0d2e26f">
+                    <div class="post-item-top">
+                        <span class="post-title">计算机组成与设计1：计算机抽象及相关技术</span>
+                        <div class="post-meta-right">
+                            <span class="reading-time">13 min read</span>
+                            <time class="post-date">Aug 1, 2023</time>
+                        </div>
                     </div>
-                    <div class="post-body">
-                        <h2 class="post-h">计算机组成与设计1：计算机抽象及相关技术</h2>
-                        <p class="post-excerpt">摩尔定律：单芯片上所集成的晶体管资源每18至24个月翻一番。因此计算机架构师设计芯片时要预测项目完成时的工艺水平。</p>
+                    <p class="post-excerpt">摩尔定律：单芯片上所集成的晶体管资源每18至24个月翻一番。因此计算机架构师设计芯片时要预测项目完成时的工艺水平。</p>
+                    <div class="post-item-foot">
                         <div class="post-tags"><span>计算机组成原理</span></div>
+                        <span class="post-read-arrow">Read →</span>
                     </div>
                 </a>
             </li></ul>
         <div class="end-mark" aria-hidden="true">— 終 —</div>
+        </div>
+    </main>
+
+    <!-- ARCHIVAL COLOPHON & DIRECTORY -->
+    
+    <footer class="archival-colophon" id="colophon">
+        <div class="colophon-inner">
+            <div class="colophon-grid">
+                <div class="colophon-identity">
+                    <div class="seal-wrap">
+                        <div class="seal" title="張寿峰">張</div>
+                        <div class="seal-sub">寿峰</div>
+                    </div>
+                    <h3 class="colophon-name-en">Shoufeng Zhang</h3>
+                    <p class="colophon-name-jp">張寿峰</p>
+                    <p class="colophon-sub">Electrical &amp; Computer Engineering</p>
+                    <p class="colophon-affil">University of Hong Kong</p>
+                    <p class="colophon-vertical-deco" aria-hidden="true">海濤悲湧深藍色</p>
+                </div>
+
+                <div class="colophon-facts">
+                    <h4 class="colophon-heading">REGISTRATION &amp; DOSSIER</h4>
+                    <dl class="colophon-dl">
+                        <div><dt>LOCATION</dt><dd>Beijing · Hong Kong</dd></div>
+                        <div><dt>COORDINATES</dt><dd>22.3058° N, 114.1734° E</dd></div>
+                        <div><dt>STATUS</dt><dd><span class="dot"></span>Open to collaboration</dd></div>
+                        <div><dt>RESEARCH</dt><dd>Robotics · Hardware · ML Systems</dd></div>
+                    </dl>
+                </div>
+
+                <div class="colophon-directory">
+                    <h4 class="colophon-heading">FOLIO DIRECTORY</h4>
+                    <nav class="colophon-nav">
+                        <a href="../index.html#about"><span class="colophon-num">壹</span>About</a>
+                        <a href="../index.html#education"><span class="colophon-num">貳</span>Education</a>
+                        <a href="../index.html#experience"><span class="colophon-num">叁</span>Experience &amp; Works</a>
+                        <a href="../index.html#skills"><span class="colophon-num">肆</span>Skills</a>
+                        <a href="../index.html#contact"><span class="colophon-num">伍</span>Contact</a>
+                        <a href="../blog/index.html"><span class="colophon-num">筆</span>Writing &amp; Blog</a>
+                        <a href="../gallery/index.html"><span class="colophon-num">影</span>Photography Gallery</a>
+                    </nav>
+                </div>
+
+                <div class="colophon-dispatch">
+                    <h4 class="colophon-heading">TRANSMISSION</h4>
+                    <p class="colophon-lead">Open to research discussions, hardware collaborations, and robotics inquiry.</p>
+                    <div class="colophon-links">
+                        <a href="mailto:zhangshoufeng@connect.hku.hk" class="colophon-btn"><span class="btn-k">Email</span> <span class="btn-v">zhangshoufeng@connect.hku.hk</span></a>
+                        <a href="https://github.com/shawnzsf" target="_blank" rel="noopener" class="colophon-btn"><span class="btn-k">GitHub</span> <span class="btn-v">@shawnzsf</span></a>
+                        <a href="https://www.xiaohongshu.com/user/profile/600952fd00000000010080c1" target="_blank" rel="noopener" class="colophon-btn"><span class="btn-k">RedNote</span> <span class="btn-v">Photography &amp; more</span></a>
+                    </div>
+                </div>
             </div>
-        </main>
-    </div>
+
+            <div class="colophon-bottom">
+                <span class="colophon-edition">ARCHIVAL FOLIO · NO. 0026 / 1000 · RISOGRAPH MONOCHROME</span>
+                <span class="colophon-copy">© 2026 張寿峰 · ALL RIGHTS RESERVED</span>
+            </div>
+        </div>
+    </footer>
 
     <button class="back-to-top" id="backToTop" aria-label="Scroll to top">上</button>
 

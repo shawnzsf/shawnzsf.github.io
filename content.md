@@ -14,6 +14,11 @@ location: "Beijing · Hong Kong"
 status: "Open to collaboration"
 focus: "Robotics · Hardware · ML Systems"
 
+# Landing Hero Mission Statement
+hero_kicker: "SYSTEMS · STREETS · STORIES"
+hero_title: "Building along the way"
+hero_thesis: "I am drawn to beauty, spare elegance, the way a few symbols can hold an entire slice of reality. I am equally drawn to complexity, the patience of decomposing systems to their atoms, then the triumph of construcitng something whole from first principles. Beyond, I observe. Photographing, reading, letting the inner lives of others resonate against my own."
+
 # Vertical decoration text (Japanese)
 vertical_deco: "海濤悲湧深藍色"
 
