@@ -2262,24 +2262,20 @@ a { color: inherit; text-decoration: none; }
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: var(--bg);
+    background: transparent;
     border-bottom: 1px solid var(--line-soft);
 }
 
 .sand-canvas {
-    position: absolute;
+    position: fixed;
     inset: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     z-index: 1;
     display: block;
-    cursor: grab;
+    pointer-events: none;
     transform: translateZ(0);
-    will-change: contents;
-}
-
-.sand-canvas:active {
-    cursor: grabbing;
+    will-change: transform;
 }
 
 .hero-content {

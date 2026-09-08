@@ -415,30 +415,29 @@
     }
 
     /* --------------------------------------------------------------------
-       12. 3D Fine Blue Sand Tray & Magnetic Field Wave Simulation
-       Models an authentic tactile Zen sand tray with fine oceanic blue sand
-       grains organized in 3D harmonic magnetic flux streamlines and waves.
-       Features granular dry-sand physics with viscous damping and gentle
-       cursor repulsion ("温柔地挪动一点").
+       12. Multi-Section Morphing Sand Particle Simulation Engine
+       Living physical mineral sand grains that persist across the entire page,
+       morphing and self-propagating into thematic organizations corresponding
+       to each section's discipline:
+         0. Hero:        3D Harmonic Sand Dune & Magnetic Flux Streamlines
+         1. About:       Kinematic Coordinate Lattice & Rigid Joint Nodes
+         2. Education:   Fourier Harmonic Waveforms & Quantized Strata
+         3. Works:       State-Space Trajectories & Autonomous Waypoint Splines
+         4. Skills:      3D LiDAR Cylindrical Point Cloud & 360° Radar Sweep
+         5. Contact:     Quiet Settled Sediment & Archival Seal Halo
+       Features window-wide gentle cursor repulsion ("温柔地挪动一点"),
+       smooth Hermite scroll-blending with aerodynamic wind turbulence,
+       and zero-allocation 60 FPS animation.
        -------------------------------------------------------------------- */
     try {
         const sandCanvas = document.getElementById('sandCanvas');
         if (sandCanvas && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             const ctx = sandCanvas.getContext('2d');
-            const heroSec = document.getElementById('hero') || sandCanvas.parentElement;
             let isRunning = true;
             let rafId = null;
             let width = 0;
             let height = 0;
             let dpr = 1;
-
-            // Granular risograph sand pigments (mineral, non-glossy, matte)
-            const sandColors = [
-                'rgba(29, 68, 108, ',  // Prussian Deep Indigo (42%)
-                'rgba(43, 92, 138, ',  // Ultramarine Ocean Blue (35%)
-                'rgba(77, 125, 159, ', // Slate Blue Dust (18%)
-                'rgba(200, 68, 42, '   // Cinnabar Iron-Oxide Accent (5%)
-            ];
 
             const PARTICLE_COUNT = 3000;
             const STREAMLINE_COUNT = 38;
@@ -494,16 +493,13 @@
 
                     // 2. Ink overprinting (油墨叠压) & porous paper texture
                     if (s % 3 === 1) {
-                        // Microscopic fiber void (paper tooth showing through uneven ink)
                         sctx.clearRect(center + (Math.random() - 0.5) * 1.0, center + (Math.random() - 0.5) * 1.0, 0.9, 0.9);
                     } else if (s % 3 === 2) {
-                        // Ink overprint glaze (dense core)
                         sctx.fillStyle = '#0F1E33';
                         sctx.fillRect(center - 0.5, center - 0.5, 1.2, 1.2);
                     }
 
                     // 3. Risograph misregistration (轻微套印偏差)
-                    // ~30% of sprites carry a micro offset mark in a secondary ink layer
                     if (s % 3 === 0) {
                         const misColor = (s % 6 === 0) ? '#B83924' : '#5A483B';
                         const misOffsetX = (Math.random() - 0.4) * 1.1;
@@ -516,36 +512,37 @@
                 }
             }
 
-            // Coordinate & physics buffers (zero per-frame allocations)
-            const baseRad = new Float32Array(PARTICLE_COUNT);
-            const baseAng = new Float32Array(PARTICLE_COUNT);
-            const baseAmp = new Float32Array(PARTICLE_COUNT);
+            // Pre-allocated static buffers for all particles (zero per-frame GC allocations)
+            const pRand1 = new Float32Array(PARTICLE_COUNT);
+            const pRand2 = new Float32Array(PARTICLE_COUNT);
+            const pRand3 = new Float32Array(PARTICLE_COUNT);
+            const pRandAngle = new Float32Array(PARTICLE_COUNT);
 
-            // Precomputed static trigonometry & phase offsets
-            const unitX = new Float32Array(PARTICLE_COUNT);
-            const unitY = new Float32Array(PARTICLE_COUNT);
-            const phase1 = new Float32Array(PARTICLE_COUNT);
-            const phase3 = new Float32Array(PARTICLE_COUNT);
+            // Mode 0 (Hero) specific buffers
+            const heroRad = new Float32Array(PARTICLE_COUNT);
+            const heroAng = new Float32Array(PARTICLE_COUNT);
+            const heroAmp = new Float32Array(PARTICLE_COUNT);
+            const heroUnitX = new Float32Array(PARTICLE_COUNT);
+            const heroUnitY = new Float32Array(PARTICLE_COUNT);
+            const heroPhase1 = new Float32Array(PARTICLE_COUNT);
+            const heroPhase3 = new Float32Array(PARTICLE_COUNT);
+
+            // Visual traits & physics displacement buffers
+            const grainSize = new Float32Array(PARTICLE_COUNT);
             const basePixelSize = new Float32Array(PARTICLE_COUNT);
-
-            // Dynamic perturbations from mouse interaction
+            const grainSprite = new Uint8Array(PARTICLE_COUNT);
             const dispX = new Float32Array(PARTICLE_COUNT);
             const dispY = new Float32Array(PARTICLE_COUNT);
             const velX = new Float32Array(PARTICLE_COUNT);
             const velY = new Float32Array(PARTICLE_COUNT);
 
-            // Visual traits
-            const grainSize = new Float32Array(PARTICLE_COUNT);
-            const grainSprite = new Uint8Array(PARTICLE_COUNT);
-            const streamlineIdx = new Uint8Array(PARTICLE_COUNT);
-
-            // Initialize sand particles along magnetic flux lines and ambient surface
+            // Initialize random attributes and Hero streamline distribution
             let pIdx = 0;
             const particlesPerLine = Math.floor((PARTICLE_COUNT * 0.82) / STREAMLINE_COUNT);
 
             for (let s = 0; s < STREAMLINE_COUNT; s++) {
-                const normRing = (s + 0.5) / STREAMLINE_COUNT; // 0..1
-                const ringRad = 0.12 + Math.pow(normRing, 0.85) * 0.86; // Distributed across tray
+                const normRing = (s + 0.5) / STREAMLINE_COUNT;
+                const ringRad = 0.12 + Math.pow(normRing, 0.85) * 0.86;
 
                 for (let k = 0; k < particlesPerLine && pIdx < PARTICLE_COUNT; k++) {
                     const ang = (k / particlesPerLine) * Math.PI * 2 + (s * 0.18);
@@ -554,127 +551,334 @@
 
                     const r = Math.min(1.0, Math.max(0.05, ringRad + jitterR));
                     const a = ang + jitterA;
-                    baseRad[pIdx] = r;
-                    baseAng[pIdx] = a;
-                    baseAmp[pIdx] = 0.7 + Math.random() * 0.6;
+                    heroRad[pIdx] = r;
+                    heroAng[pIdx] = a;
+                    heroAmp[pIdx] = 0.7 + Math.random() * 0.6;
+                    heroUnitX[pIdx] = Math.cos(a) * r;
+                    heroUnitY[pIdx] = Math.sin(a) * r;
+                    heroPhase1[pIdx] = r * 4.2 + a * 2.0;
+                    heroPhase3[pIdx] = a * 3.0;
 
-                    // Precompute static unit coordinates & phases
-                    unitX[pIdx] = Math.cos(a) * r;
-                    unitY[pIdx] = Math.sin(a) * r;
-                    phase1[pIdx] = r * 4.2 + a * 2.0;
-                    phase3[pIdx] = a * 3.0;
+                    pRand1[pIdx] = Math.random();
+                    pRand2[pIdx] = Math.random();
+                    pRand3[pIdx] = Math.random();
+                    pRandAngle[pIdx] = Math.random() * Math.PI * 2;
 
-                    // Fine sand grain size (~2.5px to 4px)
                     grainSize[pIdx] = 0.35 + Math.random() * 0.35;
                     basePixelSize[pIdx] = SPRITE_BASE_PX * grainSize[pIdx];
                     grainSprite[pIdx] = Math.floor(Math.random() * SPRITE_COUNT);
-
-                    streamlineIdx[pIdx] = s;
                     pIdx++;
                 }
             }
 
-            // Fill remaining particles with organic scattered ambient sand
             while (pIdx < PARTICLE_COUNT) {
                 const r = Math.sqrt(Math.random()) * 0.98;
                 const a = Math.random() * Math.PI * 2;
-                baseRad[pIdx] = r;
-                baseAng[pIdx] = a;
-                baseAmp[pIdx] = 0.5 + Math.random() * 0.5;
+                heroRad[pIdx] = r;
+                heroAng[pIdx] = a;
+                heroAmp[pIdx] = 0.5 + Math.random() * 0.5;
+                heroUnitX[pIdx] = Math.cos(a) * r;
+                heroUnitY[pIdx] = Math.sin(a) * r;
+                heroPhase1[pIdx] = r * 4.2 + a * 2.0;
+                heroPhase3[pIdx] = a * 3.0;
 
-                unitX[pIdx] = Math.cos(a) * r;
-                unitY[pIdx] = Math.sin(a) * r;
-                phase1[pIdx] = r * 4.2 + a * 2.0;
-                phase3[pIdx] = a * 3.0;
+                pRand1[pIdx] = Math.random();
+                pRand2[pIdx] = Math.random();
+                pRand3[pIdx] = Math.random();
+                pRandAngle[pIdx] = Math.random() * Math.PI * 2;
 
                 grainSize[pIdx] = 0.30 + Math.random() * 0.32;
                 basePixelSize[pIdx] = SPRITE_BASE_PX * grainSize[pIdx];
                 grainSprite[pIdx] = Math.floor(Math.random() * SPRITE_COUNT);
-                streamlineIdx[pIdx] = 255;
                 pIdx++;
             }
 
-            // Mouse interaction state with cached rect to avoid synchronous reflows
+            // Window-wide cursor interaction ("温柔地挪动一点")
             let mouseX = -9999;
             let mouseY = -9999;
             let targetMouseX = -9999;
             let targetMouseY = -9999;
             let mouseActive = false;
-            let canvasLeft = 0;
-            let canvasTop = 0;
 
-            function updateCanvasRect() {
-                if (sandCanvas) {
-                    const rect = sandCanvas.getBoundingClientRect();
-                    canvasLeft = rect.left;
-                    canvasTop = rect.top;
-                }
-            }
-
-            function onMouseMove(e) {
-                targetMouseX = e.clientX - canvasLeft;
-                targetMouseY = e.clientY - canvasTop;
+            window.addEventListener('mousemove', function (e) {
+                targetMouseX = e.clientX;
+                targetMouseY = e.clientY;
                 mouseActive = true;
-            }
+            }, { passive: true });
 
-            function onMouseLeave() {
+            window.addEventListener('mouseleave', function () {
                 targetMouseX = -9999;
                 targetMouseY = -9999;
                 mouseActive = false;
-            }
+            }, { passive: true });
 
-            if (heroSec) {
-                heroSec.addEventListener('mouseenter', updateCanvasRect, { passive: true });
-                heroSec.addEventListener('mousemove', onMouseMove, { passive: true });
-                heroSec.addEventListener('mouseleave', onMouseLeave, { passive: true });
-                heroSec.addEventListener('touchmove', function (e) {
-                    if (e.touches && e.touches[0]) {
-                        targetMouseX = e.touches[0].clientX - canvasLeft;
-                        targetMouseY = e.touches[0].clientY - canvasTop;
-                        mouseActive = true;
+            window.addEventListener('touchmove', function (e) {
+                if (e.touches && e.touches[0]) {
+                    targetMouseX = e.touches[0].clientX;
+                    targetMouseY = e.touches[0].clientY;
+                    mouseActive = true;
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', function () {
+                targetMouseX = -9999;
+                targetMouseY = -9999;
+                mouseActive = false;
+            }, { passive: true });
+
+            // Section tracking & continuous scroll interpolation
+            const sectionIds = ['hero', 'about', 'education', 'experience', 'skills', 'contact'];
+            let sectionEls = [];
+
+            function querySectionElements() {
+                sectionEls = sectionIds.map(function (id) {
+                    return document.getElementById(id);
+                }).filter(Boolean);
+            }
+            querySectionElements();
+
+            let targetSectionProgress = 0;
+            let currentSectionProgress = 0;
+
+            function computeScrollProgress() {
+                if (!sectionEls.length) return 0;
+                const scrollY = window.scrollY || window.pageYOffset || 0;
+                const vh = window.innerHeight || 800;
+                const vpMid = scrollY + vh * 0.45;
+
+                if (scrollY <= 15) return 0;
+
+                const count = sectionEls.length;
+                const centers = [];
+                for (let i = 0; i < count; i++) {
+                    const rect = sectionEls[i].getBoundingClientRect();
+                    const docTop = rect.top + scrollY;
+                    const h = rect.height;
+                    centers.push(docTop + h * 0.45);
+                }
+
+                if (vpMid <= centers[0]) return 0;
+                if (vpMid >= centers[count - 1]) return count - 1;
+
+                for (let i = 0; i < count - 1; i++) {
+                    if (vpMid >= centers[i] && vpMid < centers[i + 1]) {
+                        const span = centers[i + 1] - centers[i];
+                        const ratio = span > 0 ? (vpMid - centers[i]) / span : 0;
+                        return i + Math.max(0, Math.min(1, ratio));
                     }
-                }, { passive: true });
-                heroSec.addEventListener('touchend', onMouseLeave, { passive: true });
+                }
+                return 0;
             }
 
-            window.addEventListener('scroll', updateCanvasRect, { passive: true });
-
-            // Resize canvas to match display size (capping DPR to 1.5 for optimal performance)
+            // Canvas resize handler
             function resize() {
                 if (!sandCanvas) return;
                 dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-                width = sandCanvas.clientWidth || window.innerWidth;
-                height = sandCanvas.clientHeight || window.innerHeight;
+                width = window.innerWidth;
+                height = window.innerHeight;
                 sandCanvas.width = Math.round(width * dpr);
                 sandCanvas.height = Math.round(height * dpr);
                 ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
                 createMineralSprites();
-                updateCanvasRect();
+                querySectionElements();
             }
 
             window.addEventListener('resize', resize, { passive: true });
             resize();
 
-            // IntersectionObserver to pause animation when scrolled past hero
-            if ('IntersectionObserver' in window && heroSec) {
-                const observer = new IntersectionObserver(function (entries) {
-                    entries.forEach(function (entry) {
-                        isRunning = entry.isIntersecting;
-                        if (isRunning && !rafId) {
-                            rafId = requestAnimationFrame(render);
-                        }
-                    });
-                }, { threshold: 0.05 });
-                observer.observe(heroSec);
-            }
+            // Document visibility handler (power saving)
+            document.addEventListener('visibilitychange', function () {
+                if (document.hidden) {
+                    isRunning = false;
+                } else {
+                    isRunning = true;
+                    if (!rafId) rafId = requestAnimationFrame(render);
+                }
+            });
 
-            // High-Performance 3D Rendering & Simulation Loop
-            let startTime = performance.now();
+            // Mathematical Formations & 3D Constants
+            const startTime = performance.now();
             const TILT = 52 * (Math.PI / 180);
             const COS_TILT = Math.cos(TILT);
             const SIN_TILT = Math.sin(TILT);
             const FOCAL = 620;
 
+            // Intermediate computation objects (reused to avoid allocation)
+            const p1 = { x: 0, y: 0, scale: 1, alpha: 1 };
+            const p2 = { x: 0, y: 0, scale: 1, alpha: 1 };
+
+            function calculateModePoint(mode, i, now, out) {
+                const cx = width * 0.5;
+                const cy = height * 0.5;
+
+                switch (mode) {
+                    case 0: {
+                        // Section 0: Hero — 3D Harmonic Magnetic Sand Dune
+                        const trayRadius = Math.min(width, height) * 0.58;
+                        const waveAmp = Math.min(48, height * 0.065);
+                        const yaw = now * 0.00012;
+                        const cosYaw = Math.cos(yaw);
+                        const sinYaw = Math.sin(yaw);
+
+                        const localX = heroUnitX[i] * trayRadius;
+                        const localY = heroUnitY[i] * trayRadius;
+                        const rNorm = heroRad[i];
+
+                        const wave1 = Math.sin(heroPhase1[i] - now * 0.0015);
+                        const wave2 = Math.cos(localX * 0.008 + now * 0.0011) * Math.sin(localY * 0.008 - now * 0.0007);
+                        const wave3 = Math.sin(heroPhase3[i] - now * 0.0005) * 0.4;
+                        const zElev = (wave1 * 0.7 + wave2 * 0.5 + wave3) * (waveAmp * heroAmp[i]) * (1 - rNorm * 0.25);
+
+                        const rotX = localX * cosYaw - localY * sinYaw;
+                        const rotY = localX * sinYaw + localY * cosYaw;
+                        const projY = rotY * COS_TILT - zElev * SIN_TILT;
+                        const projZ = rotY * SIN_TILT + zElev * COS_TILT;
+                        const pScale = FOCAL / (FOCAL + projZ * 0.45);
+
+                        out.x = cx + rotX * pScale;
+                        out.y = (height * 0.52) + projY * pScale;
+                        out.scale = pScale;
+                        out.alpha = 0.95;
+                        break;
+                    }
+                    case 1: {
+                        // Section 1: About — Kinematic Coordinate Lattice & Rigid Joint Nodes
+                        if (i < 2000) {
+                            // Orthogonal Coordinate Lattice with elastic wave breathing
+                            const cols = 28;
+                            const rows = 18;
+                            const c = i % cols;
+                            const r = Math.floor(i / cols) % rows;
+                            const gx = (c / (cols - 1)) * (width * 0.92) + width * 0.04;
+                            const gy = (r / (rows - 1)) * (height * 0.86) + height * 0.07;
+                            const dwx = Math.sin(gy * 0.005 + now * 0.0012) * 7.5;
+                            const dwy = Math.cos(gx * 0.005 - now * 0.0014) * 7.5;
+                            out.x = gx + dwx + (pRand1[i] - 0.5) * 12;
+                            out.y = gy + dwy + (pRand2[i] - 0.5) * 12;
+                            out.scale = 0.86;
+                            out.alpha = 0.72;
+                        } else {
+                            // Linkage kinematics in margins (robotic multi-joint articulation)
+                            const isLeft = (i % 2 === 0);
+                            const baseX = isLeft ? width * 0.07 : width * 0.93;
+                            const baseY = height * (0.18 + ((i - 2000) % 9) * 0.08);
+                            const armPhase = now * 0.0009 + (i % 25) * 0.25;
+                            const a1 = Math.sin(armPhase) * 0.85;
+                            const a2 = Math.cos(armPhase * 1.3) * 1.15;
+                            const l1 = Math.min(width, height) * 0.055;
+                            const l2 = Math.min(width, height) * 0.045;
+                            const subT = pRand3[i];
+                            out.x = baseX + (Math.cos(a1) * l1 + Math.cos(a1 + a2) * l2) * subT + (pRand1[i] - 0.5) * 6;
+                            out.y = baseY + (Math.sin(a1) * l1 + Math.sin(a1 + a2) * l2) * subT + (pRand2[i] - 0.5) * 6;
+                            out.scale = 0.90;
+                            out.alpha = 0.80;
+                        }
+                        break;
+                    }
+                    case 2: {
+                        // Section 2: Education — Fourier Harmonic Waveforms & Quantized Strata
+                        const band = i % 6;
+                        const baseY = height * (0.15 + band * 0.135);
+                        const freq = (band + 1) * 1.6;
+                        const speed = 0.000035 * (band + 1) * ((band % 2 === 0) ? 1 : -1);
+                        let u = (pRand1[i] + now * speed) % 1.0;
+                        if (u < 0) u += 1.0;
+
+                        const waveY = Math.sin(u * freq * Math.PI * 2 + now * (0.0011 + band * 0.0003)) * (16 + band * 4) +
+                                      Math.cos(u * Math.PI * 4 - now * 0.0012) * 5.5;
+                        out.x = u * width + (pRand2[i] - 0.5) * 8;
+                        out.y = baseY + waveY + (pRand3[i] - 0.5) * 8;
+                        out.scale = 0.84;
+                        out.alpha = 0.72;
+                        break;
+                    }
+                    case 3: {
+                        // Section 3: Works — State-Space Trajectories & Waypoint Splines
+                        const trk = i % 5;
+                        const speed = 0.000065 + trk * 0.000022;
+                        let u = (pRand1[i] + now * speed) % 1.0;
+                        if (u < 0) u += 1.0;
+
+                        let px = 0;
+                        let py = 0;
+                        if (trk === 0) {
+                            // Left margin autonomous path
+                            px = width * (0.05 + Math.sin(u * Math.PI * 3 + now * 0.0008) * 0.04);
+                            py = u * height;
+                        } else if (trk === 1) {
+                            // Right margin autonomous path
+                            px = width * (0.95 - Math.sin(u * Math.PI * 3 - now * 0.0008) * 0.04);
+                            py = u * height;
+                        } else if (trk === 2) {
+                            // Upper serpentine transversal
+                            px = u * width;
+                            py = height * (0.22 + Math.sin(u * Math.PI * 2) * 0.12);
+                        } else if (trk === 3) {
+                            // Lower serpentine transversal
+                            px = (1 - u) * width;
+                            py = height * (0.78 + Math.cos(u * Math.PI * 2) * 0.11);
+                        } else {
+                            // Central orbital loop around waypoints
+                            const theta = u * Math.PI * 2;
+                            const rTrk = Math.min(width, height) * 0.34;
+                            px = cx + Math.cos(theta) * rTrk;
+                            py = cy + Math.sin(theta) * (rTrk * 0.55);
+                        }
+
+                        out.x = px + (pRand2[i] - 0.5) * 10;
+                        out.y = py + (pRand3[i] - 0.5) * 10;
+                        out.scale = 0.88;
+                        out.alpha = 0.78;
+                        break;
+                    }
+                    case 4: {
+                        // Section 4: Skills — 3D LiDAR Cylindrical Point Cloud & 360° Radar Sweep
+                        const ring = i % 8;
+                        const r = (0.13 + ring * 0.10) * Math.min(width, height);
+                        const ang = pRandAngle[i];
+                        const tiltAngle = 36 * (Math.PI / 180);
+
+                        const lx = Math.cos(ang) * r;
+                        const ly = Math.sin(ang) * r * Math.cos(tiltAngle);
+                        const lz = Math.sin(ang) * r * Math.sin(tiltAngle);
+                        const pScale = 580 / (580 + lz * 0.45);
+
+                        const sweep = (now * 0.0016) % (Math.PI * 2);
+                        let dAng = (sweep - ang) % (Math.PI * 2);
+                        if (dAng < 0) dAng += Math.PI * 2;
+                        const inBeam = dAng < 0.65;
+                        const beamIntensity = inBeam ? (1.0 - dAng / 0.65) : 0;
+
+                        out.x = cx + lx * pScale + (pRand1[i] - 0.5) * 6;
+                        out.y = cy + ly * pScale + (pRand2[i] - 0.5) * 6;
+                        out.scale = pScale * (0.80 + beamIntensity * 0.40);
+                        out.alpha = 0.68 + beamIntensity * 0.32;
+                        break;
+                    }
+                    default: {
+                        // Section 5: Contact & Colophon — Quiet Settled Sediment & Archival Seal Halo
+                        if (i < 2100) {
+                            // Settled mineral sediment across bottom 28% of viewport
+                            const depth = Math.sqrt(pRand1[i]);
+                            out.x = pRand2[i] * width;
+                            out.y = height * (0.72 + depth * 0.26) + Math.sin(now * 0.0006 + i * 0.1) * 3.5;
+                            out.scale = 0.80;
+                            out.alpha = 0.65;
+                        } else {
+                            // Circular Zen halo encircling the archival seal
+                            const rSeal = Math.min(width, height) * (0.22 + pRand1[i] * 0.08);
+                            const ang = pRandAngle[i] + now * 0.0002;
+                            out.x = cx + Math.cos(ang) * rSeal;
+                            out.y = cy + Math.sin(ang) * (rSeal * 0.85);
+                            out.scale = 0.85;
+                            out.alpha = 0.70;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // High-Performance 60 FPS Render Loop
             function render(now) {
                 if (!isRunning) {
                     rafId = null;
@@ -686,72 +890,70 @@
                     mouseX += (targetMouseX - mouseX) * 0.18;
                     mouseY += (targetMouseY - mouseY) * 0.18;
                 } else {
-                    mouseX += (targetMouseX - mouseX) * 0.1;
-                    mouseY += (targetMouseY - mouseY) * 0.1;
+                    mouseX += (targetMouseX - mouseX) * 0.10;
+                    mouseY += (targetMouseY - mouseY) * 0.10;
                 }
 
                 ctx.clearRect(0, 0, width, height);
 
                 const elapsed = now - startTime;
-                const yaw = elapsed * 0.00012;
-                const cosYaw = Math.cos(yaw);
-                const sinYaw = Math.sin(yaw);
 
-                const t1 = elapsed * 0.0015;
-                const t2a = elapsed * 0.0011;
-                const t2b = elapsed * 0.0007;
-                const t3 = elapsed * 0.0005;
+                // Update continuous scroll progress
+                targetSectionProgress = computeScrollProgress();
+                currentSectionProgress += (targetSectionProgress - currentSectionProgress) * 0.08;
 
-                // Tray dimensions & center
-                const cx = width * 0.5;
-                const cy = height * 0.52;
-                const trayRadius = Math.min(width, height) * 0.58;
-                const waveAmp = Math.min(48, height * 0.065);
+                const k1 = Math.max(0, Math.min(4, Math.floor(currentSectionProgress)));
+                const k2 = Math.min(5, k1 + 1);
+                const blendFrac = currentSectionProgress - k1;
+                // Hermite smoothstep curve
+                const smoothTau = blendFrac * blendFrac * (3 - 2 * blendFrac);
+                // Aerodynamic wind turbulence kicks up grains during scroll transitions
+                const gust = Math.sin(Math.PI * blendFrac) * 26;
+                const tGust = elapsed * 0.002;
 
-                // Draw subtle sand bed boundary contour (tactile Zen raked boundary)
-                ctx.beginPath();
-                ctx.ellipse(cx, cy, trayRadius * 0.98, trayRadius * 0.98 * COS_TILT, 0, 0, Math.PI * 2);
-                ctx.strokeStyle = 'rgba(21, 44, 74, 0.08)';
-                ctx.lineWidth = 1;
-                ctx.setLineDash([3, 5]);
-                ctx.stroke();
+                // Draw subtle Zen raked boundary contour for Hero mode
+                const heroBoundaryAlpha = Math.max(0, 1.0 - currentSectionProgress * 2.5);
+                if (heroBoundaryAlpha > 0.01) {
+                    const cx = width * 0.5;
+                    const cy = height * 0.52;
+                    const trayRadius = Math.min(width, height) * 0.58;
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.ellipse(cx, cy, trayRadius * 0.98, trayRadius * 0.98 * COS_TILT, 0, 0, Math.PI * 2);
+                    ctx.strokeStyle = 'rgba(21, 44, 74, ' + (0.08 * heroBoundaryAlpha) + ')';
+                    ctx.lineWidth = 1;
+                    ctx.setLineDash([3, 5]);
+                    ctx.stroke();
+                    ctx.restore();
+                }
 
-                const hoverRadius = 135;
+                const hoverRadius = 125;
                 const hoverRadiusSq = hoverRadius * hoverRadius;
                 const hasMouse = mouseActive && mouseX > -500;
 
-                // Update & Project particles (zero allocation, precomputed trig, vectorized fast path)
+                // Project and render all particles
                 for (let i = 0; i < PARTICLE_COUNT; i++) {
-                    const localX = unitX[i] * trayRadius;
-                    const localY = unitY[i] * trayRadius;
-                    const rNorm = baseRad[i];
+                    // Compute formation coordinates for adjacent sections
+                    calculateModePoint(k1, i, elapsed, p1);
+                    calculateModePoint(k2, i, elapsed, p2);
 
-                    // 3D Magnetic Wave Elevation
-                    const wave1 = Math.sin(phase1[i] - t1);
-                    const wave2 = Math.cos(localX * 0.008 + t2a) * Math.sin(localY * 0.008 - t2b);
-                    const wave3 = Math.sin(phase3[i] - t3) * 0.4;
-                    const zElevation = (wave1 * 0.7 + wave2 * 0.5 + wave3) * (waveAmp * baseAmp[i]) * (1 - rNorm * 0.25);
+                    // Blend between section formations
+                    let curX = (1 - smoothTau) * p1.x + smoothTau * p2.x;
+                    let curY = (1 - smoothTau) * p1.y + smoothTau * p2.y;
+                    const pScale = (1 - smoothTau) * p1.scale + smoothTau * p2.scale;
+                    const pAlpha = (1 - smoothTau) * p1.alpha + smoothTau * p2.alpha;
 
-                    // 3D Yaw Rotation
-                    const rotX = localX * cosYaw - localY * sinYaw;
-                    const rotY = localX * sinYaw + localY * cosYaw;
+                    // Apply flight turbulence during scroll transitions
+                    if (gust > 0.05) {
+                        curX += Math.sin(i * 17.3 + tGust) * gust;
+                        curY += Math.cos(i * 23.9 + tGust) * gust;
+                    }
 
-                    // 3D Perspective Pitch
-                    const projY = rotY * COS_TILT - zElevation * SIN_TILT;
-                    const projZ = rotY * SIN_TILT + zElevation * COS_TILT;
+                    // Add dynamic mouse displacement
+                    curX += dispX[i];
+                    curY += dispY[i];
 
-                    // Perspective Scale
-                    const pScale = FOCAL / (FOCAL + projZ * 0.45);
-
-                    // Screen equilibrium position
-                    const screenBaseX = cx + rotX * pScale;
-                    const screenBaseY = cy + projY * pScale;
-
-                    // Current screen position with displacement
-                    const curX = screenBaseX + dispX[i];
-                    const curY = screenBaseY + dispY[i];
-
-                    // Fast AABB-culled cursor interaction ("温柔地挪动一点")
+                    // Gentle cursor repulsion ("温柔地挪动一点")
                     if (hasMouse) {
                         const mdx = curX - mouseX;
                         const mdy = curY - mouseY;
@@ -759,18 +961,18 @@
                             const distSq = mdx * mdx + mdy * mdy;
                             if (distSq < hoverRadiusSq && distSq > 0.01) {
                                 const dist = Math.sqrt(distSq);
-                                const force = 1 - dist / hoverRadius;
+                                const force = (1 - dist / hoverRadius);
                                 const forceSq = force * force;
                                 const invDist = 1 / dist;
                                 const nx = mdx * invDist;
                                 const ny = mdy * invDist;
-                                velX[i] += (nx * 1.35 - ny * 0.55) * forceSq;
-                                velY[i] += (ny * 1.35 + nx * 0.55) * forceSq;
+                                velX[i] += (nx * 1.30 - ny * 0.50) * forceSq;
+                                velY[i] += (ny * 1.30 + nx * 0.50) * forceSq;
                             }
                         }
                     }
 
-                    // Viscous damping & spring return to equilibrium
+                    // Viscous damping & spring return
                     velX[i] = (velX[i] - 0.038 * dispX[i]) * 0.88;
                     velY[i] = (velY[i] - 0.038 * dispY[i]) * 0.88;
                     dispX[i] += velX[i];
@@ -781,10 +983,20 @@
                     const dw = basePixelSize[i] * depthFactor;
                     const sprite = mineralSprites[grainSprite[i]];
                     if (sprite) {
+                        // In content sections, subtly soften particles in the reading column for pristine text legibility
+                        let finalAlpha = pAlpha;
+                        if (currentSectionProgress > 0.4) {
+                            const inReadingCol = curX > width * 0.10 && curX < width * 0.90;
+                            if (inReadingCol) {
+                                finalAlpha *= (width < 768 ? 0.38 : 0.68);
+                            }
+                        }
+                        ctx.globalAlpha = finalAlpha;
                         ctx.drawImage(sprite, curX - dw * 0.5, curY - dw * 0.5, dw, dw);
                     }
                 }
 
+                ctx.globalAlpha = 1.0;
                 rafId = requestAnimationFrame(render);
             }
 

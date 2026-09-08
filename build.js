@@ -446,7 +446,6 @@ const heroThesis = cfg.hero_thesis || "I work at the junction where digital inte
 
 const heroHtml = `
     <section class="hero-landing" id="hero">
-        <canvas class="sand-canvas" id="sandCanvas" aria-label="3D Sand Field Simulation"></canvas>
         <div class="hero-content">
             <div class="hero-masthead reveal">
                 <div class="hero-seal-badge">

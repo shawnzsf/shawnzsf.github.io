@@ -16,7 +16,7 @@ focus: "Robotics · Hardware · ML Systems"
 
 # Landing Hero Mission Statement
 hero_kicker: "SYSTEMS · STREETS · STORIES"
-hero_title: "Building along the way"
+hero_title: "Along the Way"
 hero_thesis: "I am drawn to beauty, spare elegance, the way a few symbols can hold an entire slice of reality. I am equally drawn to complexity, the patience of decomposing systems to their atoms, then the triumph of construcitng something whole from first principles. Beyond, I observe. Photographing, reading, letting the inner lives of others resonate against my own."
 
 # Vertical decoration text (Japanese)
@@ -47,7 +47,7 @@ nav:
 
 ## About
 
-I'm an incoming second-year student at the **University of Hong Kong**, under the Faculty of Engineering Elite Programme, majoring in Electronic Engineering with a minor in Computer Science. Prior to university, I studied at Beijing 101 High School.
+I'm a sophomore undergraduate student at the **University of Hong Kong**, under the Faculty of Engineering Elite Programme, majoring in Electronic Engineering with a minor in Computer Science. Prior to university, I studied at Beijing 101 High School.
 
 I currently work on autonomous robotics. My broader interests span hardware-software co-design, edge deployment of intelligent systems, and the system-level questions that arise when autonomous systems leave controlled environments and meet the real world. I am drawn to research at the intersection of perception, planning, and the hardware constraints that make both hard.
 
