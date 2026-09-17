@@ -5,7 +5,7 @@
 
 # Identity
 name_en: "Shoufeng Zhang"
-name_jp: "張寿峰"
+name_jp: "張壽峰"
 title: "Electrical & Computer Engineering"
 affiliation: "University of Hong Kong"
 
